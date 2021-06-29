@@ -1,7 +1,9 @@
+[![codamMeyer](https://circleci.com/gh/codamMeyer/minishell.svg?style=shield)](https://app.circleci.com/pipelines/github/codamMeyer/minishell?branch=main)
+
 - [Minishell Project - Tutorial](#minishell-project---tutorial)
-    - [How to work as a team](#how-to-work-as-a-team)
-    - [What's Continuous Integration (CI) ?](#whats-continuous-integration-ci-)
-    - [How to setup CircleCI Tool ?](#how-to-setup-circleci-tool-)
+		- [How to work as a team](#how-to-work-as-a-team)
+		- [What's Continuous Integration (CI) ?](#whats-continuous-integration-ci-)
+		- [How to setup CircleCI Tool ?](#how-to-setup-circleci-tool-)
 
 # Minishell Project - Tutorial
 ### How to work as a team
@@ -53,6 +55,11 @@ It is the practice of integrating changes from different developers in the team 
               command: "echo run norminette"
     ```
 
-Access [**circleci**](https://circleci.com/signup/) and sign up with your **github** account.
-Click on **Projects**
-Click on **Set Up project**
+    Later you'll change the run steps to fit your needs. You will replace the echo command with the command you need for each process in your project.
+
+3. Access [**circleci**](https://circleci.com/signup/) and sign up with your **github** account.
+4. Click on **Projects**
+5. Click on **Set Up project**
+6. We already have a config file, so click on **skip this step**
+7. Click on **Use Existing Config**
+8. Click on **Start building**
