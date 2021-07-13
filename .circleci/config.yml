@@ -23,4 +23,4 @@ jobs:
           command: "echo Integration-Test"
       - run:
           name: Norminette
-          command: norminette
+          command: norminette srcs
