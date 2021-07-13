@@ -17,7 +17,7 @@ jobs:
           command: 'echo Building'
       - run:
           name: Unit-Test
-          command: "echo Unit-Test"
+          command: "make test_run"
       - run:
           name: Integration-Test
           command: "echo Integration-Test"
