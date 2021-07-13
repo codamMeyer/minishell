@@ -3,6 +3,6 @@
 
 # include "../defines.h"
 
-t_bool parser();
+t_bool parse_input(char *input);
 
 #endif // PARSER_H

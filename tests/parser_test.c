@@ -3,9 +3,18 @@
 
 // assumed commands echo pwd
 // use run for testability
-// 
 
-CTEST(parser, parser_success_return)
+CTEST(parse_input, success_return)
 {
-    ASSERT_TRUE(parser());
+    ASSERT_TRUE(parse_input("test"));
+}
+
+CTEST(parse_input, no_line_to_parse)
+{
+    ASSERT_FALSE(parse_input(NULL));
+}
+
+CTEST(parse_input, valid_input)
+{
+    ASSERT_TRUE(parse_input("test"));
 }
