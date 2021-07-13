@@ -6,12 +6,16 @@ TEST_CFLAGS=-ggdb3 $(CFLAGS)
 INC_PATH=-I./src
 LDFLAGS=
 
-MINISHELL_INCS=\
+MINISHELL_INCS= 			\
+	srcs/defines.h			\
+	srcs/parser/parser.h	\
 
-MINISHELL_SRCS=\
+MINISHELL_SRCS= 			\
+	srcs/parser/parser.c	\
 
 TEST_FILES=					\
 	tests/main.c 			\
+	tests/parser_test.c		\
 
 MINISHELL_OBJS=$(MINISHELL_SRCS:.c=.o)
 
