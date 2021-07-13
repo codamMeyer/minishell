@@ -14,22 +14,27 @@ CTEST(parse_input, no_line_to_parse)
     ASSERT_FALSE(parse_input(NULL));
 }
 
-CTEST(get_command, invalid_command)
+CTEST(parse_command, invalid_command)
 {
-    ASSERT_EQUAL(INVALID, get_command("ecth"));
+    const char *input = "ecth";
+    ASSERT_EQUAL(INVALID, parse_command(&input));
 }
 
-CTEST(get_command, invalid_echo_command)
+CTEST(parse_command, invalid_echo_command)
 {
-    ASSERT_EQUAL(INVALID, get_command("echos"));
+    const char *input = "echos";
+    ASSERT_EQUAL(INVALID, parse_command(&input));
 }
 
-CTEST(get_command, echo_command)
+CTEST(parse_command, echo_command)
 {
-    ASSERT_EQUAL(ECHO, get_command("echo"));
+    const char *input = "echo";
+    ASSERT_EQUAL(ECHO, parse_command(&input));
 }
 
-CTEST(get_command, echo_command_with_arg)
+CTEST(parse_command, echo_command_with_arg)
 {
-    ASSERT_EQUAL(ECHO, get_command("echo hello"));
+    const char *input = "echo hello";
+    ASSERT_EQUAL(ECHO, parse_command(&input));
+    ASSERT_STR(" hello", input);
 }

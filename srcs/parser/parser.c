@@ -4,12 +4,12 @@
 
 t_bool	parse_input(const char *input)
 {
-	t_command	command;
+	t_command	command_code;
 
 	if (!input)
 		return (FALSE);
-	command = get_command(input);
-	if (command == INVALID)
+	command_code = parse_command(&input);
+	if (command_code == INVALID)
 		return (FALSE);
 	return (TRUE);
 }
@@ -28,9 +28,12 @@ static t_bool	is_command(const char *input, const char *command)
 		&& is_valid_last_char(last_char));
 }
 
-t_command	get_command(const char *input)
+t_command	parse_command(const char **input)
 {
-	if (is_command(input, ECHO_STR))
+	if (is_command(*input, ECHO_STR))
+	{
+		*input += strlen(ECHO_STR);
 		return (ECHO);
+	}
 	return (INVALID);
 }
