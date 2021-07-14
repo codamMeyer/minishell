@@ -7,8 +7,6 @@ typedef enum e_bool
 	TRUE = 1
 }	t_bool;
 
-# define ECHO_STR "echo"
-
 typedef enum e_command
 {
 	ECHO = 0,

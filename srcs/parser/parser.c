@@ -21,12 +21,19 @@ static void	advance_pointer(const char **input, const char *command_str)
 	*input += strlen(command_str);
 }
 
+void	skip_spaces(const char **input)
+{
+	while (isspace(*(*input)))
+		++(*input);
+}
+
 t_command	parse_command(const char **input)
 {
 	static const char	*commands[LAST] = {"echo", ""};
 	t_command			command_code;
 
-	command_code = 0;
+	skip_spaces(input);
+	command_code = ECHO;
 	while (command_code != INVALID)
 	{
 		if (is_command(*input, commands[command_code]))
@@ -41,12 +48,9 @@ t_command	parse_command(const char **input)
 
 t_bool	parse_input(const char *input)
 {
-	t_command	command_code;
-
 	if (!input)
 		return (FALSE);
-	command_code = parse_command(&input);
-	if (command_code == INVALID)
+	if (parse_command(&input) == INVALID)
 		return (FALSE);
 	return (TRUE);
 }

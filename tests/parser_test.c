@@ -36,8 +36,9 @@ CTEST(parse_command, echo_command_with_arg)
     ASSERT_STR(" hello", input);
 }
 
-CTEST(parse_command, empty_command)
+CTEST(parse_command, echo_command_with_spaces_before)
 {
-    const char *empty_input = "";
-    ASSERT_EQUAL(INVALID, parse_command(&empty_input));
+    const char *input = "      echo hello";
+    ASSERT_EQUAL(ECHO, parse_command(&input));
+    ASSERT_STR(" hello", input);
 }
