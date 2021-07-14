@@ -10,6 +10,7 @@ typedef enum e_bool
 typedef enum e_command
 {
 	ECHO = 0,
+	EMPTY_LINE,
 	INVALID,
 	LAST,
 }			t_command;

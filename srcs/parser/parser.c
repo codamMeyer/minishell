@@ -29,12 +29,12 @@ void	skip_spaces(const char **input)
 
 t_command	parse_command(const char **input)
 {
-	static const char	*commands[LAST] = {"echo", ""};
+	static const char	*commands[LAST] = {"echo", "", "invalid"};
 	t_command			command_code;
 
 	skip_spaces(input);
 	command_code = ECHO;
-	while (command_code != INVALID)
+	while (command_code < INVALID)
 	{
 		if (is_command(*input, commands[command_code]))
 		{

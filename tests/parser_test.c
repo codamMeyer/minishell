@@ -42,3 +42,11 @@ CTEST(parse_command, echo_command_with_spaces_before)
     ASSERT_EQUAL(ECHO, parse_command(&input));
     ASSERT_STR(" hello", input);
 }
+
+CTEST(parse_command, only_spaces)
+{
+    const char *only_spaces = "                          ";
+    ASSERT_EQUAL(EMPTY_LINE, parse_command(&only_spaces));
+    const char *empty = "";
+    ASSERT_EQUAL(EMPTY_LINE, parse_command(&empty));
+}
