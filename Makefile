@@ -29,6 +29,7 @@ $(MINISHELL): $(MINISHELL_OBJS)
 
 test_run: test
 	./$(TEST_NAME)
+	norminette srcs/
 
 test: $(MINISHELL_OBJS) $(TEST_FILES)
 	$(CC) $(TEST_CFLAGS) $(INC_PATH) $(MINISHELL_OBJS) $(TEST_FILES) -o $(TEST_NAME) $(LDFLAGS)
@@ -44,6 +45,5 @@ re: fclean all
 fclean: clean
 	rm -f $(MINISHELL)
 	rm -f $(TEST_NAME)
-	rm -f norminette_result
 
 .PHONY: all clean fclean re test libftprintf test_example
