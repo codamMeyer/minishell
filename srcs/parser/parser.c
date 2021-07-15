@@ -1,6 +1,7 @@
 #include "parser.h"
 #include <string.h>
 #include <ctype.h>
+#include <stdio.h>
 
 static t_bool	is_valid_last_char(char last_char)
 {
@@ -18,7 +19,7 @@ static t_bool	is_command(const char *input, const char *command)
 
 t_command	parse_command(const char **input)
 {
-	static const char	*commands[LAST] = {"echo", "", "invalid"};
+	static const char	*commands[LAST] = {"echo", "exit" ,"", "invalid"};
 	t_command			command_code;
 
 	skip_spaces(input);

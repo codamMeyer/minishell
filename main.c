@@ -13,8 +13,7 @@ static void run()
 	while(TRUE)
 	{
 		line = readline("BestShellEver: ");
-		if (!parse_input(line))
-			return ;
+		parse_input(line);
 		free(line);
 	}
 }
