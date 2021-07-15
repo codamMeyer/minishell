@@ -8,7 +8,7 @@ jobs:
       - checkout
       - run:
           name: Install dependencies GCC
-          command: 'apt-get update && apt-get install -y gcc make python3 python3-pip && apt-get install lib32readline7 lib32readline-dev'
+          command: 'apt-get update && apt-get install -y gcc make python3 python3-pip && apt-get install -y lib32readline7 lib32readline-dev'
       - run:
           name: Install dependencies Python
           command: 'pip3 install -U pip && pip3 install -U setuptools && pip3 install -U norminette'
