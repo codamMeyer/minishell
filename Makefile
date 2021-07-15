@@ -6,12 +6,13 @@ TEST_CFLAGS=-ggdb3 $(CFLAGS)
 INC_PATH=-I./src
 LDFLAGS=
 
-MINISHELL_INCS= 			\
-	srcs/defines.h			\
-	srcs/parser/parser.h	\
+MINISHELL_INCS= 				\
+	srcs/defines.h				\
+	srcs/parser/parser.h		\
 
-MINISHELL_SRCS= 			\
-	srcs/parser/parser.c	\
+MINISHELL_SRCS= 				\
+	srcs/parser/parser.c		\
+	srcs/parser/parser_utils.c	\
 
 TEST_FILES=					\
 	tests/main.c 			\

@@ -16,17 +16,6 @@ static t_bool	is_command(const char *input, const char *command)
 		&& is_valid_last_char(last_char));
 }
 
-static void	advance_pointer(const char **input, const char *command_str)
-{
-	*input += strlen(command_str);
-}
-
-void	skip_spaces(const char **input)
-{
-	while (isspace(*(*input)))
-		++(*input);
-}
-
 t_command	parse_command(const char **input)
 {
 	static const char	*commands[LAST] = {"echo", "", "invalid"};
