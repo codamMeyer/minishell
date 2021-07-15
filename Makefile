@@ -4,7 +4,7 @@ CC=gcc
 CFLAGS=-Wall -Wextra -Werror -O3 -fsanitize=address
 TEST_CFLAGS=-ggdb3 $(CFLAGS)
 INC_PATH=-I./src
-LDFLAGS=
+LDFLAGS= -lreadline
 
 MINISHELL_INCS= 				\
 	srcs/defines.h				\
