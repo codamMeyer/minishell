@@ -1,22 +1,27 @@
 MINISHELL=minishell
 TEST_NAME=$(MINISHELL)_test
 CC=gcc
-CFLAGS=-Wall -Wextra -Werror -O3 -fsanitize=leak -fsanitize=address
+CFLAGS=-Wall -Wextra -Werror
 TEST_CFLAGS=-ggdb3 $(CFLAGS)
 INC_PATH=-I./src
-LDFLAGS=
+LDFLAGS= -lreadline
 
 MINISHELL_INCS= 				\
 	srcs/defines.h				\
 	srcs/parser/parser.h		\
+	srcs/output/prompt.h		\
+	srcs/parser/dispatcher.c	\
 
 MINISHELL_SRCS= 				\
 	srcs/parser/parser.c		\
+	srcs/output/prompt.c		\
 	srcs/parser/parser_utils.c	\
+	srcs/parser/dispatcher.c	\
 
 TEST_FILES=					\
 	tests/main.c 			\
 	tests/parser_test.c		\
+	tests/dispatch_test.c			\
 
 MINISHELL_OBJS=$(MINISHELL_SRCS:.c=.o)
 
@@ -30,10 +35,10 @@ $(MINISHELL): $(MINISHELL_OBJS)
 
 test_run: test
 	./$(TEST_NAME)
-	norminette srcs/
+	# norminette srcs/
 
 test: $(MINISHELL_OBJS) $(TEST_FILES)
-	$(CC) $(TEST_CFLAGS) $(INC_PATH) $(MINISHELL_OBJS) $(TEST_FILES) -o $(TEST_NAME) $(LDFLAGS)
+	$(CC) $(TEST_CFLAGS) $(INC_PATH) $(MINISHELL_OBJS) $(TEST_FILES) -o $(TEST_NAME)
 
 test_integration: $(MINISHELL)
 	./tests/integration_test.py
