@@ -38,7 +38,7 @@ test_run: test
 	# norminette srcs/
 
 test: $(MINISHELL_OBJS) $(TEST_FILES)
-	$(CC) $(TEST_CFLAGS) $(INC_PATH) $(MINISHELL_OBJS) $(TEST_FILES) -o $(TEST_NAME) $(LDFLAGS)
+	$(CC) $(TEST_CFLAGS) $(INC_PATH) $(MINISHELL_OBJS) $(TEST_FILES) -o $(TEST_NAME)
 
 test_integration: $(MINISHELL)
 	./tests/integration_test.py

@@ -2,7 +2,7 @@
 
 int exit_command()
 {
-	return (0);
+	return (TRUE);
 }
 
 t_bool	dispatch_commands(const char **input, t_command command)
