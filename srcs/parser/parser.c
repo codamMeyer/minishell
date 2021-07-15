@@ -2,18 +2,6 @@
 #include <string.h>
 #include <ctype.h>
 
-t_bool	parse_input(const char *input)
-{
-	t_command	command_code;
-
-	if (!input)
-		return (FALSE);
-	command_code = parse_command(&input);
-	if (command_code == INVALID)
-		return (FALSE);
-	return (TRUE);
-}
-
 static t_bool	is_valid_last_char(char last_char)
 {
 	return (isspace(last_char) || last_char == '\0');
@@ -30,10 +18,28 @@ static t_bool	is_command(const char *input, const char *command)
 
 t_command	parse_command(const char **input)
 {
-	if (is_command(*input, ECHO_STR))
+	static const char	*commands[LAST] = {"echo", "", "invalid"};
+	t_command			command_code;
+
+	skip_spaces(input);
+	command_code = ECHO;
+	while (command_code < INVALID)
 	{
-		*input += strlen(ECHO_STR);
-		return (ECHO);
+		if (is_command(*input, commands[command_code]))
+		{
+			advance_pointer(input, commands[command_code]);
+			return (command_code);
+		}
+		++command_code;
 	}
 	return (INVALID);
+}
+
+t_bool	parse_input(const char *input)
+{
+	if (!input)
+		return (FALSE);
+	if (parse_command(&input) == INVALID)
+		return (FALSE);
+	return (TRUE);
 }

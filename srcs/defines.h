@@ -1,17 +1,18 @@
 #ifndef DEFINES_H
 # define DEFINES_H
 
-# define TRUE 1
-# define FALSE 0
-
-typedef int	t_bool;
-
-# define ECHO_STR "echo"
+typedef enum e_bool
+{
+	FALSE = 0,
+	TRUE = 1
+}	t_bool;
 
 typedef enum e_command
 {
-	INVALID = -1,
-	ECHO = 1
+	ECHO = 0,
+	EMPTY_LINE,
+	INVALID,
+	LAST,
 }			t_command;
 
 #endif

@@ -1,9 +1,6 @@
 #include "ctest.h"
 #include "../srcs/parser/parser.h"
 
-// assumed commands echo pwd
-// use run for testability
-
 CTEST(parse_input, success_return)
 {
     ASSERT_TRUE(parse_input("echo "));
@@ -37,4 +34,19 @@ CTEST(parse_command, echo_command_with_arg)
     const char *input = "echo hello";
     ASSERT_EQUAL(ECHO, parse_command(&input));
     ASSERT_STR(" hello", input);
+}
+
+CTEST(parse_command, echo_command_with_spaces_before)
+{
+    const char *input = "      echo hello";
+    ASSERT_EQUAL(ECHO, parse_command(&input));
+    ASSERT_STR(" hello", input);
+}
+
+CTEST(parse_command, only_spaces)
+{
+    const char *only_spaces = "                          ";
+    ASSERT_EQUAL(EMPTY_LINE, parse_command(&only_spaces));
+    const char *empty = "";
+    ASSERT_EQUAL(EMPTY_LINE, parse_command(&empty));
 }
