@@ -16,4 +16,9 @@ typedef enum e_command
 	LAST,
 }			t_command;
 
+typedef enum e_exit_code
+{
+	SUCCESS = 0
+}	t_exit_code;
+
 #endif

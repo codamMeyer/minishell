@@ -1,4 +1,5 @@
 #include "parser.h"
+#include "dispatcher.h"
 #include <string.h>
 #include <ctype.h>
 #include <stdio.h>
@@ -40,7 +41,6 @@ t_bool	parse_input(const char *input)
 {
 	if (!input)
 		return (FALSE);
-	if (parse_command(&input) == INVALID)
-		return (FALSE);
+	dispatch_commands(&input, parse_command(&input));
 	return (TRUE);
 }

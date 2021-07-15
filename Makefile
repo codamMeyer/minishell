@@ -6,22 +6,24 @@ TEST_CFLAGS=-ggdb3 $(CFLAGS)
 INC_PATH=-I./src
 LDFLAGS= -lreadline
 
-MINISHELL_INCS= 				\
-	srcs/defines.h				\
-	srcs/parser/parser.h		\
-	srcs/output/prompt.h		\
-	srcs/parser/dispatcher.c	\
+MINISHELL_INCS= 					\
+	srcs/defines.h					\
+	srcs/parser/parser.h			\
+	srcs/output/prompt.h			\
+	srcs/parser/dispatcher.h		\
+	srcs/commands/commands.h		\
 
-MINISHELL_SRCS= 				\
-	srcs/parser/parser.c		\
-	srcs/output/prompt.c		\
-	srcs/parser/parser_utils.c	\
-	srcs/parser/dispatcher.c	\
+MINISHELL_SRCS= 					\
+	srcs/parser/parser.c			\
+	srcs/output/prompt.c			\
+	srcs/parser/parser_utils.c		\
+	srcs/parser/dispatcher.c		\
+	srcs/commands/exit_command.c	\
 
 TEST_FILES=					\
 	tests/main.c 			\
 	tests/parser_test.c		\
-	tests/dispatch_test.c			\
+	tests/dispatch_test.c	\
 
 MINISHELL_OBJS=$(MINISHELL_SRCS:.c=.o)
 
