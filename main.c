@@ -1,7 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "srcs/output/prompt.h"
+
+static void run()
+{
+	dispaly_prompt();
+}
 
 int main(void)
 {
-    return (0);
+	run();
+	return (0);
 }

@@ -1,7 +1,7 @@
 MINISHELL=minishell
 TEST_NAME=$(MINISHELL)_test
 CC=gcc
-CFLAGS=-Wall -Wextra -Werror -O3 -fsanitize=leak -fsanitize=address
+CFLAGS=-Wall -Wextra -Werror -O3 -fsanitize=address
 TEST_CFLAGS=-ggdb3 $(CFLAGS)
 INC_PATH=-I./src
 LDFLAGS=
@@ -9,9 +9,11 @@ LDFLAGS=
 MINISHELL_INCS= 				\
 	srcs/defines.h				\
 	srcs/parser/parser.h		\
+	srcs/output/prompt.h		\
 
 MINISHELL_SRCS= 				\
 	srcs/parser/parser.c		\
+	srcs/output/prompt.c		\
 	srcs/parser/parser_utils.c	\
 
 TEST_FILES=					\
