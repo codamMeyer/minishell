@@ -1,5 +1,5 @@
 #include "ctest.h"
-#include "../srcs/parser/parser.h"
+#include "../src/parser/parser.h"
 
 CTEST(parse_input, success_return)
 {

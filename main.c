@@ -1,16 +1,16 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "srcs/output/prompt.h"
+#include <output/prompt.h>
+#include <defines.h>
+#include <parser/parser.h>
 #include <readline/readline.h>
 #include <readline/history.h>
-#include "srcs/defines.h"
-#include "srcs/parser/parser.h"
 
-static void run()
+static void	run(void)
 {
-	char *line;
+	char	*line;
 
-	while(TRUE)
+	while (TRUE)
 	{
 		line = readline("BestShellEver: ");
 		parse_input(line);
@@ -18,9 +18,8 @@ static void run()
 	}
 }
 
-int main(void)
+int	main(void)
 {
-	
 	run();
 	return (0);
 }
