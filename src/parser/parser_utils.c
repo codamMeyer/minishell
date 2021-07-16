@@ -1,4 +1,4 @@
-#include "parser.h"
+#include <parser/parser.h>
 #include <ctype.h>
 #include <string.h>
 

@@ -1,4 +1,5 @@
-#include "parser.h"
+#include <parser/parser.h>
+#include <parser/dispatcher.h>
 #include <string.h>
 #include <ctype.h>
 #include <stdio.h>
@@ -19,7 +20,7 @@ static t_bool	is_command(const char *input, const char *command)
 
 t_command	parse_command(const char **input)
 {
-	static const char	*commands[LAST] = {"echo", "exit" ,"", "invalid"};
+	static const char	*commands[LAST] = {"echo", "exit", "", "invalid"};
 	t_command			command_code;
 
 	skip_spaces(input);
@@ -40,7 +41,6 @@ t_bool	parse_input(const char *input)
 {
 	if (!input)
 		return (FALSE);
-	if (parse_command(&input) == INVALID)
-		return (FALSE);
+	dispatch_commands(&input, parse_command(&input));
 	return (TRUE);
 }
