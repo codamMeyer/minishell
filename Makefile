@@ -41,8 +41,8 @@ test_run: test
 test: $(MINISHELL_OBJS) $(TEST_FILES)
 	$(CC) $(TEST_CFLAGS) $(INC_PATH) $(MINISHELL_OBJS) $(TEST_FILES) -o $(TEST_NAME)
 
-test_integration: $(MINISHELL)
-	./tests/integration_test.py
+acceptance_test: $(MINISHELL)
+	./tests/exit_success_acceptance_test.py
 
 clean:
 	rm -f $(MINISHELL_OBJS)
@@ -53,4 +53,4 @@ fclean: clean
 	rm -f $(MINISHELL)
 	rm -f $(TEST_NAME)
 
-.PHONY: all clean fclean re test libftprintf test_example
+.PHONY: all clean fclean re test libftprintf

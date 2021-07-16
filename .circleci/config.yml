@@ -19,8 +19,8 @@ jobs:
           name: Unit-Test
           command: "make test_run"
       - run:
-          name: Integration-Test
-          command: "echo Integration-Test"
+          name: Acceptance-Test
+          command: make acceptance_test
       - run:
           name: Norminette
           command: norminette src main.c

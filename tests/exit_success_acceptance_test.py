@@ -12,20 +12,15 @@ LIGHT_WHITE = "\033[0;37m"
 LIGHT_YELLOW = "\033[0;33m"
 RESET = "\033[0m"
 RUN_COMMAND = "echo {} | ./minishell"
-EXPECT_OK = "Expect ok"
-EXPECT_ERROR = "Expect Error"
-EXPECT_DEATH = "Expect Death"
+EXPECTED_OUTPUT = "\nExpect: {}\nActual: {}\n"
 
 class Status(IntEnum):
     SUCCESS = 0
     ERROR = 1
 
     @classmethod
-    def print(cls, expected):
-        if expected == cls.OK:
-            print(EXPECT_OK)
-        else:
-            print(EXPECT_ERROR)
+    def print(cls, expected, actual):
+        print(EXPECTED_OUTPUT.format(expected, actual))
 
 def printTestBanner(testName):
     print("{}======================================================================{}".format(LIGHT_PURPLE, LIGHT_WHITE))
@@ -37,20 +32,21 @@ class ExitFeature:
     def __init__(self):
         self.name = "Exit test"
 
-    def _runInput(self, command):
+    def _runInput(self, command, expected):
         ret = subprocess.run(RUN_COMMAND.format(command), shell=True)
-        assert ret.returncode == int(Status.SUCCESS)
+        Status.print(expected, ret.returncode)
+        assert ret.returncode == int(expected)
 
-    def _testExit(self, command):
-        self._runInput(command)
+    def _testExit(self, command, expected):
+        self._runInput(command, expected)
 
-    def runTests(self, command):
+    def runTests(self, command, expected):
         printTestBanner(self.name)
-        self._testExit(command)
+        self._testExit(command, expected)
 
 
 def main():
     assert Path('./minishell').is_file()
-    ExitFeature().runTests("exit")
+    ExitFeature().runTests("exit", Status.SUCCESS)
 
 main()
