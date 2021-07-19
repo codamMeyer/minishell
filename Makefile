@@ -42,9 +42,9 @@ test: $(MINISHELL_OBJS) $(TEST_FILES)
 	$(CC) $(TEST_CFLAGS) $(INC_PATH) $(MINISHELL_OBJS) $(TEST_FILES) -o $(TEST_NAME)
 
 acceptance_test: $(MINISHELL)
-	./tests/exit_success_acceptance_test.py
-	./tests/echo_empty_acceptance_test.py
-	@rm tests/*.txt
+	./tests/acceptance/exit_feature_test.py
+	./tests/acceptance/echo_feature_test.py
+	@rm tests/acceptance/*.txt
 
 clean:
 	rm -f $(MINISHELL_OBJS)

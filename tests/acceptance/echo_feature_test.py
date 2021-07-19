@@ -22,6 +22,7 @@ class Status(IntEnum):
     @classmethod
     def print(cls, expected, actual):
         print(EXPECTED_OUTPUT.format(expected, actual))
+    
 
 def printTestBanner(testName):
     print("{}======================================================================{}".format(LIGHT_PURPLE, LIGHT_WHITE))
@@ -36,45 +37,40 @@ class EchoEmptyFeature:
     
     def __init__(self):
         self.name = "Echo Empty test"
-        self.filename = "tests/echo_empty.txt"
+        self.filename = "tests/acceptance/echo_empty.txt"
 
     def _createFile(self, content):
-        f = open(self.filename, "w")
-        f.write(content)
-        f.close()
+        with open(self.filename, "w") as f:
+            f.write(content)
 
     def _addExitToFile(self):
-        f = open(self.filename, "a")
-        f.write("exit\n")
-        f.close()
+        with open(self.filename, "a") as f:
+            f.write("exit\n")
 
     def _getFirstLine(self):
-        f = open(self.filename, "r")
-        return f.read()
+        with open(self.filename, "r") as f:
+            return f.read()
 
     def _runRealShell(self):
-        printSeparationBanner("Real Shell:")
         self._createFile("echo\n")
         shell_input = self._getFirstLine()
-        print("RealShell: {}".format(shell_input))
         self._addExitToFile()
-        return subprocess.run(shell_input, shell=True).returncode
+        return subprocess.check_output(shell_input, shell=True)
 
     def _runMinishell(self):
-        printSeparationBanner("Minishell:")
         minishell_input = Popen("cat {}".format(self.filename).split(), stdout=PIPE)
-        minishell_output = subprocess.run("./minishell", stdin=minishell_input.stdout, stdout=PIPE, universal_newlines=True)
-        print("{}".format(minishell_output.stdout))
+        minishell_output = subprocess.check_output("./minishell", stdin=minishell_input.stdout)
         minishell_input.stdout.close()
-        return minishell_output.returncode
+        return minishell_output
 
     def _runInput(self, command, expected):
         real_shell_output = self._runRealShell()
         minishell_output = self._runMinishell()
+        real_shell_len = len(real_shell_output.decode("utf-8").split())
+        expected_len = 4 #4 because it will print "BestShellEver" 2 times, plus "echo", plus "exit", the '\n' doesnt count
+        minishell_len = len(minishell_output.decode("utf-8").split()) - expected_len
+        assert minishell_len == real_shell_len
 
-        printSeparationBanner("Result:")
-        Status.print(real_shell_output, minishell_output)
-        assert minishell_output == real_shell_output
 
     def _testEchoEmpty(self, command, expected):
         self._runInput(command, expected)
