@@ -5,6 +5,8 @@ CFLAGS=-Wall -Wextra -Werror
 TEST_CFLAGS=-ggdb3 $(CFLAGS)
 INC_PATH=-I./src
 LDFLAGS= -lreadline
+LIBFT_PATH = libft/
+LIBS = libft/libft.a 
 
 MINISHELL_INCS= 				\
 	src/defines.h				\
@@ -32,7 +34,8 @@ MINISHELL_OBJS=$(MINISHELL_src:.c=.o)
 all: $(MINISHELL)
 
 $(MINISHELL): $(MINISHELL_OBJS)
-		$(CC) $(CFLAGS) $(INC_PATH) main.c  -o $@ $^ $(LDFLAGS)
+		make -C $(LIBFT_PATH)
+		$(CC) $(CFLAGS) $(INC_PATH) $(LIBS) main.c -o $@ $^ $(LDFLAGS)
 
 %.o: %.c $(MINISHELL_INCS)
 	@$(CC) $(CFLAGS) $(INC_PATH) -c -o $@ $<
@@ -41,7 +44,8 @@ test_run: test
 	./$(TEST_NAME)
 
 test: $(MINISHELL_OBJS) $(TEST_FILES)
-	$(CC) $(TEST_CFLAGS) $(INC_PATH) $(MINISHELL_OBJS) $(TEST_FILES) -o $(TEST_NAME)
+	make -C $(LIBFT_PATH)
+	$(CC) $(TEST_CFLAGS) $(INC_PATH) $(LIBS) $(MINISHELL_OBJS) $(TEST_FILES) -o $(TEST_NAME)
 
 acceptance_test: $(MINISHELL)
 	./tests/exit_success_acceptance_test.py
