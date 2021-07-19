@@ -43,6 +43,8 @@ test: $(MINISHELL_OBJS) $(TEST_FILES)
 
 acceptance_test: $(MINISHELL)
 	./tests/exit_success_acceptance_test.py
+	./tests/echo_empty_acceptance_test.py
+	@rm tests/*.txt
 
 clean:
 	rm -f $(MINISHELL_OBJS)
