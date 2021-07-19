@@ -1,6 +1,8 @@
 #ifndef DEFINES_H
 # define DEFINES_H
 
+# define NEW_LINE "\n"
+
 typedef enum e_bool
 {
 	FALSE = 0,

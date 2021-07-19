@@ -19,11 +19,13 @@ MINISHELL_src= 					\
 	src/parser/parser_utils.c	\
 	src/parser/dispatcher.c		\
 	src/commands/exit_command.c	\
+	src/commands/echo_command.c	\
 
 TEST_FILES=					\
 	tests/main.c 			\
 	tests/parser_test.c		\
 	tests/dispatch_test.c	\
+	tests/echo_test.c	\
 
 MINISHELL_OBJS=$(MINISHELL_src:.c=.o)
 
