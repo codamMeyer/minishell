@@ -51,6 +51,7 @@ acceptance_test: $(MINISHELL)
 	./tests/exit_success_acceptance_test.py
 
 clean:
+	make -C $(LIBFT_PATH) fclean
 	rm -f $(MINISHELL_OBJS)
 
 re: fclean all

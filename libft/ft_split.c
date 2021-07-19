@@ -6,7 +6,7 @@
 /*   By: rmeiboom <rmeiboom@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/11/14 14:07:42 by rmeiboom      #+#    #+#                 */
-/*   Updated: 2021/05/15 11:59:20 by rmeiboom      ########   odam.nl         */
+/*   Updated: 2021/07/19 20:53:59 by rmeiboom      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,15 @@ static int	get_delimiter_count(char const *s, char c)
 	return (count);
 }
 
-static void	free_split(char **split_array, int count)
+void	free_split(char **split_array)
 {
-	while (count >= 0)
+	int	i;
+
+	i = 0;
+	while (split_array[i])
 	{
-		free(split_array[count]);
-		count--;
+		free(split_array[i]);
+		i++;
 	}
 	free(split_array);
 }
@@ -57,7 +60,7 @@ static char	**split_loop(char **splitstr, const char *s, int del_i, char c)
 		splitstr[i] = (char *)malloc(j + 1 * sizeof(char));
 		if (splitstr[i] == NULL)
 		{
-			free_split(splitstr, i - 1);
+			free_split(splitstr);
 			return (NULL);
 		}
 		ft_memcpy(splitstr[i], s, j);

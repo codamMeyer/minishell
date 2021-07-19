@@ -3,7 +3,6 @@
 
 # define NEW_LINE "\n"
 # define INVERTED_COMMA '\"'
-# define SPACES_AND_TABS " 	"
 
 typedef enum e_bool
 {

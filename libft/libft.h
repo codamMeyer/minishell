@@ -6,7 +6,7 @@
 /*   By: rmeiboom <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/28 13:42:48 by rmeiboom      #+#    #+#                 */
-/*   Updated: 2021/07/01 18:14:41 by rmeiboom      ########   odam.nl         */
+/*   Updated: 2021/07/19 20:53:37 by rmeiboom      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ char			*ft_substr(char const *s, unsigned int start, size_t len);
 char			*ft_strjoin(char const *s1, char const *s2);
 char			*ft_strtrim(char const *s1, char const *set);
 char			**ft_split(char const *s, char c);
+void			free_split(char **split_array);
 char			*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 
 int				ft_atoi(const char *str);
