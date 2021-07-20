@@ -56,9 +56,8 @@ class TestExit(unittest.TestCase):
     def test_exit(self):
         printTestName(self.test_exit.__name__)
 
-    def test_exit(self):
-        printTestName(self.test_exit.__name__)
+    def test_exit_success(self):
         self.exitFile.appendCommand("exit\n")
         minishell_output = Minishell.runInputFile(self.exitFile)
         expected_output = 0
-        self.assertEqual(minishell_output.returncode, expected_output, "{}Exit command should return 0 but returned: {}{}{}".format(LIGHT_RED, LIGHT_YELLOW, minishell_output.returncode, RESET))
+        self.assertEqual(expected_output, minishell_output.returncode, "{}Exit command should return 0 but returned: {}{}{}".format(LIGHT_RED, LIGHT_YELLOW, minishell_output.returncode, RESET))

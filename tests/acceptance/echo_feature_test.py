@@ -68,18 +68,22 @@ class TestEcho(unittest.TestCase):
         bash_output = Bash.runInputFile(self.echoFile)
         minishell_output = Minishell.runInputFile(self.echoFile)
         bash_len = len(bash_output.decode("utf-8").split())
-        expected_len = 4 #4 because it will print "BestShellEver" 2 times, plus "echo", plus "exit", the '\n' doesnt count
-        minishell_len = len(minishell_output.decode("utf-8").split()) - expected_len
+        expected_split_len = 4 #4 because it will print "BestShellEver" 2 times, plus "echo", plus "exit", the '\n' doesnt count
+        minishell_len = len(minishell_output.decode("utf-8").split()) - expected_split_len
         self.assertEqual(minishell_len, bash_len, "{}Should display a \\n line, but it displyed:  {}{}{}".format(LIGHT_RED, LIGHT_YELLOW, minishell_output, RESET))
 
-    def test_more(self):
-        self.assertEqual(1, 1, "Should be 1")
-
-    def test_more1(self):
-        self.assertEqual(1, 1, "Should be 1")
-
-    def test_more2(self):
-        self.assertEqual(1, 1, "Should be 1")
-
-    def test_more3(self):
-        self.assertEqual(1, 1, "Should be 1")
+    def test_empty_quotes(self):
+        self.echoFile.appendCommand('echo ""\n')
+        bash_output = Bash.runInputFile(self.echoFile)
+        minishell_output = Minishell.runInputFile(self.echoFile)
+        bash_len = len(bash_output.decode("utf-8").split())
+        expected_len = 5 #5 because it will print "BestShellEver" 2 times, plus "echo", plus "", plus "exit", the '\n' doesnt count
+        minishell_len = len(minishell_output.decode("utf-8").split()) - expected_len
+        self.assertEqual(minishell_len, bash_len, "{}Should display a \\n line, but it displyed:  {}{}{}".format(LIGHT_RED, LIGHT_YELLOW, minishell_output, RESET))
+        
+    def test_str_without_quotes(self):
+        # self.echoFile.appendCommand("echo Hello\n")
+        # bash_output = Bash.runInputFile(self.echoFile).decode("utf-8")
+        # minishell_output = Minishell.runInputFile(self.echoFile).decode("utf-8")
+        # self.assertEqual(bash_output, minishell_output.split()[3], "{}Should display a Hello\\n,  but it displyed:  {}{}{}".format(LIGHT_RED, LIGHT_YELLOW, minishell_output, RESET))
+        pass
