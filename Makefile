@@ -47,14 +47,11 @@ test: $(MINISHELL_OBJS) $(TEST_FILES)
 	$(CC) $(TEST_CFLAGS) $(INC_PATH) $(MINISHELL_OBJS) $(TEST_FILES) -o $(TEST_NAME) $(LDFLAGS)
 
 acceptance_test: $(MINISHELL)
-	./tests/acceptance/exit_feature_test.py
-	./tests/acceptance/echo_feature_test.py
-	@rm tests/acceptance/*.txt
+	./tests/acceptance/main.py
 
 clean:
 	make -C $(LIBFT_PATH) fclean
 	rm -f $(MINISHELL_OBJS)
-	rm -f tests/acceptance/*.txt
 
 re: fclean all
 

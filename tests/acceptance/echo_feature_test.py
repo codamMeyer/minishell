@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-
+import os
 from pathlib import Path
 import subprocess
 from enum import IntEnum
@@ -14,21 +14,20 @@ LIGHT_YELLOW = "\033[0;33m"
 RESET = "\033[0m"
 RUN_CAT_COMMAND = "cat {}"
 LAUNCH_MINISHELL_COMMAND = "./minishell"
-EXPECTED_OUTPUT = "Expect: {}\nActual: {}\n"
+
+def printTestName(testName):
+    print("\n{}======================= {}{}{}".format(LIGHT_PURPLE, LIGHT_YELLOW, testName, RESET))
 
 class File:
     
-    def __init__(self, filename, content):
-        self.filename = "tests/acceptance/echo_empty.txt"
-        self._write(content)
+    def __init__(self, filename):
+        self.filename = filename
+        f = open(self.filename, "w")
+        f.close()
 
-    def _write(self, content):
-        with open(self.filename, "w") as f:
-            f.write(content)
-
-    def appendExitCommand(self):
+    def appendCommand(self, command):
         with open(self.filename, "a") as f:
-            f.write("exit\n")
+            f.write(command)
 
     def getFirstLine(self):
         with open(self.filename, "r") as f:
@@ -39,14 +38,13 @@ class Bash:
     @classmethod
     def runInputFile(cls, file):
         shell_input = file.getFirstLine()
-        file.appendExitCommand()
         return subprocess.check_output(shell_input, shell=True)
 
 class Minishell:
 
     @classmethod
     def runInputFile(cls, file):
-        file.appendExitCommand()
+        file.appendCommand("exit\n")
         cat_process = Popen(RUN_CAT_COMMAND.format(file.filename).split(), stdout=PIPE)
         minishell_process = subprocess.check_output(LAUNCH_MINISHELL_COMMAND, stdin=cat_process.stdout)
         stdout, strerr = cat_process.communicate()
@@ -55,8 +53,18 @@ class Minishell:
 
 class TestEcho(unittest.TestCase):
 
+    def setUp(self):
+        self.filename = "tests/acceptance/echo_feature.txt"
+        self.echoFile = File(self.filename)
+    
+    def tearDown(self):
+        os.remove(self.filename)
+
+    def test_echo(self):
+        printTestName(self.test_echo.__name__)
+
     def test_empty(self):
-        self.echoFile = File("tests/acceptance/echo_feature.txt", "echo\n")
+        self.echoFile.appendCommand("echo\n")
         bash_output = Bash.runInputFile(self.echoFile)
         minishell_output = Minishell.runInputFile(self.echoFile)
         bash_len = len(bash_output.decode("utf-8").split())
@@ -64,7 +72,14 @@ class TestEcho(unittest.TestCase):
         minishell_len = len(minishell_output.decode("utf-8").split()) - expected_len
         self.assertEqual(minishell_len, bash_len, "{}Should display a \\n line, but it displyed:  {}{}{}".format(LIGHT_RED, LIGHT_YELLOW, minishell_output, RESET))
 
+    def test_more(self):
+        self.assertEqual(1, 1, "Should be 1")
 
-if __name__ == '__main__':
-    assert Path('./minishell').is_file()
-    unittest.main()
+    def test_more1(self):
+        self.assertEqual(1, 1, "Should be 1")
+
+    def test_more2(self):
+        self.assertEqual(1, 1, "Should be 1")
+
+    def test_more3(self):
+        self.assertEqual(1, 1, "Should be 1")
