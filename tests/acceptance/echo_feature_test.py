@@ -14,7 +14,6 @@ LIGHT_YELLOW = "\033[0;33m"
 RESET = "\033[0m"
 RUN_CAT_COMMAND = "cat {}"
 LAUNCH_MINISHELL_COMMAND = "./minishell"
-
 def printTestName(testName):
     print("\n{}======================= {}{}{}".format(LIGHT_PURPLE, LIGHT_YELLOW, testName, RESET))
 
@@ -46,10 +45,11 @@ class Minishell:
     def runInputFile(cls, file):
         file.appendCommand("exit\n")
         cat_process = Popen(RUN_CAT_COMMAND.format(file.filename).split(), stdout=PIPE)
-        minishell_process = subprocess.check_output(LAUNCH_MINISHELL_COMMAND, stdin=cat_process.stdout)
+        minishell_process = subprocess.check_output(LAUNCH_MINISHELL_COMMAND, stdin=cat_process.stdout, shell=True)
         stdout, strerr = cat_process.communicate()
         assert strerr is None, "cat process returned error"
         return minishell_process
+
 
 class TestEcho(unittest.TestCase):
 
@@ -80,7 +80,6 @@ class TestEcho(unittest.TestCase):
         expected_len = 5 #5 because it will print "BestShellEver" 2 times, plus "echo", plus "", plus "exit", the '\n' doesnt count
         minishell_len = len(minishell_output.decode("utf-8").split()) - expected_len
         self.assertEqual(minishell_len, bash_len, "{}Should display a \\n line, but it displyed:  {}{}{}".format(LIGHT_RED, LIGHT_YELLOW, minishell_output, RESET))
-        
     def test_str_without_quotes(self):
         # self.echoFile.appendCommand("echo Hello\n")
         # bash_output = Bash.runInputFile(self.echoFile).decode("utf-8")

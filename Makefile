@@ -21,6 +21,7 @@ MINISHELL_src= 					\
 	src/parser/dispatcher.c		\
 	src/commands/exit_command.c	\
 	src/commands/echo_command.c	\
+	src/commands/echo_utils.c	\
 
 TEST_FILES=					\
 	tests/main.c 			\

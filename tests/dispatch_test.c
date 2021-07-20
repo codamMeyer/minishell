@@ -10,5 +10,5 @@ CTEST(dispatch_test, returns_false)
 CTEST(dispatch_test, echo_true)
 {
 	const char *input = "echo";
-	ASSERT_TRUE(dispatch_commands(&input, ECHO));
+	ASSERT_EQUAL(SUCCESS, dispatch_commands(&input, ECHO));
 }
