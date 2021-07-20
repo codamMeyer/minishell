@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <libft.h>
 #include <output/prompt.h>
 #include <defines.h>
-#include "libft/libft.h"
 #include <parser/parser.h>
 #include <readline/readline.h>
 #include <readline/history.h>

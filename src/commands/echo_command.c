@@ -4,8 +4,8 @@
 #include <string.h>
 #include <stdlib.h>
 #include <ctype.h> 
-#include "../../libft/libft.h"
-#include "../parser/parser.h"
+#include <libft.h>
+#include <parser/parser.h>
 
 // possible strings
 // (            String with spaces to trim        )
