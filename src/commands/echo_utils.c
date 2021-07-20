@@ -1,5 +1,7 @@
 #include "commands.h"
+#include <ctype.h>
 #include <libft.h>
+#include <parser/parser.h>
 
 int	get_substr_len(const char *input)
 {
@@ -49,4 +51,16 @@ void	write_space_between_words(const char *next_string)
 {
 	if (next_string)
 		write(STDOUT_FILENO, " ", 1);
+}
+
+t_bool	parse_n_flag(const char **input)
+{
+	while (isspace(*(*input)))
+		++(*input);
+	if (ft_strncmp((char *)*input, N_FLAG, ft_strlen(N_FLAG)) == 0)
+	{
+		advance_pointer(input, N_FLAG);
+		return (TRUE);
+	}
+	return (FALSE);
 }

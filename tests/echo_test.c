@@ -98,6 +98,8 @@ CTEST(echo_utils_test, format_no_quotes_string)
 	ASSERT_NULL(m_str[6]);
 }
 
+
+
 // CTEST(echo_utils_test, format_string_w_quotes_and_whitespace)
 // {
 // 	char *str = "    \"     No     quotes   \"";

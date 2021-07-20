@@ -48,7 +48,8 @@ void	write_echo_args(const char **strings_to_write)
 
 int	echo_command(const char **input)
 {
-	char	**strings_to_write;
+	const t_bool	has_n_flag = parse_n_flag(input);
+	char			**strings_to_write;
 
 	if (!input || !*input)
 		return (ERROR);
@@ -56,7 +57,8 @@ int	echo_command(const char **input)
 	if (strings_to_write == NULL)
 		return (ERROR);
 	write_echo_args((const char **)strings_to_write);
-	write(STDOUT_FILENO, "\n", 1);
+	if (!has_n_flag)
+		write(STDOUT_FILENO, "\n", 1);
 	free_split(strings_to_write);
 	return (SUCCESS);
 }
