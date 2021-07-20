@@ -5,5 +5,6 @@
         "ratio": "cpp",
         "*.tcc": "cpp",
         "valarray": "cpp"
-    }
+    },
+    "python.pythonPath": "/usr/local/opt/python/bin/python3.7"
 }
