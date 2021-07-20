@@ -10,12 +10,18 @@ typedef struct s_check_quotes
 	t_bool	closing;
 }	t_check_quotes;
 
+typedef enum e_special_chars
+{
+	SPACE = ' ',
+	NULL_TERMINATOR = '\0'
+}	t_special_chars;
+
 void	exit_command(t_exit_code exit_code);
 
 int		echo_command(const char **input);
 char	**parse_echo(const char **input);
 int		get_substr_len(const char *input);
-t_bool	check_quotes(const char *input, t_check_quotes *quotes);
+t_bool	has_inverted_comma_set(const char *input, t_check_quotes *quotes);
 char	**format_string_with_quotes(const char *str_w_quotes);
 
 #endif
