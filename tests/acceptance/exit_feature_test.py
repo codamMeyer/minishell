@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 
 from pathlib import Path
-import random
 import subprocess
 from enum import IntEnum
 

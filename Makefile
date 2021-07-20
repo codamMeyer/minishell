@@ -54,6 +54,7 @@ acceptance_test: $(MINISHELL)
 clean:
 	make -C $(LIBFT_PATH) fclean
 	rm -f $(MINISHELL_OBJS)
+	rm -f tests/acceptance/*.txt
 
 re: fclean all
 
