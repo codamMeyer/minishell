@@ -98,6 +98,19 @@ CTEST(echo_utils_test, format_no_quotes_string)
 	ASSERT_NULL(m_str[6]);
 }
 
+CTEST(echo_utils_test, echo_w_n_flag)
+{
+	const char *input = "    -n hello";
+	ASSERT_TRUE(parse_n_flag(&input));
+	ASSERT_STR(" hello", input);
+}
+
+CTEST(echo_utils_test, echo_w_n_flag_after_quote)
+{
+	const char *input = "   \" -n hello \"";
+	ASSERT_FALSE(parse_n_flag(&input));
+}
+
 
 
 // CTEST(echo_utils_test, format_string_w_quotes_and_whitespace)
