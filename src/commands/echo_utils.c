@@ -44,3 +44,9 @@ char	**format_string_with_quotes(const char *str_w_quotes)
 	free((char *)clean_str);
 	return (split_strings);
 }
+
+void	write_space_between_words(const char *next_string)
+{
+	if (next_string)
+		write(STDOUT_FILENO, " ", 1);
+}

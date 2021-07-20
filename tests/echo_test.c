@@ -16,7 +16,7 @@
 CTEST(echo_test, returns_true_with_emptry_str_input)
 {
 	const char *input = "";
-	ASSERT_TRUE(echo_command(&input));
+	ASSERT_EQUAL(SUCCESS, echo_command(&input));
 }
 
 CTEST(echo_utils_test, format_string_test)

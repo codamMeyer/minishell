@@ -21,7 +21,8 @@ typedef enum e_command
 
 typedef enum e_exit_code
 {
-	SUCCESS = 0
+	SUCCESS = 0,
+	ERROR = 1
 }	t_exit_code;
 
 #endif

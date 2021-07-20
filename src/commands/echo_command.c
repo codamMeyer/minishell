@@ -38,11 +38,9 @@ void	write_echo_args(const char **strings_to_write)
 	i = 0;
 	while (strings_to_write[i])
 	{
-		write(1, &i, sizeof(i));
 		len = ft_strlen(strings_to_write[i]);
-		write(1, strings_to_write[i], len);
-		if (strings_to_write[i + 1])
-			write(1, " ", 1);
+		write(STDOUT_FILENO, strings_to_write[i], len);
+		write_space_between_words(strings_to_write[i + 1]);
 		i++;
 	}
 	return ;
@@ -50,15 +48,15 @@ void	write_echo_args(const char **strings_to_write)
 
 int	echo_command(const char **input)
 {
-	char			**strings_to_write;
+	char	**strings_to_write;
 
 	if (!input || !*input)
-		return (-1);
+		return (ERROR);
 	strings_to_write = parse_echo(input);
 	if (strings_to_write == NULL)
-		return (-1);
+		return (ERROR);
 	write_echo_args((const char **)strings_to_write);
-	write(1, "\n", 1);
+	write(STDOUT_FILENO, "\n", 1);
 	free_split(strings_to_write);
-	return (1);
+	return (SUCCESS);
 }
