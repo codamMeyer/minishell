@@ -2,7 +2,6 @@
 #include "../src/commands/commands.h"
 #include "../libft/libft.h"
 
-
 // possible strings
 // (            String with spaces to trim        )
 // (      "string with spaces to trim up to inverted commas"           )
@@ -22,7 +21,7 @@ CTEST(echo_test, returns_true_with_emptry_str_input)
 CTEST(echo_utils_test, format_string_test)
 {
 	const char *input = "";
-	ASSERT_NOT_NULL(parse_echo(&input));
+	ASSERT_NOT_NULL(get_echo_args(&input));
 }
 
 CTEST(echo_utils_test, empty_substr_len_test)
@@ -86,16 +85,16 @@ CTEST(echo_utils_test, format_quotes_string)
 
 CTEST(echo_utils_test, format_no_quotes_string)
 {
-	char *str = "    No     quotes, whitespace    should   be    removed   ";
-	char **m_str = parse_echo(((const char **)(&str)));
+	char *args = "    No     quotes, whitespace    should   be    removed   ";
+	char **formatted_args = format_echo_args(args);
 
-	ASSERT_STR("No", m_str[0]);
-	ASSERT_STR("quotes,", m_str[1]);
-	ASSERT_STR("whitespace", m_str[2]);
-	ASSERT_STR("should", m_str[3]);
-	ASSERT_STR("be", m_str[4]);
-	ASSERT_STR("removed", m_str[5]);
-	ASSERT_NULL(m_str[6]);
+	ASSERT_STR("No", formatted_args[0]);
+	ASSERT_STR("quotes,", formatted_args[1]);
+	ASSERT_STR("whitespace", formatted_args[2]);
+	ASSERT_STR("should", formatted_args[3]);
+	ASSERT_STR("be", formatted_args[4]);
+	ASSERT_STR("removed", formatted_args[5]);
+	ASSERT_NULL(formatted_args[6]);
 }
 
 CTEST(echo_utils_test, echo_w_n_flag)
@@ -110,8 +109,6 @@ CTEST(echo_utils_test, echo_w_n_flag_after_quote)
 	const char *input = "   \" -n hello \"";
 	ASSERT_FALSE(parse_n_flag(&input));
 }
-
-
 
 // CTEST(echo_utils_test, format_string_w_quotes_and_whitespace)
 // {

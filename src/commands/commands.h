@@ -21,7 +21,8 @@ typedef enum e_special_chars
 void	exit_command(t_exit_code exit_code);
 
 int		echo_command(const char **input);
-char	**parse_echo(const char **input);
+char	*get_echo_args(const char **input);
+char	**format_echo_args(const char *echo_argv);
 int		get_substr_len(const char *input);
 t_bool	has_inverted_comma_set(const char *input, t_check_quotes *quotes);
 char	**format_string_with_quotes(const char *str_w_quotes);
