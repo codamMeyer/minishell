@@ -47,7 +47,7 @@ test: $(MINISHELL_OBJS) $(TEST_FILES)
 	$(CC) $(TEST_CFLAGS) $(INC_PATH) $(MINISHELL_OBJS) $(TEST_FILES) -o $(TEST_NAME) $(LDFLAGS)
 
 acceptance_test: $(MINISHELL)
-	./tests/exit_success_acceptance_test.py
+	./tests/acceptance/main.py
 
 clean:
 	make -C $(LIBFT_PATH) fclean
