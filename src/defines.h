@@ -1,6 +1,9 @@
 #ifndef DEFINES_H
 # define DEFINES_H
 
+# define NEW_LINE "\n"
+# define INVERTED_COMMA '\"'
+
 typedef enum e_bool
 {
 	FALSE = 0,
