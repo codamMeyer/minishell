@@ -80,9 +80,22 @@ class TestEcho(unittest.TestCase):
         expected_len = 5 #5 because it will print "BestShellEver" 2 times, plus "echo", plus "", plus "exit", the '\n' doesnt count
         minishell_len = len(minishell_output.decode("utf-8").split()) - expected_len
         self.assertEqual(minishell_len, bash_len, "{}Should display a \\n line, but it displyed:  {}{}{}".format(LIGHT_RED, LIGHT_YELLOW, minishell_output, RESET))
+    
     def test_str_without_quotes(self):
-        # self.echoFile.appendCommand("echo Hello\n")
-        # bash_output = Bash.runInputFile(self.echoFile).decode("utf-8")
-        # minishell_output = Minishell.runInputFile(self.echoFile).decode("utf-8")
-        # self.assertEqual(bash_output, minishell_output.split()[3], "{}Should display a Hello\\n,  but it displyed:  {}{}{}".format(LIGHT_RED, LIGHT_YELLOW, minishell_output, RESET))
-        pass
+        self.echoFile.appendCommand("echo Hello\n")
+        bash_output = Bash.runInputFile(self.echoFile).decode("utf-8")
+        minishell_output = Minishell.runInputFile(self.echoFile).decode("utf-8")
+        self.assertEqual(bash_output.split("\n")[1], minishell_output.split("\n")[3], "{}Should display a Hello\\n,  but it displyed:  {}{}{}".format(LIGHT_RED, LIGHT_YELLOW, minishell_output, RESET))
+    
+    def test_str_with_quotes(self):
+        self.echoFile.appendCommand('echo "Hello      you" \n')
+        bash_output = Bash.runInputFile(self.echoFile).decode("utf-8")
+        minishell_output = Minishell.runInputFile(self.echoFile).decode("utf-8")
+        self.assertEqual(bash_output.split("\n")[0], minishell_output.split("\n")[1], "{}Should display a 'Hello      you',  but it displyed:  {}{}{}".format(LIGHT_RED, LIGHT_YELLOW, minishell_output, RESET))
+
+    def test_str_with_quotes(self):
+        self.echoFile.appendCommand('echo -n "Hello      you" \n')
+        bash_output = Bash.runInputFile(self.echoFile).decode("utf-8")
+        minishell_output = Minishell.runInputFile(self.echoFile).decode("utf-8")
+        self.assertEqual("Hello      youBestShellEver: exit", minishell_output.split("\n")[1], "{}Should display a 'Hello      you',  but it displyed:  {}{}{}".format(LIGHT_RED, LIGHT_YELLOW, minishell_output, RESET))
+        
