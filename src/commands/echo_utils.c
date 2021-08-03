@@ -2,6 +2,7 @@
 #include <ctype.h>
 #include <libft.h>
 #include <parser/parser.h>
+#include <commands/echo_utils.h>
 
 int	get_substr_len(const char *input)
 {

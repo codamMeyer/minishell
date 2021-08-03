@@ -6,6 +6,7 @@
 #include <ctype.h> 
 #include <libft.h>
 #include <parser/parser.h>
+#include <commands/echo_utils.h>
 
 // possibly add clean-up function for frees()
 // possibly split formatting part

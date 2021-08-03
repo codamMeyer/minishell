@@ -12,6 +12,7 @@ MINISHELL_INCS= 				\
 	src/output/prompt.h			\
 	src/parser/dispatcher.h		\
 	src/commands/commands.h		\
+	src/commands/echo_utils.h	\
 
 MINISHELL_src= 					\
 	src/parser/parser.c			\

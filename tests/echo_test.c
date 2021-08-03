@@ -18,12 +18,6 @@ CTEST(echo_test, returns_true_with_emptry_str_input)
 	ASSERT_EQUAL(SUCCESS, echo_command(&input));
 }
 
-// CTEST(echo_utils_test, format_string_test)
-// {
-// 	const char *input = "";
-// 	ASSERT_NOT_NULL(get_echo_args(&input));
-// }
-
 // CTEST(echo_utils_test, empty_substr_len_test)
 // {
 // 	const char *input = "";
