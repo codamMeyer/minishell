@@ -13,5 +13,6 @@ t_bool	has_inverted_comma_set(const char *input, t_check_quotes *quotes);
 char	**format_string_with_quotes(const char *str_w_quotes);
 void	write_space_between_words(const char *next_string);
 t_bool	parse_n_flag(const char **input);
+void	write_echo_args(const char **strings_to_write);
 
 #endif

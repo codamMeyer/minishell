@@ -51,9 +51,7 @@ void	write_echo_args(const char **strings_to_write)
 	return ;
 }
 
-typedef void (*t_output_stdout)(const char **);
-
-int	echo_command(const char **input)
+int	echo_command(const char **input, t_output_stdout output)
 {
 	const t_bool	has_n_flag = parse_n_flag(input);
 	const char		*echo_argv = get_echo_args(input);
@@ -64,7 +62,7 @@ int	echo_command(const char **input)
 	strings_to_write = format_echo_args(echo_argv);
 	if (strings_to_write == NULL)
 		return (ERROR);
-	write_echo_args((const char **)strings_to_write);
+	output((const char **)strings_to_write);
 	if (!has_n_flag)
 		write(STDOUT_FILENO, "\n", 1);
 	free_split(strings_to_write);

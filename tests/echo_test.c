@@ -1,7 +1,7 @@
 #include "ctest.h"
 #include "../src/commands/commands.h"
 #include "../libft/libft.h"
-
+#include <stdio.h>
 // possible strings
 // (            String with spaces to trim        )
 // (      "string with spaces to trim up to inverted commas"           )
@@ -12,10 +12,19 @@
 // (	"	whitespace         4 dddaaaaaayyyyyys, with quotes      ")
 // (	"	quotes with \"\" quotes"      ")
 
+void	fake_output(const char **strings_to_write)
+{
+	for (int i = 0; strings_to_write[i] != NULL; ++i)
+	{
+		printf(strings_to_write[i]);
+		printf(" ");
+	}
+}
+
 CTEST(echo_test, returns_true_with_emptry_str_input)
 {
 	const char *input = "";
-	ASSERT_EQUAL(SUCCESS, echo_command(&input));
+	ASSERT_EQUAL(SUCCESS, echo_command(&input, fake_output));
 }
 
 // CTEST(echo_utils_test, empty_substr_len_test)
