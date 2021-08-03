@@ -50,6 +50,8 @@ void	write_echo_args(const char **strings_to_write)
 	return ;
 }
 
+typedef void (*t_output_stdout)(const char **);
+
 int	echo_command(const char **input)
 {
 	const t_bool	has_n_flag = parse_n_flag(input);

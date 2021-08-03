@@ -1,8 +1,7 @@
 MINISHELL=minishell
 TEST_NAME=$(MINISHELL)_test
 CC=gcc
-CFLAGS=-Wall -Wextra -Werror
-TEST_CFLAGS=-ggdb3 $(CFLAGS)
+CFLAGS=-ggdb3 -Wall -Wextra -Werror
 INC_PATH=-I./src -I./libft
 LDFLAGS= -lreadline -L./libft -lft
 LIBFT_PATH = libft/
@@ -45,7 +44,7 @@ test_run: test
 
 test: $(MINISHELL_OBJS) $(TEST_FILES)
 	make -C $(LIBFT_PATH)
-	$(CC) $(TEST_CFLAGS) $(INC_PATH) $(MINISHELL_OBJS) $(TEST_FILES) -o $(TEST_NAME) $(LDFLAGS)
+	$(CC) $(CFLAGS) $(INC_PATH) $(MINISHELL_OBJS) $(TEST_FILES) -o $(TEST_NAME) $(LDFLAGS)
 
 acceptance_test: $(MINISHELL)
 	python3 tests/acceptance/main.py

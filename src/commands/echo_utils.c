@@ -22,15 +22,19 @@ int	get_substr_len(const char *input)
 
 t_bool	has_inverted_comma_set(const char *input, t_check_quotes *quotes)
 {
+	char cur;
+
 	quotes->opening = FALSE;
 	quotes->closing = FALSE;
-	while (*input)
+	cur = *input;
+	while (cur)
 	{
-		if (*input == INVERTED_COMMA && quotes->opening)
+		if (cur == INVERTED_COMMA && quotes->opening)
 			quotes->closing = TRUE;
-		else if (*input == INVERTED_COMMA)
+		else if (cur == INVERTED_COMMA)
 			quotes->opening = TRUE;
 		input++;
+		cur = *input;
 	}
 	if (quotes->opening && quotes->closing)
 		return (TRUE);
