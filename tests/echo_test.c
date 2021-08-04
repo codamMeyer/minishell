@@ -12,13 +12,9 @@
 // (	"	whitespace         4 dddaaaaaayyyyyys, with quotes      ")
 // (	"	quotes with \"\" quotes"      ")
 
-void	fake_output(const char **strings_to_write)
+void	fake_output(const char *string_to_write)
 {
-	for (int i = 0; strings_to_write[i] != NULL; ++i)
-	{
-		printf(strings_to_write[i]);
-		printf(" ");
-	}
+	ASSERT_STR("", string_to_write);
 }
 
 CTEST(echo_test, returns_true_with_emptry_str_input)

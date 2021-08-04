@@ -9,6 +9,6 @@ t_bool	dispatch_commands(const char **input, t_command command)
 	if (command == EXIT)
 		exit_command(SUCCESS);
 	else if (command == ECHO)
-		return (echo_command(input, write_echo_args));
+		return (echo_command(input, echo_stdout));
 	return (FALSE);
 }

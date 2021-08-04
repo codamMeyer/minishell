@@ -51,21 +51,35 @@ void	write_echo_args(const char **strings_to_write)
 	return ;
 }
 
+void	echo_stdout(const char *string_to_write)
+{
+	int	len;
+	len = ft_strlen(string_to_write);
+	write(STDOUT_FILENO, string_to_write, len);
+}
+
+// int	echo_command(const char **input, t_output_stdout output)
+// {
+// 	const t_bool	has_n_flag = parse_n_flag(input);
+// 	const char		*echo_argv = get_echo_args(input);
+// 	char			**strings_to_write;
+
+// 	if (!echo_argv)
+// 		return (ERROR);
+// 	strings_to_write = format_echo_args(echo_argv);
+// 	if (strings_to_write == NULL)
+// 		return (ERROR);
+// 	output((const char **)strings_to_write);
+// 	if (!has_n_flag)
+// 		write(STDOUT_FILENO, "\n", 1);
+// 	free_split(strings_to_write);
+// 	free((char *)echo_argv);
+// 	return (SUCCESS);
+// }
+
 int	echo_command(const char **input, t_output_stdout output)
 {
-	const t_bool	has_n_flag = parse_n_flag(input);
-	const char		*echo_argv = get_echo_args(input);
-	char			**strings_to_write;
-
-	if (!echo_argv)
-		return (ERROR);
-	strings_to_write = format_echo_args(echo_argv);
-	if (strings_to_write == NULL)
-		return (ERROR);
-	output((const char **)strings_to_write);
-	if (!has_n_flag)
-		write(STDOUT_FILENO, "\n", 1);
-	free_split(strings_to_write);
-	free((char *)echo_argv);
+	(void)input;
+	(void)output;
 	return (SUCCESS);
 }
