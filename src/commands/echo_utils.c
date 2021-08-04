@@ -21,7 +21,7 @@ int	get_substr_len(const char *input)
 	return (0);
 }
 
-t_bool	has_inverted_comma_set(const char *input, t_check_quotes *quotes)
+t_bool	has_double_quotes_set(const char *input, t_check_quotes *quotes)
 {
 	char cur;
 
@@ -30,9 +30,9 @@ t_bool	has_inverted_comma_set(const char *input, t_check_quotes *quotes)
 	cur = *input;
 	while (cur)
 	{
-		if (cur == INVERTED_COMMA && quotes->opening)
+		if (cur == DOUBLE_QUOTES && quotes->opening)
 			quotes->closing = TRUE;
-		else if (cur == INVERTED_COMMA)
+		else if (cur == DOUBLE_QUOTES)
 			quotes->opening = TRUE;
 		input++;
 		cur = *input;

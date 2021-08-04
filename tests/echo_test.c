@@ -12,15 +12,42 @@
 // (	"	whitespace         4 dddaaaaaayyyyyys, with quotes      ")
 // (	"	quotes with \"\" quotes"      ")
 
-void	fake_output(const char *string_to_write)
+
+void	write_empty_str(const char *string_to_write, int len)
 {
+	(void)len;
 	ASSERT_STR("", string_to_write);
 }
 
-CTEST(echo_test, returns_true_with_emptry_str_input)
+CTEST(echo_test, empty_str)
 {
 	const char *input = "";
-	ASSERT_EQUAL(SUCCESS, echo_command(&input, fake_output));
+	ASSERT_EQUAL(SUCCESS, echo_command(&input, write_empty_str));
+}
+
+void	write_str_without_quotes(const char *string_to_write, int len)
+{
+	(void)len;
+	ASSERT_STR("simple test string", string_to_write);
+}
+
+CTEST(echo_test, simple_str_without_quotes)
+{
+	const char *input = "simple test string";
+	ASSERT_EQUAL(SUCCESS, echo_command(&input, write_str_without_quotes));
+}
+
+void	write_2_strs_without_and_with_quotes(const char *string_to_write, int len)
+{
+	(void)len;
+	const char *str = {"first string trimmed      second string not trimmed"};
+	ASSERT_STR(str, string_to_write);
+}
+
+CTEST(echo_test, write_2_strs_without_and_with_quotes)
+{
+	const char *input = "     first string trimmed \"     second string not trimmed\"";
+	ASSERT_EQUAL(SUCCESS, echo_command(&input, write_2_strs_without_and_with_quotes));
 }
 
 // CTEST(echo_utils_test, empty_substr_len_test)
@@ -51,7 +78,7 @@ CTEST(echo_test, returns_true_with_emptry_str_input)
 // {
 // 	t_check_quotes quotes;
 	
-// 	has_inverted_comma_set("\"appletrreee\"", &quotes);
+// 	has_double_quotes_set("\"appletrreee\"", &quotes);
 // 	ASSERT_TRUE(quotes.opening);
 // 	ASSERT_TRUE(quotes.closing);
 // }
@@ -60,7 +87,7 @@ CTEST(echo_test, returns_true_with_emptry_str_input)
 // {
 // 	t_check_quotes quotes;
 
-// 	has_inverted_comma_set("\"stringcheese", &quotes);
+// 	has_double_quotes_set("\"stringcheese", &quotes);
 // 	ASSERT_TRUE(quotes.opening);
 // 	ASSERT_FALSE(quotes.closing);
 // }
@@ -69,7 +96,7 @@ CTEST(echo_test, returns_true_with_emptry_str_input)
 // {
 // 	t_check_quotes quotes;
 
-// 	has_inverted_comma_set("hala@me", &quotes);
+// 	has_double_quotes_set("hala@me", &quotes);
 // 	ASSERT_FALSE(quotes.opening);
 // 	ASSERT_FALSE(quotes.closing);
 // }

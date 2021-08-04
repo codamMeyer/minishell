@@ -28,7 +28,7 @@ char	**format_echo_args(const char *echo_argv)
 	char			**split_strings;
 	t_check_quotes	quotes;
 
-	if (has_inverted_comma_set(echo_argv, &quotes))
+	if (has_double_quotes_set(echo_argv, &quotes))
 		split_strings = format_string_with_quotes(echo_argv);
 	else
 		split_strings = ft_split(echo_argv, SPACE);
@@ -51,11 +51,76 @@ void	write_echo_args(const char **strings_to_write)
 	return ;
 }
 
-void	echo_stdout(const char *string_to_write)
+void	echo_stdout(const char *string_to_write, int len)
 {
-	int	len;
-	len = ft_strlen(string_to_write);
 	write(STDOUT_FILENO, string_to_write, len);
+}
+
+
+void get_str_without_quotes(const char **input, char *stdout_buffer, int *buffer_index)
+{
+	char cur;
+	
+	skip_spaces(input);
+	cur = *(*input);
+	while (cur != DOUBLE_QUOTES && cur != '\0')
+	{
+		stdout_buffer[*buffer_index] = cur;
+		++(*input);
+		cur = *(*input);
+		++(*buffer_index);
+	}
+	if (cur == '\0' && stdout_buffer[*buffer_index - 1] == SPACE)
+		stdout_buffer[*buffer_index - 1] = '\0';
+	else
+		stdout_buffer[*buffer_index] = '\0';
+}
+
+void get_str_with_quotes(const char **input, char *stdout_buffer, int *buffer_index)
+{
+	char cur;
+	cur = *(*input);
+	if (cur != DOUBLE_QUOTES)
+		return ;
+	++(*input);
+	cur = *(*input);
+	while (cur != DOUBLE_QUOTES && cur != '\0')
+	{
+		stdout_buffer[*buffer_index] = cur;
+		++(*input);
+		cur = *(*input);
+		++(*buffer_index);
+	}
+	if (cur == '\0' && stdout_buffer[*buffer_index - 1] == SPACE)
+		stdout_buffer[*buffer_index - 1] = '\0';
+	else
+		stdout_buffer[*buffer_index] = '\0';
+}
+
+int	echo_command(const char **input, t_output_stdout output)
+{
+	const int	input_len = ft_strlen(*input);
+	char	*stdout_buffer;
+	int		i;
+
+	if (input_len == 0)
+	{
+		stdout_buffer = NULL;
+		output("", 1);
+		return (SUCCESS);
+	}
+	stdout_buffer = malloc(input_len * sizeof(char));
+	if (!stdout_buffer)
+		return (ERROR);
+	i = 0;
+	while (*(*input))
+	{
+		get_str_without_quotes(input, stdout_buffer, &i);
+		get_str_with_quotes(input, stdout_buffer, &i);
+	}
+	output(stdout_buffer, i);
+	free(stdout_buffer);
+	return (SUCCESS);
 }
 
 // int	echo_command(const char **input, t_output_stdout output)
@@ -76,10 +141,3 @@ void	echo_stdout(const char *string_to_write)
 // 	free((char *)echo_argv);
 // 	return (SUCCESS);
 // }
-
-int	echo_command(const char **input, t_output_stdout output)
-{
-	(void)input;
-	(void)output;
-	return (SUCCESS);
-}

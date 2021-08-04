@@ -2,7 +2,7 @@
 # define DEFINES_H
 
 # define NEW_LINE "\n"
-# define INVERTED_COMMA '\"'
+# define DOUBLE_QUOTES '\"'
 
 typedef enum e_bool
 {
