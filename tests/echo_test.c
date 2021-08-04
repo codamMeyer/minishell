@@ -16,7 +16,7 @@
 void	write_empty_str(const char *string_to_write, int len)
 {
 	(void)len;
-	ASSERT_STR("", string_to_write);
+	ASSERT_STR("\n", string_to_write);
 }
 
 CTEST(echo_test, empty_str)
@@ -28,7 +28,7 @@ CTEST(echo_test, empty_str)
 void	write_str_without_quotes(const char *string_to_write, int len)
 {
 	(void)len;
-	ASSERT_STR("simple test string", string_to_write);
+	ASSERT_STR("simple test string\n", string_to_write);
 }
 
 CTEST(echo_test, simple_str_without_quotes)
@@ -40,7 +40,7 @@ CTEST(echo_test, simple_str_without_quotes)
 void	write_2_strs_without_and_with_quotes(const char *string_to_write, int len)
 {
 	(void)len;
-	const char *str = {"first string trimmed      second string not trimmed"};
+	const char *str = {"first string trimmed      second string not trimmed\n"};
 	ASSERT_STR(str, string_to_write);
 }
 
@@ -49,6 +49,59 @@ CTEST(echo_test, write_2_strs_without_and_with_quotes)
 	const char *input = "     first string trimmed \"     second string not trimmed\"";
 	ASSERT_EQUAL(SUCCESS, echo_command(&input, write_2_strs_without_and_with_quotes));
 }
+
+void	write_2_strs_without_trimmed_and_with_quotes(const char *string_to_write, int len)
+{
+	(void)len;
+	const char *str = {"first string trimmed      second string not trimmed\n"};
+	ASSERT_STR(str, string_to_write);
+}
+
+CTEST(echo_test, write_2_strs_without_trimmed_and_with_quotes)
+{
+	const char *input = "     first           string             trimmed \"     second string not trimmed\"";
+	ASSERT_EQUAL(SUCCESS, echo_command(&input, write_2_strs_without_trimmed_and_with_quotes));
+}
+
+void	write_2_strs_with_and_without_quotes_trimmed(const char *string_to_write, int len)
+{
+	(void)len;
+	const char *str = {"     first           string second string trimmed\n"};
+	ASSERT_STR(str, string_to_write);
+}
+
+CTEST(echo_test, write_2_strs_with_and_without_quotes_trimmed)
+{
+	const char *input = "\"     first           string\"      second      string        trimmed";
+	ASSERT_EQUAL(SUCCESS, echo_command(&input, write_2_strs_with_and_without_quotes_trimmed));
+}
+
+void	write_4_strs_with_and_without_quotes_trimmed(const char *string_to_write, int len)
+{
+	(void)len;
+	const char *str = {"   First   string  N  O  T  trimmed !\n"};
+	ASSERT_STR(str, string_to_write);
+}
+
+CTEST(echo_test, write_4_strs_with_and_without_quotes_trimmed)
+{
+	const char *input = "\"   First  \"      string  \" N  O  T  trimmed\"      !";
+	ASSERT_EQUAL(SUCCESS, echo_command(&input, write_4_strs_with_and_without_quotes_trimmed));
+}
+
+void	write_strs_with_and_without_quotes_n_flag(const char *string_to_write, int len)
+{
+	(void)len;
+	const char *str = {"   First   string  N  O  T  trimmed !"};
+	ASSERT_STR(str, string_to_write);
+}
+
+CTEST(echo_test, write_strs_with_and_without_quotes_n_flag)
+{
+	const char *input = "-n \"   First  \"      string  \" N  O  T  trimmed\"      !";
+	ASSERT_EQUAL(SUCCESS, echo_command(&input, write_strs_with_and_without_quotes_n_flag));
+}
+
 
 // CTEST(echo_utils_test, empty_substr_len_test)
 // {

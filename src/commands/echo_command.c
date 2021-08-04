@@ -63,17 +63,28 @@ void get_str_without_quotes(const char **input, char *stdout_buffer, int *buffer
 	
 	skip_spaces(input);
 	cur = *(*input);
+	if (cur == DOUBLE_QUOTES)
+		return ;
 	while (cur != DOUBLE_QUOTES && cur != '\0')
 	{
 		stdout_buffer[*buffer_index] = cur;
 		++(*input);
+		if (isspace(*(*input)))
+		{
+			++(*buffer_index);
+			stdout_buffer[*buffer_index] = SPACE;
+			skip_spaces(input);
+		}	
 		cur = *(*input);
 		++(*buffer_index);
 	}
 	if (cur == '\0' && stdout_buffer[*buffer_index - 1] == SPACE)
 		stdout_buffer[*buffer_index - 1] = '\0';
 	else
-		stdout_buffer[*buffer_index] = '\0';
+	{
+		stdout_buffer[*buffer_index] = '\n';
+		stdout_buffer[*buffer_index + 1] = '\0';
+	}
 }
 
 void get_str_with_quotes(const char **input, char *stdout_buffer, int *buffer_index)
@@ -84,29 +95,45 @@ void get_str_with_quotes(const char **input, char *stdout_buffer, int *buffer_in
 		return ;
 	++(*input);
 	cur = *(*input);
-	while (cur != DOUBLE_QUOTES && cur != '\0')
+	while (cur != '\0')
 	{
 		stdout_buffer[*buffer_index] = cur;
 		++(*input);
 		cur = *(*input);
 		++(*buffer_index);
+		if (cur == DOUBLE_QUOTES)
+		{
+			if (*(*input + 1) == '\0')
+			{
+				stdout_buffer[*buffer_index] = '\n';
+				return ;
+			}
+			else
+				stdout_buffer[*buffer_index] = ' ';
+			++(*buffer_index);
+			++(*input);
+			return ;
+		}
 	}
 	if (cur == '\0' && stdout_buffer[*buffer_index - 1] == SPACE)
 		stdout_buffer[*buffer_index - 1] = '\0';
 	else
-		stdout_buffer[*buffer_index] = '\0';
+		stdout_buffer[*buffer_index] = '\n';
 }
 
 int	echo_command(const char **input, t_output_stdout output)
 {
+	const t_bool	has_n_flag = parse_n_flag(input);
 	const int	input_len = ft_strlen(*input);
 	char	*stdout_buffer;
 	int		i;
 
 	if (input_len == 0)
 	{
-		stdout_buffer = NULL;
-		output("", 1);
+		if (has_n_flag)
+			output("", 1);
+		else
+			output("\n", 1);
 		return (SUCCESS);
 	}
 	stdout_buffer = malloc(input_len * sizeof(char));
@@ -115,8 +142,13 @@ int	echo_command(const char **input, t_output_stdout output)
 	i = 0;
 	while (*(*input))
 	{
-		get_str_without_quotes(input, stdout_buffer, &i);
 		get_str_with_quotes(input, stdout_buffer, &i);
+		get_str_without_quotes(input, stdout_buffer, &i);
+	}
+	if (has_n_flag)
+	{
+		stdout_buffer[i] = '\0';
+		++i;
 	}
 	output(stdout_buffer, i);
 	free(stdout_buffer);
