@@ -2,6 +2,8 @@
 #include "../src/commands/commands.h"
 #include "../libft/libft.h"
 #include <stdio.h>
+#include <string.h>
+#include <strings.h>
 // possible strings
 // (            String with spaces to trim        )
 // (      "string with spaces to trim up to inverted commas"           )
@@ -11,96 +13,148 @@
 // (		whitespace         4 dddaaaaaayyyyyys)
 // (	"	whitespace         4 dddaaaaaayyyyyys, with quotes      ")
 // (	"	quotes with \"\" quotes"      ")
+int size = 4096;
+char buf[4096];
 
-
-void	write_empty_str(const char *string_to_write, int len)
+CTEST_DATA(echo_test)
 {
-	(void)len;
-	ASSERT_STR("\n", string_to_write);
+};
+
+CTEST_SETUP(echo_test)
+{
+	(void)data;
+	bzero(&buf[0], size);
+};
+
+CTEST_TEARDOWN(echo_test)
+{
+	(void)data;
+};
+
+void	write_to_buf(const char *string_to_write, int len)
+{
+	strncpy(&buf[0], string_to_write, len);
 }
 
-CTEST(echo_test, empty_str)
+CTEST2(echo_test, empty_str)
 {
+	(void)data;
 	const char *input = "";
-	ASSERT_EQUAL(SUCCESS, echo_command(&input, write_empty_str));
+	ASSERT_EQUAL(SUCCESS, echo_command(&input, write_to_buf));
+	ASSERT_STR("\n", &buf[0]);
 }
 
-void	write_str_without_quotes(const char *string_to_write, int len)
+CTEST2(echo_test, simple_str_without_quotes)
 {
-	(void)len;
-	ASSERT_STR("simple test string\n", string_to_write);
-}
-
-CTEST(echo_test, simple_str_without_quotes)
-{
+	(void)data;
 	const char *input = "simple test string";
-	ASSERT_EQUAL(SUCCESS, echo_command(&input, write_str_without_quotes));
+	ASSERT_EQUAL(SUCCESS, echo_command(&input, write_to_buf));
+	ASSERT_STR("simple test string\n", &buf[0]);
 }
 
-void	write_2_strs_without_and_with_quotes(const char *string_to_write, int len)
+CTEST2(echo_test, write_2_strs_without_and_with_quotes)
 {
-	(void)len;
-	const char *str = {"first string trimmed      second string not trimmed\n"};
-	ASSERT_STR(str, string_to_write);
-}
-
-CTEST(echo_test, write_2_strs_without_and_with_quotes)
-{
+	(void)data;
 	const char *input = "     first string trimmed \"     second string not trimmed\"";
-	ASSERT_EQUAL(SUCCESS, echo_command(&input, write_2_strs_without_and_with_quotes));
+	ASSERT_EQUAL(SUCCESS, echo_command(&input, write_to_buf));
+	ASSERT_STR("first string trimmed      second string not trimmed\n", &buf[0]);
 }
 
-void	write_2_strs_without_trimmed_and_with_quotes(const char *string_to_write, int len)
+CTEST2(echo_test, write_2_strs_without_trimmed_and_with_quotes)
 {
-	(void)len;
-	const char *str = {"first string trimmed      second string not trimmed\n"};
-	ASSERT_STR(str, string_to_write);
-}
-
-CTEST(echo_test, write_2_strs_without_trimmed_and_with_quotes)
-{
+	(void)data;
 	const char *input = "     first           string             trimmed \"     second string not trimmed\"";
-	ASSERT_EQUAL(SUCCESS, echo_command(&input, write_2_strs_without_trimmed_and_with_quotes));
+	ASSERT_EQUAL(SUCCESS, echo_command(&input, write_to_buf));
+	ASSERT_STR("first string trimmed      second string not trimmed\n", &buf[0]);
 }
 
-void	write_2_strs_with_and_without_quotes_trimmed(const char *string_to_write, int len)
+CTEST2(echo_test, write_2_strs_with_and_without_quotes_trimmed)
 {
-	(void)len;
-	const char *str = {"     first           string second string trimmed\n"};
-	ASSERT_STR(str, string_to_write);
-}
-
-CTEST(echo_test, write_2_strs_with_and_without_quotes_trimmed)
-{
+	(void)data;
 	const char *input = "\"     first           string\"      second      string        trimmed";
-	ASSERT_EQUAL(SUCCESS, echo_command(&input, write_2_strs_with_and_without_quotes_trimmed));
+	ASSERT_EQUAL(SUCCESS, echo_command(&input, write_to_buf));
+	ASSERT_STR("     first           string second string trimmed\n", &buf[0]);
 }
 
-void	write_4_strs_with_and_without_quotes_trimmed(const char *string_to_write, int len)
+CTEST2(echo_test, write_4_strs_with_and_without_quotes_trimmed)
 {
-	(void)len;
-	const char *str = {"   First   string  N  O  T  trimmed !\n"};
-	ASSERT_STR(str, string_to_write);
-}
-
-CTEST(echo_test, write_4_strs_with_and_without_quotes_trimmed)
-{
+	(void)data;
 	const char *input = "\"   First  \"      string  \" N  O  T  trimmed\"      !";
-	ASSERT_EQUAL(SUCCESS, echo_command(&input, write_4_strs_with_and_without_quotes_trimmed));
+	ASSERT_EQUAL(SUCCESS, echo_command(&input, write_to_buf));
+	ASSERT_STR("   First   string  N  O  T  trimmed !\n", &buf[0]);
 }
 
-void	write_strs_with_and_without_quotes_n_flag(const char *string_to_write, int len)
+CTEST2(echo_test, write_strs_with_and_without_quotes_n_flag)
 {
-	(void)len;
-	const char *str = {"   First   string  N  O  T  trimmed !"};
-	ASSERT_STR(str, string_to_write);
-}
-
-CTEST(echo_test, write_strs_with_and_without_quotes_n_flag)
-{
+	(void)data;
 	const char *input = "-n \"   First  \"      string  \" N  O  T  trimmed\"      !";
-	ASSERT_EQUAL(SUCCESS, echo_command(&input, write_strs_with_and_without_quotes_n_flag));
+	ASSERT_EQUAL(SUCCESS, echo_command(&input, write_to_buf));
+	ASSERT_STR("   First   string  N  O  T  trimmed !", &buf[0]);
 }
+
+CTEST2(echo_test, write_strs_with_missing_quote_and_without_quotes)
+{
+	(void)data;
+	const char *input = "\"   First  string  \"        trimmed\"      !";
+	ASSERT_EQUAL(SUCCESS, echo_command(&input, write_to_buf));
+	ASSERT_STR("   First  string   trimmed!\n", &buf[0]);
+}
+
+CTEST2(echo_test, write_str_missing_closing_quote)
+{
+	(void)data;
+	const char *input = "\"   First  string         trimmed      !";
+	ASSERT_EQUAL(SUCCESS, echo_command(&input, write_to_buf));
+	ASSERT_STR("First string trimmed !\n", &buf[0]);
+}
+
+CTEST2(echo_test, write_str_missing_closing_quote_at_the_end)
+{
+	(void)data;
+	const char *input = "   First  string         trimmed      !\"";
+	ASSERT_EQUAL(SUCCESS, echo_command(&input, write_to_buf));
+	ASSERT_STR("First string trimmed !\n", &buf[0]);
+}
+
+CTEST2(echo_test, write_str_double_quote_in_the_middle)
+{
+	(void)data;
+	const char *input = "   First  string   \"      trimmed      !";
+	ASSERT_EQUAL(SUCCESS, echo_command(&input, write_to_buf));
+	ASSERT_STR("First string trimmed !\n", &buf[0]);
+}
+
+CTEST2(echo_test, write_two_empty_strings)
+{
+	(void)data;
+	const char *input = "\"\"\"\"";
+	ASSERT_EQUAL(SUCCESS, echo_command(&input, write_to_buf));
+	ASSERT_STR("\n", &buf[0]);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 // CTEST(echo_utils_test, empty_substr_len_test)

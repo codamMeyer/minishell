@@ -23,23 +23,20 @@ int	get_substr_len(const char *input)
 
 t_bool	has_double_quotes_set(const char *input, t_check_quotes *quotes)
 {
-	char cur;
+	char	cur;
 
-	quotes->opening = FALSE;
+	quotes->opening = *input == DOUBLE_QUOTES;
 	quotes->closing = FALSE;
+	++input;
 	cur = *input;
 	while (cur)
 	{
 		if (cur == DOUBLE_QUOTES && quotes->opening)
-			quotes->closing = TRUE;
-		else if (cur == DOUBLE_QUOTES)
-			quotes->opening = TRUE;
+			return (TRUE);
 		input++;
 		cur = *input;
 	}
-	if (quotes->opening && quotes->closing)
-		return (TRUE);
-	return (FALSE);
+	return (quotes->opening && quotes->closing);
 }
 
 char	**format_string_with_quotes(const char *str_w_quotes)
