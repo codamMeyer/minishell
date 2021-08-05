@@ -84,53 +84,88 @@ void	get_str_without_quotes(const char **input, char *stdout_buffer, int *buffer
 		stdout_buffer[*buffer_index] = '\n';
 	}
 }
+t_quotes_position	get_quotes_positions(const char *input)
+{
+	t_quotes_position quotes_position;
+
+	if (*input == DOUBLE_QUOTES)
+	{
+		++input;
+		quotes_position.start = input;
+		quotes_position.end = ft_strchr(input, DOUBLE_QUOTES);
+		return (quotes_position);
+	}
+	quotes_position.start = NULL;
+	quotes_position.end = NULL;
+	return (quotes_position);
+}
 
 void	get_str_with_quotes(const char **input, char *stdout_buffer, int *buffer_index)
 {
-	char	cur;
-	t_check_quotes	quotes;
-	if (*(*input) == DOUBLE_QUOTES && *(*input  + 1) == DOUBLE_QUOTES)
+	t_quotes_position	quotes = get_quotes_positions(*input);
+	int size = quotes.end - quotes.start;
+	if (quotes.start && quotes.end)
 	{
-		*input += 2;
-		return ;
-	}
-	if (!has_double_quotes_set(*input, &quotes))
-	{
-		if (quotes.opening)
+		strncpy(&stdout_buffer[*buffer_index], quotes.start, size);
+		*input += size + 2;
+		*buffer_index += size;
+		if (*(*input) && stdout_buffer[*buffer_index] != ' ')
 		{
-			stdout_buffer[*buffer_index] = *(*input);
-			++(*input);
-		}
-		return ;
-	}
-	++(*input);
-	cur = *(*input);
-	while (cur != '\0' && cur != DOUBLE_QUOTES)
-	{
-		stdout_buffer[*buffer_index] = cur;
-		++(*input);
-		cur = *(*input);
-		++(*buffer_index);
-	}
-	if (cur == DOUBLE_QUOTES)
-	{
-		if (*(*input + 1) == '\0')
-		{
-			stdout_buffer[*buffer_index] = '\n';
-			++(*input);
-			return ;
-		}
-		else if (*(*input + 1) != DOUBLE_QUOTES)
 			stdout_buffer[*buffer_index] = ' ';
-		else
-			stdout_buffer[*buffer_index] = '\n';
-		++(*buffer_index);
-		++(*input);
-		return ;
+			++(*buffer_index);
+		}
 	}
-	if (cur == '\0' && stdout_buffer[*buffer_index - 1] == SPACE)
-		stdout_buffer[*buffer_index - 1] = '\0';
+	else if (quotes.start)
+		++(*input);
 }
+
+//  void	get_str_with_quotes(const char **input, char *stdout_buffer, int *buffer_index)
+// {
+// 	char	cur;
+// 	t_check_quotes	quotes;
+
+// 	if (*(*input) == DOUBLE_QUOTES && *(*input  + 1) == DOUBLE_QUOTES)
+// 	{
+// 		*input += 2;
+// 		return ;
+// 	}
+// 	if (!has_double_quotes_set(*input, &quotes))
+// 	{
+// 		if (quotes.opening)
+// 		{
+// 			stdout_buffer[*buffer_index] = *(*input);
+// 			++(*input);
+// 		}
+// 		return ;
+// 	}
+// 	++(*input);
+// 	cur = *(*input);
+// 	while (cur != '\0' && cur != DOUBLE_QUOTES)
+// 	{
+// 		stdout_buffer[*buffer_index] = cur;
+// 		++(*input);
+// 		cur = *(*input);
+// 		++(*buffer_index);
+// 	}
+// 	if (cur == DOUBLE_QUOTES)
+// 	{
+// 		if (*(*input + 1) == '\0')
+// 		{
+// 			stdout_buffer[*buffer_index] = '\n';
+// 			++(*input);
+// 			return ;
+// 		}
+// 		else if (*(*input + 1) != DOUBLE_QUOTES)
+// 			stdout_buffer[*buffer_index] = ' ';
+// 		else
+// 			stdout_buffer[*buffer_index] = '\n';
+// 		++(*buffer_index);
+// 		++(*input);
+// 		return ;
+// 	}
+// 	if (cur == '\0' && stdout_buffer[*buffer_index - 1] == SPACE)
+// 		stdout_buffer[*buffer_index - 1] = '\0';
+// }
 
 int	echo_command(const char **input, t_output_stdout output)
 {
@@ -148,6 +183,7 @@ int	echo_command(const char **input, t_output_stdout output)
 		return (SUCCESS);
 	}
 	stdout_buffer = malloc(input_len * sizeof(char));
+	ft_bzero(stdout_buffer, input_len);
 	if (!stdout_buffer)
 		return (ERROR);
 	i = 0;
@@ -159,7 +195,6 @@ int	echo_command(const char **input, t_output_stdout output)
 	if (has_n_flag)
 		stdout_buffer[i] = '\0';
 	++i;
-	// printf("Buffer: |%s|", stdout_buffer);
 	output(stdout_buffer, i);
 	free(stdout_buffer);
 	return (SUCCESS);
