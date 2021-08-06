@@ -50,11 +50,12 @@ static void	get_str_with_quotes(const char **input,
 {
 	const t_quotes_position	quotes = get_quotes_positions(*input);
 	const int				size = quotes.end - quotes.start;
+	const int 				num_quotes = 2;
 
 	if (quotes.start && quotes.end)
 	{
 		strncpy(&stdout_buffer[*buffer_index], quotes.start, size);
-		*input += size + 2;
+		*input += size + num_quotes;
 		*buffer_index += size;
 		add_space_between_strs(*(*input), stdout_buffer, buffer_index);
 	}
@@ -76,23 +77,23 @@ int	echo_command(const char **input, t_output_stdout output)
 	const t_bool	has_n_flag = parse_n_flag(input);
 	const int		input_len = ft_strlen(*input);
 	char			*stdout_buffer;
-	int				i;
+	int				buffer_index;
 
 	if (input_len == 0)
 		return (handle_empty_str(has_n_flag, output));
 	stdout_buffer = ft_calloc(input_len, sizeof(char));
 	if (!stdout_buffer)
 		return (ERROR);
-	i = 0;
+	buffer_index = 0;
 	while (*(*input))
 	{
-		get_str_with_quotes(input, stdout_buffer, &i);
-		get_str_without_quotes(input, stdout_buffer, &i);
+		get_str_with_quotes(input, stdout_buffer, &buffer_index);
+		get_str_without_quotes(input, stdout_buffer, &buffer_index);
 	}
 	if (has_n_flag)
-		stdout_buffer[i] = '\0';
-	++i;
-	output(stdout_buffer, i);
+		stdout_buffer[buffer_index] = '\0';
+	++buffer_index;
+	output(stdout_buffer, buffer_index);
 	free(stdout_buffer);
 	return (SUCCESS);
 }
