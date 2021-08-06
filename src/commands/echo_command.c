@@ -50,7 +50,7 @@ static void	get_str_with_quotes(const char **input,
 {
 	const t_quotes_position	quotes = get_quotes_positions(*input);
 	const int				size = quotes.end - quotes.start;
-	const int 				num_quotes = 2;
+	const int				num_quotes = 2;
 
 	if (quotes.start && quotes.end)
 	{
