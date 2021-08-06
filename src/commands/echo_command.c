@@ -10,80 +10,47 @@
 
 // possibly add clean-up function for frees()
 // possibly split formatting part
-// char	*get_echo_args(const char **input)
-// {
-// 	int		sub_str_len;
-// 	char	*echo_argv;
-
-// 	if (!input || !*input)
-// 		return (NULL);
-// 	sub_str_len = get_substr_len(*input);
-// 	echo_argv = ft_substr(*input, 0, sub_str_len);
-// 	advance_pointer(input, echo_argv);
-// 	return (echo_argv);
-// }
-
-// char	**format_echo_args(const char *echo_argv)
-// {
-// 	char			**split_strings;
-// 	t_check_quotes	quotes;
-
-// 	if (has_double_quotes_set(echo_argv, &quotes))
-// 		split_strings = format_string_with_quotes(echo_argv);
-// 	else
-// 		split_strings = ft_split(echo_argv, SPACE);
-// 	return (split_strings);
-// }
-
-// void	write_echo_args(const char **strings_to_write)
-// {
-// 	int	i;
-// 	int	len;
-
-// 	i = 0;
-// 	while (strings_to_write[i])
-// 	{
-// 		len = ft_strlen(strings_to_write[i]);
-// 		write(STDOUT_FILENO, strings_to_write[i], len);
-// 		write_space_between_words(strings_to_write[i + 1]);
-// 		i++;
-// 	}
-// 	return ;
-// }
 
 void	echo_stdout(const char *string_to_write, int len)
 {
 	write(STDOUT_FILENO, string_to_write, len);
 }
 
+void	trim_spaces_between_words(const char **input, char *stdout_buffer, int *buffer_index)
+{
+	if (isspace(*(*input)) && *(*input + 1))
+	{
+		stdout_buffer[*buffer_index] = SPACE;
+		++(*buffer_index);
+		while (isspace(*(*input)))
+			++(*input);
+	}
+}
+
+t_bool	is_double_quote(char c)
+{
+	return (c == DOUBLE_QUOTES);
+}
+
 void	get_str_without_quotes(const char **input, char *stdout_buffer, int *buffer_index)
 {
 	char	cur;
-	
+
 	skip_spaces(input);
-	cur = *(*input);
-	if (cur == DOUBLE_QUOTES)
+	if (is_double_quote(*(*input)))
 		return ;
-	while (cur != DOUBLE_QUOTES && cur != '\0')
+	cur = *(*input);
+	while (cur && !is_double_quote(cur))
 	{
 		stdout_buffer[*buffer_index] = cur;
-		++(*input);
-		if (isspace(*(*input)))
-		{
-			++(*buffer_index);
-			stdout_buffer[*buffer_index] = SPACE;
-			skip_spaces(input);
-		}	
-		cur = *(*input);
 		++(*buffer_index);
+		++(*input);
+		trim_spaces_between_words(input, stdout_buffer, buffer_index);
+		cur = *(*input);
 	}
-	if (cur == '\0' && stdout_buffer[*buffer_index - 1] == SPACE)
-		stdout_buffer[*buffer_index - 1] = '\0';
-	else
-	{
-		stdout_buffer[*buffer_index] = '\n';
-	}
+	stdout_buffer[*buffer_index] = '\n';
 }
+
 t_quotes_position	get_quotes_positions(const char *input)
 {
 	t_quotes_position quotes_position;
@@ -109,7 +76,7 @@ void	get_str_with_quotes(const char **input, char *stdout_buffer, int *buffer_in
 		strncpy(&stdout_buffer[*buffer_index], quotes.start, size);
 		*input += size + 2;
 		*buffer_index += size;
-		if (*(*input) && stdout_buffer[*buffer_index] != ' ')
+		if (*(*input) && stdout_buffer[*buffer_index] != ' ' && *(*input) != DOUBLE_QUOTES)
 		{
 			stdout_buffer[*buffer_index] = ' ';
 			++(*buffer_index);
@@ -118,54 +85,6 @@ void	get_str_with_quotes(const char **input, char *stdout_buffer, int *buffer_in
 	else if (quotes.start)
 		++(*input);
 }
-
-//  void	get_str_with_quotes(const char **input, char *stdout_buffer, int *buffer_index)
-// {
-// 	char	cur;
-// 	t_check_quotes	quotes;
-
-// 	if (*(*input) == DOUBLE_QUOTES && *(*input  + 1) == DOUBLE_QUOTES)
-// 	{
-// 		*input += 2;
-// 		return ;
-// 	}
-// 	if (!has_double_quotes_set(*input, &quotes))
-// 	{
-// 		if (quotes.opening)
-// 		{
-// 			stdout_buffer[*buffer_index] = *(*input);
-// 			++(*input);
-// 		}
-// 		return ;
-// 	}
-// 	++(*input);
-// 	cur = *(*input);
-// 	while (cur != '\0' && cur != DOUBLE_QUOTES)
-// 	{
-// 		stdout_buffer[*buffer_index] = cur;
-// 		++(*input);
-// 		cur = *(*input);
-// 		++(*buffer_index);
-// 	}
-// 	if (cur == DOUBLE_QUOTES)
-// 	{
-// 		if (*(*input + 1) == '\0')
-// 		{
-// 			stdout_buffer[*buffer_index] = '\n';
-// 			++(*input);
-// 			return ;
-// 		}
-// 		else if (*(*input + 1) != DOUBLE_QUOTES)
-// 			stdout_buffer[*buffer_index] = ' ';
-// 		else
-// 			stdout_buffer[*buffer_index] = '\n';
-// 		++(*buffer_index);
-// 		++(*input);
-// 		return ;
-// 	}
-// 	if (cur == '\0' && stdout_buffer[*buffer_index - 1] == SPACE)
-// 		stdout_buffer[*buffer_index - 1] = '\0';
-// }
 
 int	echo_command(const char **input, t_output_stdout output)
 {
