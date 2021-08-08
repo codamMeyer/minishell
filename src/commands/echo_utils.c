@@ -2,55 +2,22 @@
 #include <ctype.h>
 #include <libft.h>
 #include <parser/parser.h>
+#include <commands/echo_utils.h>
 
-int	get_substr_len(const char *input)
+t_quotes_position	get_quotes_positions(const char *input)
 {
-	const int	strlen = ft_strlen(input);
-	int			i;
+	t_quotes_position	quotes_position;
 
-	i = 0;
-	while (input[i])
+	if (*input == DOUBLE_QUOTES)
 	{
-		if (input[i] == '|')
-			return (i);
-		i++;
+		++input;
+		quotes_position.start = input;
+		quotes_position.end = ft_strchr(input, DOUBLE_QUOTES);
+		return (quotes_position);
 	}
-	if (i == strlen)
-		return (strlen);
-	return (0);
-}
-
-t_bool	has_inverted_comma_set(const char *input, t_check_quotes *quotes)
-{
-	quotes->opening = FALSE;
-	quotes->closing = FALSE;
-	while (*input)
-	{
-		if (*input == INVERTED_COMMA && quotes->opening)
-			quotes->closing = TRUE;
-		else if (*input == INVERTED_COMMA)
-			quotes->opening = TRUE;
-		input++;
-	}
-	if (quotes->opening && quotes->closing)
-		return (TRUE);
-	return (FALSE);
-}
-
-char	**format_string_with_quotes(const char *str_w_quotes)
-{
-	char		**split_strings;
-	const char	*clean_str = ft_strtrim(str_w_quotes, WHITESSPACE_AND_QUOTES);
-
-	split_strings = ft_split(clean_str, NULL_TERMINATOR);
-	free((char *)clean_str);
-	return (split_strings);
-}
-
-void	write_space_between_words(const char *next_string)
-{
-	if (next_string)
-		write(STDOUT_FILENO, " ", 1);
+	quotes_position.start = NULL;
+	quotes_position.end = NULL;
+	return (quotes_position);
 }
 
 t_bool	parse_n_flag(const char **input)
@@ -63,4 +30,27 @@ t_bool	parse_n_flag(const char **input)
 		return (TRUE);
 	}
 	return (FALSE);
+}
+
+void	echo_stdout(const char *string_to_write, int len)
+{
+	write(STDOUT_FILENO, string_to_write, len);
+}
+
+void	trim_extra_spaces_between_words(const char **input,
+										char *stdout_buffer,
+										int *buffer_index)
+{
+	if (isspace(*(*input)) && *(*input + 1))
+	{
+		stdout_buffer[*buffer_index] = SPACE;
+		++(*buffer_index);
+		while (isspace(*(*input)))
+			++(*input);
+	}
+}
+
+t_bool	is_double_quote(char c)
+{
+	return (c == DOUBLE_QUOTES);
 }

@@ -6,65 +6,94 @@
 #include <ctype.h> 
 #include <libft.h>
 #include <parser/parser.h>
-
+#include <commands/echo_utils.h>
 // possibly add clean-up function for frees()
 // possibly split formatting part
-char	*get_echo_args(const char **input)
+
+void	get_str_without_quotes(const char **input,
+								char *stdout_buffer,
+								int *buffer_index)
 {
-	int		sub_str_len;
-	char	*echo_argv;
+	char	cur;
 
-	if (!input || !*input)
-		return (NULL);
-	sub_str_len = get_substr_len(*input);
-	echo_argv = ft_substr(*input, 0, sub_str_len);
-	advance_pointer(input, echo_argv);
-	return (echo_argv);
-}
-
-char	**format_echo_args(const char *echo_argv)
-{
-	char			**split_strings;
-	t_check_quotes	quotes;
-
-	if (has_inverted_comma_set(echo_argv, &quotes))
-		split_strings = format_string_with_quotes(echo_argv);
-	else
-		split_strings = ft_split(echo_argv, SPACE);
-	return (split_strings);
-}
-
-void	write_echo_args(const char **strings_to_write)
-{
-	int	i;
-	int	len;
-
-	i = 0;
-	while (strings_to_write[i])
+	skip_spaces(input);
+	if (is_double_quote(*(*input)))
+		return ;
+	cur = *(*input);
+	while (cur && !is_double_quote(cur))
 	{
-		len = ft_strlen(strings_to_write[i]);
-		write(STDOUT_FILENO, strings_to_write[i], len);
-		write_space_between_words(strings_to_write[i + 1]);
-		i++;
+		stdout_buffer[*buffer_index] = cur;
+		++(*buffer_index);
+		++(*input);
+		trim_extra_spaces_between_words(input, stdout_buffer, buffer_index);
+		cur = *(*input);
 	}
-	return ;
+	stdout_buffer[*buffer_index] = '\n';
 }
 
-int	echo_command(const char **input)
+static void	add_space_between_strs(char cur_inp,
+								char *stdout_buffer,
+								int *buffer_index)
+{
+	if (cur_inp && \
+		stdout_buffer[*buffer_index] != SPACE \
+		&& cur_inp != DOUBLE_QUOTES)
+	{
+		stdout_buffer[*buffer_index] = SPACE;
+		++(*buffer_index);
+	}
+}
+
+static void	get_str_with_quotes(const char **input,
+							char *stdout_buffer,
+							int *buffer_index)
+{
+	const t_quotes_position	quotes = get_quotes_positions(*input);
+	const int				size = quotes.end - quotes.start;
+	const int				num_quotes = 2;
+
+	if (quotes.start && quotes.end)
+	{
+		strncpy(&stdout_buffer[*buffer_index], quotes.start, size);
+		*input += size + num_quotes;
+		*buffer_index += size;
+		add_space_between_strs(*(*input), stdout_buffer, buffer_index);
+	}
+	else if (quotes.start)
+		++(*input);
+}
+
+static int	handle_empty_str(t_bool has_n_flag, t_output_stdout output)
+{
+	if (has_n_flag)
+		output("", 1);
+	else
+		output("\n", 1);
+	return (SUCCESS);
+}
+
+int	echo_command(const char **input, t_output_stdout output)
 {
 	const t_bool	has_n_flag = parse_n_flag(input);
-	const char		*echo_argv = get_echo_args(input);
-	char			**strings_to_write;
+	const int		input_len = ft_strlen(*input);
+	char			*stdout_buffer;
+	int				buffer_index;
 
-	if (!echo_argv)
+	if (input_len == 0)
+		return (handle_empty_str(has_n_flag, output));
+	stdout_buffer = ft_calloc(input_len, sizeof(char));
+	if (!stdout_buffer)
 		return (ERROR);
-	strings_to_write = format_echo_args(echo_argv);
-	if (strings_to_write == NULL)
-		return (ERROR);
-	write_echo_args((const char **)strings_to_write);
-	if (!has_n_flag)
-		write(STDOUT_FILENO, "\n", 1);
-	free_split(strings_to_write);
-	free((char *)echo_argv);
+	buffer_index = 0;
+	while (*(*input))
+	{
+		get_str_with_quotes(input, stdout_buffer, &buffer_index);
+		get_str_without_quotes(input, stdout_buffer, &buffer_index);
+	}
+	if (has_n_flag)
+		stdout_buffer[buffer_index] = '\0';
+	++buffer_index;
+	output(stdout_buffer, buffer_index);
+	free(stdout_buffer);
 	return (SUCCESS);
 }
