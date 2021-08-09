@@ -3,30 +3,35 @@
 #include <libft.h>
 #include <parser/parser.h>
 #include <commands/echo_utils.h>
+#include <stdio.h>
+#include <commands/echo_handle_quotes.h>
 
-t_quotes_position	get_quotes_positions(const char *input)
+t_bool	is_valid_n_flag_extras(const char **input)
 {
-	t_quotes_position	quotes_position;
+	char	cursor;
+	int		counter;
 
-	if (*input == DOUBLE_QUOTES)
+	counter = 2;
+	cursor = (*(*input + counter));
+	while (cursor == 'n')
 	{
-		++input;
-		quotes_position.start = input;
-		quotes_position.end = ft_strchr(input, DOUBLE_QUOTES);
-		return (quotes_position);
+		counter++;
+		cursor = (*(*input + counter));
 	}
-	quotes_position.start = NULL;
-	quotes_position.end = NULL;
-	return (quotes_position);
+	if (!isspace(cursor) && cursor != NULL_TERMINATOR)
+		return (FALSE);
+	*input += counter;
+	return (TRUE);
 }
 
 t_bool	parse_n_flag(const char **input)
 {
-	while (isspace(*(*input)))
-		++(*input);
+	skip_spaces(input);
 	if (ft_strncmp((char *)*input, N_FLAG, ft_strlen(N_FLAG)) == 0)
 	{
-		advance_pointer(input, N_FLAG);
+		if (!is_valid_n_flag_extras(input))
+			return (FALSE);
+		parse_n_flag(input);
 		return (TRUE);
 	}
 	return (FALSE);
@@ -45,12 +50,6 @@ void	trim_extra_spaces_between_words(const char **input,
 	{
 		stdout_buffer[*buffer_index] = SPACE;
 		++(*buffer_index);
-		while (isspace(*(*input)))
-			++(*input);
+		skip_spaces(input);
 	}
-}
-
-t_bool	is_double_quote(char c)
-{
-	return (c == DOUBLE_QUOTES);
 }
