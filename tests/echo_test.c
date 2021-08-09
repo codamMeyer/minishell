@@ -156,3 +156,44 @@ CTEST2(echo_test, write_two_strs_with_space_in_between_2)
 	ASSERT_EQUAL(SUCCESS, echo_command(&input, write_to_buf));
 	ASSERT_STR("hello you\n", &buf[0]);
 }
+
+CTEST2(echo_test, mmultiple_n_flags_with_spaces)
+{
+	(void)data;
+	const char *input = "-n -n hello you";
+	ASSERT_EQUAL(SUCCESS, echo_command(&input, write_to_buf));
+	ASSERT_STR("hello you", &buf[0]);
+}
+
+CTEST2(echo_test, multiple_n_flags_with_no_spacing)
+{
+	(void)data;
+	const char *input = "-n-n-n-n hello you";
+	ASSERT_EQUAL(SUCCESS, echo_command(&input, write_to_buf));
+	ASSERT_STR("-n-n-n-n hello you\n", &buf[0]);
+}
+
+
+CTEST2(echo_test, n_flag_with_multiple_ns)
+{
+	(void)data;
+	const char *input = "-nnnnnnn hello you";
+	ASSERT_EQUAL(SUCCESS, echo_command(&input, write_to_buf));
+	ASSERT_STR("hello you", &buf[0]);
+}
+
+CTEST2(echo_test, n_flag_with_multiple_ns_invalid)
+{
+	(void)data;
+	const char *input = "-nnnnnnn-n hello you";
+	ASSERT_EQUAL(SUCCESS, echo_command(&input, write_to_buf));
+	ASSERT_STR("-nnnnnnn-n hello you\n", &buf[0]);
+}
+
+CTEST2(echo_test, n_flag_with_multiple_ns_valid)
+{
+	(void)data;
+	const char *input = "-nnnnnnn -n hello you";
+	ASSERT_EQUAL(SUCCESS, echo_command(&input, write_to_buf));
+	ASSERT_STR("hello you", &buf[0]);
+}

@@ -3,6 +3,7 @@
 #include <libft.h>
 #include <parser/parser.h>
 #include <commands/echo_utils.h>
+#include <stdio.h>
 
 t_quotes_position	get_quotes_positions(const char *input)
 {
@@ -20,13 +21,33 @@ t_quotes_position	get_quotes_positions(const char *input)
 	return (quotes_position);
 }
 
+t_bool	is_valid_n_flag_extras(const char **input)
+{
+	char	cursor;
+	int		counter;
+
+	counter = 2;
+	cursor = (*(*input + counter));
+	while (cursor == 'n')
+	{
+		counter++;
+		cursor = (*(*input + counter));
+	}
+	if (!isspace(cursor) && cursor != NULL_TERMINATOR)
+		return (FALSE);
+	*input += counter;
+	return (TRUE);
+}
+
 t_bool	parse_n_flag(const char **input)
 {
 	while (isspace(*(*input)))
 		++(*input);
 	if (ft_strncmp((char *)*input, N_FLAG, ft_strlen(N_FLAG)) == 0)
 	{
-		advance_pointer(input, N_FLAG);
+		if (!is_valid_n_flag_extras(input))
+			return (FALSE);
+		parse_n_flag(input);
 		return (TRUE);
 	}
 	return (FALSE);
