@@ -8,8 +8,6 @@
 #include <parser/parser.h>
 #include <commands/echo_utils.h>
 #include <commands/echo_handle_quotes.h>
-// possibly add clean-up function for frees()
-// possibly split formatting part
 
 void	get_str_without_quotes(const char **input,
 								char *stdout_buffer,
