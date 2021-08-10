@@ -33,7 +33,7 @@ CTEST2(pwd_test, success)
 {
 	(void)data;
     char expected[2048];
-    getcwd(&expected[0], 2048);
+    getcwd(&expected[0], sizeof(expected));
     expected[ft_strlen(&expected[0])] = '\n';
 
 	ASSERT_EQUAL(SUCCESS, pwd_command(write_to_buf1));
