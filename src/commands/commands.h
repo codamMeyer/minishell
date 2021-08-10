@@ -15,5 +15,6 @@ typedef void	(*t_output_stdout)(const char *, int);
 
 void	exit_command(t_exit_code exit_code);
 int		echo_command(const char **input, t_output_stdout output);
+int		pwd_command(t_output_stdout output);
 
 #endif

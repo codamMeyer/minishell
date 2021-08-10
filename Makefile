@@ -22,6 +22,7 @@ MINISHELL_src= 							\
 	src/parser/dispatcher.c				\
 	src/commands/exit_command.c			\
 	src/commands/echo_command.c			\
+	src/commands/pwd_command.c			\
 	src/commands/echo_utils.c			\
 	src/commands/echo_handle_quotes.c	\
 
@@ -30,6 +31,7 @@ TEST_FILES=					\
 	tests/parser_test.c		\
 	tests/dispatch_test.c	\
 	tests/echo_test.c	\
+	tests/pwd_test.c	\
 
 MINISHELL_OBJS=$(MINISHELL_src:.c=.o)
 

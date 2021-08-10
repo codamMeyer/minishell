@@ -37,7 +37,7 @@ t_bool	parse_n_flag(const char **input)
 	return (FALSE);
 }
 
-void	echo_stdout(const char *string_to_write, int len)
+void	write_to_stdout(const char *string_to_write, int len)
 {
 	write(STDOUT_FILENO, string_to_write, len);
 }

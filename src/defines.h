@@ -14,6 +14,7 @@ typedef enum e_command
 {
 	ECHO = 0,
 	EXIT,
+	PWD,
 	EMPTY_LINE,
 	INVALID,
 	LAST,
