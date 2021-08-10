@@ -11,7 +11,7 @@ typedef enum e_special_chars
 	NULL_TERMINATOR = '\0'
 }	t_special_chars;
 
-typedef void	(*t_output_stdout)(const char *, int);
+typedef void	(*t_output_stdout)(const char *);
 
 void	exit_command(t_exit_code exit_code);
 int		echo_command(const char **input, t_output_stdout output);

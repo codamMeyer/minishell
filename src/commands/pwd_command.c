@@ -11,6 +11,6 @@ int	pwd_command(t_output_stdout output)
 	getcwd(&buffer[0], sizeof(buffer));
 	len = ft_strlen(buffer);
 	buffer[len] = '\n';
-	output(&buffer[0], len + 1);
+	output(&buffer[0]);
 	return (SUCCESS);
 }

@@ -3,7 +3,7 @@
 #include <unistd.h>
 #include <string.h>
 #include <stdlib.h>
-#include <ctype.h> 
+#include <ctype.h>
 #include <libft.h>
 #include <parser/parser.h>
 #include <commands/echo_utils.h>
@@ -53,7 +53,7 @@ static void	get_str_with_quotes(const char **input,
 
 	if (quotes.start && quotes.end)
 	{
-		strncpy(&stdout_buffer[*buffer_index], quotes.start, size);
+		ft_memcpy(&stdout_buffer[*buffer_index], quotes.start, size);
 		*input += size + num_quotes;
 		*buffer_index += size;
 		add_space_between_strs(*(*input), stdout_buffer, buffer_index);
@@ -65,9 +65,9 @@ static void	get_str_with_quotes(const char **input,
 static int	handle_empty_str(t_bool has_n_flag, t_output_stdout output)
 {
 	if (has_n_flag)
-		output("", 1);
+		output("");
 	else
-		output("\n", 1);
+		output("\n");
 	return (SUCCESS);
 }
 
@@ -91,8 +91,7 @@ int	echo_command(const char **input, t_output_stdout output)
 	}
 	if (has_n_flag)
 		stdout_buffer[buffer_index] = '\0';
-	++buffer_index;
-	output(stdout_buffer, buffer_index);
+	output(stdout_buffer);
 	free(stdout_buffer);
 	return (SUCCESS);
 }

@@ -37,9 +37,11 @@ t_bool	parse_n_flag(const char **input)
 	return (FALSE);
 }
 
-void	write_to_stdout(const char *string_to_write, int len)
+void	write_to_stdout(const char *string_to_write)
 {
-	write(STDOUT_FILENO, string_to_write, len);
+	const int len_inside = ft_strlen(string_to_write);
+
+	write(STDOUT_FILENO, string_to_write, len_inside);
 }
 
 void	trim_extra_spaces_between_words(const char **input,

@@ -11,7 +11,7 @@ CTEST(parse_input, no_line_to_parse)
     ASSERT_FALSE(parse_input(NULL));
 }
 
-CTEST(parse_command, invalid_command)
+CTEST(parse_command, unknown_command)
 {
     const char *input = "ecth";
     ASSERT_EQUAL(INVALID, parse_command(&input));
