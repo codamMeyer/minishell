@@ -9,8 +9,8 @@ int	pwd_command(t_output_stdout output)
 
 	if (!buffer)
 		return (ERROR);
-	output(&buffer[0], ft_strlen(buffer));
-	output("\n", 1);
+	output(&buffer[0]);
+	output("\n");
 	free((char *)buffer);
 	return (SUCCESS);
 }

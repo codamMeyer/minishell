@@ -27,9 +27,10 @@ CTEST_TEARDOWN(pwd_test)
 	(void)data;
 };
 
-void	write_to_buf1(const char *string_to_write, int len)
+void	write_to_buf1(const char *string_to_write)
 {
 	static int i = 0;
+	const int len = strlen(string_to_write);
 	
 	if (i)
 		strncpy(&pwd_buf2[0], string_to_write, len);

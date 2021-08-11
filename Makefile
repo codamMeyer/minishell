@@ -32,6 +32,7 @@ TEST_FILES=					\
 	tests/dispatch_test.c	\
 	tests/echo_test.c	\
 	tests/pwd_test.c	\
+	tests/unknown_test.c	\
 
 MINISHELL_OBJS=$(MINISHELL_src:.c=.o)
 
