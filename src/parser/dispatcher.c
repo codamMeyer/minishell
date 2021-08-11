@@ -8,7 +8,7 @@
 
 static void	copy_unknown_command_to_buffer(const char **input, char buffer[])
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while ((*input)[i] && !isspace((*input)[i]))
