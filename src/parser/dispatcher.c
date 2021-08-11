@@ -8,13 +8,16 @@
 
 static void	copy_unknown_command_to_buffer(const char **input, char buffer[])
 {
-	int	i;
+	char	cur;
+	int		i;
 
 	i = 0;
-	while ((*input)[i] && !isspace((*input)[i]))
+	cur = (*input)[i];
+	while (cur && !isspace(cur))
 	{
-		buffer[i] = (*input)[i];
+		buffer[i] = cur;
 		++i;
+		cur = (*input)[i];
 	}
 	buffer[i] = '\0';
 }
