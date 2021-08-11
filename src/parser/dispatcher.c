@@ -22,7 +22,7 @@ static void	copy_unknown_command_to_buffer(const char **input, char buffer[])
 	buffer[i] = '\0';
 }
 
-void	unknown_command(const char **input, t_output_stdout output)
+t_bool	unknown_command(const char **input, t_output_stdout output)
 {
 	const char	*shell_name = "BestShellEver: ";
 	const char	*command_not_found = ": command not found\n";
@@ -33,6 +33,7 @@ void	unknown_command(const char **input, t_output_stdout output)
 	output(shell_name);
 	output(&unknown_command_str[0]);
 	output(command_not_found);
+	return (FALSE);
 }
 
 t_bool	dispatch_commands(const char **input, t_command command)
@@ -43,7 +44,9 @@ t_bool	dispatch_commands(const char **input, t_command command)
 		return (echo_command(input, write_to_stdout));
 	else if (command == PWD)
 		return (pwd_command(write_to_stdout));
-	else
-		unknown_command(input, write_to_stdout);
+	else if (command == INVALID)
+		return (unknown_command(input, write_to_stdout));
+	else if (command == EMPTY_LINE)
+		return (TRUE);
 	return (FALSE);
 }
