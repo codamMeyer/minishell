@@ -5,12 +5,12 @@
 
 int	pwd_command(t_output_stdout output)
 {
-	char	buffer[4096];
-	int		len;
+	const char	*buffer = getcwd(NULL, 0);
 
-	getcwd(&buffer[0], sizeof(buffer));
-	len = ft_strlen(buffer);
-	buffer[len] = '\n';
-	output(&buffer[0], len + 1);
+	if (!buffer)
+		return (ERROR);
+	output(&buffer[0], ft_strlen(buffer));
+	output("\n", 1);
+	free((char *)buffer);
 	return (SUCCESS);
 }

@@ -6,9 +6,11 @@
 #include <string.h>
 #include <strings.h>
 
-int size1 = 4096;
-char buf1[4096];
 
+int buffer_size_pwd = 4096;
+char pwd_buf1[4096];
+char pwd_buf2[4096];
+char pwd_buf3[4096];
 CTEST_DATA(pwd_test)
 {
 };
@@ -16,7 +18,8 @@ CTEST_DATA(pwd_test)
 CTEST_SETUP(pwd_test)
 {
 	(void)data;
-	bzero(&buf1[0], size1);
+	bzero(&pwd_buf1[0], buffer_size_pwd);
+	bzero(&pwd_buf2[0], buffer_size_pwd);
 };
 
 CTEST_TEARDOWN(pwd_test)
@@ -26,7 +29,13 @@ CTEST_TEARDOWN(pwd_test)
 
 void	write_to_buf1(const char *string_to_write, int len)
 {
-	strncpy(&buf1[0], string_to_write, len);
+	static int i = 0;
+	
+	if (i)
+		strncpy(&pwd_buf2[0], string_to_write, len);
+	else
+		strncpy(&pwd_buf1[0], string_to_write, len);
+	i++;
 }
 
 CTEST2(pwd_test, success)
@@ -34,8 +43,8 @@ CTEST2(pwd_test, success)
 	(void)data;
     char expected[2048];
     getcwd(&expected[0], sizeof(expected));
-    expected[ft_strlen(&expected[0])] = '\n';
 
 	ASSERT_EQUAL(SUCCESS, pwd_command(write_to_buf1));
-	ASSERT_STR(&expected[0], &buf1[0]);
+	ASSERT_STR(&expected[0], &pwd_buf1[0]);
+	ASSERT_STR("\n", &pwd_buf2[0]);
 }
