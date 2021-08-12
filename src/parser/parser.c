@@ -49,6 +49,8 @@ t_command	*get_commands(const char **input)
 	t_command *command_table;
 	int	i;
 	
+	if (!*input)
+		return (NULL);
 	command_table = malloc(sizeof(t_command) * 1);
 	if (!command_table)
 		return (NULL);
@@ -61,8 +63,9 @@ t_command	*get_commands(const char **input)
 
 t_bool	parse_input(const char *input)
 {
-	if (!input)
+	const t_command *command_table = get_commands(&input);
+	if (!command_table)
 		return (FALSE);
-	dispatch_commands(&input, get_command_code(&input));
+	dispatch_commands(&input, command_table);
 	return (TRUE);
 }

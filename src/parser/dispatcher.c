@@ -36,17 +36,17 @@ t_bool	unknown_command(const char **input, t_output_stdout output)
 	return (FALSE);
 }
 
-t_bool	dispatch_commands(const char **input, t_command_code command)
+t_bool	dispatch_commands(const char **input, const t_command *command_table)
 {
-	if (command == EXIT)
+	if (command_table->code == EXIT)
 		exit_command(SUCCESS);
-	else if (command == ECHO)
+	else if (command_table->code == ECHO)
 		return (echo_command(input, write_to_stdout));
-	else if (command == PWD)
+	else if (command_table->code == PWD)
 		return (pwd_command(write_to_stdout));
-	else if (command == INVALID)
+	else if (command_table->code == INVALID)
 		return (unknown_command(input, write_to_stdout));
-	else if (command == EMPTY_LINE)
+	else if (command_table->code == EMPTY_LINE)
 		return (TRUE);
 	return (FALSE);
 }
