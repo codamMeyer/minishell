@@ -10,7 +10,7 @@ typedef enum e_bool
 	TRUE = 1
 }	t_bool;
 
-typedef enum e_command
+typedef enum e_command_code
 {
 	ECHO = 0,
 	EXIT,
@@ -18,7 +18,7 @@ typedef enum e_command
 	EMPTY_LINE,
 	INVALID,
 	LAST,
-}			t_command;
+}			t_command_code;
 
 typedef enum e_exit_code
 {

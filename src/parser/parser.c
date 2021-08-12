@@ -18,7 +18,7 @@ static t_bool	is_command(const char *input, const char *command)
 		&& is_valid_last_char(last_char));
 }
 
-t_command	parse_command(const char **input)
+t_command_code	parse_command(const char **input)
 {
 	static const char	*commands[LAST] = {
 											"echo",
@@ -27,7 +27,7 @@ t_command	parse_command(const char **input)
 											"",
 											"invalid"
 										};
-	t_command			command_code;
+	t_command_code			command_code;
 
 	skip_spaces(input);
 	command_code = ECHO;

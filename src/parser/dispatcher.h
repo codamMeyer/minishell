@@ -4,6 +4,6 @@
 # include <commands/commands.h>
 
 t_bool	unknown_command(const char **input, t_output_stdout output);
-t_bool	dispatch_commands(const char **input, t_command command);
+t_bool	dispatch_commands(const char **input, t_command_code command);
 
 #endif
