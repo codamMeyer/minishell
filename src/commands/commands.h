@@ -11,16 +11,9 @@ typedef enum e_special_chars
 	NULL_TERMINATOR = '\0'
 }	t_special_chars;
 
-typedef enum e_option
-{
-	NONE,
-	N_FLAG_CODE,
-}	t_option;
-
 typedef struct s_command
 {
 	t_command_code	code;
-	t_option		option;
 	char			**argv;
 }	t_command;
 

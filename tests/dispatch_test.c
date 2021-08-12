@@ -3,7 +3,7 @@
 
 CTEST(dispatch_test, echo_true)
 {
-	const char *input = "echo";
+	const char *input = "test";
 	ASSERT_EQUAL(SUCCESS, dispatch_commands(&input, ECHO));
 }
 

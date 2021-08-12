@@ -3,6 +3,7 @@
 #include <string.h>
 #include <ctype.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 static t_bool	is_valid_last_char(char last_char)
 {
@@ -18,7 +19,7 @@ static t_bool	is_command(const char *input, const char *command)
 		&& is_valid_last_char(last_char));
 }
 
-t_command_code	parse_command(const char **input)
+t_command_code	get_command_code(const char **input)
 {
 	static const char	*commands[LAST] = {
 											"echo",
@@ -27,7 +28,7 @@ t_command_code	parse_command(const char **input)
 											"",
 											"invalid"
 										};
-	t_command_code			command_code;
+	t_command_code		command_code;
 
 	skip_spaces(input);
 	command_code = ECHO;
@@ -43,10 +44,25 @@ t_command_code	parse_command(const char **input)
 	return (INVALID);
 }
 
+t_command	*get_commands(const char **input)
+{
+	t_command *command_table;
+	int	i;
+	
+	command_table = malloc(sizeof(t_command) * 1);
+	if (!command_table)
+		return (NULL);
+	i = 0;
+	command_table[i].code = get_command_code(input);
+	command_table[i].argv = malloc(sizeof(char *));
+	command_table[i].argv[0] = (char *)*input;
+	return (command_table);
+}
+
 t_bool	parse_input(const char *input)
 {
 	if (!input)
 		return (FALSE);
-	dispatch_commands(&input, parse_command(&input));
+	dispatch_commands(&input, get_command_code(&input));
 	return (TRUE);
 }

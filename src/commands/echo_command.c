@@ -28,6 +28,7 @@ void	get_str_without_quotes(const char **input,
 		cur = *(*input);
 	}
 	stdout_buffer[*buffer_index] = '\n';
+	stdout_buffer[*buffer_index + 1] = '\0';
 }
 
 static void	add_space_between_strs(char cur_inp,
@@ -80,7 +81,7 @@ int	echo_command(const char **input, t_output_stdout output)
 
 	if (input_len == 0)
 		return (handle_empty_str(has_n_flag, output));
-	stdout_buffer = ft_calloc(input_len, sizeof(char));
+	stdout_buffer = ft_calloc(input_len + 2, sizeof(char));
 	if (!stdout_buffer)
 		return (ERROR);
 	buffer_index = 0;
