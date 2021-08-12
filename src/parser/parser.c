@@ -4,34 +4,42 @@
 #include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <libft.h>
 
-static t_bool	is_valid_last_char(char last_char)
+static t_bool	is_valid_last_char(const char *input, int command_len)
 {
-	return (isspace(last_char) || last_char == '\0');
+	const int input_len = ft_strlen(input);
+	char	last_char;
+
+	if (input_len >= command_len)
+	{
+		last_char = input[command_len]; 
+		return (isspace(last_char) || last_char == '\0');
+	}
+	return (FALSE);
 }
 
 static t_bool	is_command(const char *input, const char *command)
 {
-	const int		command_len = strlen(command);
-	const char		last_char = input[command_len];
+	const int		command_len = ft_strlen(command);
 
 	return (strncmp(input, command, command_len) == 0
-		&& is_valid_last_char(last_char));
+		&& is_valid_last_char(input, command_len));
 }
 
 t_command_code	get_command_code(const char **input)
 {
 	static const char	*commands[LAST] = {
+											"",
 											"echo",
 											"exit",
 											"pwd",
-											"",
 											"invalid"
 										};
 	t_command_code		command_code;
 
 	skip_spaces(input);
-	command_code = ECHO;
+	command_code = EMPTY_LINE;
 	while (command_code < INVALID)
 	{
 		if (is_command(*input, commands[command_code]))
@@ -67,5 +75,7 @@ t_bool	parse_input(const char *input)
 	if (!command_table)
 		return (FALSE);
 	dispatch_commands(&input, command_table);
+	free((t_command *)command_table[0].argv);
+	free((t_command *)command_table);
 	return (TRUE);
 }

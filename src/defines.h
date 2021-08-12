@@ -12,10 +12,10 @@ typedef enum e_bool
 
 typedef enum e_command_code
 {
-	ECHO = 0,
+	EMPTY_LINE,
+	ECHO,
 	EXIT,
 	PWD,
-	EMPTY_LINE,
 	INVALID,
 	LAST,
 }			t_command_code;
