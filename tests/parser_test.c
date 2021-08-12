@@ -89,6 +89,7 @@ CTEST_SETUP(command_table)
 CTEST_TEARDOWN(command_table)
 {
     free(data->command_table[0].argv);
+    free(data->command_table->input);
     free(data->command_table);
 };
 

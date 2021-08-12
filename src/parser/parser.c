@@ -66,6 +66,7 @@ t_command	*get_commands(const char **input)
 	command_table[i].code = get_command_code(input);
 	command_table[i].argv = malloc(sizeof(char *));
 	command_table[i].argv[0] = (char *)*input;
+	command_table[i].input = ft_strdup(*input);
 	return (command_table);
 }
 
@@ -74,8 +75,10 @@ t_bool	parse_input(const char *input)
 	const t_command *command_table = get_commands(&input);
 	if (!command_table)
 		return (FALSE);
+	char *input_ptr = command_table->input;
 	dispatch_commands(&input, command_table);
 	free((t_command *)command_table[0].argv);
+	free(input_ptr);
 	free((t_command *)command_table);
 	return (TRUE);
 }

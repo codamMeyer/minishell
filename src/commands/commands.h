@@ -15,12 +15,13 @@ typedef struct s_command
 {
 	t_command_code	code;
 	char			**argv;
+	char			*input;
 }	t_command;
 
 typedef void	(*t_output_stdout)(const char *);
 
 void	exit_command(t_exit_code exit_code);
-int		echo_command(const char **input, t_output_stdout output);
+int		echo_command(const t_command *command_table, t_output_stdout output);
 int		pwd_command(t_output_stdout output);
 
 #endif
