@@ -24,12 +24,12 @@ t_bool	is_valid_n_flag_extras(const char **input)
 	return (TRUE);
 }
 
-t_bool	parse_n_flag(const char **input)
+t_bool	parse_n_flag(t_arg *input)
 {
-	skip_spaces(input);
-	if (ft_strncmp((char *)*input, N_FLAG, ft_strlen(N_FLAG)) == 0)
+	skip_spaces(&input->start);
+	if (ft_strncmp(input->start, N_FLAG, ft_strlen(N_FLAG)) == 0)
 	{
-		if (!is_valid_n_flag_extras(input))
+		if (!is_valid_n_flag_extras(&input->start))
 			return (FALSE);
 		parse_n_flag(input);
 		return (TRUE);

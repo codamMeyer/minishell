@@ -88,8 +88,6 @@ CTEST_SETUP(command_table)
 
 CTEST_TEARDOWN(command_table)
 {
-    free(data->command_table[0].argv);
-    free(data->command_table->input);
     free(data->command_table);
 };
 
@@ -98,7 +96,7 @@ CTEST2(command_table, one_command_echo)
     const char *input = "echo Hello you this is a test";
     data->command_table = get_commands(&input);
     ASSERT_EQUAL(ECHO, data->command_table[0].code);
-    ASSERT_STR(" Hello you this is a test", data->command_table[0].argv[0]);
+    ASSERT_STR(" Hello you this is a test", data->command_table[0].arg.start);
 }
 
 CTEST2(command_table, one_command_pwd)
@@ -106,5 +104,5 @@ CTEST2(command_table, one_command_pwd)
     const char *input = "pwd arguments are irrelevant for this test";
     data->command_table = get_commands(&input);
     ASSERT_EQUAL(PWD, data->command_table[0].code);
-    ASSERT_STR(" arguments are irrelevant for this test", data->command_table[0].argv[0]);
+    ASSERT_STR(" arguments are irrelevant for this test", data->command_table[0].arg.start);
 }

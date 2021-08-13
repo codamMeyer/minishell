@@ -72,29 +72,29 @@ static int	handle_empty_str(t_bool has_n_flag, t_output_stdout output)
 	return (SUCCESS);
 }
 
-int	echo_command(const t_command *command_table, t_output_stdout output)
+// int	echo_command(t_command command, const char * input, t_output_stdout output)
+int	echo_command(const t_command *command, t_output_stdout output)
 {
-	const char		*input_beg = command_table->input;
-	const t_bool	has_n_flag = parse_n_flag((const char **)&command_table->input);
-	const int		input_len = ft_strlen(command_table->input);
+	const t_bool	has_n_flag = parse_n_flag((t_arg *)&command->arg);
 	char			*stdout_buffer;
 	int				buffer_index;
 
-	if (input_len == 0)
+	if (command->arg_len == 0)
 		return (handle_empty_str(has_n_flag, output));
-	stdout_buffer = ft_calloc(input_len + 2, sizeof(char));
+	stdout_buffer = ft_calloc(command->arg_len + 2, sizeof(char));
 	if (!stdout_buffer)
 		return (ERROR);
 	buffer_index = 0;
-	while (*(command_table->input))
+	int i = 0;
+	while (i < command->arg_len)
 	{
-		get_str_with_quotes((const char **)&(command_table->input), stdout_buffer, &buffer_index);
-		get_str_without_quotes((const char **)&(command_table->input), stdout_buffer, &buffer_index);
+		get_str_with_quotes((const char **)&(command->arg.start), stdout_buffer, &buffer_index);
+		get_str_without_quotes((const char **)&(command->arg.start), stdout_buffer, &buffer_index);
+		++i;
 	}
 	if (has_n_flag)
 		stdout_buffer[buffer_index] = '\0';
 	output(stdout_buffer);
 	free(stdout_buffer);
-	free((char*)input_beg);
 	return (SUCCESS);
 }

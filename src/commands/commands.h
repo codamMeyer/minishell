@@ -11,11 +11,17 @@ typedef enum e_special_chars
 	NULL_TERMINATOR = '\0'
 }	t_special_chars;
 
+typedef struct s_arg
+{
+	const char *start;
+	const char *end;
+}	t_arg;
+
 typedef struct s_command
 {
 	t_command_code	code;
-	char			**argv;
-	char			*input;
+	t_arg			arg;
+	int				arg_len;
 }	t_command;
 
 typedef void	(*t_output_stdout)(const char *);
