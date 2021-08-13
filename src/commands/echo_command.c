@@ -45,23 +45,24 @@ static void	add_space_between_strs(char cur_inp,
 	}
 }
 
-static void	get_str_with_quotes(const char **input,
+static t_arg	get_str_with_quotes(t_arg arg,
 							char *stdout_buffer,
 							int *buffer_index)
 {
-	const t_quotes_position	quotes = get_quotes_positions(*input);
+	const t_quotes_position	quotes = get_quotes_positions(arg.start);
 	const int				size = quotes.end - quotes.start;
 	const int				num_quotes = 2;
 
 	if (quotes.start && quotes.end)
 	{
 		ft_memcpy(&stdout_buffer[*buffer_index], quotes.start, size);
-		*input += size + num_quotes;
+		arg.start += size + num_quotes;
 		*buffer_index += size;
-		add_space_between_strs(*(*input), stdout_buffer, buffer_index);
+		add_space_between_strs(*arg.start, stdout_buffer, buffer_index);
 	}
 	else if (quotes.start)
-		++(*input);
+		++arg.start;
+	return (arg);
 }
 
 static int	handle_empty_str(t_bool has_n_flag, t_output_stdout output)
@@ -73,7 +74,6 @@ static int	handle_empty_str(t_bool has_n_flag, t_output_stdout output)
 	return (SUCCESS);
 }
 
-// int	echo_command(t_command command, const char * input, t_output_stdout output)
 int	echo_command(t_command command, t_output_stdout output)
 {
 	const t_bool	has_n_flag = parse_n_flag((t_arg *)&command.arg);
@@ -86,12 +86,10 @@ int	echo_command(t_command command, t_output_stdout output)
 	if (!stdout_buffer)
 		return (ERROR);
 	buffer_index = 0;
-	int i = 0;
-	while (i < command.arg_len)
+	while (command.arg.start < command.arg.end)
 	{
-		get_str_with_quotes((const char **)&(command.arg.start), stdout_buffer, &buffer_index);
+		command.arg = get_str_with_quotes(command.arg, stdout_buffer, &buffer_index);
 		command.arg = get_str_without_quotes(command.arg, stdout_buffer, &buffer_index);
-		++i;
 	}
 	if (has_n_flag)
 		stdout_buffer[buffer_index] = '\0';

@@ -107,6 +107,32 @@ CTEST2(command_table, one_command_pwd)
     ASSERT_STR(" arguments are irrelevant for this test", data->command_table[0].arg.start);
 }
 
+CTEST2(command_table, command_cointaining_pipe_between_quotes)
+{
+    const char *input = "echo this is a \" | \"";
+    data->command_table = get_commands(&input);
+    ASSERT_EQUAL(ECHO, data->command_table[0].code);
+    ASSERT_STR(" this is a \" | \"", data->command_table[0].arg.start);
+}
+
+CTEST2(command_table, command_separated_by_pipe)
+{
+    const char *input = "echo this is the end | ";
+    data->command_table = get_commands(&input);
+    ASSERT_EQUAL(ECHO, data->command_table[0].code);
+    ASSERT_STR(" this is the end | ", data->command_table[0].arg.start);
+    ASSERT_STR("| ", data->command_table[0].arg.end);
+}
+
+CTEST2(command_table, separate_by_pipe_and_followed_by_command_containing_quotes)
+{
+    const char *input = "echo this is the end | other command \" haha \" end";
+    data->command_table = get_commands(&input);
+    ASSERT_EQUAL(ECHO, data->command_table[0].code);
+    ASSERT_STR(" this is the end | other command \" haha \" end", data->command_table[0].arg.start);
+    ASSERT_STR("| other command \" haha \" end", data->command_table[0].arg.end);
+}
+
 CTEST(quotes_test, is_between_quotes_without_quotes)
 {
     const char *input = "this test should return false |    right?";

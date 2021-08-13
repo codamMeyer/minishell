@@ -77,9 +77,9 @@ t_quotes_index get_quotes_pair_position(const char *input)
 
 t_bool is_between_quotes(const char *input, int pipe_index)
 {
-	t_quotes_index quotes;
-	int	offset;
-	char *new_pos;
+	t_quotes_index	quotes;
+	int				offset;
+	char			*new_pos;
 
 	quotes = get_quotes_pair_position(input);
 	if (quotes.start < pipe_index && quotes.end > pipe_index)
@@ -101,26 +101,28 @@ t_bool is_between_quotes(const char *input, int pipe_index)
 	return (FALSE);
 }
 
-// int get_arg_len(const char *start)
-// {
-// 	char *pipe_position;
-// 	int pipe_index;
-// 	int i;
+int get_arg_len(const char *start)
+{
+	char *pipe_position;
+	int pipe_index;
+	int start_index;
 
-// 	pipe_position = ft_strchr(start, PIPE);
-// 	if (!pipe_position)
-// 		return (ft_strlen(start));
-// 	i = 0;
-// 	// while (start[i] != '\0')
-// 	// {
-// 	// 	pipe_index = pipe_position - start[0];
-// 	// 	if (!is_between_quotes(inp, pipe_index))
-// 	// 		return (pipe_index)
-// 	// 	start_index += pipe_index + 1;
-// 	// 	pipe_position = ft_strchr(&inp[start_index], PIPE)
-// 	// }
-// 	// return inp_len
-// }
+	pipe_position = ft_strchr(start, PIPE);
+	if (!pipe_position)
+		return (ft_strlen(start));
+	start_index = 0;
+	while (start[start_index] != '\0')
+	{
+		pipe_index = pipe_position - &start[0];
+		if (!is_between_quotes(start, pipe_index))
+			return (pipe_index);
+		start_index += pipe_index + 1;
+		pipe_position = ft_strchr(&start[start_index], PIPE);
+		if (!pipe_position)
+			break ;
+	}
+		return (ft_strlen(start));
+}
 
 t_command	*get_commands(const char **input)
 {
@@ -135,7 +137,7 @@ t_command	*get_commands(const char **input)
 	i = 0;
 	command_table[i].code = get_command_code(input);
 	command_table[i].arg.start = *input;
-	command_table[i].arg_len = ft_strlen(*input);//get_arg_len(command_table->arg.start);
+	command_table[i].arg_len = get_arg_len(command_table->arg.start);
 	command_table[i].arg.end = *input + command_table[i].arg_len;
 	return (command_table);
 }
