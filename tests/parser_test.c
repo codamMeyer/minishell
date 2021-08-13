@@ -106,3 +106,27 @@ CTEST2(command_table, one_command_pwd)
     ASSERT_EQUAL(PWD, data->command_table[0].code);
     ASSERT_STR(" arguments are irrelevant for this test", data->command_table[0].arg.start);
 }
+
+CTEST(quotes_test, is_between_quotes_without_quotes)
+{
+    const char *input = "this test should return false |    right?";
+    ASSERT_FALSE(is_between_quotes(input, 30));
+}
+
+CTEST(quotes_test, is_between_quotes_with_quotes)
+{
+    const char *input = "this test should \"return\" false |    right?";
+    ASSERT_FALSE(is_between_quotes(input, 32));
+}
+
+CTEST(quotes_test, is_between_quotes_with_more_than_one_pair_of_quotes)
+{
+    const char *input = "this test should \"return\" false | \"   right \"?";
+    ASSERT_FALSE(is_between_quotes(input, 32));
+}
+
+CTEST(quotes_test, is_between_quotes)
+{
+    const char *input = "this test should \"return true | \"   right?";
+    ASSERT_TRUE(is_between_quotes(input, 30));
+}

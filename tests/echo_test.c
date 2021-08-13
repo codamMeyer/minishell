@@ -232,7 +232,7 @@ CTEST2(echo_test, n_flag_with_multiple_ns_valid)
 	ASSERT_STR("hello you", &echo_buf1[0]);
 }
 
-CTEST2(echo_test, followed_by_pipe)
+CTEST2_SKIP(echo_test, followed_by_pipe)
 {
 	(void)data;
 	const char *input = "echo hello you this is a |";

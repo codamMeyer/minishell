@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <libft.h>
+#include <commands/echo_handle_quotes.h>
 
 static t_bool	is_valid_last_char(const char *input, int command_len)
 {
@@ -51,16 +52,75 @@ t_command_code	get_command_code(const char **input)
 	}
 	return (INVALID);
 }
-
-int get_arg_len(const char *start)
+typedef struct s_quotes_index
 {
-	int len;
+	int start;
+	int end;
+} t_quotes_index;
 
-	len = 0;
-	while (start[len] && start[len] != PIPE)
-		++len;
-	return (len);
+t_quotes_index get_quotes_pair_position(const char *input)
+{
+	char *start;
+	t_quotes_index quotes;
+	
+	start = ft_strchr(input, DOUBLE_QUOTES);
+	if (start)
+	{
+		quotes.start = start - &input[0];
+		quotes.end = ft_strchr(&input[quotes.start + 1], DOUBLE_QUOTES) - &input[0];
+		return (quotes);
+	}
+	quotes.start = 0;
+	quotes.end = 0;
+	return (quotes);
 }
+
+t_bool is_between_quotes(const char *input, int pipe_index)
+{
+	t_quotes_index quotes;
+	int	offset;
+	char *new_pos;
+
+	quotes = get_quotes_pair_position(input);
+	if (quotes.start < pipe_index && quotes.end > pipe_index)
+		return (TRUE);
+	if (!quotes.start && !quotes.end)
+		return (FALSE);
+	offset = &(input[quotes.end + 1]) - &input[0];
+	new_pos = (char *)&(input[quotes.end + 1]);
+	while (new_pos)
+	{
+		quotes = get_quotes_pair_position(new_pos);
+		if (!quotes.start && !quotes.end)
+			return (FALSE);
+		if (quotes.start + offset < pipe_index && quotes.end  + offset > pipe_index)
+			return (TRUE);
+		offset += quotes.end;
+		new_pos = (char *)&input[quotes.end + offset];
+	}
+	return (FALSE);
+}
+
+// int get_arg_len(const char *start)
+// {
+// 	char *pipe_position;
+// 	int pipe_index;
+// 	int i;
+
+// 	pipe_position = ft_strchr(start, PIPE);
+// 	if (!pipe_position)
+// 		return (ft_strlen(start));
+// 	i = 0;
+// 	// while (start[i] != '\0')
+// 	// {
+// 	// 	pipe_index = pipe_position - start[0];
+// 	// 	if (!is_between_quotes(inp, pipe_index))
+// 	// 		return (pipe_index)
+// 	// 	start_index += pipe_index + 1;
+// 	// 	pipe_position = ft_strchr(&inp[start_index], PIPE)
+// 	// }
+// 	// return inp_len
+// }
 
 t_command	*get_commands(const char **input)
 {
@@ -75,7 +135,7 @@ t_command	*get_commands(const char **input)
 	i = 0;
 	command_table[i].code = get_command_code(input);
 	command_table[i].arg.start = *input;
-	command_table[i].arg_len = get_arg_len(command_table->arg.start);
+	command_table[i].arg_len = ft_strlen(*input);//get_arg_len(command_table->arg.start);
 	command_table[i].arg.end = *input + command_table[i].arg_len;
 	return (command_table);
 }
