@@ -80,108 +80,153 @@ CTEST2(echo_test, write_2_strs_with_and_without_quotes_trimmed)
 	ASSERT_STR("     first           string second string trimmed\n", &echo_buf1[0]);
 }
 
-// CTEST2(echo_test, write_4_strs_with_and_without_quotes_trimmed)
-// {
-// 	data->command.input = ft_strdup("\"   First  \"      string  \" N  O  T  trimmed\"      !");
-// 	ASSERT_EQUAL(SUCCESS, echo_command(&data->command, write_to_buf));
-// 	ASSERT_STR("   First   string  N  O  T  trimmed !\n", &echo_buf1[0]);
-// }
+CTEST2(echo_test, write_4_strs_with_and_without_quotes_trimmed)
+{
+	const char *input = "\"   First  \"      string  \" N  O  T  trimmed\"      !";
+	data->command.arg.start = input;
+	data->command.arg.end = input + 56;
+	data->command.arg_len = 56;
+	ASSERT_EQUAL(SUCCESS, echo_command(&data->command, write_to_buf));
+	ASSERT_STR("   First   string  N  O  T  trimmed !\n", &echo_buf1[0]);
+}
 
-// CTEST2(echo_test, write_strs_with_and_without_quotes_n_flag)
-// {
-// 	data->command.input = ft_strdup("-n \"   First  \"      string  \" N  O  T  trimmed\"      !");
-// 	ASSERT_EQUAL(SUCCESS, echo_command(&data->command, write_to_buf));
-// 	ASSERT_STR("   First   string  N  O  T  trimmed !", &echo_buf1[0]);
-// }
+CTEST2(echo_test, write_strs_with_and_without_quotes_n_flag)
+{
+	const char *input = "-n \"   First  \"      string  \" N  O  T  trimmed\"      !";
+	data->command.arg.start = input;
+	data->command.arg.end = input + 59;
+	data->command.arg_len = 59;
+	ASSERT_EQUAL(SUCCESS, echo_command(&data->command, write_to_buf));
+	ASSERT_STR("   First   string  N  O  T  trimmed !", &echo_buf1[0]);
+}
       
-// CTEST2(echo_test, write_strs_with_missing_quote_and_without_quotes)
-// {
-// 	data->command.input = ft_strdup("\"   First  string  \"        trimmed\"      !");
-// 	ASSERT_EQUAL(SUCCESS, echo_command(&data->command, write_to_buf));
-// 	ASSERT_STR("   First  string   trimmed!\n", &echo_buf1[0]);
-// }
+CTEST2(echo_test, write_strs_with_missing_quote_and_without_quotes)
+{
+	const char *input = "\"   First  string  \"        trimmed\"      !";
+	data->command.arg.start = input;
+	data->command.arg.end = input + 46;
+	data->command.arg_len = 46;
+	ASSERT_EQUAL(SUCCESS, echo_command(&data->command, write_to_buf));
+	ASSERT_STR("   First  string   trimmed!\n", &echo_buf1[0]);
+}
 
-// CTEST2(echo_test, write_str_missing_closing_quote)
-// {
-// 	data->command.input = ft_strdup("\"   First  string         trimmed      !");
-// 	ASSERT_EQUAL(SUCCESS, echo_command(&data->command, write_to_buf));
-// 	ASSERT_STR("First string trimmed !\n", &echo_buf1[0]);
-// }
+CTEST2(echo_test, write_str_missing_closing_quote)
+{
+	const char *input = "\"   First  string         trimmed      !";
+	data->command.arg.start = input;
+	data->command.arg.end = input + 41;
+	data->command.arg_len = 41;
+	ASSERT_EQUAL(SUCCESS, echo_command(&data->command, write_to_buf));
+	ASSERT_STR("First string trimmed !\n", &echo_buf1[0]);
+}
 
-// CTEST2(echo_test, write_str_missing_closing_quote_at_the_end)
-// {
-// 	data->command.input = ft_strdup("   First  string         trimmed      !\"");
-// 	ASSERT_EQUAL(SUCCESS, echo_command(&data->command, write_to_buf));
-// 	ASSERT_STR("First string trimmed !\n", &echo_buf1[0]);
-// }
+CTEST2(echo_test, write_str_missing_closing_quote_at_the_end)
+{
+	const char *input = "   First  string         trimmed      !\"";
+	data->command.arg.start = input;
+	data->command.arg.end = input + 41;
+	data->command.arg_len = 41;
+	ASSERT_EQUAL(SUCCESS, echo_command(&data->command, write_to_buf));
+	ASSERT_STR("First string trimmed !\n", &echo_buf1[0]);
+}
 
-// CTEST2(echo_test, write_str_double_quote_in_the_middle)
-// {
-// 	data->command.input = ft_strdup("   First  string   \"      trimmed      !");
-// 	ASSERT_EQUAL(SUCCESS, echo_command(&data->command, write_to_buf));
-// 	ASSERT_STR("First string trimmed !\n", &echo_buf1[0]);
-// }
+CTEST2(echo_test, write_str_double_quote_in_the_middle)
+{
+	const char *input = "   First  string   \"      trimmed      !";
+	data->command.arg.start = input;
+	data->command.arg.end = input + 41;
+	data->command.arg_len = 41;
+	ASSERT_EQUAL(SUCCESS, echo_command(&data->command, write_to_buf));
+	ASSERT_STR("First string trimmed !\n", &echo_buf1[0]);
+}
 
-// CTEST2(echo_test, write_two_empty_strings)
-// {
-// 	data->command.input = ft_strdup("    \"\"\"\"");
-// 	ASSERT_EQUAL(SUCCESS, echo_command(&data->command, write_to_buf));
-// 	ASSERT_STR("\n", &echo_buf1[0]);
-// }
+CTEST2(echo_test, write_two_empty_strings)
+{
+	const char *input = "    \"\"\"\"";
+	data->command.arg.start = input;
+	data->command.arg.end = input + 13;
+	data->command.arg_len = 13;
+	ASSERT_EQUAL(SUCCESS, echo_command(&data->command, write_to_buf));
+	ASSERT_STR("\n", &echo_buf1[0]);
+}
 
-// CTEST2(echo_test, write_two_strs_without_space_in_between)
-// {
-// 	data->command.input = ft_strdup("hello\"you\"");
-// 	ASSERT_EQUAL(SUCCESS, echo_command(&data->command, write_to_buf));
-// 	ASSERT_STR("helloyou\n", &echo_buf1[0]);
-// }
+CTEST2(echo_test, write_two_strs_without_space_in_between)
+{
+	const char *input = "hello\"you\"";
+	data->command.arg.start = input;
+	data->command.arg.end = input + 12;
+	data->command.arg_len = 12;
+	ASSERT_EQUAL(SUCCESS, echo_command(&data->command, write_to_buf));
+	ASSERT_STR("helloyou\n", &echo_buf1[0]);
+}
 
-// CTEST2(echo_test, write_two_strs_with_space_in_between)
-// {
-// 	data->command.input = ft_strdup("hello \"you\"");
-// 	ASSERT_EQUAL(SUCCESS, echo_command(&data->command, write_to_buf));
-// 	ASSERT_STR("hello you\n", &echo_buf1[0]);
-// }
+CTEST2(echo_test, write_two_strs_with_space_in_between)
+{
+	const char *input = "hello \"you\"";
+	data->command.arg.start = input;
+	data->command.arg.end = input + 13;
+	data->command.arg_len = 13;
+	ASSERT_EQUAL(SUCCESS, echo_command(&data->command, write_to_buf));
+	ASSERT_STR("hello you\n", &echo_buf1[0]);
+}
 
-// CTEST2(echo_test, write_two_strs_with_space_in_between_2)
-// {
-// 	data->command.input = ft_strdup("hello\" you\"");
-// 	ASSERT_EQUAL(SUCCESS, echo_command(&data->command, write_to_buf));
-// 	ASSERT_STR("hello you\n", &echo_buf1[0]);
-// }
+CTEST2(echo_test, write_two_strs_with_space_in_between_2)
+{
+	const char *input = "hello\" you\"";
+	data->command.arg.start = input;
+	data->command.arg.end = input + 13;
+	data->command.arg_len = 13;
+	ASSERT_EQUAL(SUCCESS, echo_command(&data->command, write_to_buf));
+	ASSERT_STR("hello you\n", &echo_buf1[0]);
+}
 
-// CTEST2(echo_test, mmultiple_n_flags_with_spaces)
-// {
-// 	data->command.input = ft_strdup("-n -n hello you");
-// 	ASSERT_EQUAL(SUCCESS, echo_command(&data->command, write_to_buf));
-// 	ASSERT_STR("hello you", &echo_buf1[0]);
-// }
+CTEST2(echo_test, mmultiple_n_flags_with_spaces)
+{
+	const char *input = "-n -n hello you";
+	data->command.arg.start = input;
+	data->command.arg.end = input + 15;
+	data->command.arg_len = 15;
+	ASSERT_EQUAL(SUCCESS, echo_command(&data->command, write_to_buf));
+	ASSERT_STR("hello you", &echo_buf1[0]);
+}
 
-// CTEST2(echo_test, multiple_n_flags_with_no_spacing)
-// {
-// 	data->command.input = ft_strdup("-n-n-n-n hello you");
-// 	ASSERT_EQUAL(SUCCESS, echo_command(&data->command, write_to_buf));
-// 	ASSERT_STR("-n-n-n-n hello you\n", &echo_buf1[0]);
-// }
+CTEST2(echo_test, multiple_n_flags_with_no_spacing)
+{
+	const char *input = "-n-n-n-n hello you";
+	data->command.arg.start = input;
+	data->command.arg.end = input + 18;
+	data->command.arg_len = 18;		
+	ASSERT_EQUAL(SUCCESS, echo_command(&data->command, write_to_buf));
+	ASSERT_STR("-n-n-n-n hello you\n", &echo_buf1[0]);
+}
 
 
-// CTEST2(echo_test, n_flag_with_multiple_ns)
-// {
-// 	data->command.input = ft_strdup("-nnnnnnn hello you");
-// 	ASSERT_EQUAL(SUCCESS, echo_command(&data->command, write_to_buf));
-// 	ASSERT_STR("hello you", &echo_buf1[0]);
-// }
+CTEST2(echo_test, n_flag_with_multiple_ns)
+{
+	const char *input = "-nnnnnnn hello you";
+	data->command.arg.start = input;
+	data->command.arg.end = input + 18;
+	data->command.arg_len = 18;		
+	ASSERT_EQUAL(SUCCESS, echo_command(&data->command, write_to_buf));
+	ASSERT_STR("hello you", &echo_buf1[0]);
+}
 
-// CTEST2(echo_test, n_flag_with_multiple_ns_invalid)
-// {
-// 	data->command.input = ft_strdup("-nnnnnnn-n hello you");
-// 	ASSERT_EQUAL(SUCCESS, echo_command(&data->command, write_to_buf));
-// 	ASSERT_STR("-nnnnnnn-n hello you\n", &echo_buf1[0]);
-// }
+CTEST2(echo_test, n_flag_with_multiple_ns_invalid)
+{
+	const char *input = "-nnnnnnn-n hello you";
+	data->command.arg.start = input;
+	data->command.arg.end = input + 20;
+	data->command.arg_len = 20;		
+	ASSERT_EQUAL(SUCCESS, echo_command(&data->command, write_to_buf));
+	ASSERT_STR("-nnnnnnn-n hello you\n", &echo_buf1[0]);
+}
 
-// CTEST2(echo_test, n_flag_with_multiple_ns_valid)
-// {
-// 	data->command.input = ft_strdup("-nnnnnnn -n hello you");
-// 	ASSERT_EQUAL(SUCCESS, echo_command(&data->command, write_to_buf));
-// 	ASSERT_STR("hello you", &echo_buf1[0]);
-// }
+CTEST2(echo_test, n_flag_with_multiple_ns_valid)
+{
+	const char *input = "-nnnnnnn -n hello you";
+	data->command.arg.start = input;
+	data->command.arg.end = input + 21;
+	data->command.arg_len = 21;		
+	ASSERT_EQUAL(SUCCESS, echo_command(&data->command, write_to_buf));
+	ASSERT_STR("hello you", &echo_buf1[0]);
+}
