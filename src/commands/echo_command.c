@@ -9,26 +9,27 @@
 #include <commands/echo_utils.h>
 #include <commands/echo_handle_quotes.h>
 
-void	get_str_without_quotes(const char **input,
+t_arg	get_str_without_quotes(t_arg echo_arg,
 								char *stdout_buffer,
 								int *buffer_index)
 {
 	char	cur;
 
-	skip_spaces(input);
-	if (is_double_quote(*(*input)))
-		return ;
-	cur = *(*input);
-	while (cur && !is_double_quote(cur))
+	skip_spaces(&echo_arg.start);
+	if (is_double_quote(*echo_arg.start))
+		return (echo_arg);
+	cur = *echo_arg.start;
+	while (cur && !is_double_quote(cur) && echo_arg.start < echo_arg.end)
 	{
 		stdout_buffer[*buffer_index] = cur;
 		++(*buffer_index);
-		++(*input);
-		trim_extra_spaces_between_words(input, stdout_buffer, buffer_index);
-		cur = *(*input);
+		++(echo_arg.start);
+		trim_extra_spaces_between_words(&echo_arg.start, stdout_buffer, buffer_index);
+		cur = *echo_arg.start;
 	}
 	stdout_buffer[*buffer_index] = '\n';
 	stdout_buffer[*buffer_index + 1] = '\0';
+	return (echo_arg);
 }
 
 static void	add_space_between_strs(char cur_inp,
@@ -73,23 +74,23 @@ static int	handle_empty_str(t_bool has_n_flag, t_output_stdout output)
 }
 
 // int	echo_command(t_command command, const char * input, t_output_stdout output)
-int	echo_command(const t_command *command, t_output_stdout output)
+int	echo_command(t_command command, t_output_stdout output)
 {
-	const t_bool	has_n_flag = parse_n_flag((t_arg *)&command->arg);
+	const t_bool	has_n_flag = parse_n_flag((t_arg *)&command.arg);
 	char			*stdout_buffer;
 	int				buffer_index;
 
-	if (command->arg_len == 0)
+	if (command.arg_len == 0)
 		return (handle_empty_str(has_n_flag, output));
-	stdout_buffer = ft_calloc(command->arg_len + 2, sizeof(char));
+	stdout_buffer = ft_calloc(command.arg_len + 2, sizeof(char));
 	if (!stdout_buffer)
 		return (ERROR);
 	buffer_index = 0;
 	int i = 0;
-	while (i < command->arg_len)
+	while (i < command.arg_len)
 	{
-		get_str_with_quotes((const char **)&(command->arg.start), stdout_buffer, &buffer_index);
-		get_str_without_quotes((const char **)&(command->arg.start), stdout_buffer, &buffer_index);
+		get_str_with_quotes((const char **)&(command.arg.start), stdout_buffer, &buffer_index);
+		command.arg = get_str_without_quotes(command.arg, stdout_buffer, &buffer_index);
 		++i;
 	}
 	if (has_n_flag)

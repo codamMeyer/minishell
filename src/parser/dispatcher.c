@@ -41,7 +41,7 @@ t_bool	dispatch_commands(const char **input, const t_command *command_table)
 	if (command_table->code == EXIT)
 		exit_command(SUCCESS);
 	else if (command_table->code == ECHO)
-		return (echo_command(&(command_table[0]), write_to_stdout));
+		return (echo_command(command_table[0], write_to_stdout));
 	else if (command_table->code == PWD)
 		return (pwd_command(write_to_stdout));
 	else if (command_table->code == INVALID)

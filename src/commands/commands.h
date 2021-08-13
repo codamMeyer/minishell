@@ -8,7 +8,8 @@
 typedef enum e_special_chars
 {
 	SPACE = ' ',
-	NULL_TERMINATOR = '\0'
+	NULL_TERMINATOR = '\0',
+	PIPE = '|',
 }	t_special_chars;
 
 typedef struct s_arg
@@ -27,7 +28,7 @@ typedef struct s_command
 typedef void	(*t_output_stdout)(const char *);
 
 void	exit_command(t_exit_code exit_code);
-int		echo_command(const t_command *command_table, t_output_stdout output);
+int		echo_command(t_command command_table, t_output_stdout output);
 int		pwd_command(t_output_stdout output);
 
 #endif
