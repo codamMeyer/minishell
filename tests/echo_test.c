@@ -1,5 +1,6 @@
 #include "ctest.h"
 #include "../src/commands/commands.h"
+#include "../src/parser/parser.h"
 #include "../libft/libft.h"
 #include <stdio.h>
 #include <string.h>
@@ -233,10 +234,10 @@ CTEST2(echo_test, n_flag_with_multiple_ns_valid)
 
 CTEST2(echo_test, followed_by_pipe)
 {
-	const char *input = "hello you this is a |";
-	data->command.arg.start = input;
-	data->command.arg.end = input + 21;
-	data->command.arg_len = 21;		
-	ASSERT_EQUAL(SUCCESS, echo_command(data->command, write_to_buf));
-	ASSERT_STR("hello you this is a\n", &echo_buf1[0]);
+	(void)data;
+	const char *input = "echo hello you this is a |";
+	t_command *command = get_commands(&input);
+	ASSERT_EQUAL(SUCCESS, echo_command(command[0], write_to_buf));
+	ASSERT_STR("hello you this is a \n", &echo_buf1[0]);
+	free(command);
 }

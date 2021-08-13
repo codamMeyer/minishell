@@ -52,6 +52,16 @@ t_command_code	get_command_code(const char **input)
 	return (INVALID);
 }
 
+int get_arg_len(const char *start)
+{
+	int len;
+
+	len = 0;
+	while (start[len] && start[len] != PIPE)
+		++len;
+	return (len);
+}
+
 t_command	*get_commands(const char **input)
 {
 	t_command *command_table;
@@ -65,7 +75,7 @@ t_command	*get_commands(const char **input)
 	i = 0;
 	command_table[i].code = get_command_code(input);
 	command_table[i].arg.start = *input;
-	command_table[i].arg_len = ft_strlen(*input);
+	command_table[i].arg_len = get_arg_len(command_table->arg.start);
 	command_table[i].arg.end = *input + command_table[i].arg_len;
 	return (command_table);
 }
