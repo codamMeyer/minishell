@@ -9,12 +9,12 @@
 
 static t_bool	is_valid_last_char(const char *input, int command_len)
 {
-	const int input_len = ft_strlen(input);
-	char	last_char;
+	const int	input_len = ft_strlen(input);
+	char		last_char;
 
 	if (input_len >= command_len)
 	{
-		last_char = input[command_len]; 
+		last_char = input[command_len];
 		return (isspace(last_char) || last_char == '\0');
 	}
 	return (FALSE);
@@ -22,7 +22,7 @@ static t_bool	is_valid_last_char(const char *input, int command_len)
 
 static t_bool	is_command(const char *input, const char *command)
 {
-	const int		command_len = ft_strlen(command);
+	const int	command_len = ft_strlen(command);
 
 	return (strncmp(input, command, command_len) == 0
 		&& is_valid_last_char(input, command_len));
@@ -52,17 +52,18 @@ t_command_code	get_command_code(const char **input)
 	}
 	return (INVALID);
 }
+
 typedef struct s_quotes_index
 {
-	int start;
-	int end;
-} t_quotes_index;
+	int	start;
+	int	end;
+}	t_quotes_index;
 
-t_quotes_index get_quotes_pair_position(const char *input)
+t_quotes_index	get_quotes_pair_position(const char *input)
 {
-	char *start;
-	t_quotes_index quotes;
-	
+	char			*start;
+	t_quotes_index	quotes;
+
 	start = ft_strchr(input, DOUBLE_QUOTES);
 	if (start)
 	{
@@ -75,7 +76,7 @@ t_quotes_index get_quotes_pair_position(const char *input)
 	return (quotes);
 }
 
-t_bool is_between_quotes(const char *input, int pipe_index)
+t_bool	is_between_quotes(const char *input, int pipe_index)
 {
 	t_quotes_index	quotes;
 	int				offset;
@@ -93,7 +94,7 @@ t_bool is_between_quotes(const char *input, int pipe_index)
 		quotes = get_quotes_pair_position(new_pos);
 		if (!quotes.start && !quotes.end)
 			return (FALSE);
-		if (quotes.start + offset < pipe_index && quotes.end  + offset > pipe_index)
+		if (quotes.start + offset < pipe_index && quotes.end + offset > pipe_index)
 			return (TRUE);
 		offset += quotes.end;
 		new_pos = (char *)&input[quotes.end + offset];
@@ -101,11 +102,11 @@ t_bool is_between_quotes(const char *input, int pipe_index)
 	return (FALSE);
 }
 
-int get_arg_len(const char *start)
+int	get_arg_len(const char *start)
 {
-	char *pipe_position;
-	int pipe_index;
-	int start_index;
+	char	*pipe_position;
+	int		pipe_index;
+	int		start_index;
 
 	pipe_position = ft_strchr(start, PIPE);
 	if (!pipe_position)
@@ -121,10 +122,10 @@ int get_arg_len(const char *start)
 		if (!pipe_position)
 			break ;
 	}
-		return (ft_strlen(start));
+	return (ft_strlen(start));
 }
 
-int check_for_pipe(const char **input)
+int	check_for_pipe(const char **input)
 {
 	if (ft_strncmp("| ", *input, 2) == 0)
 	{
@@ -134,14 +135,14 @@ int check_for_pipe(const char **input)
 	return (0);
 }
 
-t_command	*get_commands(const char *input)
+t_command	*get_commands(const char *input, int *num_commands)
 {
-	t_command *command_table;
-	const char *input_ptr = input;
-	int	pipe_count;
-	int	i;
+	t_command	*command_table;
+	const char	*input_ptr = input;
+	int			pipe_count;
+	int			i;
 	
-	if (!*input)
+	if (!input || !*input)
 		return (NULL);
 	command_table = malloc(sizeof(t_command) * 100);
 	if (!command_table)
@@ -154,109 +155,28 @@ t_command	*get_commands(const char *input)
 			pipe_count += check_for_pipe(&input_ptr);
 		command_table[i].code = get_command_code(&input_ptr);
 		if (command_table[i].code == INVALID)
-			break ;
+			break ;// display sintax error when necessary
 		command_table[i].arg.start = input_ptr;
 		command_table[i].arg_len = get_arg_len(command_table[i].arg.start);
 		command_table[i].arg.end = input_ptr + command_table[i].arg_len;
-		t_command cur = command_table[i];
-		(void)cur;
 		input_ptr += command_table[i].arg_len;
 		++i;
 	}
+	*num_commands = i;
 	return (command_table);
 }
 
 t_bool	parse_input(const char *input)
 {
+	int				num_commands;
+	const t_command	*command_table = get_commands(input, &num_commands);
+
+	num_commands = 0;
 	if (!input)
 		return (FALSE);
-	const t_command *command_table = get_commands(input);
 	if (!command_table)
 		return (FALSE);
-	dispatch_commands(&input, command_table);
+	dispatch_commands(&input, command_table, num_commands);
 	free((t_command *)command_table);
 	return (TRUE);
 }
-
-
-/*
-
-input: echo hello  " | " test | cat -e
-output: hello  |  test$
-
-echo_arg: " hello  \" | \" test "
-
-get_command() - echo
-input_now: " hello  " | " test | cat -e
-
-find_reserved_char() - | at 0xA
-
-if (!find_reserved_char())
-	this the whole string is this command arg       (example: echo        hello)
-
-find_quotes() - start: 0x8  end: 0xC
-
-if (!is_between_quotes(reserved_char_position))
-	this is the end of first command arg            (example: echo hello | cat -e)   
-
-else
-	is not reserved char in this context
-	search again starting from this position + 1. (0xB)  (example: echo    Hello "fake | " | cat -e)
-
-
-char * input = "echo hello  \" | \" test | cat -e"
-
-t_command{
-	code = ECHO;
-	first_index = 4;
-	last;
-}
-
-command_id = 0
-cur = 0
-while (cur < inp_len)
-	{
-		cur += get_command_code(&command_table[command_id])   (4 = " hello...")
-		command_table[command_id].first_index = cur;
-		command_table[command_id].last_index = find_last_index();
-		++command_id
-		cur = command_table[command_id].last_index
-	}
-
-
-find_last_index(start_index, const char *inp)
-{
-	char *pipe_position = ft_strchr(&inp[start_index], PIPE)
-		if (!pipe_position)
-			return inp_len
-	while
-	{
-		char *pipe_position = ft_strchr(&inp[start_index], PIPE)
-		pipe_index = pipe_position - inp[0] 
-		if (!is_between_quotes(inp, pipe_index))
-			return (pipe_index)
-		start_index += pipe_index + 1;
-	}
-	return inp_len
-}
-
-is_between_quotes(const char *inp, int pipe_index)
-{
-	(if quote has \before is just a simple char)
-	
-	while (end < inp_len)
-	{
-		quote_start = ft_strchr(inp, ") - inp[0]
-		quote_end = ft_strchr(inp[1], ") - inp[0]
-		
-		if (pipe_index < end)
-			TRUE
-		inp += end;
-	}
-	
-	FALSE
-}
-
-
-
-*/

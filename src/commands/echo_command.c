@@ -24,7 +24,9 @@ t_arg	get_str_without_quotes(t_arg echo_arg,
 		stdout_buffer[*buffer_index] = cur;
 		++(*buffer_index);
 		++(echo_arg.start);
-		trim_extra_spaces_between_words(&echo_arg.start, stdout_buffer, buffer_index);
+		trim_extra_spaces_between_words(&echo_arg.start, \
+										stdout_buffer, \
+										buffer_index);
 		cur = *echo_arg.start;
 	}
 	stdout_buffer[*buffer_index] = '\n';
@@ -36,8 +38,8 @@ static void	add_space_between_strs(char cur_inp,
 								char *stdout_buffer,
 								int *buffer_index)
 {
-	if (cur_inp && 
-		stdout_buffer[*buffer_index] != SPACE 
+	if (cur_inp && \
+		stdout_buffer[*buffer_index] != SPACE
 		&& cur_inp != DOUBLE_QUOTES)
 	{
 		stdout_buffer[*buffer_index] = SPACE;

@@ -14,8 +14,8 @@ typedef enum e_special_chars
 
 typedef struct s_arg
 {
-	const char *start;
-	const char *end;
+	const char	*start;
+	const char	*end;
 }	t_arg;
 
 typedef struct s_command
