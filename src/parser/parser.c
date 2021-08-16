@@ -53,45 +53,17 @@ t_command_code	get_command_code(const char **input)
 	return (INVALID);
 }
 
-typedef struct s_quotes_index
-{
-	int	start;
-	int	end;
-}	t_quotes_index;
-
-t_quotes_index	get_quotes_pair_position(const char *input)
-{
-	char			*start;
-	t_quotes_index	quotes;
-
-	start = ft_strchr(input, DOUBLE_QUOTES);
-	if (start)
-	{
-		quotes.start = start - &input[0];
-		quotes.end = ft_strchr(&input[quotes.start + 1], DOUBLE_QUOTES) - &input[0];
-		return (quotes);
-	}
-	quotes.start = 0;
-	quotes.end = 0;
-	return (quotes);
-}
-
 t_bool	is_between_quotes(const char *input, int pipe_index)
 {
 	t_quotes_index	quotes;
 	int				offset;
 	char			*new_pos;
 
-	quotes = get_quotes_pair_position(input);
-	if (quotes.start < pipe_index && quotes.end > pipe_index)
-		return (TRUE);
-	if (!quotes.start && !quotes.end)
-		return (FALSE);
-	offset = &(input[quotes.end + 1]) - &input[0];
-	new_pos = (char *)&(input[quotes.end + 1]);
+	offset = 0;
+	new_pos = (char *)input;
 	while (new_pos)
 	{
-		quotes = get_quotes_pair_position(new_pos);
+		quotes = get_quotes_indexes(new_pos);
 		if (!quotes.start && !quotes.end)
 			return (FALSE);
 		if (quotes.start + offset < pipe_index && quotes.end + offset > pipe_index)
@@ -108,19 +80,15 @@ int	get_arg_len(const char *start)
 	int		pipe_index;
 	int		start_index;
 
-	pipe_position = ft_strchr(start, PIPE);
-	if (!pipe_position)
-		return (ft_strlen(start));
 	start_index = 0;
-	while (start[start_index] != '\0')
+	pipe_position = ft_strchr(start, PIPE);
+	while (pipe_position && start[start_index] != '\0')
 	{
 		pipe_index = pipe_position - &start[0];
 		if (!is_between_quotes(start, pipe_index))
 			return (pipe_index);
 		start_index += pipe_index + 1;
 		pipe_position = ft_strchr(&start[start_index], PIPE);
-		if (!pipe_position)
-			break ;
 	}
 	return (ft_strlen(start));
 }
@@ -133,6 +101,19 @@ int	check_for_pipe(const char **input)
 		return (1);
 	}
 	return (0);
+}
+
+t_command populate_command(const char **input_ptr)
+{
+	t_command command;
+
+	command.code = get_command_code(input_ptr);
+	if (command.code == INVALID)
+		return (command); // display sintax error when necessary
+	command.arg.start = *input_ptr;
+	command.arg_len = get_arg_len(command.arg.start);
+	command.arg.end = *input_ptr + command.arg_len;
+	return (command);
 }
 
 t_command	*get_commands(const char *input, int *num_commands)
@@ -153,12 +134,9 @@ t_command	*get_commands(const char *input, int *num_commands)
 	{
 		if (i > 0)
 			pipe_count += check_for_pipe(&input_ptr);
-		command_table[i].code = get_command_code(&input_ptr);
+		command_table[i] = populate_command(&input_ptr);
 		if (command_table[i].code == INVALID)
-			break ;// display sintax error when necessary
-		command_table[i].arg.start = input_ptr;
-		command_table[i].arg_len = get_arg_len(command_table[i].arg.start);
-		command_table[i].arg.end = input_ptr + command_table[i].arg_len;
+			break ;
 		input_ptr += command_table[i].arg_len;
 		++i;
 	}
@@ -171,8 +149,6 @@ t_bool	parse_input(const char *input)
 	int				num_commands;
 	const t_command	*command_table = get_commands(input, &num_commands);
 
-	if (!input)
-		return (FALSE);
 	if (!command_table)
 		return (FALSE);
 	dispatch_commands(&input, command_table, num_commands);

@@ -41,7 +41,7 @@ t_bool	dispatch_commands(const char **input, const t_command *command_table, int
 	int	i;
 
 	i = 0;
-	while (i <= num_commands)
+	while (i < num_commands)
 	{
 		if (command_table[i].code == EXIT)
 			exit_command(SUCCESS);

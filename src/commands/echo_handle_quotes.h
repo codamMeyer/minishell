@@ -3,18 +3,20 @@
 
 # include <defines.h>
 
-typedef struct s_check_quotes
-{
-	t_bool	opening;
-	t_bool	closing;
-}	t_check_quotes;
-
 typedef struct s_quotes_position
 {
 	const char	*start;
 	const char	*end;
 }	t_quotes_position;
 
+
+typedef struct s_quotes_index
+{
+	int	start;
+	int	end;
+}	t_quotes_index;
+
+t_quotes_index		get_quotes_indexes(const char *input);
 t_quotes_position	get_quotes_positions(const char *input);
 t_bool				is_double_quote(char c);
 
