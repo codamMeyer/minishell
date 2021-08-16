@@ -171,7 +171,6 @@ t_bool	parse_input(const char *input)
 	int				num_commands;
 	const t_command	*command_table = get_commands(input, &num_commands);
 
-	num_commands = 0;
 	if (!input)
 		return (FALSE);
 	if (!command_table)
