@@ -232,11 +232,11 @@ CTEST2(echo_test, n_flag_with_multiple_ns_valid)
 	ASSERT_STR("hello you", &echo_buf1[0]);
 }
 
-CTEST2(echo_test, followed_by_pipe)
+CTEST2(echo_test, followed_by_pipe_missing_arg)
 {
 	(void)data;
-	const char *input = "echo hello you this is a |";
-	t_command *command = get_commands(&input);
+	const char *input = "echo hello you this is a | ";
+	t_command *command = get_commands(input);
 	ASSERT_EQUAL(SUCCESS, echo_command(command[0], write_to_buf));
 	ASSERT_STR("hello you this is a \n", &echo_buf1[0]);
 	free(command);

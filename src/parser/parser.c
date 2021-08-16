@@ -124,35 +124,59 @@ int get_arg_len(const char *start)
 		return (ft_strlen(start));
 }
 
-t_command	*get_commands(const char **input)
+int check_for_pipe(const char **input)
+{
+	if (ft_strncmp("| ", *input, 2) == 0)
+	{
+		*input += 2;
+		return (1);
+	}
+	return (0);
+}
+
+t_command	*get_commands(const char *input)
 {
 	t_command *command_table;
+	const char *input_ptr = input;
+	int	pipe_count;
 	int	i;
 	
 	if (!*input)
 		return (NULL);
-	command_table = malloc(sizeof(t_command) * 1);
+	command_table = malloc(sizeof(t_command) * 100);
 	if (!command_table)
 		return (NULL);
 	i = 0;
-	command_table[i].code = get_command_code(input);
-	command_table[i].arg.start = *input;
-	command_table[i].arg_len = get_arg_len(command_table->arg.start);
-	command_table[i].arg.end = *input + command_table[i].arg_len;
+	pipe_count = 0;
+	while (*input_ptr)
+	{
+		if (i > 0)
+			pipe_count += check_for_pipe(&input_ptr);
+		command_table[i].code = get_command_code(&input_ptr);
+		if (command_table[i].code == INVALID)
+			break ;
+		command_table[i].arg.start = input_ptr;
+		command_table[i].arg_len = get_arg_len(command_table[i].arg.start);
+		command_table[i].arg.end = input_ptr + command_table[i].arg_len;
+		t_command cur = command_table[i];
+		(void)cur;
+		input_ptr += command_table[i].arg_len;
+		++i;
+	}
 	return (command_table);
 }
 
 t_bool	parse_input(const char *input)
 {
-	const t_command *command_table = get_commands(&input);
+	if (!input)
+		return (FALSE);
+	const t_command *command_table = get_commands(input);
 	if (!command_table)
 		return (FALSE);
 	dispatch_commands(&input, command_table);
 	free((t_command *)command_table);
 	return (TRUE);
 }
-
-
 
 
 /*
