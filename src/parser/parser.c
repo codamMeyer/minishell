@@ -56,21 +56,18 @@ t_command_code	get_command_code(const char **input)
 t_bool	is_between_quotes(const char *input, int reserved_char_index)
 {
 	t_quotes_index	quotes;
-	int				offset;
 	char			*new_pos;
 
-	offset = 0;
 	new_pos = (char *)input;
 	while (new_pos)
 	{
 		quotes = get_quotes_indexes(new_pos);
 		if (!quotes.start && !quotes.end)
 			return (FALSE);
-		if (quotes.start + offset < reserved_char_index
-			&& quotes.end + offset > reserved_char_index)
+		if (quotes.start < reserved_char_index
+			&& quotes.end > reserved_char_index)
 			return (TRUE);
-		offset += quotes.end;
-		new_pos = (char *)&input[quotes.end + offset];
+		new_pos = &new_pos[quotes.end + 1];
 	}
 	return (FALSE);
 }
@@ -94,14 +91,12 @@ int	get_arg_len(const char *start)
 	return (ft_strlen(start));
 }
 
-int	is_pipe(const char **input)
+void	consume_pipe(const char **input, int index)
 {
+	if (index < 1)
+		return ;
 	if (ft_strncmp("| ", *input, 2) == 0)
-	{
 		*input += 2;
-		return (1);
-	}
-	return (0);
 }
 
 /* display sintax error when necessary */
@@ -123,20 +118,17 @@ t_command	*get_commands(const char *input, int *num_commands)
 {
 	const char	*input_line = input;
 	t_command	*command_table;
-	int			pipe_count;
 	int			i;
 
-	if (!input || !*input)
+	if (!input)
 		return (NULL);
 	command_table = malloc(sizeof(t_command) * MAX_CMDS_PER_LINE);
 	if (!command_table)
 		return (NULL);
 	i = 0;
-	pipe_count = 0;
 	while (*input_line)
 	{
-		if (i > 0)
-			pipe_count += is_pipe(&input_line);
+		consume_pipe(&input_line, i);
 		command_table[i] = populate_command(&input_line);
 		if (command_table[i].code == INVALID)
 			break ;
@@ -147,6 +139,7 @@ t_command	*get_commands(const char *input, int *num_commands)
 	return (command_table);
 }
 
+/* command_table[], git ass input to get_commands()/populate_commands_table(), return num commands */
 t_bool	parse_input(const char *input)
 {
 	int				num_commands;

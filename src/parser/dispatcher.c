@@ -8,17 +8,13 @@
 
 static void	copy_unknown_command_to_buffer(const char **input, char buffer[])
 {
-	char	cur;
+	const char	*cur = *input;
 	int		i;
 
 	i = 0;
-	cur = (*input)[i];
-	while (cur && !isspace(cur))
-	{
-		buffer[i] = cur;
+	while (cur[i] && !isspace(cur[i]))
 		++i;
-		cur = (*input)[i];
-	}
+	ft_memcpy(buffer, cur, i);
 	buffer[i] = '\0';
 }
 
@@ -59,3 +55,23 @@ t_bool	dispatch_commands(const char **input, \
 	}
 	return (FALSE);
 }
+
+
+/*
+
+void empty_command(t_command command, t_output_stdout write_to_stdout)
+{
+	(void)command;
+	(void)write_to_stdout;
+}
+
+typedef void(*t_command_function)(t_command, t_output_stdout);
+
+t_command_function commands[LAST] = {
+										empty_command,
+										echo_command,
+										exit_command,
+										pwd_command,
+									}
+
+*/
