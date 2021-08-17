@@ -53,7 +53,7 @@ t_command_code	get_command_code(const char **input)
 	return (INVALID);
 }
 
-t_bool	is_between_quotes(const char *input, int pipe_index)
+t_bool	is_between_quotes(const char *input, int reserved_char_index)
 {
 	t_quotes_index	quotes;
 	int				offset;
@@ -66,7 +66,8 @@ t_bool	is_between_quotes(const char *input, int pipe_index)
 		quotes = get_quotes_indexes(new_pos);
 		if (!quotes.start && !quotes.end)
 			return (FALSE);
-		if (quotes.start + offset < pipe_index && quotes.end + offset > pipe_index)
+		if (quotes.start + offset < reserved_char_index
+			&& quotes.end + offset > reserved_char_index)
 			return (TRUE);
 		offset += quotes.end;
 		new_pos = (char *)&input[quotes.end + offset];
@@ -103,41 +104,43 @@ int	check_for_pipe(const char **input)
 	return (0);
 }
 
-t_command populate_command(const char **input_ptr)
+/* display sintax error when necessary */
+t_command	populate_command(const char **input_ptr)
 {
-	t_command command;
+	t_command	command;
 
 	command.code = get_command_code(input_ptr);
 	if (command.code == INVALID)
-		return (command); // display sintax error when necessary
+		return (command);
 	command.arg.start = *input_ptr;
 	command.arg_len = get_arg_len(command.arg.start);
 	command.arg.end = *input_ptr + command.arg_len;
 	return (command);
 }
 
+/* need to decide how to handle pipes */
 t_command	*get_commands(const char *input, int *num_commands)
 {
+	const char	*input_line = input;
 	t_command	*command_table;
-	const char	*input_ptr = input;
 	int			pipe_count;
 	int			i;
-	
+
 	if (!input || !*input)
 		return (NULL);
-	command_table = malloc(sizeof(t_command) * 100);
+	command_table = malloc(sizeof(t_command) * MAX_CMDS_PER_LINE);
 	if (!command_table)
 		return (NULL);
 	i = 0;
 	pipe_count = 0;
-	while (*input_ptr)
+	while (*input_line)
 	{
 		if (i > 0)
-			pipe_count += check_for_pipe(&input_ptr);
-		command_table[i] = populate_command(&input_ptr);
+			pipe_count += check_for_pipe(&input_line);
+		command_table[i] = populate_command(&input_line);
 		if (command_table[i].code == INVALID)
 			break ;
-		input_ptr += command_table[i].arg_len;
+		input_line += command_table[i].arg_len;
 		++i;
 	}
 	*num_commands = i;

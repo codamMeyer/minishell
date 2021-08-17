@@ -9,7 +9,6 @@ typedef struct s_quotes_position
 	const char	*end;
 }	t_quotes_position;
 
-
 typedef struct s_quotes_index
 {
 	int	start;
