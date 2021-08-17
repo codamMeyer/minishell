@@ -36,7 +36,9 @@ t_bool	unknown_command(const char **input, t_output_stdout output)
 	return (FALSE);
 }
 
-t_bool	dispatch_commands(const char **input, const t_command *command_table, int num_commands)
+t_bool	dispatch_commands(const char **input, \
+							const t_command *command_table, \
+							int num_commands)
 {
 	int	i;
 

@@ -90,8 +90,12 @@ int	echo_command(t_command command, t_output_stdout output)
 	buffer_index = 0;
 	while (command.arg.start < command.arg.end)
 	{
-		command.arg = get_str_with_quotes(command.arg, stdout_buffer, &buffer_index);
-		command.arg = get_str_without_quotes(command.arg, stdout_buffer, &buffer_index);
+		command.arg = get_str_with_quotes(command.arg, \
+											stdout_buffer, \
+											&buffer_index);
+		command.arg = get_str_without_quotes(command.arg, \
+												stdout_buffer, \
+												&buffer_index);
 	}
 	if (has_n_flag)
 		stdout_buffer[buffer_index] = '\0';

@@ -28,7 +28,8 @@ t_quotes_index	get_quotes_indexes(const char *input)
 	if (start)
 	{
 		quotes.start = start - &input[0];
-		quotes.end = ft_strchr(&input[quotes.start + 1], DOUBLE_QUOTES) - &input[0];
+		quotes.end = \
+			ft_strchr(&input[quotes.start + 1], DOUBLE_QUOTES) - &input[0];
 		return (quotes);
 	}
 	quotes.start = 0;

@@ -94,7 +94,7 @@ int	get_arg_len(const char *start)
 	return (ft_strlen(start));
 }
 
-int	check_for_pipe(const char **input)
+int	is_pipe(const char **input)
 {
 	if (ft_strncmp("| ", *input, 2) == 0)
 	{
@@ -136,7 +136,7 @@ t_command	*get_commands(const char *input, int *num_commands)
 	while (*input_line)
 	{
 		if (i > 0)
-			pipe_count += check_for_pipe(&input_line);
+			pipe_count += is_pipe(&input_line);
 		command_table[i] = populate_command(&input_line);
 		if (command_table[i].code == INVALID)
 			break ;
