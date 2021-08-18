@@ -1,7 +1,9 @@
 MINISHELL=minishell
 TEST_NAME=$(MINISHELL)_test
+CI_NAME=$(MINISHELL)_ci
 CC=gcc
-CFLAGS=-ggdb3 -Wall -Wextra -Werror -fsanitize=leak -fsanitize=address
+CFLAGS=-ggdb3 -Wall -Wextra -Werror
+CFLAGS_CI=$(CFLAGS) -fsanitize=leak -fsanitize=address
 INC_PATH=-I./src -I./libft
 LDFLAGS= -lreadline -L./libft -lft
 LIBFT_PATH = libft/
@@ -52,6 +54,10 @@ test: $(MINISHELL_OBJS) $(TEST_FILES)
 	make -C $(LIBFT_PATH)
 	$(CC) $(CFLAGS) $(INC_PATH) $(MINISHELL_OBJS) $(TEST_FILES) -o $(TEST_NAME) $(LDFLAGS)
 
+circleci: $(MINISHELL_OBJS) $(TEST_FILES)
+	make -C $(LIBFT_PATH)
+	$(CC) $(CFLAGS_CI) $(INC_PATH) $(MINISHELL_OBJS) $(TEST_FILES) -o $(CI_NAME) $(LDFLAGS)
+
 acceptance_test: $(MINISHELL)
 	python3 tests/acceptance/main.py
 
@@ -64,5 +70,6 @@ re: fclean all
 fclean: clean
 	rm -f $(MINISHELL)
 	rm -f $(TEST_NAME)
+	rm -f $(CI_NAME)
 
 .PHONY: all clean fclean re test libftprintf
