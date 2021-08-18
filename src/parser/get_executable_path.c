@@ -1,36 +1,57 @@
-#include <libft.h>
-#include <sys/stat.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <libft.h>
+#include <parser/get_executable_path.h>
 
-/*
-	command format for now = "/ls", including the backslash
-	probably gonna need to strjoin that on there.
+static void	append_command_to_path(char	*buffer, const char *command)
+{
+	const int	cmd_len = ft_strlen(command) + TERMINATOR;
 
-	getenv(=PATH) returns a string like this: "/bin;usr/bin;usr/sbin;/sbin"
+	*buffer = FORWARD_SLASH;
+	buffer += 1;
+	ft_strlcpy(buffer, command, cmd_len);
+}
 
-	which is then split on colons
-	I loop through each seperated path to see if it can be accessed with stat()
-	stat() returns 0 on success otherwise -1
-*/
+static int	get_sub_path_len(const char *path)
+{
+	int	i;
+
+	i = 0;
+	while (path && path[i] != '\0' && path[i] != COLON)
+		i++;
+	return (i);
+}
+
+static void	get_single_path(const char *all_paths, char *buffer, int size)
+{
+	ft_strlcpy(buffer, all_paths, size + TERMINATOR);
+}
+
+int	is_executable(char *full_path_executable, struct stat *status)
+{
+	return (stat(full_path_executable, status));
+}
 
 char	*get_executable_path(const char *command)
 {
-	const char	**all_paths = (const char **)ft_split(getenv("PATH="), ':');
-	char		*executable_path;
-	int			i;
-	struct stat	buf;
+	const char	*all_paths = getenv(PATH);
+	char		*executable_buffer;
+	int			single_path_len;
+	struct stat	status;
 
-	if (!command)
+	executable_buffer = calloc(CMD_BUFFER_SIZE, sizeof(char));
+	if (!executable_buffer || !command || !all_paths)
 		return (NULL);
-	i = 0;
-	executable_path = NULL;
-	while (all_paths[i])
+	while (*all_paths)
 	{
-		executable_path = ft_strjoin(all_paths[i], command);
-		if (executable_path && stat(executable_path, &buf) == 0)
-			return (executable_path);
-		free(executable_path);
-		i++;
+		single_path_len = get_sub_path_len(all_paths);
+		get_single_path(all_paths, executable_buffer, single_path_len);
+		if (single_path_len != (int)ft_strlen(executable_buffer))
+			printf("Not sure if the error check is unnecesary?\n");
+		append_command_to_path(&executable_buffer[single_path_len], command);
+		if (is_executable(executable_buffer, &status) == F_OK)
+			return (executable_buffer);
+		all_paths += single_path_len + 1;
 	}
 	return (NULL);
 }
