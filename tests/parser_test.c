@@ -9,7 +9,7 @@ CTEST(parse_input, success_return)
 
 CTEST(parse_input, no_line_to_parse)
 {
-    ASSERT_FALSE(parse_input(NULL));
+    ASSERT_TRUE(parse_input(NULL));
 }
 
 CTEST(parse_command, unknown_command)
@@ -118,14 +118,14 @@ CTEST2(command_table, command_cointaining_pipe_between_quotes)
 CTEST2(command_table, input_starting_with_pipe)
 {
     const char *input = "| this is syntax error";
-    ASSERT_EQUAL(0, populate_commands_table(input, data->command_table));
+    ASSERT_EQUAL(1, populate_commands_table(input, data->command_table));
     ASSERT_EQUAL(INVALID, data->command_table[0].code);
 }
 
 CTEST2(command_table, input_ending_with_pipe)
 {
     const char *input = "echo this is syntax error |";
-    ASSERT_EQUAL(1, populate_commands_table(input, data->command_table));
+    ASSERT_EQUAL(2, populate_commands_table(input, data->command_table));
     ASSERT_EQUAL(INVALID, data->command_table[1].code);
 }
 

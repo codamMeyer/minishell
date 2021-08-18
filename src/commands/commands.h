@@ -27,8 +27,8 @@ typedef struct s_command
 
 typedef void	(*t_output_stdout)(const char *);
 
-void	exit_command(t_exit_code exit_code);
-int		echo_command(t_command command_table, t_output_stdout output);
-int		pwd_command(t_output_stdout output);
+t_exit_code	exit_command(t_command command, t_output_stdout write_to_stdout);
+t_exit_code	echo_command(t_command command_table, t_output_stdout output);
+t_exit_code	pwd_command(t_command command, t_output_stdout output);
 
 #endif

@@ -2,7 +2,10 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-void	exit_command(t_exit_code exit_code)
+t_exit_code	exit_command(t_command command, t_output_stdout write_to_stdout)
 {
-	exit(exit_code);
+	(void)command;
+	(void)write_to_stdout;
+	exit(SUCCESS); // parse argument to get return code
+	return (SUCCESS);
 }

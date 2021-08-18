@@ -8,7 +8,7 @@ t_bool			parse_input(const char *input);
 t_command_code	get_command_code(const char **input);
 void			advance_pointer(const char **input, const char *parsed_str);
 void			skip_spaces(const char **input);
-int		        populate_commands_table(const char *input, t_command commands_table[]);
+int				populate_commands_table(const char *input, t_command commands_table[]);
 t_bool			is_between_quotes(const char *input, int pipe_index);
 
 #endif

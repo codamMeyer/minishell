@@ -3,9 +3,9 @@
 # include <defines.h>
 # include <commands/commands.h>
 
-t_bool	unknown_command(const char **input, t_output_stdout output);
-t_bool	dispatch_commands(const char **input,
-			const t_command *command_table,
-			int num_commands);
+typedef t_exit_code(*t_command_function)(t_command, t_output_stdout);
+
+t_exit_code	unknown_command(t_command command, t_output_stdout output);
+t_exit_code	dispatch_commands(const t_command *command_table, int num_commands);
 
 #endif
