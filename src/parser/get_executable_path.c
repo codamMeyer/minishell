@@ -9,7 +9,8 @@
 	getenv(=PATH) returns a string like this: "/bin;usr/bin;usr/sbin;/sbin"
 
 	which is then split on colons
-	I loop through each seperated path to see if it can be accessed with stat() which returns 0 on success otherwise -1
+	I loop through each seperated path to see if it can be accessed with stat()
+	stat() returns 0 on success otherwise -1
 */
 
 char	*get_executable_path(const char *command)
@@ -17,7 +18,7 @@ char	*get_executable_path(const char *command)
 	const char	**all_paths = (const char **)ft_split(getenv("PATH="), ':');
 	char		*executable_path;
 	int			i;
-	struct	stat	buf;
+	struct stat	buf;
 
 	if (!command)
 		return (NULL);
