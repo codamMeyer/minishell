@@ -235,10 +235,9 @@ CTEST2(echo_test, n_flag_with_multiple_ns_valid)
 CTEST2(echo_test, followed_by_pipe_missing_arg)
 {
 	(void)data;
-	const char *input = "echo hello you this is a | ";
-	int num_commands = 0;
-	t_command *command = get_commands(input, &num_commands);
+	t_command command[100];
+	const char *input = "echo hello you this is a | echo second command";
+	ASSERT_EQUAL(2, populate_commands_table(input, command));
 	ASSERT_EQUAL(SUCCESS, echo_command(command[0], write_to_buf));
 	ASSERT_STR("hello you this is a \n", &echo_buf1[0]);
-	free(command);
 }

@@ -114,40 +114,34 @@ t_command	populate_command(const char **input_ptr)
 }
 
 /* need to decide how to handle pipes */
-t_command	*get_commands(const char *input, int *num_commands)
+int	populate_commands_table(const char *input, t_command commands_table[])
 {
 	const char	*input_line = input;
-	t_command	*command_table;
 	int			i;
 
 	if (!input)
-		return (NULL);
-	command_table = malloc(sizeof(t_command) * MAX_CMDS_PER_LINE);
-	if (!command_table)
-		return (NULL);
+		return (0);
 	i = 0;
 	while (*input_line)
 	{
 		consume_pipe(&input_line, i);
-		command_table[i] = populate_command(&input_line);
-		if (command_table[i].code == INVALID)
+		commands_table[i] = populate_command(&input_line);
+		if (commands_table[i].code == INVALID)
 			break ;
-		input_line += command_table[i].arg_len;
+		input_line += commands_table[i].arg_len;
 		++i;
 	}
-	*num_commands = i;
-	return (command_table);
+	return (i);
 }
 
-/* command_table[], git ass input to get_commands()/populate_commands_table(), return num commands */
 t_bool	parse_input(const char *input)
 {
-	int				num_commands;
-	const t_command	*command_table = get_commands(input, &num_commands);
-
-	if (!command_table)
+	t_command	commands_table[MAX_CMDS_PER_LINE];
+	int			num_commands;
+	
+	num_commands = populate_commands_table(input, commands_table);
+	if (!num_commands)
 		return (FALSE);
-	dispatch_commands(&input, command_table, num_commands);
-	free((t_command *)command_table);
+	dispatch_commands(&input, commands_table, num_commands);
 	return (TRUE);
 }
