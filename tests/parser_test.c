@@ -1,4 +1,5 @@
 #include "ctest.h"
+#include "../src/parser/command_table.h"
 #include "../src/parser/parser.h"
 #include <stdlib.h>
 

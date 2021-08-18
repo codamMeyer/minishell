@@ -11,6 +11,7 @@ LIBFT_PATH = libft/
 MINISHELL_INCS= 						\
 	src/defines.h						\
 	src/parser/parser.h					\
+	src/parser/command_table.h			\
 	src/output/prompt.h					\
 	src/parser/dispatcher.h				\
 	src/commands/commands.h				\
@@ -21,6 +22,7 @@ MINISHELL_SRC= 							\
 	src/parser/parser.c					\
 	src/output/prompt.c					\
 	src/parser/parser_utils.c			\
+	src/parser/command_table.c			\
 	src/parser/dispatcher.c				\
 	src/commands/exit_command.c			\
 	src/commands/echo_command.c			\
