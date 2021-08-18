@@ -14,7 +14,7 @@ LIGHT_WHITE = "\033[0;37m"
 LIGHT_YELLOW = "\033[0;33m"
 RESET = "\033[0m"
 RUN_CAT_COMMAND = "cat {}"
-LAUNCH_MINISHELL_COMMAND = "./minishell"
+LAUNCH_MINISHELL_COMMAND = "./minishell_asan"
 
 def printTestName(testName):
     print("\n{}======================= {}{}{}".format(LIGHT_PURPLE, LIGHT_YELLOW, testName, RESET))

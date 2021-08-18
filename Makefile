@@ -1,9 +1,9 @@
 MINISHELL=minishell
 TEST_NAME=$(MINISHELL)_test
-CI_NAME=$(MINISHELL)_ci
+MINISHELL_ASAN=$(MINISHELL)_asan
 CC=gcc
 CFLAGS=-ggdb3 -Wall -Wextra -Werror
-CFLAGS_CI=$(CFLAGS) -fsanitize=leak -fsanitize=address
+CFLAGS_ASAN=$(CFLAGS) -fsanitize=leak
 INC_PATH=-I./src -I./libft
 LDFLAGS= -lreadline -L./libft -lft
 LIBFT_PATH = libft/
@@ -17,7 +17,7 @@ MINISHELL_INCS= 						\
 	src/commands/echo_utils.h			\
 	src/commands/echo_handle_quotes.h	\
 
-MINISHELL_src= 							\
+MINISHELL_SRC= 							\
 	src/parser/parser.c					\
 	src/output/prompt.c					\
 	src/parser/parser_utils.c			\
@@ -36,9 +36,9 @@ TEST_FILES=					\
 	tests/pwd_test.c	\
 	tests/unknown_test.c	\
 
-MINISHELL_OBJS=$(MINISHELL_src:.c=.o)
+MINISHELL_OBJS=$(MINISHELL_SRC:.c=.o)
 
-all: $(MINISHELL)
+all: $(MINISHELL) $(MINISHELL_ASAN)
 
 $(MINISHELL): $(MINISHELL_OBJS)
 		make -C $(LIBFT_PATH)
@@ -51,14 +51,19 @@ test_run: test
 	./$(TEST_NAME)
 
 test: $(MINISHELL_OBJS) $(TEST_FILES)
-	make -C $(LIBFT_PATH)
-	$(CC) $(CFLAGS) $(INC_PATH) $(MINISHELL_OBJS) $(TEST_FILES) -o $(TEST_NAME) $(LDFLAGS)
+	@make -C $(LIBFT_PATH)
+	@$(CC) $(CFLAGS) $(INC_PATH) $(MINISHELL_OBJS) $(TEST_FILES) -o $(TEST_NAME) $(LDFLAGS)
 
-circleci: $(MINISHELL_OBJS) $(TEST_FILES)
-	make -C $(LIBFT_PATH)
-	$(CC) $(CFLAGS_CI) $(INC_PATH) $(MINISHELL_OBJS) $(TEST_FILES) -o $(CI_NAME) $(LDFLAGS)
+test_asan: $(MINISHELL_SRC) $(TEST_FILES)
+	@make -C $(LIBFT_PATH)
+	@$(CC) $(CFLAGS_ASAN) $(INC_PATH) $(MINISHELL_SRC) $(TEST_FILES) -o test_asan $(LDFLAGS)
+	./test_asan
 
-acceptance_test: $(MINISHELL)
+$(MINISHELL_ASAN): $(MINISHELL_SRC)
+	make -C $(LIBFT_PATH)
+	$(CC) $(CFLAGS_ASAN) $(INC_PATH) main.c -o $(MINISHELL_ASAN) $^ $(LDFLAGS)
+
+acceptance_test: $(MINISHELL_ASAN)
 	python3 tests/acceptance/main.py
 
 clean:
@@ -70,6 +75,7 @@ re: fclean all
 fclean: clean
 	rm -f $(MINISHELL)
 	rm -f $(TEST_NAME)
-	rm -f $(CI_NAME)
+	rm -f test_asan
+	rm -f $(MINISHELL_ASAN)
 
 .PHONY: all clean fclean re test libftprintf

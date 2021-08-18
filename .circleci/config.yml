@@ -16,8 +16,11 @@ jobs:
           name: Build
           command: 'echo Building'
       - run:
-          name: Unit-Test With Sanitize
-          command: "make circleci"
+          name: Unit-Test
+          command: "make test_run"
+      - run:
+          name: Unit-Test ASAN
+          command: "make test_asan"
       - run:
           name: Acceptance-Test
           command: make acceptance_test
