@@ -22,7 +22,8 @@ static int	get_sub_path_len(const char *path)
 	return (i);
 }
 
-static void	copy_possible_path_to_buffer(const char *all_paths, char *buffer, int size)
+static void	copy_possible_path_to_buffer(const char *all_paths,
+		char *buffer, int size)
 {
 	ft_strlcpy(buffer, all_paths, size + TERMINATOR);
 }

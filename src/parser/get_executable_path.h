@@ -4,7 +4,7 @@
 # define PATH "PATH"
 # define COLON ':'
 # define FORWARD_SLASH '/'
-# define CMD_BUFFER_SIZE 256
+# define CMD_BUFFER_SIZE 4096
 # define TERMINATOR 1
 
 # include <defines.h>
