@@ -22,7 +22,7 @@ static int	get_sub_path_len(const char *path)
 	return (i);
 }
 
-static void	get_single_path(const char *all_paths, char *buffer, int size)
+static void	copy_possible_path_to_buffer(const char *all_paths, char *buffer, int size)
 {
 	ft_strlcpy(buffer, all_paths, size + TERMINATOR);
 }
@@ -35,22 +35,19 @@ int	is_executable(char *full_path_executable, struct stat *status)
 char	*get_executable_path(const char *command)
 {
 	const char	*all_paths = getenv(PATH);
-	char		*executable_buffer;
+	char		buffer[CMD_BUFFER_SIZE];
 	int			single_path_len;
 	struct stat	status;
 
-	executable_buffer = calloc(CMD_BUFFER_SIZE, sizeof(char));
-	if (!executable_buffer || !command || !all_paths)
+	if (!command || !all_paths)
 		return (NULL);
 	while (*all_paths)
 	{
 		single_path_len = get_sub_path_len(all_paths);
-		get_single_path(all_paths, executable_buffer, single_path_len);
-		if (single_path_len != (int)ft_strlen(executable_buffer))
-			printf("Not sure if the error check is unnecesary?\n");
-		append_command_to_path(&executable_buffer[single_path_len], command);
-		if (is_executable(executable_buffer, &status) == F_OK)
-			return (executable_buffer);
+		copy_possible_path_to_buffer(all_paths, &buffer[0], single_path_len);
+		append_command_to_path(&buffer[single_path_len], command);
+		if (is_executable(buffer, &status) == F_OK)
+			return (ft_strdup(&buffer[0]));
 		all_paths += single_path_len + 1;
 	}
 	return (NULL);
