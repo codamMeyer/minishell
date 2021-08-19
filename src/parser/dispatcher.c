@@ -43,12 +43,12 @@ t_exit_code	dispatch_commands(const t_command *command_table, \
 							int num_commands)
 {
 	static const t_command_function		functions[LAST] = {
-			empty_command,
-			echo_command,
-			exit_command,
-			pwd_command,
-			unknown_command,
-	};
+															empty_command,
+															echo_command,
+															exit_command,
+															pwd_command,
+															unknown_command,
+															};
 	int									i;
 
 	i = 0;
