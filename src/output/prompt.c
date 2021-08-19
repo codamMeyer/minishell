@@ -8,7 +8,7 @@
 char	*display_prompt(char *buffer)
 {
 	const char	*path = getcwd(NULL, 0);
-	const int	path_len = ft_strlen(path);
+	const int	path_len = ft_strlen(path) + 1;
 	const int	color_len = ft_strlen(COLOR);
 	const int	reset_color_len = ft_strlen(RESET_COLOR);
 
