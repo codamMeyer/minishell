@@ -9,7 +9,7 @@ char	*display_prompt(char *buffer)
 {
 	const char	*path = getcwd(NULL, 0);
 	const int	path_len = ft_strlen(path) + 1;
-	const int	color_len = ft_strlen(COLOR);
+	const int	color_len = ft_strlen(COLOR) + 1;
 	const int	reset_color_len = ft_strlen(RESET_COLOR);
 
 	ft_bzero(buffer, sizeof(buffer));
