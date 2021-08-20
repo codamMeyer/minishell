@@ -1,6 +1,7 @@
 #include "ctest.h"
 #include "../src/parser/get_executable_path.h"
 #include <unistd.h>
+#include <stdlib.h>
 
 CTEST(test_executability, invalid_executable_path)
 {
@@ -57,7 +58,6 @@ CTEST(tests_exe_path_return, null_input)
 	ASSERT_NULL(get_executable_path(NULL));
 }
 
-
 CTEST(tests_exe_path_return,incomplete_command)
 {
 	ASSERT_NULL(get_executable_path("l"));
@@ -68,20 +68,14 @@ CTEST(tests_exe_path_return,incomplete_command)
 CTEST(tests_exe_path_return, invalid_command)
 {
 	ASSERT_NULL(get_executable_path("ltp"));
-	ASSERT_NULL(get_executable_path("cwd"));
-	ASSERT_NULL(get_executable_path("lsv"));
 	ASSERT_NULL(get_executable_path("###"));
-	ASSERT_NULL(get_executable_path("cmd"));
 	ASSERT_NULL(get_executable_path("ls/"));
 	ASSERT_NULL(get_executable_path("      "));
 }
 
-
 CTEST(tests_exe_path_return, path_for_valid_commands)
 {
-	ASSERT_EQUAL(F_OK, access(get_executable_path("ls"), F_OK));
-	ASSERT_EQUAL(F_OK, access(get_executable_path("cat"), F_OK));
-	ASSERT_EQUAL(F_OK, access(get_executable_path("grep"), F_OK));
-	ASSERT_EQUAL(F_OK, access(get_executable_path("clear"), F_OK));
-	ASSERT_EQUAL(F_OK, access(get_executable_path("env"), F_OK));
+	char *path = get_executable_path("ls");
+	ASSERT_NOT_NULL(path);
+	free(path);
 }
