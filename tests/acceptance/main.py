@@ -6,5 +6,5 @@ from echo_feature_test import TestEcho
 from pwd_feature_test import TestPWD
 
 if __name__ == '__main__':
-    assert Path("./minishell_asan").is_file()
+    assert Path("./minishell").is_file()
     unittest.main()

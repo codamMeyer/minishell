@@ -65,7 +65,7 @@ $(MINISHELL_ASAN): $(MINISHELL_SRC)
 	make -C $(LIBFT_PATH)
 	$(CC) $(CFLAGS_ASAN) $(INC_PATH) main.c -o $(MINISHELL_ASAN) $^ $(LDFLAGS)
 
-acceptance_test: $(MINISHELL_ASAN)
+acceptance_test: $(MINISHELL)
 	python3 tests/acceptance/main.py
 
 clean:
