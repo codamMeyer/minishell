@@ -123,8 +123,9 @@ CTEST2(command_table, input_starting_with_pipe)
     ASSERT_EQUAL(INVALID, data->command_table[0].code);
 }
 
-CTEST2(command_table, input_ending_with_pipe)
+CTEST2_SKIP(command_table, input_ending_with_pipe)
 {
+    // We need to decide if pipe at the end will be syntax error or not
     const char *input = "echo this is syntax error |";
     ASSERT_EQUAL(2, populate_commands_table(input, data->command_table));
     ASSERT_EQUAL(INVALID, data->command_table[1].code);
@@ -149,6 +150,18 @@ CTEST2(command_table, separate_by_pipe_and_followed_by_command_containing_quotes
     ASSERT_EQUAL(ECHO, data->command_table[0].code);
     ASSERT_STR(" this is the end | pwd with arg", data->command_table[0].arg.start);
     ASSERT_STR("| pwd with arg", data->command_table[0].arg.end);
+    ASSERT_EQUAL(PWD, data->command_table[1].code);
+    ASSERT_STR(" with arg", data->command_table[1].arg.start);
+    ASSERT_STR("", data->command_table[1].arg.end);
+}
+
+CTEST2(command_table, separate_by_pipe_without_quotes)
+{
+    const char *input = "echo this is the end|pwd with arg";
+    ASSERT_EQUAL(2, populate_commands_table(input, data->command_table));
+    ASSERT_EQUAL(ECHO, data->command_table[0].code);
+    ASSERT_STR(" this is the end|pwd with arg", data->command_table[0].arg.start);
+    ASSERT_STR("|pwd with arg", data->command_table[0].arg.end);
     ASSERT_EQUAL(PWD, data->command_table[1].code);
     ASSERT_STR(" with arg", data->command_table[1].arg.start);
     ASSERT_STR("", data->command_table[1].arg.end);
