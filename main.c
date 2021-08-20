@@ -19,8 +19,11 @@ static void	run(void)
 	}
 }
 
-int	main(void)
+int	main(int argc, const char *argv[], char *envp[])
 {
+	(void)argc;
+	(void)argv;
+	(void)envp;
 	run();
 	return (0);
 }
