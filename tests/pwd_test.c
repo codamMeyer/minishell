@@ -45,6 +45,7 @@ CTEST2(pwd_test, success)
     char expected[2048];
     getcwd(&expected[0], sizeof(expected));
 	t_command command;
+	command.code = PWD;
 	ASSERT_EQUAL(SUCCESS, pwd_command(command, write_to_buf1));
 	ASSERT_STR(&expected[0], &pwd_buf1[0]);
 	ASSERT_STR("\n", &pwd_buf2[0]);

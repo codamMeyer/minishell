@@ -44,14 +44,15 @@ void	write_to_stdout(const char *string_to_write)
 	write(STDOUT_FILENO, string_to_write, len_inside);
 }
 
-void	trim_extra_spaces_between_words(const char **input,
+void	trim_extra_spaces_between_words(t_arg *arg,
 										char *stdout_buffer,
 										int *buffer_index)
 {
-	if (isspace(*(*input)) && *(*input + 1))
+	if (isspace(*arg->start) && *(arg->start + 1))
+		skip_spaces(&arg->start);
+	if (arg->start != arg->end)
 	{
 		stdout_buffer[*buffer_index] = SPACE;
 		++(*buffer_index);
-		skip_spaces(input);
 	}
 }

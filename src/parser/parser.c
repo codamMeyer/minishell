@@ -13,7 +13,7 @@ static void	consume_pipe(const char **input, int index)
 {
 	if (index < 1)
 		return ;
-	if (ft_strncmp("| ", *input, 2) == 0)
+	if (ft_strncmp("| ", *input, 2) == 0) // pipe can be without spaces after.
 		*input += 2;
 }
 

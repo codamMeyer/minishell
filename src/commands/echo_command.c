@@ -21,12 +21,16 @@ t_arg	get_str_without_quotes(t_arg echo_arg,
 	cur = *echo_arg.start;
 	while (cur && !is_double_quote(cur) && echo_arg.start < echo_arg.end)
 	{
-		stdout_buffer[*buffer_index] = cur;
-		++(*buffer_index);
-		++(echo_arg.start);
-		trim_extra_spaces_between_words(&echo_arg.start, \
+		if (isspace(cur))
+			trim_extra_spaces_between_words(&echo_arg, \
 										stdout_buffer, \
 										buffer_index);
+		else
+		{
+			stdout_buffer[*buffer_index] = cur;
+			++(*buffer_index);
+			++(echo_arg.start);
+		}
 		cur = *echo_arg.start;
 	}
 	stdout_buffer[*buffer_index] = '\n';

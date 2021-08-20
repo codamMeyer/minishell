@@ -62,7 +62,6 @@ t_exit_code	dispatch_commands(const t_command *command_table, \
 
 /*
 
-
 t_command_function commands[LAST] = {
 										empty_command,
 										echo_command,

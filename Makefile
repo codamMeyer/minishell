@@ -1,7 +1,7 @@
 MINISHELL=minishell
 TEST_NAME=$(MINISHELL)_test
 MINISHELL_ASAN=$(MINISHELL)_asan
-CC=gcc
+CC=clang
 CFLAGS=-ggdb3 -Wall -Wextra -Werror
 CFLAGS_ASAN=$(CFLAGS) -fsanitize=leak
 INC_PATH=-I./src -I./libft
