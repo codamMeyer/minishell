@@ -24,12 +24,12 @@ t_bool	is_valid_n_flag_extras(const char **input)
 	return (TRUE);
 }
 
-t_bool	parse_n_flag(const char **input)
+t_bool	parse_n_flag(t_arg *input)
 {
-	skip_spaces(input);
-	if (ft_strncmp((char *)*input, N_FLAG, ft_strlen(N_FLAG)) == 0)
+	skip_spaces(&input->start);
+	if (ft_strncmp(input->start, N_FLAG, ft_strlen(N_FLAG)) == 0)
 	{
-		if (!is_valid_n_flag_extras(input))
+		if (!is_valid_n_flag_extras(&input->start))
 			return (FALSE);
 		parse_n_flag(input);
 		return (TRUE);
@@ -44,14 +44,15 @@ void	write_to_stdout(const char *string_to_write)
 	write(STDOUT_FILENO, string_to_write, len_inside);
 }
 
-void	trim_extra_spaces_between_words(const char **input,
+void	trim_extra_spaces_between_words(t_arg *arg,
 										char *stdout_buffer,
 										int *buffer_index)
 {
-	if (isspace(*(*input)) && *(*input + 1))
+	if (isspace(*arg->start) && *(arg->start + 1))
+		skip_spaces(&arg->start);
+	if (arg->start != arg->end)
 	{
 		stdout_buffer[*buffer_index] = SPACE;
 		++(*buffer_index);
-		skip_spaces(input);
 	}
 }

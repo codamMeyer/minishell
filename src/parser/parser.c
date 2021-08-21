@@ -1,52 +1,66 @@
 #include <parser/parser.h>
+#include <parser/command_table.h>
 #include <parser/dispatcher.h>
 #include <string.h>
 #include <ctype.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <libft.h>
+#include <commands/echo_handle_quotes.h>
+#include <commands/echo_utils.h>
 
-static t_bool	is_valid_last_char(char last_char)
+static void	consume_pipe(const char **input, int index)
 {
-	return (isspace(last_char) || last_char == '\0');
+	if (index < 1)
+		return ;
+	if (ft_strncmp("|", *input, 1) == 0)
+		++(*input);
 }
 
-static t_bool	is_command(const char *input, const char *command)
+/* display syntax error when necessary */
+t_command	populate_command(const char **input_ptr)
 {
-	const int		command_len = strlen(command);
-	const char		last_char = input[command_len];
+	t_command	command;
 
-	return (strncmp(input, command, command_len) == 0
-		&& is_valid_last_char(last_char));
+	command.code = get_command_code(input_ptr);
+	command.arg.start = *input_ptr;
+	if (command.code == INVALID)
+		return (command);
+	command.arg_len = get_arg_len(command.arg.start);
+	command.arg.end = *input_ptr + command.arg_len;
+	return (command);
 }
 
-t_command	parse_command(const char **input)
+/* need to decide how to handle pipes */
+int	populate_commands_table(const char *input, t_command commands_table[])
 {
-	static const char	*commands[LAST] = {
-											"echo",
-											"exit",
-											"pwd",
-											"",
-											"invalid"
-										};
-	t_command			command_code;
+	const char	*input_line = input;
+	int			i;
 
-	skip_spaces(input);
-	command_code = ECHO;
-	while (command_code < INVALID)
+	if (!input)
+		return (0);
+	i = 0;
+	while (*input_line)
 	{
-		if (is_command(*input, commands[command_code]))
+		consume_pipe(&input_line, i);
+		commands_table[i] = populate_command(&input_line);
+		if (commands_table[i].code == INVALID)
 		{
-			advance_pointer(input, commands[command_code]);
-			return (command_code);
+			++i;
+			break ;
 		}
-		++command_code;
+		input_line += commands_table[i].arg_len;
+		++i;
 	}
-	return (INVALID);
+	return (i);
 }
 
 t_bool	parse_input(const char *input)
 {
-	if (!input)
-		return (FALSE);
-	dispatch_commands(&input, parse_command(&input));
+	t_command	commands_table[MAX_CMDS_PER_LINE];
+	int			num_commands;
+
+	num_commands = populate_commands_table(input, commands_table);
+	dispatch_commands(commands_table, num_commands);
 	return (TRUE);
 }

@@ -11,7 +11,7 @@
 # **************************************************************************** #
 
 CC=gcc
-CFLAGS = -Wall -Werror -Wextra
+CFLAGS = -Wall -Werror -Wextra -ggdb3
 NAME = libft.a
 BASIC_OBJ_FILES = 	ft_toupper.o\
 					ft_tolower.o\

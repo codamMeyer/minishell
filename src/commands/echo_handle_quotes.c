@@ -19,6 +19,24 @@ t_quotes_position	get_quotes_positions(const char *input)
 	return (quotes_position);
 }
 
+t_quotes_index	get_quotes_indexes(const char *input)
+{
+	char			*start;
+	t_quotes_index	quotes;
+
+	start = ft_strchr(input, DOUBLE_QUOTES);
+	if (start)
+	{
+		quotes.start = start - &input[0];
+		quotes.end = \
+			ft_strchr(&input[quotes.start + 1], DOUBLE_QUOTES) - &input[0];
+		return (quotes);
+	}
+	quotes.start = 0;
+	quotes.end = 0;
+	return (quotes);
+}
+
 t_bool	is_double_quote(char c)
 {
 	return (c == DOUBLE_QUOTES);

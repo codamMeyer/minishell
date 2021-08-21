@@ -3,14 +3,13 @@
 #include <libft.h>
 #include <stdio.h>
 
-int	pwd_command(t_output_stdout output)
+t_exit_code	pwd_command(t_command command, t_output_stdout output)
 {
-	const char	*buffer = getcwd(NULL, 0);
-
-	if (!buffer)
+	command.arg.start = getcwd(NULL, 0);
+	if (!command.arg.start)
 		return (ERROR);
-	output(&buffer[0]);
+	output(command.arg.start);
 	output("\n");
-	free((char *)buffer);
+	free((char *)command.arg.start);
 	return (SUCCESS);
 }

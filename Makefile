@@ -1,7 +1,9 @@
 MINISHELL=minishell
 TEST_NAME=$(MINISHELL)_test
-CC=gcc
+MINISHELL_ASAN=$(MINISHELL)_asan
+CC=clang
 CFLAGS=-ggdb3 -Wall -Wextra -Werror
+CFLAGS_ASAN=$(CFLAGS) -fsanitize=leak
 INC_PATH=-I./src -I./libft
 LDFLAGS= -lreadline -L./libft -lft
 LIBFT_PATH = libft/
@@ -9,6 +11,7 @@ LIBFT_PATH = libft/
 MINISHELL_INCS= 						\
 	src/defines.h						\
 	src/parser/parser.h					\
+	src/parser/command_table.h			\
 	src/output/prompt.h					\
 	src/parser/dispatcher.h				\
 	src/parser/get_executable_path.h	\
@@ -16,10 +19,11 @@ MINISHELL_INCS= 						\
 	src/commands/echo_utils.h			\
 	src/commands/echo_handle_quotes.h	\
 
-MINISHELL_src= 							\
+MINISHELL_SRC= 							\
 	src/parser/parser.c					\
 	src/output/prompt.c					\
 	src/parser/parser_utils.c			\
+	src/parser/command_table.c			\
 	src/parser/dispatcher.c				\
 	src/parser/get_executable_path.c	\
 	src/commands/exit_command.c			\
@@ -37,9 +41,9 @@ TEST_FILES=								\
 	tests/unknown_test.c				\
 	tests/get_executable_path_test.c	\
 
-MINISHELL_OBJS=$(MINISHELL_src:.c=.o)
+MINISHELL_OBJS=$(MINISHELL_SRC:.c=.o)
 
-all: $(MINISHELL)
+all: $(MINISHELL) $(MINISHELL_ASAN)
 
 $(MINISHELL): $(MINISHELL_OBJS)
 		make -C $(LIBFT_PATH)
@@ -52,8 +56,17 @@ test_run: test
 	./$(TEST_NAME)
 
 test: $(MINISHELL_OBJS) $(TEST_FILES)
+	@make -C $(LIBFT_PATH)
+	@$(CC) $(CFLAGS) $(INC_PATH) $(MINISHELL_OBJS) $(TEST_FILES) -o $(TEST_NAME) $(LDFLAGS)
+
+test_asan: $(MINISHELL_SRC) $(TEST_FILES)
+	@make -C $(LIBFT_PATH)
+	@$(CC) $(CFLAGS_ASAN) $(INC_PATH) $(MINISHELL_SRC) $(TEST_FILES) -o test_asan $(LDFLAGS)
+	./test_asan
+
+$(MINISHELL_ASAN): $(MINISHELL_SRC)
 	make -C $(LIBFT_PATH)
-	$(CC) $(CFLAGS) $(INC_PATH) $(MINISHELL_OBJS) $(TEST_FILES) -o $(TEST_NAME) $(LDFLAGS)
+	$(CC) $(CFLAGS_ASAN) $(INC_PATH) main.c -o $(MINISHELL_ASAN) $^ $(LDFLAGS)
 
 acceptance_test: $(MINISHELL)
 	python3 tests/acceptance/main.py
@@ -67,5 +80,7 @@ re: fclean all
 fclean: clean
 	rm -f $(MINISHELL)
 	rm -f $(TEST_NAME)
+	rm -f test_asan
+	rm -f $(MINISHELL_ASAN)
 
 .PHONY: all clean fclean re test libftprintf

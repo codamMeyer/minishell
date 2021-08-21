@@ -52,7 +52,8 @@ CTEST2(unkown_command_test, success)
 	(void)data;
     const char *expected[3] = {"BestShellEver: ", "blah", ": command not found\n"};
 	const char *input = "blah diedioweopdjeiowjdoijewoi";
-	unknown_command(&input, write_to_buf2);
+	t_command command = { .arg.start = input };
+	unknown_command(command, write_to_buf2);
 	ASSERT_STR(expected[0], &buf_1[0]);
 	ASSERT_STR(expected[1], &buf_2[0]);
 	ASSERT_STR(expected[2], &buf_3[0]);

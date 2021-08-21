@@ -8,45 +8,65 @@
 
 static void	copy_unknown_command_to_buffer(const char **input, char buffer[])
 {
-	char	cur;
-	int		i;
+	const char	*cur = *input;
+	int			i;
 
 	i = 0;
-	cur = (*input)[i];
-	while (cur && !isspace(cur))
-	{
-		buffer[i] = cur;
+	while (cur[i] && !isspace(cur[i]))
 		++i;
-		cur = (*input)[i];
-	}
+	ft_memcpy(buffer, cur, i);
 	buffer[i] = '\0';
 }
 
-t_bool	unknown_command(const char **input, t_output_stdout output)
+t_exit_code	unknown_command(t_command command, t_output_stdout output)
 {
 	const char	*shell_name = "BestShellEver: ";
 	const char	*command_not_found = ": command not found\n";
 	char		unknown_command_str[4096];
 
-	skip_spaces(input);
-	copy_unknown_command_to_buffer(input, &unknown_command_str[0]);
+	skip_spaces(&command.arg.start);
+	copy_unknown_command_to_buffer(&command.arg.start, &unknown_command_str[0]);
 	output(shell_name);
 	output(&unknown_command_str[0]);
 	output(command_not_found);
-	return (FALSE);
+	return (SUCCESS);
 }
 
-t_bool	dispatch_commands(const char **input, t_command command)
+t_exit_code	empty_command(t_command command, t_output_stdout write_to_stdout)
 {
-	if (command == EXIT)
-		exit_command(SUCCESS);
-	else if (command == ECHO)
-		return (echo_command(input, write_to_stdout));
-	else if (command == PWD)
-		return (pwd_command(write_to_stdout));
-	else if (command == INVALID)
-		return (unknown_command(input, write_to_stdout));
-	else if (command == EMPTY_LINE)
-		return (TRUE);
-	return (FALSE);
+	(void)command;
+	(void)write_to_stdout;
+	return (SUCCESS);
 }
+
+t_exit_code	dispatch_commands(const t_command *command_table, \
+							int num_commands)
+{
+	static const t_command_function		functions[LAST] = {
+															empty_command,
+															echo_command,
+															exit_command,
+															pwd_command,
+															unknown_command,
+															};
+	int									i;
+
+	i = 0;
+	while (i < num_commands)
+	{
+		functions[command_table[i].code](command_table[i], write_to_stdout);
+		++i;
+	}
+	return (SUCCESS);
+}
+
+/*
+
+t_command_function commands[LAST] = {
+										empty_command,
+										echo_command,
+										exit_command,
+										pwd_command,
+									}
+
+*/
