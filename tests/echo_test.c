@@ -27,7 +27,6 @@ CTEST_TEARDOWN(echo_test)
 void	write_to_buf(const char *string_to_write)
 {
 	const int len = strlen(string_to_write);
-
 	strncpy(&echo_buf1[0], string_to_write, len);
 }
 
