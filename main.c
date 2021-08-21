@@ -10,10 +10,11 @@
 static void	run(void)
 {
 	char	*line;
+	char	buffer[4096];
 
 	while (TRUE)
 	{
-		line = readline("BestShellEver: ");
+		line = readline(display_prompt(&buffer[0]));
 		parse_input(line);
 		free(line);
 	}
