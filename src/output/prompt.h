@@ -1,6 +1,6 @@
 #ifndef PROMPT_H
 # define PROMPT_H
 
-void	dispaly_prompt(void);
+char	*display_prompt(char *buffer);
 
 #endif

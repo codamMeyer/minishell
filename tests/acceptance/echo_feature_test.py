@@ -62,46 +62,32 @@ class TestEcho(unittest.TestCase):
 
 	def test_echo(self):
 		printTestName(self.test_echo.__name__)
-
-	def test_empty(self):
-		self.echoFile.appendCommand("echo\n")
-		bash_output = Bash.runInputFile(self.echoFile)
-		minishell_output = Minishell.runInputFile(self.echoFile)
-		bash_len = len(bash_output.decode("utf-8").split())
-		expected_split_len = 4 #4 because it will print "BestShellEver" 2 times, plus "echo", plus "exit", the '\n' doesnt count
-		minishell_len = len(minishell_output.decode("utf-8").split()) - expected_split_len
-		self.assertEqual(minishell_len, bash_len, "{}Should display a \\n line, but it displyed:  {}{}{}".format(LIGHT_RED, LIGHT_YELLOW, minishell_output, RESET))
-
-	def test_empty_quotes(self):
-		self.echoFile.appendCommand('echo ""\n')
-		bash_output = Bash.runInputFile(self.echoFile)
-		minishell_output = Minishell.runInputFile(self.echoFile)
-		bash_len = len(bash_output.decode("utf-8").split())
-		expected_len = 5 #5 because it will print "BestShellEver" 2 times, plus "echo", plus "", plus "exit", the '\n' doesnt count
-		minishell_len = len(minishell_output.decode("utf-8").split()) - expected_len
-		self.assertEqual(minishell_len, bash_len, "{}Should display a \\n line, but it displyed:  {}{}{}".format(LIGHT_RED, LIGHT_YELLOW, minishell_output, RESET))
 	
 	def test_str_without_quotes(self):
 		self.echoFile.appendCommand("echo Hello\n")
 		bash_output = Bash.runInputFile(self.echoFile).decode("utf-8")
-		minishell_output = Minishell.runInputFile(self.echoFile).decode("utf-8")
-		self.assertEqual(bash_output.split("\n")[1], minishell_output.split("\n")[3], "{}Should display a Hello\\n,  but it displyed:  {}{}{}".format(LIGHT_RED, LIGHT_YELLOW, minishell_output.split("\n")[3], RESET))
+		minishell_output = Minishell.runInputFile(self.echoFile).decode("utf-8")		
+		start_position_for_search = minishell_output.find("echo Hello\n") + len("echo Hello\n")
+		self.assertNotEqual(minishell_output.find("Hello\n", start_position_for_search), -1)
 	
 	def test_str_with_quotes(self):
 		self.echoFile.appendCommand('echo "Hello      you"\n')
 		bash_output = Bash.runInputFile(self.echoFile).decode("utf-8")
 		minishell_output = Minishell.runInputFile(self.echoFile).decode("utf-8")
-		self.assertEqual(bash_output.split("\n")[0], minishell_output.split("\n")[1], "{}Should display a 'Hello      you',  but it displyed:  {}{}{}".format(LIGHT_RED, LIGHT_YELLOW, minishell_output.split("\n")[1], RESET))
+		start_position_for_search = minishell_output.find('echo "Hello      you"\n') + len('echo "Hello      you"\n')
+		self.assertNotEqual(minishell_output.find("Hello      you\n", start_position_for_search), -1)
 
-	# def test_str_with_quotes_and_n_flag(self):
-	# 	self.echoFile.appendCommand('echo -n "Hello      you"\n')
-	# 	bash_output = Bash.runInputFile(self.echoFile).decode("utf-8")
-	# 	minishell_output = Minishell.runInputFile(self.echoFile).decode("utf-8")
-	# 	self.assertEqual("Hello      youBestShellEver: exit", minishell_output.split("\n")[1], "{}Should display a 'Hello      youBestShellEver: exit',  but it displyed:  {}{}{}".format(LIGHT_RED, LIGHT_YELLOW, minishell_output.split("\n")[1], RESET))
+	def test_str_with_quotes_and_n_flag(self):
+		self.echoFile.appendCommand('echo -n "Hello      you"\n')
+		bash_output = Bash.runInputFile(self.echoFile).decode("utf-8")
+		minishell_output = Minishell.runInputFile(self.echoFile).decode("utf-8")
+		start_position_for_search = minishell_output.find('echo -n "Hello      you"\n') + len('echo -n "Hello      you"\n')
+		self.assertNotEqual(minishell_output.find("Hello      you", start_position_for_search), -1)
 
-	# def test_str_with_quotes_and_spaces_in_the_beginnig(self):
-	# 	self.echoFile.appendCommand('echo "     Hello      you" \n')
-	# 	bash_output = Bash.runInputFile(self.echoFile).decode("utf-8")
-	# 	minishell_output = Minishell.runInputFile(self.echoFile).decode("utf-8")
-	# 	print(minishell_output.split("\n")[1])
-	# 	self.assertEqual("     Hello      you", minishell_output.split("\n")[1], "{}Should display a '     Hello      you',  but it displyed:  {}'{}'{}".format(LIGHT_RED, LIGHT_YELLOW, minishell_output.split("\n")[1], RESET))
+	def test_str_with_quotes_and_spaces_in_the_beginnig(self):
+		self.echoFile.appendCommand('echo "     Hello      you" \n')
+		bash_output = Bash.runInputFile(self.echoFile).decode("utf-8")
+		minishell_output = Minishell.runInputFile(self.echoFile).decode("utf-8")
+		
+		start_position_for_search = minishell_output.find('echo "     Hello      you" \n') + len('echo "     Hello      you" \n')
+		self.assertNotEqual(minishell_output.find("     Hello      you", start_position_for_search), -1)
