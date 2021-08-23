@@ -20,11 +20,8 @@ static void	run(void)
 	}
 }
 
-int	main(int argc, const char *argv[], char *envp[])
+int	main(void)
 {
-	(void)argc;
-	(void)argv;
-	(void)envp;
 	run();
 	return (0);
 }
