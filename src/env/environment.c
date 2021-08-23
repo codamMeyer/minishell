@@ -26,14 +26,16 @@ t_bool	export_env(char *key_value_str, t_env *env)
 
 void	unset_env(char *key_name, t_env *env)
 {
-	int i;
+	const int	name_len_including_null = ft_strlen(key_name) + 1;
+	int	i;
 
 	if (!env)
 		return ;
 	i = 0;
 	while (i < ENV_SIZE)
 	{
-		if (env[i].key && ft_strncmp(env[i].key, key_name, ft_strlen(key_name)) == 0)
+		if (env[i].key && \
+		ft_strncmp(env[i].key, key_name, name_len_including_null) == 0)
 		{
 			free(env[i].key);
 			free(env[i].value);
@@ -45,9 +47,9 @@ void	unset_env(char *key_name, t_env *env)
 	}
 }
 
-void display_env(t_env *env)
+void	display_env(t_env *env)
 {
-	int i;
+	int	i;
 
 	if (!env)
 		return ;
@@ -60,19 +62,35 @@ void display_env(t_env *env)
 	}
 }
 
+char	*find_in_env(char *key_name, t_env *env)
+{
+	const int	name_len_including_null = ft_strlen(key_name) + 1;
+	int	i;
+
+	if (!env)
+		return (NULL);
+	i = 0;
+	while (i < ENV_SIZE)
+	{
+		if (env[i].key && \
+		ft_strncmp(env[i].key, key_name, name_len_including_null) == 0)
+			return (env[i].value);
+		++i;
+	}
+	return (NULL);
+}
+
 void	destroy_env(t_env env[], int size)
 {
-	int i;
+	int	i;
 
 	if (!env)
 		return ;
 	i = 0;
 	while (i < size)
 	{
-		if (env[i].key)
-			free(env[i].key);
-		if (env[i].value)
-			free(env[i].value);
+		free(env[i].key);
+		free(env[i].value);
 		env[i].key = NULL;
 		env[i].value = NULL;
 		++i;
