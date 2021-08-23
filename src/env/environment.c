@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <libft.h>
 
-t_bool	export_env_set(char *key_value_str, t_env *env)
+t_bool	export_env(char *key_value_str, t_env *env)
 {
 	const char	*delimiter_position = ft_strchr(key_value_str, '=');
 	const int	key_len = delimiter_position - &key_value_str[0];
@@ -23,14 +23,42 @@ t_bool	export_env_set(char *key_value_str, t_env *env)
 	return (FALSE);
 }
 
-void	destro_env_set(t_env *env)
+void	unset_env(char *key_name, t_env *env)
 {
+	int i;
+
 	if (!env)
 		return ;
-	if (env->key)
-		free(env->key);
-	if (env->value)
-		free(env->value);
-	env->key = NULL;
-	env->value = NULL;
+	i = 0;
+	while (i < ENV_SIZE)
+	{
+		if (env[i].key && ft_strncmp(env[i].key, key_name, ft_strlen(key_name)) == 0)
+		{
+			free(env[i].key);
+			free(env[i].value);
+			env[i].key = NULL;
+			env[i].value = NULL;
+			break ;
+		}
+		++i;
+	}
+}
+
+void	destroy_env(t_env env[], int size)
+{
+	int i;
+
+	if (!env)
+		return ;
+	i = 0;
+	while (i < size)
+	{
+		if (env[i].key)
+			free(env[i].key);
+		if (env[i].value)
+			free(env[i].value);
+		env[i].key = NULL;
+		env[i].value = NULL;
+		++i;
+	}
 }
