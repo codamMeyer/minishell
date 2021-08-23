@@ -11,6 +11,7 @@ typedef struct s_env
 
 t_bool	export_env(char *key_value_str, t_env *env);
 void	unset_env(char *key_name, t_env *env);
+void	display_env(t_env *env);
 void	destroy_env(t_env env[], int size);
 
 #endif

@@ -1,5 +1,6 @@
 #include <env/environment.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include <libft.h>
 
 t_bool	export_env(char *key_value_str, t_env *env)
@@ -40,6 +41,21 @@ void	unset_env(char *key_name, t_env *env)
 			env[i].value = NULL;
 			break ;
 		}
+		++i;
+	}
+}
+
+void display_env(t_env *env)
+{
+	int i;
+
+	if (!env)
+		return ;
+	i = 0;
+	while (i < ENV_SIZE)
+	{
+		if (env[i].key)
+			printf("%s=%s\n", env[i].key, env[i].value);
 		++i;
 	}
 }

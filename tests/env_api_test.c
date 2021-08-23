@@ -1,6 +1,7 @@
 #include "ctest.h"
 #include <stdlib.h>
 #include "env/environment.h"
+#include <stdio.h>
 #define ENV_TEST_SIZE 50
 
 CTEST_DATA(environment)
@@ -86,7 +87,6 @@ CTEST2(environment, unset_pair)
     ASSERT_NULL(data->env[1].value);
 }
 
-
 CTEST2(environment, unset_pair_does_not_exist)
 {
     char *pairs[8] = {
@@ -112,4 +112,24 @@ CTEST2(environment, unset_pair_does_not_exist)
     ASSERT_STR(data->env[3].value, "ENV_4");
 
     unset_env("TEST_5", data->env);
+}
+
+CTEST2(environment, display_env)
+{
+    char *pairs[8] = {
+        "TEST_1=ENV_1",
+        "TEST_2=ENV_2",
+        "TEST_3=ENV_3",
+        "TEST_4=ENV_4",
+    };
+    
+    int i = 0;
+    ASSERT_TRUE(export_env(pairs[i++], data->env));
+    ASSERT_TRUE(export_env(pairs[i++], data->env));
+    ASSERT_TRUE(export_env(pairs[i++], data->env));
+    ASSERT_TRUE(export_env(pairs[i++], data->env));
+    unset_env("TEST_2", data->env);
+
+    printf("\n");
+    display_env(data->env);
 }
