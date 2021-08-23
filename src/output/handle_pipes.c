@@ -4,6 +4,7 @@
 #include <unistd.h>
 #include "pipe_utils.h"
 #include "../../libft/libft.h"
+#include <parser/dispatcher.h>
 
 /*
 	assuming the full unknown command is passed with full checked executable
@@ -31,7 +32,7 @@ int	*run_multi_processes(const char *env[],
 	t_multi_pipes	pipes;
 	int				*pid;
 	int				i;
-
+	(void)env;
 	pid = (int *)ft_calloc((num_of_processes + 1), sizeof(int));
 	if (!pid)
 		return (NULL);
@@ -42,7 +43,8 @@ int	*run_multi_processes(const char *env[],
 		if (pid[i] == CHILD_PROCESS)
 		{
 			redirect_in_and_output(&pipes, i, num_of_processes);
-			execute_commands(&commands[i], env);
+			// execute_commands(&commands[i], env);
+			dispatch_commands(commands);
 		}
 		if (i != FIRST_PROCESS)
 			close(pipes.previous[READ_FD]);
@@ -64,14 +66,14 @@ int	handle_pipes(t_command commands[],
 	return (1);
 }
 
-int	run_pipes(const char *env[])
-{
-	t_command	commands[MAX_CMDS_PER_LINE];
-	const int	number_of_commands = 3;
+// int	run_pipes(const char *env[])
+// {
+// 	t_command	commands[MAX_CMDS_PER_LINE];
+// 	const int	number_of_commands = 3;
 
-	create_table(&commands[0], "cat main.c", "/bin/cat");
-	create_table(&commands[1], "grep int", "/usr/bin/grep");
-	create_table(&commands[2], "cat -e", "/bin/cat");
-	handle_pipes(commands, number_of_commands, env);
-	return (0);
-}
+// 	create_table(&commands[0], "cat main.c", "/bin/cat");
+// 	create_table(&commands[1], "grep int", "/usr/bin/grep");
+// 	create_table(&commands[2], "cat -e", "/bin/cat");
+// 	handle_pipes(commands, number_of_commands, env);
+// 	return (0);
+// }

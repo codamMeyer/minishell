@@ -8,6 +8,8 @@
 #include <libft.h>
 #include <commands/echo_handle_quotes.h>
 #include <commands/echo_utils.h>
+#include <output/handle_pipes.h>
+
 
 static void	consume_pipe(const char **input, int index)
 {
@@ -61,6 +63,7 @@ t_bool	parse_input(const char *input)
 	int			num_commands;
 
 	num_commands = populate_commands_table(input, commands_table);
-	dispatch_commands(commands_table, num_commands);
+	handle_pipes(commands_table, num_commands, NULL);
+	// dispatch_commands(commands_table, num_commands);
 	return (TRUE);
 }

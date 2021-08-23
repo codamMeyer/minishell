@@ -39,8 +39,7 @@ t_exit_code	empty_command(t_command command, t_output_stdout write_to_stdout)
 	return (SUCCESS);
 }
 
-t_exit_code	dispatch_commands(const t_command *command_table, \
-							int num_commands)
+t_exit_code	dispatch_commands(const t_command *command_table)
 {
 	static const t_command_function		functions[LAST] = {
 															empty_command,
@@ -49,14 +48,14 @@ t_exit_code	dispatch_commands(const t_command *command_table, \
 															pwd_command,
 															unknown_command,
 															};
-	int									i;
+	// int									i;
 
-	i = 0;
-	while (i < num_commands)
-	{
-		functions[command_table[i].code](command_table[i], write_to_stdout);
-		++i;
-	}
+	// i = 0;
+	// while (i < num_commands)
+	// {
+	functions[command_table->code](*command_table, write_to_stdout);
+	// ++i;
+	// }
 	return (SUCCESS);
 }
 

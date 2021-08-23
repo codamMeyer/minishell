@@ -8,25 +8,25 @@
 #include <readline/history.h>
 #include <output/handle_pipes.h>
 
-// static void	run(void)
-// {
-// 	char	*line;
-// 	char	buffer[4096];
+static void	run(void)
+{
+	char	*line;
+	char	buffer[4096];
 
-// 	while (TRUE)
-// 	{
-// 		line = readline(display_prompt(&buffer[0]));
-// 		parse_input(line);
-// 		free(line);
-// 	}
-// }
+	while (TRUE)
+	{
+		line = readline(display_prompt(&buffer[0]));
+		parse_input(line);
+		free(line);
+	}
+}
 
 int	main(const int argc, const char *argv[], const char *env[])
 {
 	(void)argc;
 	(void)argv;
-	// (void)env;
-	// run();
-	run_pipes(env);
+	(void)env;
+	run();
+	// run_pipes(env);
 	return (0);
 }
