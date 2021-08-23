@@ -25,7 +25,8 @@ void	create_table(t_command commands[], char *arg, char *path)
 	If command_code == valid_different split arguments
 */
 
-int	*run_multi_processes(const char *env[], t_command commands[], int num_of_processes)
+int	*run_multi_processes(const char *env[],
+	t_command commands[], int num_of_processes)
 {
 	t_multi_pipes	pipes;
 	int				*pid;
@@ -63,10 +64,10 @@ int	handle_pipes(t_command commands[],
 	return (1);
 }
 
-int run_pipes(const char *env[])
+int	run_pipes(const char *env[])
 {
-	t_command commands[MAX_CMDS_PER_LINE];
-	int number_of_commands = 3;
+	t_command	commands[MAX_CMDS_PER_LINE];
+	const int	number_of_commands = 3;
 
 	create_table(&commands[0], "cat main.c", "/bin/cat");
 	create_table(&commands[1], "grep int", "/usr/bin/grep");

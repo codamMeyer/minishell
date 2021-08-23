@@ -19,7 +19,8 @@ void	set_stdin(int new_std_in)
 		handle_errors(9, "redirect, setting child input");
 }
 
-void	redirect_in_and_output(t_multi_pipes *pipes, int process, int num_of_processes)
+void	redirect_in_and_output(t_multi_pipes *pipes, int process,
+	int num_of_processes)
 {
 	if (process != FIRST_PROCESS)
 		set_stdin(pipes->previous[READ_FD]);

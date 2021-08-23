@@ -26,6 +26,7 @@ int	execute_command(const char *path, char *argv[], const char *env[])
 {
 	return (execve(path, (char *const *)argv, (char *const *)env));
 }
+
 void	execute_commands(const t_command *command, const char *env[])
 {
 	char		**cmd;
