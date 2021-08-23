@@ -46,11 +46,11 @@ TEST_FILES=								\
 	tests/pwd_test.c					\
 	tests/unknown_test.c				\
 	tests/get_executable_path_test.c	\
-	tests/pipe_test.c					\
+	# tests/pipe_test.c					\
 
 MINISHELL_OBJS=$(MINISHELL_SRC:.c=.o)
 
-all: $(MINISHELL)
+all: $(MINISHELL) $(MINISHELL_ASAN)
 
 $(MINISHELL): $(MINISHELL_OBJS)
 		make -C $(LIBFT_PATH)
