@@ -1,9 +1,10 @@
 #ifndef COMMANDS_H
 # define COMMANDS_H
-# include <defines.h>
 # define WHITESSPACE_AND_QUOTES " 	\""
 # define WHITESSPACE " \t"
 # define N_FLAG "-n"
+
+# include <defines.h>
 
 typedef enum e_special_chars
 {
@@ -23,6 +24,7 @@ typedef struct s_command
 	t_command_code	code;
 	t_arg			arg;
 	int				arg_len;
+	const char		*exe_path;
 }	t_command;
 
 typedef void	(*t_output_stdout)(const char *);

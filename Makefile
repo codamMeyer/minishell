@@ -13,6 +13,9 @@ MINISHELL_INCS= 						\
 	src/parser/parser.h					\
 	src/parser/command_table.h			\
 	src/output/prompt.h					\
+	src/output/handle_pipes.h			\
+	src/output/pipe_utils.h				\
+	src/output/redirection.h			\
 	src/parser/dispatcher.h				\
 	src/parser/get_executable_path.h	\
 	src/commands/commands.h				\
@@ -22,6 +25,9 @@ MINISHELL_INCS= 						\
 MINISHELL_SRC= 							\
 	src/parser/parser.c					\
 	src/output/prompt.c					\
+	src/output/handle_pipes.c			\
+	src/output/pipe_utils.c				\
+	src/output/redirection.c			\
 	src/parser/parser_utils.c			\
 	src/parser/command_table.c			\
 	src/parser/dispatcher.c				\
@@ -43,7 +49,7 @@ TEST_FILES=								\
 
 MINISHELL_OBJS=$(MINISHELL_SRC:.c=.o)
 
-all: $(MINISHELL) $(MINISHELL_ASAN)
+all: $(MINISHELL)
 
 $(MINISHELL): $(MINISHELL_OBJS)
 		make -C $(LIBFT_PATH)
