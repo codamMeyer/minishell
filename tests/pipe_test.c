@@ -29,9 +29,9 @@ void    create_command_array()
 CTEST(pipe_test, basic_setup_test)
 {
     create_command_array();
-    ASSERT_STR("/bin/cat" ,commands[0].exe_path);
+    ASSERT_STR(get_executable_path("cat") ,commands[0].exe_path);
     ASSERT_STR(command_array[0] ,commands[0].arg.start);
-    ASSERT_STR("/usr/bin/grep" ,commands[1].exe_path);
+    ASSERT_STR(get_executable_path("grep") ,commands[1].exe_path);
     ASSERT_NULL(commands[3].exe_path);
 }
 
