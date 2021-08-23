@@ -12,5 +12,6 @@ int		run_pipes(const char *env[]);
 int		handle_pipes(t_command commands[],
 			int num_of_commands, const char *env[]);
 void	handle_errors(int error_code, char *location);
+void	create_table(t_command commands[], char *arg, char *path);
 
 #endif
