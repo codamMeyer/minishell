@@ -10,7 +10,6 @@
 #include <commands/echo_utils.h>
 #include <output/handle_pipes.h>
 
-
 static void	consume_pipe(const char **input, int index)
 {
 	if (index < 1)
@@ -64,6 +63,5 @@ t_bool	parse_input(const char *input)
 
 	num_commands = populate_commands_table(input, commands_table);
 	handle_pipes(commands_table, num_commands, NULL);
-	// dispatch_commands(commands_table, num_commands);
 	return (TRUE);
 }

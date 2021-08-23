@@ -48,14 +48,8 @@ t_exit_code	dispatch_commands(const t_command *command_table)
 															pwd_command,
 															unknown_command,
 															};
-	// int									i;
 
-	// i = 0;
-	// while (i < num_commands)
-	// {
 	functions[command_table->code](*command_table, write_to_stdout);
-	// ++i;
-	// }
 	return (SUCCESS);
 }
 

@@ -3,6 +3,7 @@
 #include <unistd.h>
 #include <stdio.h>
 #include "../../libft/libft.h"
+#include <sys/wait.h>
 
 void	wait_for_all_processes(int *pid, int num_of_processes)
 {

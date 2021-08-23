@@ -13,7 +13,7 @@ CTEST(dispatch_test, echo_true)
 						};
 
 	const t_command command_table[] = {command};
-	ASSERT_EQUAL(SUCCESS, dispatch_commands(command_table, 1));
+	ASSERT_EQUAL(SUCCESS, dispatch_commands(command_table));
 }
 
 CTEST(dispatch_test, unknown_command)
@@ -27,5 +27,5 @@ CTEST(dispatch_test, unknown_command)
 						};
 
 	const t_command command_table[] = {command};
-	ASSERT_EQUAL(SUCCESS, dispatch_commands(command_table, 1));
+	ASSERT_EQUAL(SUCCESS, dispatch_commands(command_table));
 }
