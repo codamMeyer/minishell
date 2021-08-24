@@ -27,6 +27,5 @@ int	main(const int argc, const char *argv[], const char *env[])
 	(void)argv;
 	(void)env;
 	run();
-	// run_pipes(env);
 	return (0);
 }
