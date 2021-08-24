@@ -50,6 +50,7 @@ t_exit_code	dispatch_commands(const t_command *command_table)
 															};
 
 	functions[command_table->code](*command_table, write_to_stdout);
+	exit(SUCCESS);
 	return (SUCCESS);
 }
 

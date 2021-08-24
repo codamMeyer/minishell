@@ -10,7 +10,8 @@ void	wait_for_all_processes(int *pid, int num_of_processes)
 	int	i;
 
 	i = 0;
-	while (i < num_of_processes)
+	(void)num_of_processes;
+	while (i < 1)
 	{
 		waitpid(pid[i], NULL, 0);
 		i++;

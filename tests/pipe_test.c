@@ -22,7 +22,9 @@ void    create_command_array()
         int size = 0;
         while ((command_array[i][size]) != SPACE)
             size++;
-        create_table(&commands[i], command_array[i], get_executable_path(ft_substr(command_array[i], 0, size)));
+        char *cmd = ft_substr(command_array[i], 0, size);
+        create_table(&commands[i], command_array[i], get_executable_path(cmd));
+        free(cmd);
     }
 }
 

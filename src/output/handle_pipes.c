@@ -36,11 +36,11 @@ int	*run_multi_processes(const char *env[],
 	int				i;
 
 	(void)env;
-	pid = (int *)ft_calloc((num_of_processes + 1), sizeof(int));
+	pid = (int *)ft_calloc((1), sizeof(int));
 	if (!pid)
 		return (NULL);
 	i = 0;
-	while (i < num_of_processes)
+	while (i < 1)
 	{
 		pid[i] = create_new_process(&pipes);
 		if (pid[i] == CHILD_PROCESS)
