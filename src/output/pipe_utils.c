@@ -5,15 +5,14 @@
 #include "../../libft/libft.h"
 #include <sys/wait.h>
 
-void	wait_for_all_processes(int *pid, int num_of_processes)
+void	wait_for_all_processes(int num_of_processes)
 {
 	int	i;
 
 	i = 0;
-	(void)num_of_processes;
-	while (i < 1)
+	while (i < num_of_processes)
 	{
-		waitpid(pid[i], NULL, 0);
+		waitpid(-1, NULL, 0);
 		i++;
 	}
 }

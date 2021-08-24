@@ -28,45 +28,35 @@ void	create_table(t_command commands[], char *arg, char *path)
 	// execute_commands(&commands[i], env) to be place in dispatcher
 */
 
-int	*run_multi_processes(const char *env[],
+int	run_multi_processes(const char *env[],
 	t_command commands[], int num_of_processes)
 {
 	t_multi_pipes	pipes;
-	int				*pid;
+	int				pid;
 	int				i;
 
 	(void)env;
-	pid = (int *)ft_calloc((1), sizeof(int));
-	if (!pid)
-		return (NULL);
 	i = 0;
-	while (i < 1)
+	while (num_of_processes > 0 && i < num_of_processes)
 	{
-		pid[i] = create_new_process(&pipes);
-		if (pid[i] == CHILD_PROCESS)
+		pid = create_new_process(&pipes);
+		if (pid == CHILD_PROCESS)
 		{
 			redirect_in_and_output(&pipes, i, num_of_processes);
 			dispatch_commands(&commands[i]);
 		}
-		if (i != FIRST_PROCESS)
-			close(pipes.previous[READ_FD]);
-		close(pipes.current[WRITE_FD]);
 		current_to_previous_pipe(&pipes);
 		i++;
 	}
-	return (pid);
+	return (SUCCESS);
 }
 
 int	handle_pipes(t_command commands[],
 				int num_of_commands, const char *env[])
 {
-	int	*pid;
-
-	printf("%d\n", num_of_commands);
 	if (commands[0].code == EXIT)
 		exit_command(commands[0], write_to_stdout);
-	pid = run_multi_processes(env, commands, num_of_commands);
-	wait_for_all_processes(pid, num_of_commands);
-	free(pid);
+	run_multi_processes(env, commands, num_of_commands);
+	wait_for_all_processes(num_of_commands);
 	return (1);
 }

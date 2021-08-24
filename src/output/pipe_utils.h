@@ -4,7 +4,7 @@
 # include <commands/commands.h>
 # include <output/redirection.h>
 
-void	wait_for_all_processes(int *pid, int num_of_processes);
+void	wait_for_all_processes(int num_of_processes);
 void	handle_errors(int error_code, char *location);
 int		execute_command(const char *path, char *argv[], const char *env[]);
 void	execute_commands(const t_command *command, const char *env[]);

@@ -2,6 +2,10 @@
 #include "../src/parser/dispatcher.h"
 #include "../libft/libft.h"
 
+/*
+	Commenting out these tests as dispatch_commands() now exits to accomodate the forked processes
+*/
+
 // CTEST(dispatch_test, echo_true)
 // {
 // 	const char *input = "test";
