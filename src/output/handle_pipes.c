@@ -46,7 +46,7 @@ int	*run_multi_processes(const char *env[],
 		if (pid[i] == CHILD_PROCESS)
 		{
 			redirect_in_and_output(&pipes, i, num_of_processes);
-			dispatch_commands(commands);
+			dispatch_commands(&commands[i]);
 		}
 		if (i != FIRST_PROCESS)
 			close(pipes.previous[READ_FD]);
@@ -62,6 +62,7 @@ int	handle_pipes(t_command commands[],
 {
 	int	*pid;
 
+	printf("%d\n", num_of_commands);
 	if (commands[0].code == EXIT)
 		exit_command(commands[0], write_to_stdout);
 	pid = run_multi_processes(env, commands, num_of_commands);
