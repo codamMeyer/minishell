@@ -33,6 +33,7 @@ MINISHELL_SRC= 							\
 	src/commands/echo_utils.c			\
 	src/commands/echo_handle_quotes.c	\
 	src/env/environment.c				\
+	src/env/environment_utils.c			\
 
 TEST_FILES=								\
 	tests/main.c 						\
