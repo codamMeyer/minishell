@@ -43,8 +43,11 @@ int	run_multi_processes(const char *env[],
 		if (pid == CHILD_PROCESS)
 		{
 			redirect_in_and_output(&pipes, i, num_of_processes);
-			dispatch_commands(&commands[i]);
+			dispatch_commands(&commands[i], env);
 		}
+		if (i != FIRST_PROCESS)
+			close(pipes.previous[READ_FD]);
+		close(pipes.current[WRITE_FD]);
 		current_to_previous_pipe(&pipes);
 		i++;
 	}

@@ -2,6 +2,7 @@
 #include <commands/commands.h>
 #include <commands/echo_utils.h>
 #include <parser/parser.h>
+#include <output/pipe_utils.h>
 #include <stdio.h>
 #include <libft.h>
 #include <ctype.h>
@@ -39,7 +40,7 @@ t_exit_code	empty_command(t_command command, t_output_stdout write_to_stdout)
 	return (SUCCESS);
 }
 
-t_exit_code	dispatch_commands(const t_command *command)
+t_exit_code	dispatch_commands(const t_command *command, const char *env[])
 {
 	static const t_command_function		functions[LAST] = {
 															empty_command,
@@ -48,7 +49,8 @@ t_exit_code	dispatch_commands(const t_command *command)
 															pwd_command,
 															unknown_command,
 															};
-
+	if (command->code == SYSTEM)
+		execute_commands(command, env);
 	exit(functions[command->code](*command, write_to_stdout));
 }
 

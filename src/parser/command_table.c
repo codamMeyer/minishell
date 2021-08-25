@@ -41,7 +41,7 @@ t_bool	is_system_command(const char *input, t_command *command)
 {
 	const int	arg_len = get_cmd_len(input);
 	char		cmd_buffer[4098];
-	
+
 	ft_strlcpy(&cmd_buffer[0], input, arg_len + 1);
 	command->exe_path = get_executable_path(&cmd_buffer[0]);
 	if (command->exe_path)
