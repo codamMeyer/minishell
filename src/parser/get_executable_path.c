@@ -47,14 +47,16 @@ char	*get_executable_path(const char *command)
 	else if (ft_strchr(command, FORWARD_SLASH)
 		&& is_executable((char *) command) == F_OK)
 		return (ft_strdup(command));
-	while (*all_paths)
+	while (all_paths && *all_paths)
 	{
 		single_path_len = get_sub_path_len(all_paths);
 		copy_possible_path_to_buffer(all_paths, &buffer[0], single_path_len);
 		append_command_to_path(&buffer[single_path_len], command);
 		if (is_executable(buffer) == F_OK)
 			return (ft_strdup(&buffer[0]));
-		all_paths += single_path_len + 1;
+		all_paths += single_path_len;
+		if (*all_paths == COLON)
+			++all_paths;
 	}
 	return (NULL);
 }
