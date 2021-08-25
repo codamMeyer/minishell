@@ -16,65 +16,65 @@ CTEST(parse_input, no_line_to_parse)
 CTEST(parse_command, unknown_command)
 {
     const char *input = "ecth";
-    ASSERT_EQUAL(INVALID, get_command_code(&input));
+    ASSERT_EQUAL(INVALID, get_command_code(&input, NULL));
 }
 
 CTEST(parse_command, invalid_echo_command)
 {
     const char *input = "echos";
-    ASSERT_EQUAL(INVALID, get_command_code(&input));
+    ASSERT_EQUAL(INVALID, get_command_code(&input, NULL));
 }
 
 CTEST(parse_command, echo_command)
 {
     const char *input = "echo";
-    ASSERT_EQUAL(ECHO, get_command_code(&input));
+    ASSERT_EQUAL(ECHO, get_command_code(&input, NULL));
 }
 
 CTEST(parse_command, echo_command_with_arg)
 {
     const char *input = "echo hello";
-    ASSERT_EQUAL(ECHO, get_command_code(&input));
+    ASSERT_EQUAL(ECHO, get_command_code(&input, NULL));
     ASSERT_STR(" hello", input);
 }
 
 CTEST(parse_command, echo_command_with_spaces_before)
 {
     const char *input = "      echo hello";
-    ASSERT_EQUAL(ECHO, get_command_code(&input));
+    ASSERT_EQUAL(ECHO, get_command_code(&input, NULL));
     ASSERT_STR(" hello", input);
 }
 
 CTEST(parse_command, only_spaces)
 {
     const char *only_spaces = "                          ";
-    ASSERT_EQUAL(EMPTY_LINE, get_command_code(&only_spaces));
+    ASSERT_EQUAL(EMPTY_LINE, get_command_code(&only_spaces, NULL));
     const char *empty = "";
-    ASSERT_EQUAL(EMPTY_LINE, get_command_code(&empty));
+    ASSERT_EQUAL(EMPTY_LINE, get_command_code(&empty, NULL));
 }
 
 CTEST(parse_command, pwd_command)
 {
     const char *pwd_command = "pwd";
-    ASSERT_EQUAL(PWD, get_command_code(&pwd_command));
+    ASSERT_EQUAL(PWD, get_command_code(&pwd_command, NULL));
 }
 
 CTEST(parse_command, pwd_command_with_spaces_before)
 {
     const char *pwd_command = "            pwd";
-    ASSERT_EQUAL(PWD, get_command_code(&pwd_command));
+    ASSERT_EQUAL(PWD, get_command_code(&pwd_command, NULL));
 }
 
 CTEST(parse_command, pwd_command_with_spaces_after)
 {
     const char *pwd_command = "pwd            ";
-    ASSERT_EQUAL(PWD, get_command_code(&pwd_command));
+    ASSERT_EQUAL(PWD, get_command_code(&pwd_command, NULL));
 }
 
 CTEST(parse_command, pwd_command_almost_correct)
 {
     const char *pwd_command = "pwdd";
-    ASSERT_EQUAL(INVALID, get_command_code(&pwd_command));
+    ASSERT_EQUAL(INVALID, get_command_code(&pwd_command, NULL));
 }
 
 CTEST_DATA(command_table)

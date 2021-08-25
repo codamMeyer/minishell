@@ -54,7 +54,7 @@ int	run_multi_processes(const char *env[],
 int	handle_pipes(t_command commands[],
 				int num_of_commands, const char *env[])
 {
-	if (commands[0].code == EXIT)
+	if (commands[num_of_commands - 1].code == EXIT)
 		exit_command(commands[0], write_to_stdout);
 	run_multi_processes(env, commands, num_of_commands);
 	wait_for_all_processes(num_of_commands);

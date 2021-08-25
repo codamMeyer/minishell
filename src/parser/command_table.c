@@ -1,7 +1,9 @@
 #include <parser/command_table.h>
 #include <parser/parser.h>
+#include <parser/get_executable_path.h>
 #include <commands/echo_handle_quotes.h>
 #include <libft.h>
+#include <stdio.h>
 #include <ctype.h>
 
 static t_bool	is_valid_last_char(const char *input, int command_len)
@@ -17,7 +19,7 @@ static t_bool	is_valid_last_char(const char *input, int command_len)
 	return (FALSE);
 }
 
-static t_bool	is_command(const char *input, const char *command)
+static t_bool	is_built_in_command(const char *input, const char *command)
 {
 	const int	command_len = ft_strlen(command);
 
@@ -25,7 +27,29 @@ static t_bool	is_command(const char *input, const char *command)
 		&& is_valid_last_char(input, command_len));
 }
 
-t_command_code	get_command_code(const char **input)
+int	get_cmd_len(const char *input)
+{
+	int	i;
+
+	i = 0;
+	while (input[i] && input[i] != SPACE)
+		i++;
+	return (i);
+}
+
+t_bool	is_system_command(const char *input, t_command *command)
+{
+	const int	arg_len = get_cmd_len(input);
+	char		cmd_buffer[4098];
+	
+	ft_strlcpy(&cmd_buffer[0], input, arg_len + 1);
+	command->exe_path = get_executable_path(&cmd_buffer[0]);
+	if (command->exe_path)
+		return (TRUE);
+	return (FALSE);
+}
+
+t_command_code	get_command_code(const char **input, t_command *command)
 {
 	static const char	*commands[LAST] = {
 											"",
@@ -40,13 +64,15 @@ t_command_code	get_command_code(const char **input)
 	command_code = EMPTY_LINE;
 	while (command_code < INVALID)
 	{
-		if (is_command(*input, commands[command_code]))
+		if (is_built_in_command(*input, commands[command_code]))
 		{
 			advance_pointer(input, commands[command_code]);
 			return (command_code);
 		}
 		++command_code;
 	}
+	if (is_system_command(*input, command))
+		return (SYSTEM);
 	return (INVALID);
 }
 

@@ -23,7 +23,7 @@ t_command	populate_command(const char **input_ptr)
 {
 	t_command	command;
 
-	command.code = get_command_code(input_ptr);
+	command.code = get_command_code(input_ptr, &command);
 	command.arg.start = *input_ptr;
 	if (command.code == INVALID)
 		return (command);

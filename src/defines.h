@@ -17,6 +17,7 @@ typedef enum e_command_code
 	EXIT,
 	PWD,
 	INVALID,
+	SYSTEM,
 	LAST,
 }			t_command_code;
 
