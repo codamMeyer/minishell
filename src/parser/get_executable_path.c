@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <libft.h>
 #include <parser/get_executable_path.h>
-# include <sys/stat.h>
+#include <sys/stat.h>
 
 static void	append_command_to_path(char	*buffer, const char *command)
 {
@@ -44,7 +44,8 @@ char	*get_executable_path(const char *command)
 
 	if (!command || !all_paths)
 		return (NULL);
-	else if (ft_strchr(command, FORWARD_SLASH) && is_executable((char *) command) == F_OK)
+	else if (ft_strchr(command, FORWARD_SLASH)
+		&& is_executable((char *) command) == F_OK)
 		return (ft_strdup(command));
 	while (*all_paths)
 	{

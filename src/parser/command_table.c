@@ -27,28 +27,6 @@ static t_bool	is_built_in_command(const char *input, const char *command)
 		&& is_valid_last_char(input, command_len));
 }
 
-int	get_cmd_len(const char *input)
-{
-	int	i;
-
-	i = 0;
-	while (input[i] && input[i] != SPACE)
-		i++;
-	return (i);
-}
-
-t_bool	is_system_command(const char *input, t_command *command)
-{
-	const int	arg_len = get_cmd_len(input);
-	char		cmd_buffer[4098];
-
-	ft_strlcpy(&cmd_buffer[0], input, arg_len + 1);
-	command->exe_path = get_executable_path(&cmd_buffer[0]);
-	if (command->exe_path)
-		return (TRUE);
-	return (FALSE);
-}
-
 t_command_code	get_command_code(const char **input, t_command *command)
 {
 	static const char	*commands[LAST] = {
