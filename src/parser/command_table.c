@@ -73,21 +73,35 @@ t_bool	is_between_quotes(const char *input, int reserved_char_index)
 	return (FALSE);
 }
 
+char	*get_redirection_position(const char *set, char *str_to_check)
+{
+	int i;
+
+	i = 0;
+	while (str_to_check[i])
+	{
+		if (ft_strchr(set, str_to_check[i]))
+			return (&str_to_check[i]);
+		++i;
+	}
+	return (&str_to_check[i]);
+}
+
 int	get_arg_len(const char *start)
 {
-	char	*pipe_position;
+	char	*redirection_position;
 	int		pipe_index;
 	int		start_index;
 
 	start_index = 0;
-	pipe_position = ft_strchr(start, PIPE);
-	while (pipe_position && start[start_index] != '\0')
+	redirection_position = get_redirection_position(REDIRECTION_CHARS, (char *)start);
+	while (redirection_position && start[start_index] != '\0')
 	{
-		pipe_index = pipe_position - &start[0];
+		pipe_index = redirection_position - &start[0];
 		if (!is_between_quotes(start, pipe_index))
 			return (pipe_index);
 		start_index += pipe_index + 1;
-		pipe_position = ft_strchr(&start[start_index], PIPE);
+		redirection_position = ft_strchr(&start[start_index], PIPE);
 	}
 	return (ft_strlen(start));
 }

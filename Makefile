@@ -12,6 +12,7 @@ MINISHELL_INCS= 						\
 	src/defines.h						\
 	src/parser/parser.h					\
 	src/parser/command_table.h			\
+	src/parser/parse_redirection.h		\
 	src/output/prompt.h					\
 	src/output/handle_pipes.h			\
 	src/output/pipe_utils.h				\
@@ -33,6 +34,7 @@ MINISHELL_SRC= 							\
 	src/parser/command_table_utils.c	\
 	src/parser/dispatcher.c				\
 	src/parser/get_executable_path.c	\
+	src/parser/parse_redirection.c	\
 	src/commands/exit_command.c			\
 	src/commands/echo_command.c			\
 	src/commands/pwd_command.c			\
@@ -47,6 +49,7 @@ TEST_FILES=								\
 	tests/pwd_test.c					\
 	tests/unknown_test.c				\
 	tests/get_executable_path_test.c	\
+	tests/redirection_tests.c			\
 	# tests/pipe_test.c					\
 
 MINISHELL_OBJS=$(MINISHELL_SRC:.c=.o)

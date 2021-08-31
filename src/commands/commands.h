@@ -3,7 +3,7 @@
 # define WHITESSPACE_AND_QUOTES " 	\""
 # define WHITESSPACE " \t"
 # define N_FLAG "-n"
-# define REDIRECTION_CHARS "<>" 
+# define REDIRECTION_CHARS "<>|" 
 
 # include <defines.h>
 
