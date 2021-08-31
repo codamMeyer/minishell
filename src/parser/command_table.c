@@ -84,7 +84,7 @@ char	*get_redirection_position(const char *set, char *str_to_check)
 			return (&str_to_check[i]);
 		++i;
 	}
-	return (&str_to_check[i]);
+	return (NULL);
 }
 
 int	get_arg_len(const char *start)
@@ -101,7 +101,7 @@ int	get_arg_len(const char *start)
 		if (!is_between_quotes(start, pipe_index))
 			return (pipe_index);
 		start_index += pipe_index + 1;
-		redirection_position = ft_strchr(&start[start_index], PIPE);
+		redirection_position = get_redirection_position(REDIRECTION_CHARS, (char *)&start[start_index]);
 	}
 	return (ft_strlen(start));
 }

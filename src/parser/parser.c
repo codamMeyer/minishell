@@ -11,12 +11,21 @@
 #include <commands/echo_utils.h>
 #include <output/handle_pipes.h>
 
+static void	consume_pipe(const char **input, int index)
+{
+	if (index < 1)
+		return ;
+	if (ft_strncmp("|", *input, 1) == 0)
+		++(*input);
+}
+
 /* display syntax error when necessary */
-t_command	populate_command(const char **input_ptr, int index)
+t_command	populate_command(const char **input_ptr)
 {
 	t_command	command;
 
-	command.files = get_redirection(input_ptr, index);
+	init_files(&command.files);
+	get_redirection(input_ptr, &command.files);
 	command.code = get_command_code(input_ptr, &command);
 	command.arg.start = *input_ptr;
 	if (command.code == INVALID)
@@ -40,7 +49,8 @@ int	populate_commands_table(const char *input, t_command commands_table[])
 	i = 0;
 	while (*input_line)
 	{
-		commands_table[i] = populate_command(&input_line, i);
+		consume_pipe(&input_line, i);
+		commands_table[i] = populate_command(&input_line);
 		if (commands_table[i].code == INVALID)
 		{
 			++i;
