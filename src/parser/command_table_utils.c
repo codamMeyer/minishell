@@ -26,3 +26,17 @@ t_bool	is_system_command(const char *input, t_command *command)
 		return (TRUE);
 	return (FALSE);
 }
+
+char	*get_redirection_position(const char *set, char *str_to_check)
+{
+	int	i;
+
+	i = 0;
+	while (str_to_check[i])
+	{
+		if (ft_strchr(set, str_to_check[i]))
+			return (&str_to_check[i]);
+		++i;
+	}
+	return (NULL);
+}
