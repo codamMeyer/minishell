@@ -22,7 +22,6 @@ t_bool	is_system_command(const char *input, t_command *command)
 		return (FALSE);
 	ft_strlcpy(&cmd_buffer[0], input, arg_len + 1);
 	command->exe_path = get_executable_path(&cmd_buffer[0]);
-	printf("\n23 CMDTABLEUTILS\n");
 	if (command->exe_path)
 		return (TRUE);
 	return (FALSE);
