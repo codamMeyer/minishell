@@ -5,7 +5,8 @@
         "ratio": "cpp",
         "*.tcc": "cpp",
         "valarray": "cpp",
-        "__locale": "c"
+        "__locale": "c",
+        "locale": "c"
     },
     "python.linting.flake8Args": [
         "--max-line-length=120",

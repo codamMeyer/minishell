@@ -58,12 +58,12 @@ int	populate_commands_table(const char *input, t_command commands_table[])
 	return (i);
 }
 
-t_bool	parse_input(const char *input)
+t_bool	parse_input(const char *input, const char *env[])
 {
 	t_command	commands_table[MAX_CMDS_PER_LINE];
 	int			num_commands;
 
 	num_commands = populate_commands_table(input, commands_table);
-	handle_pipes(commands_table, num_commands, NULL);
+	handle_pipes(commands_table, num_commands, env);
 	return (TRUE);
 }

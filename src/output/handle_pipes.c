@@ -28,7 +28,8 @@ int	run_multi_processes(const char *env[],
 		pid = create_new_process(&pipes);
 		if (pid == CHILD_PROCESS)
 		{
-			redirect_in_and_output(&pipes, i, num_of_processes);
+			redirect_in_and_output(&pipes, i, num_of_processes,
+				&commands[i].files);
 			dispatch_command(&commands[i], env);
 		}
 		if (i != FIRST_PROCESS)

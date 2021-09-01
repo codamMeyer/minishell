@@ -16,6 +16,6 @@ typedef struct s_multi_pipes
 
 void	current_to_previous_pipe(t_multi_pipes *pipes);
 void	redirect_in_and_output(t_multi_pipes *pipes,
-			int process, int num_of_processes);
+			int process, int num_of_processes, t_files *files);
 
 #endif
