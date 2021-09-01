@@ -45,6 +45,7 @@ void	get_files(int fd[2], t_files *files)
 	if (files->in)
 	{
 		get_file_name(&file_name[0], files->in);
+		printf("in: |%s|\n", file_name);
 		fd[READ_FD] = open(&file_name[0], O_RDONLY);
 		if (fd[READ_FD] == -1)
 			handle_errors(11, "opening infile");
@@ -53,6 +54,7 @@ void	get_files(int fd[2], t_files *files)
 	{
 		ft_bzero(&file_name[0], BUFSIZ);
 		get_file_name(&file_name[0], files->out);
+		printf("out: |%s|\n", file_name);
 		fd[WRITE_FD] = open(&file_name[0], O_RDWR | O_CREAT | O_TRUNC, 0777);
 		if (fd[WRITE_FD] == -1)
 			handle_errors(11, "opening infile");
@@ -82,5 +84,6 @@ void	redirect_in_and_output(t_multi_pipes *pipes, int process,
 	else if (process != last_process - 1)
 		set_stdout(pipes->current[WRITE_FD]);
 	close(pipes->current[READ_FD]);
-	close(pipes->previous[WRITE_FD]);
+	if (process != FIRST_PROCESS)
+		close(pipes->previous[WRITE_FD]);
 }

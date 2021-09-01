@@ -21,7 +21,6 @@ int	run_multi_processes(const char *env[],
 	int				pid;
 	int				i;
 
-	(void)env;
 	i = 0;
 	while (num_of_processes > 0 && i < num_of_processes)
 	{

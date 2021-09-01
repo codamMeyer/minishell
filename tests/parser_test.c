@@ -5,12 +5,12 @@
 
 CTEST(parse_input, success_return)
 {
-    ASSERT_TRUE(parse_input("echo "));
+    ASSERT_TRUE(parse_input("echo ", NULL));
 }
 
 CTEST(parse_input, no_line_to_parse)
 {
-    ASSERT_TRUE(parse_input(NULL));
+    ASSERT_TRUE(parse_input(NULL, NULL));
 }
 
 CTEST(parse_command, unknown_command)
