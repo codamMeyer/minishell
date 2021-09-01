@@ -3,7 +3,8 @@
 
 # define NEW_LINE "\n"
 # define DOUBLE_QUOTES '"'
-# define MAX_CMDS_PER_LINE 100 
+# define MAX_CMDS_PER_LINE 100
+
 typedef enum e_bool
 {
 	FALSE = 0,
