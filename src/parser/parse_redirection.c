@@ -22,9 +22,13 @@ void	get_in_out_file(const char **input_ptr, const char id, t_files *files)
 	*input_ptr += get_cmd_len(*input_ptr);
 }
 
-void	get_redirection(const char **input_ptr, t_files *files)
+t_files	get_redirection(const char **input_ptr)
 {
+	t_files	files;
+
+	init_files(&files);
 	skip_spaces(input_ptr);
 	if (**input_ptr == LEFT_ANGLE || **input_ptr == RIGHT_ANGLE)
-		get_in_out_file(input_ptr, **input_ptr, files);
+		get_in_out_file(input_ptr, **input_ptr, &files);
+	return (files);
 }

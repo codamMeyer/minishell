@@ -25,11 +25,9 @@ t_command	populate_command(const char **input_ptr)
 	t_command	command;
 
 	init_files(&command.files);
-	get_redirection(input_ptr, &command.files);
+	command.files = get_redirection(input_ptr);
 	command.code = get_command_code(input_ptr, &command);
 	command.arg.start = *input_ptr;
-	if (command.code == INVALID)
-		return (command);
 	command.arg_len = get_arg_len(command.arg.start);
 	command.arg.end = *input_ptr + command.arg_len;
 	return (command);
@@ -51,11 +49,6 @@ int	populate_commands_table(const char *input, t_command commands_table[])
 	{
 		consume_pipe(&input_line, i);
 		commands_table[i] = populate_command(&input_line);
-		if (commands_table[i].code == INVALID)
-		{
-			++i;
-			break ;
-		}
 		input_line += commands_table[i].arg_len;
 		skip_spaces(&input_line);
 		if (*input_line == RIGHT_ANGLE)

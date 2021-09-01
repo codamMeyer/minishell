@@ -14,7 +14,7 @@ CTEST(redirection_tests, basic_infile)
 	char		buffer[4096];
 
 	init_files(&files);
-	get_redirection(&str, &files);
+	files = get_redirection(&str);
 	ft_strlcpy(buffer, files.in, get_cmd_len(files.in) + 1);
 	ASSERT_STR("infile", buffer);
 	ASSERT_STR(" cat -e", str);
@@ -26,7 +26,7 @@ CTEST(redirection_tests, basic_outfile)
 	char		buffer[4096];
 	
 	init_files(&files);
-	get_redirection(&str, &files);
+	files = get_redirection(&str);
 	ft_strlcpy(buffer, files.out, get_cmd_len(files.out) + 1);
 	ASSERT_STR("outfile", buffer);
 	ASSERT_STR(" | next cmd", str);
