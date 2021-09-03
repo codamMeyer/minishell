@@ -3,7 +3,6 @@
 #include <stdio.h>
 #include <libft.h>
 
-
 t_bool	export(t_env *env, const char *key_value_str)
 {
 	char	key_buffer[4096];
