@@ -8,19 +8,6 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 
-static void	run(void)
-{
-	char	*line;
-	char	buffer[4096];
-
-	while (TRUE)
-	{
-		line = readline(display_prompt(&buffer[0]));
-		parse_input(line);
-		free(line);
-	}
-}
-
 static void	setup_env(char *envp[])
 {
 	t_env	*env;
@@ -38,6 +25,19 @@ static void	setup_env(char *envp[])
 		env[i].key = NULL;
 		env[i].value = NULL;
 		++i;
+	}
+}
+
+static void	run(void)
+{
+	char	*line;
+	char	buffer[4096];
+
+	while (TRUE)
+	{
+		line = readline(display_prompt(&buffer[0]));
+		parse_input(line);
+		free(line);
 	}
 }
 

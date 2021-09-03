@@ -3,6 +3,20 @@
 #include <ctype.h>
 #include <libft.h>
 
+static t_bool is_valid_key(char *key, int key_len)
+{
+	int i;
+
+	i = 0;
+	while (i < key_len)
+	{
+		if (isspace(key[i]))
+			return (FALSE);
+		++i;
+	}
+	return (TRUE);
+}
+
 t_bool	copy_key_to_buffer(const char *key_value_str, char *buffer)
 {
 	const char	*delimiter_position = get_equal_sign_position(key_value_str);
@@ -12,7 +26,7 @@ t_bool	copy_key_to_buffer(const char *key_value_str, char *buffer)
 		return (FALSE);
 	ft_bzero(buffer, 4096);
 	ft_memcpy(&buffer[0], key_value_str, key_len);
-	return (TRUE);
+	return (is_valid_key(&buffer[0], key_len));
 }
 
 t_bool	copy_value_to_buffer(const char *key_value_str, char *buffer)
@@ -22,7 +36,9 @@ t_bool	copy_value_to_buffer(const char *key_value_str, char *buffer)
 	int			value_len;
 
 	value_len = 0;
-	if (!delimiter_position)
+	if (!delimiter_position || !*delimiter_position)
+		return (FALSE);
+	if (isspace(delimiter_position[value_len]))
 		return (FALSE);
 	while (delimiter_position[value_len] && \
 		!isspace(delimiter_position[value_len]))

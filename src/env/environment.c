@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <libft.h>
+#include <ctype.h>
 
 t_bool	export(t_env *env, const char *key_value_str)
 {
@@ -18,12 +19,15 @@ t_bool	export(t_env *env, const char *key_value_str)
 
 void	unset(t_env *env, const char *key_name)
 {
-	const int	name_len = ft_strlen(key_name) + 1;
+	int	name_len;
 	int			i;
 
 	if (!env)
 		return ;
 	i = 0;
+	name_len = 0;
+	while (!isspace(key_name[name_len]))
+		++name_len;
 	while (i < ENV_SIZE)
 	{
 		if (env[i].key && ft_strncmp(env[i].key, key_name, name_len) == 0)
