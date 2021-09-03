@@ -35,6 +35,7 @@ MINISHELL_SRC= 							\
 	src/commands/environment_commands.c	\
 	src/env/environment.c				\
 	src/env/environment_utils.c			\
+	src/env/export_utils.c				\
 
 TEST_FILES=								\
 	tests/main.c 						\

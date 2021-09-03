@@ -156,7 +156,7 @@ CTEST2(environment, find_value)
         ASSERT_TRUE(export(data->env, pairs[i]));
 
     unset(data->env, "TEST_2");
-    ASSERT_STR(find(data->env, "TEST_1"), "ENV_1");
+    ASSERT_STR(find(data->env, "TEST_1")->value, "ENV_1");
 }
 
 CTEST2(environment, find_value_with_name_almost_equal)
@@ -174,13 +174,41 @@ CTEST2(environment, find_value_with_name_almost_equal)
     ASSERT_NULL(find(data->env, "TEST"));
 }
 
-CTEST2(environment, export_dont_free_find_space)
+CTEST2(environment, export_new_value_for_existent_key)
 {
-    char *pairs[2] = {
+    char *pairs[5] = {
         "TEST_1=ENV_1",
         "TEST_2=ENV_2",
-    };    
-    for (int i = 0; i < ENV_SIZE; ++i)
-        ASSERT_TRUE(export(data->env, pairs[0]));
-    ASSERT_FALSE(export(data->env, pairs[1]));
+        "TEST_3=ENV_3",
+        "TEST_4=ENV_4",
+        "TEST_2=ENV_2_NEW_VALUE",
+    };
+    
+    for (int i = 0; i < 4; ++i)
+        ASSERT_TRUE(export(data->env, pairs[i]));
+
+    ASSERT_TRUE(export(data->env, pairs[4]));
+    ASSERT_STR(find(data->env, "TEST_2")->value, "ENV_2_NEW_VALUE");
+}
+
+CTEST2(environment, export_with_space_in_value)
+{
+    char *pairs[4] = {
+        "TEST_1=ENV_1",
+        "TEST_2=ENV_2 TEST",
+        "TEST_3=ENV_3",
+        "TEST_4=ENV_4",
+    };
+    
+    for (int i = 0; i < 4; ++i)
+        ASSERT_TRUE(export(data->env, pairs[i]));
+
+    ASSERT_STR(find(data->env, "TEST_2")->value, "ENV_2");
+}
+
+CTEST2(environment, invalid_set)
+{
+    char *pair = "key=";
+    
+    ASSERT_FALSE(export(data->env, pair));
 }
