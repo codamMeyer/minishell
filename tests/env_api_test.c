@@ -205,3 +205,10 @@ CTEST2(environment, export_with_space_in_value)
 
     ASSERT_STR(find(data->env, "TEST_2")->value, "ENV_2");
 }
+
+CTEST2(environment, invalid_set)
+{
+    char *pair = "key=";
+    
+    ASSERT_FALSE(export(data->env, pair));
+}

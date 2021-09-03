@@ -1,4 +1,5 @@
 #include <env/environment.h>
+#include <commands/echo_utils.h>
 #include <ctype.h>
 #include <libft.h>
 
@@ -62,9 +63,10 @@ t_bool	set_new_key_value_pair(t_env *env, char *key, char *value)
 		if (!env[i].key)
 			return (FALSE);
 		env[i].value = ft_strdup(value);
-		if (!env[i].value)
+		if (!env[i].value || !ft_strlen(env[i].value))
 		{
 			free(env[i].key);
+			env[i].key = NULL;
 			return (FALSE);
 		}
 		return (TRUE);
