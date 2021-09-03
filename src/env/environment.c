@@ -10,15 +10,13 @@ t_bool	export(t_env *env, const char *key_value_str)
 
 	if (!copy_key_to_buffer(key_value_str, key_buffer))
 		return (FALSE);
-	i = 0;
-	while (i < ENV_SIZE && env[i].key)
-		++i;
+	i = get_next_available_index(env);
 	if (i < ENV_SIZE)
 	{
 		env[i].key = ft_strdup(key_buffer);
 		if (!env[i].key)
 			return (FALSE);
-		env[i].value = ft_strdup(ft_strchr(key_value_str, '=') + 1);
+		env[i].value = ft_strdup(get_equal_sign_position(key_value_str) + 1);
 		if (!env[i].value)
 		{
 			free(env[i].key);
@@ -41,10 +39,7 @@ void	unset(t_env *env, const char *key_name)
 	{
 		if (env[i].key && ft_strncmp(env[i].key, key_name, name_len) == 0)
 		{
-			free(env[i].key);
-			free(env[i].value);
-			env[i].key = NULL;
-			env[i].value = NULL;
+			free_key_value_pair(&env[i]);
 			break ;
 		}
 		++i;
@@ -92,10 +87,7 @@ void	destroy(t_env *env, int size)
 	i = 0;
 	while (i < size)
 	{
-		free(env[i].key);
-		free(env[i].value);
-		env[i].key = NULL;
-		env[i].value = NULL;
+		free_key_value_pair(&env[i]);
 		++i;
 	}
 }
