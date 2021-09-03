@@ -3,9 +3,9 @@
 #include <ctype.h>
 #include <libft.h>
 
-static t_bool is_valid_key(char *key, int key_len)
+static t_bool	is_valid_key(char *key, int key_len)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < key_len)

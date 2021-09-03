@@ -20,7 +20,7 @@ t_bool	export(t_env *env, const char *key_value_str)
 void	unset(t_env *env, const char *key_name)
 {
 	int	name_len;
-	int			i;
+	int	i;
 
 	if (!env)
 		return ;
