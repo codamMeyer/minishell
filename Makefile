@@ -18,6 +18,7 @@ MINISHELL_INCS= 						\
 	src/commands/commands.h				\
 	src/commands/echo_utils.h			\
 	src/commands/echo_handle_quotes.h	\
+	src/env/environment.h				\
 
 MINISHELL_SRC= 							\
 	src/parser/parser.c					\
@@ -31,6 +32,9 @@ MINISHELL_SRC= 							\
 	src/commands/pwd_command.c			\
 	src/commands/echo_utils.c			\
 	src/commands/echo_handle_quotes.c	\
+	src/env/environment.c				\
+	src/env/environment_utils.c			\
+	src/env/export_utils.c				\
 
 TEST_FILES=								\
 	tests/main.c 						\
@@ -40,14 +44,15 @@ TEST_FILES=								\
 	tests/pwd_test.c					\
 	tests/unknown_test.c				\
 	tests/get_executable_path_test.c	\
+	tests/env_api_test.c				\
 
 MINISHELL_OBJS=$(MINISHELL_SRC:.c=.o)
 
 all: $(MINISHELL) $(MINISHELL_ASAN)
 
 $(MINISHELL): $(MINISHELL_OBJS)
-		make -C $(LIBFT_PATH)
-		$(CC) $(CFLAGS) $(INC_PATH) main.c -o $@ $^ $(LDFLAGS)
+	make -C $(LIBFT_PATH)
+	$(CC) $(CFLAGS) $(INC_PATH) main.c -o $@ $^ $(LDFLAGS)
 
 %.o: %.c $(MINISHELL_INCS)
 	@$(CC) $(CFLAGS) $(INC_PATH) -c -o $@ $<
