@@ -30,8 +30,19 @@ char	*get_equal_sign_position(const char *key_value_str)
 
 void	free_key_value_pair(t_env *env)
 {
-	free(env->key);
-	free(env->value);
+	if (!env)
+		return ;
+	if (env->key)
+		free(env->key);
+	if (env->value)
+		free(env->value);
 	env->key = NULL;
 	env->value = NULL;
+}
+
+t_env	*get_environment(void)
+{
+	static t_env	env[ENV_SIZE];
+
+	return (&env[0]);
 }

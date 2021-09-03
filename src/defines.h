@@ -16,6 +16,9 @@ typedef enum e_command_code
 	ECHO,
 	EXIT,
 	PWD,
+	EXPORT,
+	UNSET,
+	ENV,
 	INVALID,
 	LAST,
 }			t_command_code;
