@@ -50,8 +50,8 @@ MINISHELL_OBJS=$(MINISHELL_SRC:.c=.o)
 all: $(MINISHELL) $(MINISHELL_ASAN)
 
 $(MINISHELL): $(MINISHELL_OBJS)
-		make -C $(LIBFT_PATH)
-		$(CC) $(CFLAGS) $(INC_PATH) main.c -o $@ $^ $(LDFLAGS)
+	make -C $(LIBFT_PATH)
+	$(CC) $(CFLAGS) $(INC_PATH) main.c -o $@ $^ $(LDFLAGS)
 
 %.o: %.c $(MINISHELL_INCS)
 	@$(CC) $(CFLAGS) $(INC_PATH) -c -o $@ $<
