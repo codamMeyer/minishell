@@ -21,10 +21,10 @@ static void	run(void)
 	}
 }
 
-static void setup_env(char *envp[])
+static void	setup_env(char *envp[])
 {
-	t_env *env;
-	int i;
+	t_env	*env;
+	int		i;
 
 	env = get_environment();
 	i = 0;
@@ -45,7 +45,6 @@ int	main(int argc, char *argv[], char *envp[])
 {
 	(void)argv;
 	(void)argc;
-	
 	setup_env(envp);
 	run();
 	return (0);
