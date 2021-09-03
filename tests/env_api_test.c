@@ -2,16 +2,15 @@
 #include <stdlib.h>
 #include "env/environment.h"
 #include <stdio.h>
-#define ENV_TEST_SIZE 50
 
 CTEST_DATA(environment)
 {
-    t_env env[ENV_TEST_SIZE];
+    t_env env[ENV_SIZE];
 };
 
 CTEST_SETUP(environment)
 {
-    for (int i = 0; i < ENV_TEST_SIZE; ++i)
+    for (int i = 0; i < ENV_SIZE; ++i)
     {
         data->env[i].key = NULL;
         data->env[i].value = NULL;
@@ -20,8 +19,8 @@ CTEST_SETUP(environment)
 
 CTEST_TEARDOWN(environment)
 {
-    destroy(data->env, ENV_TEST_SIZE);
-    destroy(data->env, ENV_TEST_SIZE);
+    destroy(data->env, ENV_SIZE);
+    destroy(data->env, ENV_SIZE);
 };
 
 CTEST2(environment, export_wrong_set)
@@ -173,17 +172,6 @@ CTEST2(environment, find_value_with_name_almost_equal)
         ASSERT_TRUE(export(data->env, pairs[i]));
 
     ASSERT_NULL(find(data->env, "TEST"));
-}
-
-CTEST2(environment, export_dont_find_free_space)
-{
-    char *pairs[2] = {
-        "TEST_1=ENV_1",
-        "TEST_2=ENV_2",
-    };    
-    for (int i = 0; i < ENV_TEST_SIZE; ++i)
-        ASSERT_TRUE(export(data->env, pairs[0]));
-    ASSERT_FALSE(export(data->env, pairs[1]));
 }
 
 CTEST2(environment, export_new_value_for_existent_key)
