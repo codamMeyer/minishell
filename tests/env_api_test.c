@@ -110,6 +110,11 @@ CTEST2(environment, unset_pair_does_not_exist)
     unset(data->env, "TEST_5");
 }
 
+void display_env(const char *str)
+{
+    printf("%s", str);
+}
+
 CTEST2(environment, display)
 {
     char *pairs[4] = {
@@ -124,7 +129,7 @@ CTEST2(environment, display)
 
     unset(data->env, "TEST_2");
     printf("\n");
-    display(data->env);
+    display(data->env, display_env);
 }
 
 CTEST2(environment, find_non_existent_name)

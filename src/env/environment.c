@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <libft.h>
 
+
 t_bool	export(t_env *env, const char *key_value_str)
 {
 	char	key_buffer[4096];
@@ -35,7 +36,7 @@ void	unset(t_env *env, const char *key_name)
 	}
 }
 
-void	display(t_env *env)
+void	display(t_env *env, t_output_stdout output)
 {
 	int	i;
 
@@ -45,7 +46,12 @@ void	display(t_env *env)
 	while (i < ENV_SIZE)
 	{
 		if (env[i].key)
-			printf("%s=%s\n", env[i].key, env[i].value);
+		{
+			output(env[i].key);
+			output("=");
+			output(env[i].value);
+			output("\n");
+		}
 		++i;
 	}
 }

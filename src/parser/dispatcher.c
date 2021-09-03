@@ -48,8 +48,8 @@ t_exit_code	dispatch_commands(const t_command *command_table, \
 															exit_command,
 															pwd_command,
 															export_command,
-															pwd_command,
-															pwd_command,
+															unset_command,
+															env_command,
 															unknown_command,
 															};
 	int									i;

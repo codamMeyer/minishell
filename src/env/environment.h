@@ -1,6 +1,7 @@
 #ifndef ENVIRONMENT_H
 # define ENVIRONMENT_H
 # include <defines.h>
+# include <commands/commands.h>
 # define ENV_SIZE 2049
 # define EQUAL_SIGN '='
 
@@ -12,7 +13,7 @@ typedef struct s_env
 
 t_bool	export(t_env *env, const char *key_value_str);
 void	unset(t_env *env, const char *key_name);
-void	display(t_env *env);
+void	display(t_env *env, t_output_stdout output);
 t_env	*find(t_env *env, const char *key_name);
 void	destroy(t_env *env, int size);
 t_bool	copy_key_to_buffer(const char *key_value_str, char *buffer);
