@@ -29,12 +29,13 @@ MINISHELL_SRC= 							\
 	src/output/handle_pipes.c			\
 	src/output/pipe_utils.c				\
 	src/output/redirection.c			\
+	src/output/redirection_utils.c		\
 	src/parser/parser_utils.c			\
 	src/parser/command_table.c			\
 	src/parser/command_table_utils.c	\
 	src/parser/dispatcher.c				\
 	src/parser/get_executable_path.c	\
-	src/parser/parse_redirection.c	\
+	src/parser/parse_redirection.c		\
 	src/commands/exit_command.c			\
 	src/commands/echo_command.c			\
 	src/commands/pwd_command.c			\

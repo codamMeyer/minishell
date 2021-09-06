@@ -6,7 +6,8 @@
         "*.tcc": "cpp",
         "valarray": "cpp",
         "__locale": "c",
-        "locale": "c"
+        "locale": "c",
+        "libft.h": "c"
     },
     "python.linting.flake8Args": [
         "--max-line-length=120",
