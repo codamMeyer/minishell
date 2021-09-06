@@ -12,9 +12,9 @@ t_bool	export(t_env *env, const char *key_value_str)
 	if (!copy_key_to_buffer(key_value_str, key_buffer) || \
 		!copy_value_to_buffer(key_value_str, value_buffer))
 		return (FALSE);
-	if (change_value_of_existent_key(env, key_buffer, value_buffer))
-		return (TRUE);
-	return (set_new_key_value_pair(env, key_buffer, value_buffer));
+	if (!set_key(env, key_buffer))
+		return (FALSE);
+	return (set_value(env, key_buffer, value_buffer));
 }
 
 void	unset(t_env *env, const char *key_name)
