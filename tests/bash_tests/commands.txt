@@ -1,0 +1,3 @@
+echo first test
+cat tests/bash_tests/bigfile | wc -l
+cat tests/bash_tests/bigfile | wc -l | cat -e | cat -e
