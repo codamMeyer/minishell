@@ -9,7 +9,7 @@
 #include <libft.h>
 #include <commands/echo_handle_quotes.h>
 #include <commands/echo_utils.h>
-#include <output/handle_pipes.h>
+#include <output/run_commands.h>
 
 static void	consume_pipe(const char **input, int index)
 {
@@ -19,12 +19,13 @@ static void	consume_pipe(const char **input, int index)
 		++(*input);
 }
 
-/* display syntax error when necessary */
+/* 
+	TODO: Display syntax error when necessary
+ */
 t_command	populate_command(const char **input_ptr)
 {
 	t_command	command;
 
-	init_files(&command.files);
 	command.files = get_redirection(input_ptr);
 	command.code = get_command_code(input_ptr, &command);
 	command.arg.start = *input_ptr;
@@ -34,8 +35,8 @@ t_command	populate_command(const char **input_ptr)
 }
 
 /* 
-	need to decide how to handle pipes
 	if invalid command, should still continue parsing
+	Check for multiple in out files, can be before or after the command
 */
 int	populate_commands_table(const char *input, t_command commands_table[])
 {
@@ -64,6 +65,6 @@ t_bool	parse_input(const char *input, const char *env[])
 	int			num_commands;
 
 	num_commands = populate_commands_table(input, commands_table);
-	handle_pipes(commands_table, num_commands, env);
+	run_commands(commands_table, num_commands, env);
 	return (TRUE);
 }

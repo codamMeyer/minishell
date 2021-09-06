@@ -1,5 +1,5 @@
 #include <output/redirection.h>
-#include <output/handle_pipes.h>
+#include <output/run_commands.h>
 #include <../libft/libft.h>
 #include <unistd.h> 
 #include <stdio.h>

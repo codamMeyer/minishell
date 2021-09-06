@@ -1,6 +1,6 @@
 #include "ctest.h"
 #include "../src/output/handle_pipes.h"
-#include "../src/output/pipe_utils.h"
+#include "../src/output/executor_utils.h"
 #include "../src/parser/get_executable_path.h"
 #include <unistd.h>
 #include "../libft/libft.h"

@@ -13,6 +13,11 @@ int	get_cmd_len(const char *input)
 	return (i);
 }
 
+/*
+	get_executable_path only returns a string if passed command or path,
+	is executable.
+	Thus if command->exe_path exists it's a valid system command
+*/
 t_bool	is_system_command(const char *input, t_command *command)
 {
 	const int	arg_len = get_cmd_len(input);

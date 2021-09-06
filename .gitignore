@@ -52,3 +52,6 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+# maasive text file for testing pipes
+tests/bash_tests/bigfile

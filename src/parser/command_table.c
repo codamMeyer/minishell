@@ -27,6 +27,9 @@ static t_bool	is_built_in_command(const char *input, const char *command)
 		&& is_valid_last_char(input, command_len));
 }
 
+/*
+	Added checks to see if it's a system of built-in command
+*/
 t_command_code	get_command_code(const char **input, t_command *command)
 {
 	static const char	*commands[LAST] = {
@@ -76,7 +79,7 @@ t_bool	is_between_quotes(const char *input, int reserved_char_index)
 int	get_arg_len(const char *start)
 {
 	char	*redirection_position;
-	int		pipe_index;
+	int		redirection_index;
 	int		start_index;
 
 	start_index = 0;
@@ -84,10 +87,10 @@ int	get_arg_len(const char *start)
 			(char *)start);
 	while (redirection_position && start[start_index] != '\0')
 	{
-		pipe_index = redirection_position - &start[0];
-		if (!is_between_quotes(start, pipe_index))
-			return (pipe_index);
-		start_index += pipe_index + 1;
+		redirection_index = redirection_position - &start[0];
+		if (!is_between_quotes(start, redirection_index))
+			return (redirection_index);
+		start_index += redirection_index + 1;
 		redirection_position = get_redirection_position(REDIRECTION_CHARS,
 				(char *)&start[start_index]);
 	}

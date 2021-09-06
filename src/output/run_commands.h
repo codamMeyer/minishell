@@ -1,5 +1,5 @@
-#ifndef HANDLE_PIPES_H
-# define HANDLE_PIPES_H
+#ifndef RUN_COMMANDS_H
+# define RUN_COMMANDS_H
 # define FIRST_PROCESS 0
 # define CHILD_PROCESS 0
 # define SYS_ERROR -1
@@ -9,7 +9,7 @@
 # include "redirection.h"
 
 int		run_pipes(const char *env[]);
-int		handle_pipes(t_command commands[],
+int		run_commands(t_command commands[],
 			int num_of_commands, const char *env[]);
 void	handle_errors(int error_code, char *location);
 void	create_table(t_command commands[], char *arg, char *path);

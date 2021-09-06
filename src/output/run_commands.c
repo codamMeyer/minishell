@@ -1,8 +1,8 @@
-#include "handle_pipes.h"
+#include "run_commands.h"
 #include <string.h>
 #include <stdio.h>
 #include <unistd.h>
-#include "pipe_utils.h"
+#include "executor_utils.h"
 #include "../../libft/libft.h"
 #include <parser/dispatcher.h>
 #include <commands/echo_utils.h>
@@ -14,18 +14,22 @@ void	create_table(t_command commands[], char *arg, char *path)
 	commands->exe_path = path;
 }
 
+/*
+	Creates a process for each command 
+	Important check that all fd's are closed at the end
+*/
 int	run_multi_processes(const char *env[],
 	t_command commands[], int num_of_processes)
 {
 	t_multi_pipes	pipes;
-	int				pid;
+	int				process_id;
 	int				i;
 
 	i = 0;
 	while (num_of_processes > 0 && i < num_of_processes)
 	{
-		pid = create_new_process(&pipes);
-		if (pid == CHILD_PROCESS)
+		process_id = create_new_process(&pipes);
+		if (process_id == CHILD_PROCESS)
 		{
 			redirect_in_and_output(&pipes, i, num_of_processes,
 				&commands[i].files);
@@ -40,7 +44,10 @@ int	run_multi_processes(const char *env[],
 	return (SUCCESS);
 }
 
-int	handle_pipes(t_command commands[],
+/*
+
+*/
+int	run_commands(t_command commands[],
 				int num_of_commands, const char *env[])
 {
 	if (commands[num_of_commands - 1].code == EXIT)

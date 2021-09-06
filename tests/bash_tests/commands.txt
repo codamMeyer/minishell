@@ -1,4 +1,8 @@
 echo first test
+echo "This      Should Wooooork       !     |       "
+echo buillt-in with a system command | cat -e
+< tests/bash_tests/bigfile grep int | /../../../bin/cat -e
+< tests/bash_tests/bigfile grep int | /bin/cat -e
 cat tests/bash_tests/bigfile | wc -l
 cat tests/bash_tests/bigfile | wc -l | cat -e | cat -e
 < tests/bash_tests/bigfile grep int | cat -e

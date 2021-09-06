@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# Simply compile minishell and the run "./tests/bash_tests/minitester"
+
+# maybe at some point stderr can be redirected to compare error meessages
+# "command >out 2>&1"
+# to redirect both to a file  run "command &> out"
+
 cases="tests/bash_tests/commands.txt"
 
 SUCCESS_COLOR="\033[01;32m"
@@ -31,10 +37,11 @@ done < "$cases"
 
 if [ "$pass_count" != "$test_count" ]
 then
-	printf "$ERROR_COLOR FAILURE [$pass_count/$test_count]\n"
+	printf "$ERROR_COLOR FAILURE [$pass_count/$test_count]"
 else
-	printf "$SUCCESS_COLOR PASSED [$pass_count/$test_count]\n"
+	printf "$SUCCESS_COLOR PASSED [$pass_count/$test_count]"
 fi
+printf "$NORNAL_COLOR \n"
 
 rm outfile
 rm tmp

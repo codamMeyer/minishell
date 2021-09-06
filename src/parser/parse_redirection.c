@@ -11,6 +11,9 @@ void	init_files(t_files *files)
 	files->out = NULL;
 }
 
+/*
+	Points to files name and consumes that part of the user input string
+*/
 void	get_in_out_file(const char **input_ptr, const char id, t_files *files)
 {
 	++(*input_ptr);
@@ -22,6 +25,13 @@ void	get_in_out_file(const char **input_ptr, const char id, t_files *files)
 	*input_ptr += get_cmd_len(*input_ptr);
 }
 
+/*
+	Creates a strtuct with two char pointers to the name of files.
+	TODO: Check if file is valid with fstat
+	< infile cmd1 < infile2
+	if multiple infile, take the last one
+	if any of the multiple infiles is invalidpoint to the invalid file
+*/
 t_files	get_redirection(const char **input_ptr)
 {
 	t_files	files;
