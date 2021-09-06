@@ -211,9 +211,33 @@ CTEST2(environment, export_with_space_in_value)
     ASSERT_STR(find(data->env, "TEST_2")->value, "ENV_2");
 }
 
-CTEST2(environment, invalid_set)
+CTEST2(environment, empty_value)
 {
     char *pair = "key=";
+    
+    ASSERT_TRUE(export(data->env, pair));
+    ASSERT_STR(find(data->env, "key")->value, "");
+}
+
+CTEST2_SKIP(environment, string_with_single_quote_as_value)
+{
+    char *pair = "key=\'test with single quotes\'";
+    
+    ASSERT_TRUE(export(data->env, pair));
+    ASSERT_STR(find(data->env, pair)->value, "test with single quotes");
+}
+
+CTEST2_SKIP(environment, string_with_double_quote_as_value)
+{
+    char *pair = "key=\"test with single quotes\"";
+    
+    ASSERT_TRUE(export(data->env, pair));
+    ASSERT_STR(find(data->env, pair)->value, "test with single quotes");
+}
+
+CTEST2_SKIP(environment, string_missing_double_quote_as_value)
+{
+    char *pair = "key=\"test with single quotes";
     
     ASSERT_FALSE(export(data->env, pair));
 }

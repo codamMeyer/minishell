@@ -1,5 +1,6 @@
 #include <env/environment.h>
 #include <commands/echo_utils.h>
+#include <commands/echo_handle_quotes.h>
 #include <ctype.h>
 #include <libft.h>
 
@@ -34,18 +35,20 @@ t_bool	copy_value_to_buffer(const char *key_value_str, char *buffer)
 	const char	*delimiter_position =
 		get_equal_sign_position(key_value_str) + 1;
 	int			value_len;
+	char		cur;
 
 	value_len = 0;
-	if (!delimiter_position || !*delimiter_position)
+	if (!delimiter_position)
 		return (FALSE);
-	if (isspace(delimiter_position[value_len]))
-		return (FALSE);
-	while (delimiter_position[value_len] && \
-		!isspace(delimiter_position[value_len]))
+	cur = delimiter_position[value_len];
+	while (cur && !isspace(cur))
 	{
 		++value_len;
+		cur = delimiter_position[value_len];
 	}
 	ft_bzero(buffer, 4096);
+	if (value_len == 0)
+		return (TRUE);
 	ft_memcpy(&buffer[0], delimiter_position, value_len);
 	return (TRUE);
 }
@@ -79,7 +82,7 @@ t_bool	set_new_key_value_pair(t_env *env, char *key, char *value)
 		if (!env[i].key)
 			return (FALSE);
 		env[i].value = ft_strdup(value);
-		if (!env[i].value || !ft_strlen(env[i].value))
+		if (!env[i].value)
 		{
 			free(env[i].key);
 			env[i].key = NULL;
