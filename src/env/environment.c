@@ -39,7 +39,7 @@ void	unset(t_env *env, const char *key_name)
 	}
 }
 
-void	display(t_env *env, t_output_stdout output)
+void	display_env(t_env *env, t_output_stdout output)
 {
 	int	i;
 
@@ -59,7 +59,7 @@ void	display(t_env *env, t_output_stdout output)
 	}
 }
 
-t_env	*find(t_env *env, const char *key_name)
+t_env	*find_variable(t_env *env, const char *key_name)
 {
 	const int	name_len = ft_strlen(key_name) + 1;
 	int			i;
@@ -76,7 +76,7 @@ t_env	*find(t_env *env, const char *key_name)
 	return (NULL);
 }
 
-void	destroy(t_env *env, int size)
+void	destroy_env(t_env *env, int size)
 {
 	int	i;
 

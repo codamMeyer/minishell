@@ -57,7 +57,7 @@ t_bool	set_key(t_env *env, char *key)
 	const int	i = get_next_available_index(env);
 	t_env		*is_set;
 
-	is_set = find(env, key);
+	is_set = find_variable(env, key);
 	if (is_set)
 		return (TRUE);
 	if (i < ENV_SIZE)
@@ -73,7 +73,7 @@ t_bool	set_value(t_env *env, char *key, char *value)
 {
 	t_env		*key_pair;
 
-	key_pair = find(env, key);
+	key_pair = find_variable(env, key);
 	free(key_pair->value);
 	key_pair->value = ft_strdup(value);
 	if (!key_pair->value)
