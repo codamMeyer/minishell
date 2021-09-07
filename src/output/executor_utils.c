@@ -48,7 +48,7 @@ void	execute_system_command(const t_command *command, const char *env[])
 }
 
 /*
-	Calls piep() first so that the pipe fds are accesible in
+	Calls pipe() first so that the pipe fds are accesible in
 	the main as well as in the child process
 */
 int	create_new_process(t_multi_pipes *pipes)

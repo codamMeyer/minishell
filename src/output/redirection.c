@@ -1,11 +1,11 @@
 #include <output/redirection.h>
 #include <output/run_commands.h>
-#include <../libft/libft.h>
+#include <libft.h>
 #include <unistd.h> 
 #include <stdio.h>
 #include <fcntl.h>
 
-void	get_files(int fd[2], t_files *files)
+void	get_files(int fd[], t_files *files)
 {
 	char	file_name[BUFSIZ];
 
@@ -22,7 +22,7 @@ void	get_files(int fd[2], t_files *files)
 	{
 		ft_bzero(&file_name[0], BUFSIZ);
 		get_file_name(&file_name[0], files->out);
-		fd[WRITE_FD] = open(&file_name[0], O_RDWR | O_CREAT | O_TRUNC, 0777);
+		fd[WRITE_FD] = open(&file_name[0], O_RDWR | O_CREAT | O_TRUNC, 0664);
 		if (fd[WRITE_FD] == SYS_ERROR)
 			handle_errors(11, "opening out");
 	}

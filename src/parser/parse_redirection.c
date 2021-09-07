@@ -26,11 +26,12 @@ void	get_in_out_file(const char **input_ptr, const char id, t_files *files)
 }
 
 /*
-	Creates a strtuct with two char pointers to the name of files.
+	Creates a struct with two char pointers to the name of the files.
 	TODO: Check if file is valid with fstat
 	< infile cmd1 < infile2
 	if multiple infile, take the last one
-	if any of the multiple infiles is invalidpoint to the invalid file
+	if any of the multiple infiles is invalid, point to the invalid file.
+	check <>, >< filename
 */
 t_files	get_redirection(const char **input_ptr)
 {

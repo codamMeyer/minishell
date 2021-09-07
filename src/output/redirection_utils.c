@@ -2,7 +2,7 @@
 #include <parser/command_table.h>
 #include <../libft/libft.h>
 
-void	current_to_previous_pipe(t_multi_pipes *pipes)
+void	previous_to_current_pipe(t_multi_pipes *pipes)
 {
 	pipes->previous[READ_FD] = pipes->current[READ_FD];
 	pipes->previous[WRITE_FD] = pipes->current[WRITE_FD];

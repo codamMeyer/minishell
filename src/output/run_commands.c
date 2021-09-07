@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <unistd.h>
 #include "executor_utils.h"
-#include "../../libft/libft.h"
+#include <libft.h>
 #include <parser/dispatcher.h>
 #include <commands/echo_utils.h>
 
