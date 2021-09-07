@@ -1,4 +1,4 @@
-#include <parser/parser.h>
+#include "parser.h"
 #include <parser/command_table.h>
 #include <parser/dispatcher.h>
 #include <parser/parse_redirection.h>
@@ -9,7 +9,7 @@
 #include <libft.h>
 #include <commands/echo_handle_quotes.h>
 #include <commands/echo_utils.h>
-#include <output/run_commands.h>
+#include <executor/run_commands.h>
 
 static void	consume_pipe(const char **input, int index)
 {
