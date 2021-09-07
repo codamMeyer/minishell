@@ -1,6 +1,6 @@
 #ifndef EXECUTOR_UTILS_H
 # define EXECUTOR_UTILS_H
-
+# define DEFAULT_WAIT_ID -1
 # include <commands/commands.h>
 # include <output/redirection.h>
 

@@ -12,7 +12,7 @@ void	wait_for_all_processes(int num_of_processes)
 	i = 0;
 	while (i < num_of_processes)
 	{
-		waitpid(-1, NULL, 0);
+		waitpid(DEFAULT_WAIT_ID, NULL, 0);
 		i++;
 	}
 }
