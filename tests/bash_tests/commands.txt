@@ -1,9 +1,13 @@
 echo first test
 echo "This      Should Wooooork       !     |       "
 echo buillt-in with a system command | cat -e
-< tests/bash_tests/bigfile grep int | /../../../bin/cat -e
-< tests/bash_tests/bigfile grep int | /bin/cat -e
-cat tests/bash_tests/bigfile | wc -l
-cat tests/bash_tests/bigfile | wc -l | cat -e | cat -e
-< tests/bash_tests/bigfile grep int | cat -e
-< tests/bash_tests/bigfile grep int | cat -e > outfile
+echo "ashdhbasd"   | cat -e
+exit | echo didnt quit
+echo didnt quit | exit | cat -e
+echo didnt quit | exit
+< tests/bash_tests/simple_file grep int | /../../../bin/cat -e
+< tests/bash_tests/simple_file grep int | /bin/cat -e
+cat tests/bash_tests/simple_file | wc -l
+cat tests/bash_tests/simple_file | wc -l | cat -e | cat -e
+< tests/bash_tests/simple_file grep int | cat -e
+< tests/bash_tests/simple_file grep int | cat -e > outfile
