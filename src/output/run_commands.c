@@ -38,7 +38,7 @@ int	run_multi_processes(const char *env[],
 		if (i != FIRST_PROCESS)
 			close(pipes.previous[READ_FD]);
 		close(pipes.current[WRITE_FD]);
-		current_to_previous_pipe(&pipes);
+		previous_to_current_pipe(&pipes);
 		i++;
 	}
 	return (SUCCESS);
