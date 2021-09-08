@@ -32,14 +32,8 @@ static t_bool	is_built_in_command(const char *input, const char *command)
 */
 t_command_code	get_command_code(const char **input, t_command *command)
 {
-	static const char	*commands[LAST] = {
-											"",
-											"echo",
-											"exit",
-											"pwd",
-											"export",
-											"unset",
-											"env",
+	static const char	*commands[LAST] = {"", "echo", "exit", "pwd",
+											"export", "unset", "env",
 											"invalid"
 										};
 	t_command_code		command_code;
