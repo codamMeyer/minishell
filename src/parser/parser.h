@@ -3,6 +3,7 @@
 
 # include <defines.h>
 # include <commands/commands.h>
+# include <env/environment.h>
 
 t_bool			parse_input(const char *input, const char *env[]);
 void			advance_pointer(const char **input, const char *parsed_str);

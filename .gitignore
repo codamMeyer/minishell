@@ -52,6 +52,5 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
-
-# masive text file for testing pipes
 tests/bash_tests/bigfile
+*.code-workspace

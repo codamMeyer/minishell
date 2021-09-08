@@ -41,3 +41,8 @@ t_bool	is_double_quote(char c)
 {
 	return (c == DOUBLE_QUOTES);
 }
+
+t_bool	is_single_quote(char c)
+{
+	return (c == SINGLE_QUOTES);
+}
