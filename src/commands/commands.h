@@ -1,9 +1,11 @@
 #ifndef COMMANDS_H
 # define COMMANDS_H
-# include <defines.h>
 # define WHITESSPACE_AND_QUOTES " 	\""
 # define WHITESSPACE " \t"
 # define N_FLAG "-n"
+# define REDIRECTION_CHARS "<>|" 
+
+# include <defines.h>
 
 /* I think space and NULL shouldn't be
 in special chars, we should create a new enum for them */
@@ -12,6 +14,8 @@ typedef enum e_special_chars
 	SPACE = ' ',
 	NULL_TERMINATOR = '\0',
 	PIPE = '|',
+	LEFT_ANGLE = '<',
+	RIGHT_ANGLE = '>'
 }	t_special_chars;
 
 typedef struct s_arg
@@ -20,11 +24,19 @@ typedef struct s_arg
 	const char	*end;
 }	t_arg;
 
+typedef struct s_files
+{
+	const char		*out;
+	const char		*in;
+}	t_files;
+
 typedef struct s_command
 {
 	t_command_code	code;
 	t_arg			arg;
 	int				arg_len;
+	const char		*exe_path;
+	t_files			files;
 }	t_command;
 
 typedef void	(*t_output_stdout)(const char *);

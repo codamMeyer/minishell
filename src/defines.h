@@ -21,6 +21,7 @@ typedef enum e_command_code
 	UNSET,
 	ENV,
 	INVALID,
+	SYSTEM,
 	LAST,
 }			t_command_code;
 

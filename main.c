@@ -1,12 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <libft.h>
 #include <output/prompt.h>
-#include <defines.h>
 #include <parser/parser.h>
 #include <env/environment.h>
 #include <readline/readline.h>
 #include <readline/history.h>
+#include <signal.h>
 
 static void	setup_env(char *envp[])
 {
@@ -28,7 +27,7 @@ static void	setup_env(char *envp[])
 	}
 }
 
-static void	run(void)
+static void	run(char *env[])
 {
 	char	*line;
 	char	buffer[4096];
@@ -36,7 +35,9 @@ static void	run(void)
 	while (TRUE)
 	{
 		line = readline(display_prompt(&buffer[0]));
-		parse_input(line);
+		if (line == NULL)
+			exit(1);
+		parse_input(line, env);
 		free(line);
 	}
 }
@@ -46,6 +47,6 @@ int	main(int argc, char *argv[], char *envp[])
 	(void)argv;
 	(void)argc;
 	setup_env(envp);
-	run();
+	run(envp);
 	return (0);
 }
