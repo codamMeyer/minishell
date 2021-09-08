@@ -3,6 +3,7 @@
 #include <commands/echo_handle_quotes.h>
 #include <ctype.h>
 #include <libft.h>
+#include <stdio.h>
 
 static t_bool	is_valid_key(char *key, int key_len)
 {
