@@ -29,12 +29,12 @@ void	handle_errors(int error_code, char *description_location)
 /*
 	Done like this to not have confusing typecasting flying around
 */
-int	execute_command(const char *path, char *argv[], const char *env[])
+int	execute_command(const char *path, char *argv[], char *env[])
 {
 	return (execve(path, (char *const *)argv, (char *const *)env));
 }
 
-void	execute_system_command(const t_command *command, const char *env[])
+void	execute_system_command(const t_command *command, char *env[])
 {
 	char		**cmd;
 	char		buffer[4096];

@@ -27,7 +27,7 @@ static void	setup_env(char *envp[])
 	}
 }
 
-static void	run(const char *env[])
+static void	run(char *env[])
 {
 	char	*line;
 	char	buffer[4096];

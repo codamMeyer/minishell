@@ -10,7 +10,7 @@
 
 int		run_pipes(const char *env[]);
 int		run_commands(t_command commands[],
-			int num_of_commands, const char *env[]);
+			int num_of_commands, char *env[]);
 void	handle_errors(int error_code, char *location);
 void	create_table(t_command commands[], char *arg, char *path);
 
