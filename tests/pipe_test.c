@@ -1,9 +1,9 @@
 #include "ctest.h"
-#include "../src/output/handle_pipes.h"
-#include "../src/output/executor_utils.h"
-#include "../src/parser/get_executable_path.h"
+#include <output/run_commands.h>
+#include <output/executor_utils.h>
+#include <parser/get_executable_path.h>
 #include <unistd.h>
-#include "../libft/libft.h"
+#include <libft.h>
 #include <stdio.h>
 #include <string.h>
 #include <strings.h>

@@ -51,7 +51,7 @@ TEST_FILES=								\
 	tests/unknown_test.c				\
 	tests/get_executable_path_test.c	\
 	tests/redirection_tests.c			\
-	# tests/pipe_test.c					\
+	tests/pipe_test.c					\
 
 MINISHELL_OBJS=$(MINISHELL_SRC:.c=.o)
 
