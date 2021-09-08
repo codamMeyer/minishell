@@ -2,28 +2,31 @@ version: 2
 
 jobs:
   build:
-    docker:
-      - image: "debian:buster"
-    steps:
-      - checkout
-      - run:
-          name: Install dependencies GCC and CLANG
-          command: 'apt-get update && apt-get install -y clang gcc make python3 python3-pip && apt-get install -y libreadline-dev'
-      - run:
-          name: Install dependencies Python
-          command: 'pip3 install -U pip && pip3 install -U setuptools && pip3 install -U norminette'
-      - run:
-          name: Build
-          command: 'echo Building'
-      - run:
-          name: Unit-Test
-          command: "make test_run"
-      - run:
-          name: Unit-Test ASAN
-          command: "make test_asan"
-      - run:
-          name: Acceptance-Test
-          command: make acceptance_test
-      - run:
-          name: Norminette
-          command: norminette src main.c
+	docker:
+	  - image: "debian:buster"
+	steps:
+	  - checkout
+	  - run:
+		  name: Install dependencies GCC and CLANG
+		  command: 'apt-get update && apt-get install -y clang gcc make python3 python3-pip && apt-get install -y libreadline-dev'
+	  - run:
+		  name: Install dependencies Python
+		  command: 'pip3 install -U pip && pip3 install -U setuptools && pip3 install -U norminette'
+	  - run:
+		  name: Build
+		  command: 'echo Building'
+	  - run:
+		  name: Unit-Test
+		  command: "make test_run"
+	  - run:
+		  name: Unit-Test ASAN
+		  command: "make test_asan"
+	  - run:
+		  name: Pipe Acceptence-Tests
+		  command: ./tests/pipe_tests/minitester.sh
+	  - run:
+		  name: Acceptance-Test
+		  command: make acceptance_test
+	  - run:
+		  name: Norminette
+		  command: norminette src main.c

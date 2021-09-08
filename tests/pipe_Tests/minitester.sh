@@ -6,7 +6,7 @@
 # "command >out 2>&1"
 # to redirect both to a file  run "command &> out"
 
-cases="tests/bash_tests/commands.txt"
+cases="tests/pipe_tests/commands.txt"
 prompt="minishell"
 
 SUCCESS_COLOR="\033[01;32m"
