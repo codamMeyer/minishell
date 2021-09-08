@@ -29,9 +29,10 @@ MINISHELL_SRC= 							\
 	src/parser/get_executable_path.c	\
 	src/commands/exit_command.c			\
 	src/commands/echo_command.c			\
-	src/commands/pwd_command.c			\
 	src/commands/echo_utils.c			\
 	src/commands/echo_handle_quotes.c	\
+	src/commands/pwd_command.c			\
+	src/commands/environment_commands.c	\
 	src/env/environment.c				\
 	src/env/environment_utils.c			\
 	src/env/export_utils.c				\

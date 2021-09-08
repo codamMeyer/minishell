@@ -32,6 +32,9 @@ t_command_code	get_command_code(const char **input)
 											"echo",
 											"exit",
 											"pwd",
+											"export",
+											"unset",
+											"env",
 											"invalid"
 										};
 	t_command_code		command_code;

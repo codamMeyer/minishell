@@ -2,6 +2,7 @@
 # define DEFINES_H
 # define NEW_LINE "\n"
 # define DOUBLE_QUOTES '"'
+# define SINGLE_QUOTES 39
 # define MAX_CMDS_PER_LINE 100
 
 typedef enum e_bool
@@ -16,6 +17,9 @@ typedef enum e_command_code
 	ECHO,
 	EXIT,
 	PWD,
+	EXPORT,
+	UNSET,
+	ENV,
 	INVALID,
 	LAST,
 }			t_command_code;
