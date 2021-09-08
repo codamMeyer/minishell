@@ -10,8 +10,8 @@ function readOutputFile ()
 
 function runMinishell ()
 {
-    # printf "minishell $1\n"
     echo -e "echo $1\nexit" | ./../../minishell > output_minishell.txt
+    sed -i "s/minishell exit//g" "output_minishell.txt"
     ACTUAL=$(readOutputFile 2 output_minishell.txt)
 }
 
@@ -22,7 +22,6 @@ function runBashWithQuotes ()
 
 function runBashWithoutQuotes ()
 {
-    # printf "bash $1\n"
     EXPECTED=$(echo $1)
 }
 

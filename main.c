@@ -10,11 +10,11 @@
 static void	run(void)
 {
 	char	*line;
-	char	buffer[4096];
+	// char	buffer[4096];
 
 	while (TRUE)
 	{
-		line = readline(display_prompt(&buffer[0]));
+		line = readline("minishell ");
 		parse_input(line);
 		free(line);
 	}
