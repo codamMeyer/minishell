@@ -83,6 +83,9 @@ $(MINISHELL_ASAN): $(MINISHELL_SRC)
 acceptance_test: $(MINISHELL)
 	python3 tests/acceptance/main.py
 
+pipe_tests: $(MINISHELL)
+	./tests/pipe_tests/minitester.sh
+
 clean:
 	make -C $(LIBFT_PATH) fclean
 	rm -f $(MINISHELL_OBJS)
