@@ -1,0 +1,3 @@
+[1;36m /home/monique/Documents/workspace/codamMeyer/minishell/tests/acceptance -►[0m echo "                Hello      Hello"
+                Hello      Hello
+[1;36m /home/monique/Documents/workspace/codamMeyer/minishell/tests/acceptance -►[0m exit

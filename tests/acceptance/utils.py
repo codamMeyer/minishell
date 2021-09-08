@@ -46,6 +46,5 @@ class Minishell:
 		cat_process = Popen(RUN_CAT_COMMAND.format(file.filename).split(), stdout=PIPE)
 		minishell_process = subprocess.check_output(LAUNCH_MINISHELL_COMMAND, stdin=cat_process.stdout)
 		stdout, strerr = cat_process.communicate()
-		print(minishell_process.decode("utf-8"))
 		assert strerr is None, "cat process returned error"
 		return minishell_process

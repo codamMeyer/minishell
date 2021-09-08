@@ -25,8 +25,8 @@ class TestEcho(unittest.TestCase):
 
 		self.echoFile.appendCommand(input_string)
 		self.minishell_output = Minishell.runInputFile(self.echoFile).decode("utf-8")
-		start_position_for_search = self.find_start_position_for_search(input_string)
-		self.assertNotEqual(self.minishell_output.find(expected_output, start_position_for_search), -1)
+		self.minishell_output = self.minishell_output.replace("echo Hello", "")
+		self.assertNotEqual(self.minishell_output.find("Hello\n"), -1)
 	
 	def test_str_with_quotes(self):
 		input_string = 'echo "Hello      you"\nexit\n'
