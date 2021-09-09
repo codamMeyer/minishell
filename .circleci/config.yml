@@ -25,5 +25,8 @@ jobs:
           name: Acceptance-Test
           command: make acceptance_test
       - run:
+          name: Pipes Acceptence-Test
+          command: make pipe_tests
+      - run:
           name: Norminette
           command: norminette src main.c

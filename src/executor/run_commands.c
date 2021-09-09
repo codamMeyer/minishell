@@ -30,7 +30,7 @@ void	create_table(t_command commands[], char *arg, char *path)
 	Creates a process for each command 
 	Important check that all fd's are closed at the end
 */
-int	run_multi_processes(const char *env[],
+int	run_multi_processes(char *env[],
 	t_command commands[], int num_of_processes)
 {
 	t_multi_pipes	pipes;
@@ -62,7 +62,7 @@ t_bool	should_exit(int num_of_cmds, t_command_code command_code)
 }
 
 int	run_commands(t_command commands[],
-				int num_of_commands, const char *env[])
+				int num_of_commands, char *env[])
 {
 	if (should_exit(num_of_commands, commands[0].code))
 		exit_command(commands[0], write_to_stdout);

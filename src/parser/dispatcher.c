@@ -40,13 +40,16 @@ t_exit_code	empty_command(t_command command, t_output_stdout write_to_stdout)
 	return (SUCCESS);
 }
 
-t_exit_code	dispatch_command(const t_command *command, const char *env[])
+t_exit_code	dispatch_command(const t_command *command, char *env[])
 {
 	static const t_command_function		functions[LAST] = {
 															empty_command,
 															echo_command,
 															exit_command,
 															pwd_command,
+															export_command,
+															unset_command,
+															env_command,
 															unknown_command,
 															};
 

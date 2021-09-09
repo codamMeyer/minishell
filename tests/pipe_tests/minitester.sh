@@ -6,7 +6,8 @@
 # "command >out 2>&1"
 # to redirect both to a file  run "command &> out"
 
-cases="tests/bash_tests/commands.txt"
+cases="tests/pipe_tests/commands.txt"
+prompt="minishell"
 
 SUCCESS_COLOR="\033[01;32m"
 ERROR_COLOR="\033[01;31m"
@@ -20,7 +21,7 @@ do
 	printf "$NORMAL_COLOR Test: $line\n"
 	echo $line > tmp
 
-	mini_output=$(./minishell < tmp)
+	mini_output=$(./minishell < tmp | sed "/$prompt/d")
 	bash_output=$(bash < tmp)
 	if [ "$mini_output" != "$bash_output" ]
 	then

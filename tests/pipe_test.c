@@ -1,9 +1,9 @@
 #include "ctest.h"
-#include "../src/output/handle_pipes.h"
-#include "../src/output/executor_utils.h"
-#include "../src/parser/get_executable_path.h"
+#include <executor/run_commands.h>
+#include <executor/executor_utils.h>
+#include <parser/get_executable_path.h>
 #include <unistd.h>
-#include "../libft/libft.h"
+#include <libft.h>
 #include <stdio.h>
 #include <string.h>
 #include <strings.h>
@@ -23,17 +23,26 @@ void    create_command_array()
         while ((command_array[i][size]) != SPACE)
             size++;
         char *cmd = ft_substr(command_array[i], 0, size);
-        create_table(&commands[i], command_array[i], get_executable_path(cmd));
+        char *path = get_executable_path(cmd);
+        create_table(&commands[i], command_array[i], path);
         free(cmd);
     }
 }
 
 CTEST(pipe_test, basic_setup_test)
 {
+    char *path = NULL;
     create_command_array();
-    ASSERT_STR(get_executable_path("cat") ,commands[0].exe_path);
+    path = get_executable_path("cat");
+    ASSERT_STR(path ,commands[0].exe_path);
+    free((char *)commands[0].exe_path);
+    free(path);
+    path = get_executable_path("grep");
     ASSERT_STR(command_array[0] ,commands[0].arg.start);
-    ASSERT_STR(get_executable_path("grep") ,commands[1].exe_path);
+    ASSERT_STR(path, commands[1].exe_path);
+    free((char *)commands[1].exe_path);
+    free(path);
+    path = NULL;
     ASSERT_NULL(commands[3].exe_path);
 }
 

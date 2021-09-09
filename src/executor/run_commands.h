@@ -6,7 +6,7 @@
 /*   By: rmeiboom <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/09/07 22:11:55 by rmeiboom      #+#    #+#                 */
-/*   Updated: 2021/09/07 22:11:56 by rmeiboom      ########   odam.nl         */
+/*   Updated: 2021/09/09 16:45:38 by rmeiboom      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 
 int		run_pipes(const char *env[]);
 int		run_commands(t_command commands[],
-			int num_of_commands, const char *env[]);
+			int num_of_commands, char *env[]);
 void	handle_errors(int error_code, char *location);
 void	create_table(t_command commands[], char *arg, char *path);
 
