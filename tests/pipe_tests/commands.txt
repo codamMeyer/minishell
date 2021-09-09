@@ -1,7 +1,6 @@
 echo first test
 echo "This      Should Wooooork       !     |       "
 echo buillt-in with a system command | cat -e
-echo "buillt-in with a system command" | cat -e
 < tests/pipe_tests/bigfile grep int | /../../../bin/cat -e
 < tests/pipe_tests/bigfile grep int | /bin/cat -e
 cat tests/pipe_tests/bigfile | wc -l
