@@ -7,7 +7,7 @@
 # to redirect both to a file  run "command &> out"
 
 cases="tests/pipe_tests/commands.txt"
-prompt="minishell"
+prompt="-►"
 
 SUCCESS_COLOR="\033[01;32m"
 ERROR_COLOR="\033[01;31m"
