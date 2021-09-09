@@ -39,6 +39,7 @@ done < "$cases"
 if [ "$pass_count" != "$test_count" ]
 then
 	printf "$ERROR_COLOR FAILURE [$pass_count/$test_count]"
+	exit 1
 else
 	printf "$SUCCESS_COLOR PASSED [$pass_count/$test_count]"
 fi

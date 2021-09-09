@@ -1,0 +1,1 @@
+< tests/pipe_tests/bigfile grep int | cat -e > outfile
