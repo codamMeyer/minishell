@@ -15,7 +15,7 @@ MINISHELL_INCS= 						\
 	src/parser/parse_redirection.h		\
 	src/output/prompt.h					\
 	src/output/run_commands.h			\
-	src/output/executor_utils.h				\
+	src/output/executor_utils.h			\
 	src/output/redirection.h			\
 	src/parser/dispatcher.h				\
 	src/parser/get_executable_path.h	\
@@ -28,7 +28,7 @@ MINISHELL_SRC= 							\
 	src/parser/parser.c					\
 	src/output/prompt.c					\
 	src/output/run_commands.c			\
-	src/output/executor_utils.c				\
+	src/output/executor_utils.c			\
 	src/output/redirection.c			\
 	src/output/redirection_utils.c		\
 	src/parser/parser_utils.c			\
@@ -87,7 +87,7 @@ $(MINISHELL_ASAN): $(MINISHELL_SRC)
 	$(CC) $(CFLAGS_ASAN) $(INC_PATH) main.c -o $(MINISHELL_ASAN) $^ $(LDFLAGS)
 
 acceptance_test: $(MINISHELL)
-	python3 tests/acceptance/main.py
+	./tests/acceptance/acceptance_test.sh
 
 pipe_tests: $(MINISHELL)
 	./tests/pipe_tests/minitester.sh
