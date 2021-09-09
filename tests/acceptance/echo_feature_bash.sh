@@ -26,6 +26,7 @@ function assertNotEqual ()
         displaySuccessMessage
     else
        displayFailureMessage
+       EXIT_CODE=1
     fi
     echo ""
 }
@@ -62,3 +63,5 @@ runWithQuotes "                Hello      Hello" "\"                Hello      H
 runNFlagTest "-n Hello" "-n Hello" "With valid -n flag"
 
 cleanUp
+
+exit $EXIT_CODE

@@ -6,6 +6,7 @@ ERROR_COLOR="\033[1;31m"
 NORMAL_COLOR="\033[0m"
 TMP_FILE="tmp.txt"
 MININHELL_OUTPUT="output_minishell.txt"
+EXIT_CODE=0
 
 function runMinishell ()
 {
@@ -47,7 +48,7 @@ function assertEqual ()
         displaySuccessMessage
     else
        displayFailureMessage
-       exit 1
+       EXIT_CODE=1
     fi
     echo ""
 }
