@@ -2,6 +2,7 @@
 #include <commands/commands.h>
 #include <commands/echo_utils.h>
 #include <parser/parser.h>
+#include <output/executor_utils.h>
 #include <stdio.h>
 #include <libft.h>
 #include <ctype.h>
@@ -39,34 +40,22 @@ t_exit_code	empty_command(t_command command, t_output_stdout write_to_stdout)
 	return (SUCCESS);
 }
 
-t_exit_code	dispatch_commands(const t_command *command_table, \
-							int num_commands)
+t_exit_code	dispatch_command(const t_command *command, char *env[])
 {
 	static const t_command_function		functions[LAST] = {
 															empty_command,
 															echo_command,
 															exit_command,
 															pwd_command,
+															export_command,
+															unset_command,
+															env_command,
 															unknown_command,
 															};
-	int									i;
 
-	i = 0;
-	while (i < num_commands)
-	{
-		functions[command_table[i].code](command_table[i], write_to_stdout);
-		++i;
-	}
-	return (SUCCESS);
+	if (command->code == SYSTEM)
+		execute_system_command(command, env);
+	else if (command->code == INVALID)
+		exit(functions[command->code](*command, write_to_stderr));
+	exit(functions[command->code](*command, write_to_stdout));
 }
-
-/*
-
-t_command_function commands[LAST] = {
-										empty_command,
-										echo_command,
-										exit_command,
-										pwd_command,
-									}
-
-*/

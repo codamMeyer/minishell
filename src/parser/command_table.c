@@ -1,7 +1,9 @@
 #include <parser/command_table.h>
 #include <parser/parser.h>
+#include <parser/get_executable_path.h>
 #include <commands/echo_handle_quotes.h>
 #include <libft.h>
+#include <stdio.h>
 #include <ctype.h>
 
 static t_bool	is_valid_last_char(const char *input, int command_len)
@@ -17,7 +19,7 @@ static t_bool	is_valid_last_char(const char *input, int command_len)
 	return (FALSE);
 }
 
-static t_bool	is_command(const char *input, const char *command)
+static t_bool	is_built_in_command(const char *input, const char *command)
 {
 	const int	command_len = ft_strlen(command);
 
@@ -25,13 +27,13 @@ static t_bool	is_command(const char *input, const char *command)
 		&& is_valid_last_char(input, command_len));
 }
 
-t_command_code	get_command_code(const char **input)
+/*
+	Added checks to see if it's a system of built-in command
+*/
+t_command_code	get_command_code(const char **input, t_command *command)
 {
-	static const char	*commands[LAST] = {
-											"",
-											"echo",
-											"exit",
-											"pwd",
+	static const char	*commands[LAST] = {"", "echo", "exit", "pwd",
+											"export", "unset", "env",
 											"invalid"
 										};
 	t_command_code		command_code;
@@ -40,13 +42,15 @@ t_command_code	get_command_code(const char **input)
 	command_code = EMPTY_LINE;
 	while (command_code < INVALID)
 	{
-		if (is_command(*input, commands[command_code]))
+		if (is_built_in_command(*input, commands[command_code]))
 		{
 			advance_pointer(input, commands[command_code]);
 			return (command_code);
 		}
 		++command_code;
 	}
+	if (is_system_command(*input, command))
+		return (SYSTEM);
 	return (INVALID);
 }
 
@@ -71,19 +75,21 @@ t_bool	is_between_quotes(const char *input, int reserved_char_index)
 
 int	get_arg_len(const char *start)
 {
-	char	*pipe_position;
-	int		pipe_index;
+	char	*redirection_position;
+	int		redirection_index;
 	int		start_index;
 
 	start_index = 0;
-	pipe_position = ft_strchr(start, PIPE);
-	while (pipe_position && start[start_index] != '\0')
+	redirection_position = get_redirection_position(REDIRECTION_CHARS,
+			(char *)start);
+	while (redirection_position && start[start_index] != '\0')
 	{
-		pipe_index = pipe_position - &start[0];
-		if (!is_between_quotes(start, pipe_index))
-			return (pipe_index);
-		start_index += pipe_index + 1;
-		pipe_position = ft_strchr(&start[start_index], PIPE);
+		redirection_index = redirection_position - &start[0];
+		if (!is_between_quotes(start, redirection_index))
+			return (redirection_index);
+		start_index += redirection_index + 1;
+		redirection_position = get_redirection_position(REDIRECTION_CHARS,
+				(char *)&start[start_index]);
 	}
 	return (ft_strlen(start));
 }

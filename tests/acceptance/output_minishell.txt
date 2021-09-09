@@ -1,3 +1,0 @@
-minishell echo "                Hello      Hello"
-                Hello      Hello
-

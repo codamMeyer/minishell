@@ -12,7 +12,11 @@ MINISHELL_INCS= 						\
 	src/defines.h						\
 	src/parser/parser.h					\
 	src/parser/command_table.h			\
+	src/parser/parse_redirection.h		\
 	src/output/prompt.h					\
+	src/output/run_commands.h			\
+	src/output/executor_utils.h				\
+	src/output/redirection.h			\
 	src/parser/dispatcher.h				\
 	src/parser/get_executable_path.h	\
 	src/commands/commands.h				\
@@ -23,16 +27,25 @@ MINISHELL_INCS= 						\
 MINISHELL_SRC= 							\
 	src/parser/parser.c					\
 	src/output/prompt.c					\
+	src/output/run_commands.c			\
+	src/output/executor_utils.c				\
+	src/output/redirection.c			\
+	src/output/redirection_utils.c		\
 	src/parser/parser_utils.c			\
 	src/parser/command_table.c			\
+	src/parser/command_table_utils.c	\
 	src/parser/dispatcher.c				\
 	src/parser/get_executable_path.c	\
+	src/parser/parse_redirection.c		\
 	src/commands/exit_command.c			\
 	src/commands/echo_command.c			\
-	src/commands/pwd_command.c			\
 	src/commands/echo_utils.c			\
 	src/commands/echo_handle_quotes.c	\
+	src/commands/pwd_command.c			\
+	src/commands/environment_commands.c	\
 	src/env/environment.c				\
+	src/env/environment_utils.c			\
+	src/env/export_utils.c				\
 
 TEST_FILES=								\
 	tests/main.c 						\
@@ -42,15 +55,17 @@ TEST_FILES=								\
 	tests/pwd_test.c					\
 	tests/unknown_test.c				\
 	tests/get_executable_path_test.c	\
+	tests/redirection_tests.c			\
+	tests/pipe_test.c					\
 	tests/env_api_test.c				\
 
 MINISHELL_OBJS=$(MINISHELL_SRC:.c=.o)
 
-all: $(MINISHELL) $(MINISHELL_ASAN)
+all: $(MINISHELL)
 
 $(MINISHELL): $(MINISHELL_OBJS)
-		make -C $(LIBFT_PATH)
-		$(CC) $(CFLAGS) $(INC_PATH) main.c -o $@ $^ $(LDFLAGS)
+	make -C $(LIBFT_PATH)
+	$(CC) $(CFLAGS) $(INC_PATH) main.c -o $@ $^ $(LDFLAGS)
 
 %.o: %.c $(MINISHELL_INCS)
 	@$(CC) $(CFLAGS) $(INC_PATH) -c -o $@ $<
@@ -73,6 +88,9 @@ $(MINISHELL_ASAN): $(MINISHELL_SRC)
 
 acceptance_test: $(MINISHELL)
 	python3 tests/acceptance/main.py
+
+pipe_tests: $(MINISHELL)
+	./tests/pipe_tests/minitester.sh
 
 clean:
 	make -C $(LIBFT_PATH) fclean

@@ -3,7 +3,7 @@
 #include <unistd.h>
 #include <libft.h>
 #define COLOR "\e[1;36m "
-#define RESET_COLOR " -►\e[0m  "
+#define RESET_COLOR " -► \e[0m"
 
 char	*display_prompt(char *buffer)
 {

@@ -1,30 +1,50 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <libft.h>
 #include <output/prompt.h>
-#include <defines.h>
 #include <parser/parser.h>
+#include <env/environment.h>
 #include <readline/readline.h>
 #include <readline/history.h>
+#include <signal.h>
 
-static void	run(void)
+static void	setup_env(char *envp[])
+{
+	t_env	*env;
+	int		i;
+
+	env = get_environment();
+	i = 0;
+	while (envp[i] != NULL)
+	{
+		export(env, envp[i]);
+		++i;
+	}
+	while (i < ENV_SIZE)
+	{
+		env[i].key = NULL;
+		env[i].value = NULL;
+		++i;
+	}
+}
+
+static void	run(char *env[])
 {
 	char	*line;
-	// char	buffer[4096];
+	char	buffer[4096];
 
 	while (TRUE)
 	{
-		line = readline("minishell ");
-		parse_input(line);
+		line = readline(display_prompt(&buffer[0]));
+		parse_input(line, env);
 		free(line);
 	}
 }
 
-int	main(int argc, const char *argv[], char *envp[])
+int	main(int argc, char *argv[], char *envp[])
 {
-	(void)argc;
 	(void)argv;
-	(void)envp;
-	run();
+	(void)argc;
+	setup_env(envp);
+	run(envp);
 	return (0);
 }

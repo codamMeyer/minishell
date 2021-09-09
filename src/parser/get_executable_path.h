@@ -7,10 +7,7 @@
 # define CMD_BUFFER_SIZE 4096
 # define TERMINATOR 1
 
-# include <defines.h>
-# include <sys/stat.h>
-
-int		is_executable(char *full_path_executable, struct stat *status);
+int		is_executable(char *full_path_executable);
 char	*get_executable_path(const char *command);
 
 #endif
