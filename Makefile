@@ -22,6 +22,7 @@ MINISHELL_INCS= 						\
 	src/commands/commands.h				\
 	src/commands/echo_utils.h			\
 	src/commands/echo_handle_quotes.h	\
+	src/env/environment.h				\
 
 MINISHELL_SRC= 							\
 	src/parser/parser.c					\
@@ -38,9 +39,13 @@ MINISHELL_SRC= 							\
 	src/parser/parse_redirection.c		\
 	src/commands/exit_command.c			\
 	src/commands/echo_command.c			\
-	src/commands/pwd_command.c			\
 	src/commands/echo_utils.c			\
 	src/commands/echo_handle_quotes.c	\
+	src/commands/pwd_command.c			\
+	src/commands/environment_commands.c	\
+	src/env/environment.c				\
+	src/env/environment_utils.c			\
+	src/env/export_utils.c				\
 
 TEST_FILES=								\
 	tests/main.c 						\
@@ -51,15 +56,16 @@ TEST_FILES=								\
 	tests/unknown_test.c				\
 	tests/get_executable_path_test.c	\
 	tests/redirection_tests.c			\
-	# tests/pipe_test.c					\
+	tests/pipe_test.c					\
+	tests/env_api_test.c				\
 
 MINISHELL_OBJS=$(MINISHELL_SRC:.c=.o)
 
 all: $(MINISHELL)
 
 $(MINISHELL): $(MINISHELL_OBJS)
-		make -C $(LIBFT_PATH)
-		$(CC) $(CFLAGS) $(INC_PATH) main.c -o $@ $^ $(LDFLAGS)
+	make -C $(LIBFT_PATH)
+	$(CC) $(CFLAGS) $(INC_PATH) main.c -o $@ $^ $(LDFLAGS)
 
 %.o: %.c $(MINISHELL_INCS)
 	@$(CC) $(CFLAGS) $(INC_PATH) -c -o $@ $<
@@ -82,6 +88,9 @@ $(MINISHELL_ASAN): $(MINISHELL_SRC)
 
 acceptance_test: $(MINISHELL)
 	python3 tests/acceptance/main.py
+
+pipe_tests: $(MINISHELL)
+	./tests/pipe_tests/minitester.sh
 
 clean:
 	make -C $(LIBFT_PATH) fclean
