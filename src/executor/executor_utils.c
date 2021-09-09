@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   executor_utils.c                                   :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: rmeiboom <marvin@codam.nl>                   +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2021/09/07 22:11:32 by rmeiboom      #+#    #+#                 */
+/*   Updated: 2021/09/09 16:27:58 by rmeiboom      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "executor_utils.h"
 #include "run_commands.h"
 #include <unistd.h>
 #include <stdio.h>
-#include <../libft/libft.h>
+#include <libft.h>
 #include <sys/wait.h>
 
 void	wait_for_all_processes(int num_of_processes)
