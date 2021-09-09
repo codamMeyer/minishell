@@ -8,14 +8,12 @@ function readOutputFile ()
 
 function readMinishellOutput ()
 {
-    TEST=$(echo $PWD | sed "s7/77g")
-    sed -i 's/\x1b\[[0-9;]*m//g' "$MININHELL_OUTPUT"
-    sed -i 's///g' "$MININHELL_OUTPUT"
-    sed "s7/77g" "$MININHELL_OUTPUT" > $TMP_FILE
-    sed -i "s7exit77g" "$TMP_FILE"
-    sed -i "s7-►77g" "$TMP_FILE"
-    sed -i "s7^(TEST)77g" "$TMP_FILE"
-    ACTUAL=$(readOutputFile 2 $TMP_FILE)
+    if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+        OS_TYPE=2
+    elif [[ "$OSTYPE" == "darwin"* ]]; then
+        OS_TYPE=1
+    fi
+    ACTUAL=$(readOutputFile $OS_TYPE $MININHELL_OUTPUT)
 }
 
 
