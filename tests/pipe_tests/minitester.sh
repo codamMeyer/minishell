@@ -7,7 +7,7 @@
 # to redirect both to a file  run "command &> out"
 
 cases="tests/pipe_tests/commands.txt"
-prompt="minishell"
+prompt="-►"
 
 SUCCESS_COLOR="\033[01;32m"
 ERROR_COLOR="\033[01;31m"
@@ -39,6 +39,7 @@ done < "$cases"
 if [ "$pass_count" != "$test_count" ]
 then
 	printf "$ERROR_COLOR FAILURE [$pass_count/$test_count]"
+	exit 1
 else
 	printf "$SUCCESS_COLOR PASSED [$pass_count/$test_count]"
 fi
