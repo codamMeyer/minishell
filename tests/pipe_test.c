@@ -1,6 +1,6 @@
 #include "ctest.h"
-#include <output/run_commands.h>
-#include <output/executor_utils.h>
+#include <executor/run_commands.h>
+#include <executor/executor_utils.h>
 #include <parser/get_executable_path.h>
 #include <unistd.h>
 #include <libft.h>

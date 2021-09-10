@@ -14,9 +14,9 @@ MINISHELL_INCS= 						\
 	src/parser/command_table.h			\
 	src/parser/parse_redirection.h		\
 	src/output/prompt.h					\
-	src/output/run_commands.h			\
-	src/output/executor_utils.h				\
-	src/output/redirection.h			\
+	src/executor/run_commands.h			\
+	src/executor/executor_utils.h				\
+	src/executor/redirection.h			\
 	src/parser/dispatcher.h				\
 	src/parser/get_executable_path.h	\
 	src/commands/commands.h				\
@@ -27,10 +27,10 @@ MINISHELL_INCS= 						\
 MINISHELL_SRC= 							\
 	src/parser/parser.c					\
 	src/output/prompt.c					\
-	src/output/run_commands.c			\
-	src/output/executor_utils.c				\
-	src/output/redirection.c			\
-	src/output/redirection_utils.c		\
+	src/executor/run_commands.c			\
+	src/executor/executor_utils.c				\
+	src/executor/redirection.c			\
+	src/executor/redirection_utils.c		\
 	src/parser/parser_utils.c			\
 	src/parser/command_table.c			\
 	src/parser/command_table_utils.c	\
