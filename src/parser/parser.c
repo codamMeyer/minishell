@@ -53,7 +53,6 @@ int	populate_commands_table(const char *input, t_command commands_table[])
 		commands_table[i] = populate_command(&input_line);
 		input_line += commands_table[i].arg_len;
 		skip_spaces(&input_line);
-		printf("%s\n" , input_line);
 		skip_redirection(&input_line);
 		++i;
 	}

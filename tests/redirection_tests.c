@@ -6,32 +6,6 @@
 #include <parser/parse_redirection.h>
 #include "ctest.h"
 
-t_files files;
-
-CTEST(redirection_tests, basic_infile)
-{
-	const char	*str = "   < infile cat -e";
-	char		buffer[4096];
-
-	init_files(&files);
-	files = get_redirection(&str);
-	ft_strlcpy(buffer, files.in, get_cmd_len(files.in) + 1);
-	ASSERT_STR("infile", buffer);
-	ASSERT_STR(" cat -e", str);
-}
-
-CTEST(redirection_tests, basic_outfile)
-{
-	const char	*str = " > outfile | next cmd";
-	char		buffer[4096];
-	
-	init_files(&files);
-	files = get_redirection(&str);
-	ft_strlcpy(buffer, files.out, get_cmd_len(files.out) + 1);
-	ASSERT_STR("outfile", buffer);
-	ASSERT_STR(" | next cmd", str);
-}
-
 CTEST_DATA(command_table_redirection_tests)
 {
     t_command command_table[100];
@@ -53,53 +27,4 @@ CTEST2(command_table_redirection_tests, one_command_echo)
     ASSERT_EQUAL(1, populate_commands_table(input, data->command_table));
     ASSERT_EQUAL(ECHO, data->command_table[0].code);
     ASSERT_STR(" Hello you this is a test", data->command_table[0].arg.start);
-}
-
-
-CTEST2(command_table_redirection_tests, basic_in_and_outfile_one_command)
-{
-	const char	*input = "< infile pwd > outfile";
-	char		in_buffer[400];
-	char		out_buffer[400];
-	
-	ASSERT_EQUAL(1, populate_commands_table(input, data->command_table));
-	ASSERT_EQUAL(PWD, data->command_table[0].code);
-	ft_strlcpy(in_buffer, data->command_table[0].files.in, get_cmd_len(data->command_table[0].files.in) + 1);
-	ft_strlcpy(out_buffer, data->command_table[0].files.out, get_cmd_len(data->command_table[0].files.out) + 1);
-	ASSERT_STR("infile", in_buffer);
-	ASSERT_STR("outfile", out_buffer);
-}
-
-CTEST2(command_table_redirection_tests, basic_in_and_outfile_two_commands)
-{
-	const char	*input = "< infile pwd | cat -e > outfile";
-	char		in_buffer[400];
-	char		out_buffer[400];
-	
-	ASSERT_EQUAL(2, populate_commands_table(input, data->command_table));
-	ASSERT_EQUAL(PWD, data->command_table[0].code);
-	ASSERT_EQUAL(SYSTEM, data->command_table[1].code);
-	ASSERT_NULL(data->command_table[0].files.out);
-	ASSERT_NULL(data->command_table[1].files.in);
-	ft_strlcpy(in_buffer, data->command_table[0].files.in, get_cmd_len(data->command_table[0].files.in) + 1);
-	ft_strlcpy(out_buffer, data->command_table[1].files.out, get_cmd_len(data->command_table[1].files.out) + 1);
-	ASSERT_STR("infile", in_buffer);
-	ASSERT_STR("outfile", out_buffer);
-}
-
-CTEST2(command_table_redirection_tests, multiple_commands_and_infiles)
-{
-	const char	*input = "< file1 pwd | < file2 cat -e > outfile";
-	char		in_buffer[400];
-	char		out_buffer[400];
-	
-	ASSERT_EQUAL(2, populate_commands_table(input, data->command_table));
-	ASSERT_EQUAL(PWD, data->command_table[0].code);
-	ASSERT_NULL(data->command_table[0].files.out);
-	ft_strlcpy(in_buffer, data->command_table[0].files.in, get_cmd_len(data->command_table[0].files.in) + 1);
-	ASSERT_STR("file1", in_buffer);
-	ft_strlcpy(in_buffer, data->command_table[1].files.in, get_cmd_len(data->command_table[1].files.in) + 1);
-	ft_strlcpy(out_buffer, data->command_table[1].files.out, get_cmd_len(data->command_table[1].files.out) + 1);
-	ASSERT_STR("file2", in_buffer);
-	ASSERT_STR("outfile", out_buffer);
 }
