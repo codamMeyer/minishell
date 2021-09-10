@@ -56,6 +56,7 @@ t_bool	is_single_command(int num_of_cmds, t_command_code command_code)
 int	run_commands(t_command commands[],
 				int num_of_commands, char *env[])
 {
+	printf("numOfCommands: %d\n", num_of_commands);
 	if (is_single_command(num_of_commands, commands[0].code))
 	{
 		dispatch_command(&commands[0], env);

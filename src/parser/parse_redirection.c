@@ -44,7 +44,7 @@
 void	skip_redirection(const char **input_ptr)
 {
 	skip_spaces(input_ptr);
-	if (**input_ptr == LEFT_ANGLE || **input_ptr == RIGHT_ANGLE)
+	while (**input_ptr == LEFT_ANGLE || **input_ptr == RIGHT_ANGLE)
 	{
 		++(*input_ptr);
 		skip_spaces(input_ptr);
