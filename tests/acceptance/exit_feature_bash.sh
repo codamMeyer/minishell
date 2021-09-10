@@ -1,6 +1,8 @@
 #!/bin/bash
 source ./tests/acceptance/common.sh
 
+printTestName "EXIT"
+
 EXPECTED=0
 echo "exit" | ./minishell > $TMP_FILE
 ACTUAL=$?

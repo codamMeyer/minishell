@@ -8,20 +8,38 @@ TMP_FILE="tmp.txt"
 MININHELL_OUTPUT="output_minishell.txt"
 EXIT_CODE=0
 
-function runMinishell ()
+function printTestName ()
 {
-    echo -e "echo $1\nexit" | ./minishell > $MININHELL_OUTPUT
+    printf "$YELLOW=========================================================\n"
+    printf "$TITLE_COLOR %30s \n" $1
+    printf "$YELLOW=========================================================$NORMAL_COLOR\n\n"
 }
 
-function runBashWithQuotes ()
+function runMinishell ()
 {
-    EXPECTED=$(echo "$1")
+    echo -e "$1\nexit" | ./minishell > $MININHELL_OUTPUT
 }
 
 function runBashWithoutQuotes ()
 {
-    EXPECTED=$(echo $1)
+    EXPECTED=$($1)
 }
+
+function readOutputFile ()
+{
+    sed -n $1p $2
+}
+
+function readMinishellOutput ()
+{
+    if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+        OS_TYPE=2
+    elif [[ "$OSTYPE" == "darwin"* ]]; then
+        OS_TYPE=1
+    fi
+    ACTUAL=$(readOutputFile $OS_TYPE $MININHELL_OUTPUT)
+}
+
 
 function displayTitle ()
 {
