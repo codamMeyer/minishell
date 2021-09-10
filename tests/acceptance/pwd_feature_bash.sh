@@ -15,6 +15,6 @@ printTestName "PWD"
 run "pwd" "Just pwd"
 run "pwd blah blah echo" "pwd followed by random things"
 
-cleanUp
+# cleanUp
 
 exit $EXIT_CODE
