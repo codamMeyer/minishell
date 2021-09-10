@@ -18,9 +18,9 @@ typedef struct s_multi_pipes
 
 void	set_stdout(int new_std_out);
 void	set_stdin(int new_std_in);
-void	get_file_name(char *dst_buffer, const char *src);
+// void	get_file_name(char *dst_buffer, const char *src);
 void	previous_to_current_pipe(t_multi_pipes *pipes);
 void	redirect_in_and_output(t_multi_pipes *pipes,
-			int process, int num_of_processes, t_files *files);
+			int process, int num_of_processes, const char *cmd_string);
 
 #endif

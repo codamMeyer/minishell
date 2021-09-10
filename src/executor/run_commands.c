@@ -31,8 +31,7 @@ int	run_multi_processes(char *env[],
 		process_id = create_new_process(&pipes);
 		if (process_id == CHILD_PROCESS)
 		{
-			redirect_in_and_output(&pipes, i, num_of_processes,
-				&commands[i].files);
+			redirect_in_and_output(&pipes, i, num_of_processes, commands[i].command_string);
 			exit(dispatch_command(&commands[i], env));
 		}
 		if (i != FIRST_PROCESS)
@@ -51,6 +50,8 @@ t_bool	is_single_command(int num_of_cmds, t_command_code command_code)
 
 /*
 	add redirection for single command
+	if file doesn't exist, exit command immediately
+	< man.c grep
 */
 int	run_commands(t_command commands[],
 				int num_of_commands, char *env[])

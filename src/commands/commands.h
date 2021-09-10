@@ -36,7 +36,7 @@ typedef struct s_command
 	t_arg			arg;
 	int				arg_len;
 	const char		*exe_path;
-	t_files			files;
+	const char		*command_string;
 }	t_command;
 
 typedef void	(*t_output_stdout)(const char *);

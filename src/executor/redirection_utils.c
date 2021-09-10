@@ -20,9 +20,9 @@ void	set_stdin(int new_std_in)
 		handle_errors(9, "redirect, setting child input");
 }
 
-void	get_file_name(char *dst_buffer, const char *src)
-{
-	const int	file_name_len = get_cmd_len(src);
+// void	get_file_name(char *dst_buffer, const char *src)
+// {
+// 	const int	file_name_len = get_cmd_len(src);
 
-	ft_strlcpy(dst_buffer, src, file_name_len + 1);
-}
+// 	ft_strlcpy(dst_buffer, src, file_name_len + 1);
+// }
