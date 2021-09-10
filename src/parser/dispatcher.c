@@ -2,7 +2,7 @@
 #include <commands/commands.h>
 #include <commands/echo_utils.h>
 #include <parser/parser.h>
-#include <output/executor_utils.h>
+#include <executor/executor_utils.h>
 #include <stdio.h>
 #include <libft.h>
 #include <ctype.h>
@@ -56,6 +56,6 @@ t_exit_code	dispatch_command(const t_command *command, char *env[])
 	if (command->code == SYSTEM)
 		execute_system_command(command, env);
 	else if (command->code == INVALID)
-		exit(functions[command->code](*command, write_to_stderr));
-	exit(functions[command->code](*command, write_to_stdout));
+		return (functions[command->code](*command, write_to_stderr));
+	return (functions[command->code](*command, write_to_stdout));
 }
