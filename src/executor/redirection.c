@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        ::::::::            */
-/*   redirection.c                                      :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: rmeiboom <marvin@codam.nl>                   +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2021/09/07 22:11:46 by rmeiboom      #+#    #+#                 */
-/*   Updated: 2021/09/07 22:11:47 by rmeiboom      ########   odam.nl         */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include <executor/redirection.h>
 #include <executor/run_commands.h>
 #include <libft.h>

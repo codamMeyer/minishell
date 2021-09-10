@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        ::::::::            */
-/*   run_commands.c                                     :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: rmeiboom <marvin@codam.nl>                   +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2021/09/07 22:11:52 by rmeiboom      #+#    #+#                 */
-/*   Updated: 2021/09/07 22:11:53 by rmeiboom      ########   odam.nl         */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "run_commands.h"
 #include <string.h>
 #include <stdio.h>
@@ -45,7 +33,7 @@ int	run_multi_processes(char *env[],
 		{
 			redirect_in_and_output(&pipes, i, num_of_processes,
 				&commands[i].files);
-			dispatch_command(&commands[i], env);
+			exit(dispatch_command(&commands[i], env));
 		}
 		if (i != FIRST_PROCESS)
 			close(pipes.previous[READ_FD]);
@@ -56,17 +44,23 @@ int	run_multi_processes(char *env[],
 	return (SUCCESS);
 }
 
-t_bool	should_exit(int num_of_cmds, t_command_code command_code)
+t_bool	is_single_command(int num_of_cmds, t_command_code command_code)
 {
-	return (num_of_cmds == 1 && command_code == EXIT);
+	return (num_of_cmds == 1 && command_code != SYSTEM);
 }
 
+/*
+	add redirection for single command
+*/
 int	run_commands(t_command commands[],
 				int num_of_commands, char *env[])
 {
-	if (should_exit(num_of_commands, commands[0].code))
-		exit_command(commands[0], write_to_stdout);
-	run_multi_processes(env, commands, num_of_commands);
+	if (is_single_command(num_of_commands, commands[0].code))
+	{
+		dispatch_command(&commands[0], env);
+	}
+	else
+		run_multi_processes(env, commands, num_of_commands);
 	wait_for_all_processes(num_of_commands);
 	return (1);
 }

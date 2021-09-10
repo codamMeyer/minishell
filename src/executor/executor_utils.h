@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        ::::::::            */
-/*   executor_utils.h                                   :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: rmeiboom <marvin@codam.nl>                   +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2021/09/07 22:11:37 by rmeiboom      #+#    #+#                 */
-/*   Updated: 2021/09/09 16:27:39 by rmeiboom      ########   odam.nl         */
-/*                                                                            */
-/* ************************************************************************** */
-
 #ifndef EXECUTOR_UTILS_H
 # define EXECUTOR_UTILS_H
 # define DEFAULT_WAIT_ID -1

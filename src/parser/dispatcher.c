@@ -56,6 +56,6 @@ t_exit_code	dispatch_command(const t_command *command, char *env[])
 	if (command->code == SYSTEM)
 		execute_system_command(command, env);
 	else if (command->code == INVALID)
-		exit(functions[command->code](*command, write_to_stderr));
-	exit(functions[command->code](*command, write_to_stdout));
+		return (functions[command->code](*command, write_to_stderr));
+	return (functions[command->code](*command, write_to_stdout));
 }
