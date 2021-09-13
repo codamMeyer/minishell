@@ -44,11 +44,7 @@ int	get_file_len(const char *start)
 
 void	get_file_name(char *buffer, char **input_ptr)
 {
-	// const int	len_with_space = get_arg_len(*input_ptr);
-	// const int	len = get_cmd_len(*input_ptr);
 	int			file_len = get_file_len(*input_ptr);
-
-	// char *input = *input_ptr;
 
 	ft_bzero(&buffer[0], BUFSIZ);
 	ft_strlcpy(&buffer[0], *input_ptr, file_len + 1);
@@ -89,6 +85,31 @@ void	handle_outfile(char **file_name_ptr, int *outfile)
 	close(fd);
 }
 
+
+
+void	check_cmd_str_validity(char *cmd_str)
+{
+	// const int len = get_arg_len(cmd_str);
+	int i = 0;
+
+	while (cmd_str && cmd_str[i] && cmd_str[i] != PIPE)
+	{
+		if (cmd_str[i] == DOUBLE_QUOTES)
+		{
+			i++;
+			while (cmd_str[i] != DOUBLE_QUOTES || cmd_str[i] != PIPE)
+				i++;
+		}
+		if (i > 0 && cmd_str[i + 1] == RIGHT_ANGLE && cmd_str[i] != SPACE)
+		{
+			printf("Current: |%c|      Next: |%c|\n", cmd_str[i], cmd_str[i + 1]);
+			handle_errors(16, "Syntax error  in checker for outfile");
+		}
+		i++;
+	}
+}
+
+
 /*
 	build a check to see if it's a valid file string cat -e main.c >1 >2>3>4
 	and add heredoc
@@ -99,10 +120,9 @@ void	handle_outfile(char **file_name_ptr, int *outfile)
 */
 void	handle_files(char *cmd_str, int fd[])
 {
+	// check_cmd_str_validity(cmd_str);
 	while (cmd_str && *cmd_str && *cmd_str != PIPE)
 	{
-		if (cmd_str[1] == RIGHT_ANGLE && *cmd_str != SPACE)
-			handle_errors(16, "Syntax error for outfile");
 		if (*cmd_str == LEFT_ANGLE)
 			handle_infile(&cmd_str, &fd[READ_FD]);
 		else if (*cmd_str == RIGHT_ANGLE)
@@ -119,9 +139,9 @@ void	redirect_in_and_output(t_multi_pipes *pipes, int process,
 
 	fd[0] = -1;
 	fd[1] = -1;
-	handle_files((char *)cmd_string, fd);
 	if (!pipes)
 		return ;
+	handle_files((char *)cmd_string, fd);
 	handle_stdin(fd[READ_FD], pipes, process);
 	handle_stdout(fd[WRITE_FD], pipes, process, last_process);
 	close(pipes->current[READ_FD]);
