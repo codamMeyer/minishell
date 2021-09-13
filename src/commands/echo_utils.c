@@ -4,7 +4,7 @@
 #include <parser/parser.h>
 #include <commands/echo_utils.h>
 #include <stdio.h>
-#include <commands/echo_handle_quotes.h>
+#include <commands/quotes.h>
 
 t_bool	is_valid_n_flag_extras(const char **input)
 {

@@ -7,7 +7,7 @@
 #include <libft.h>
 #include <parser/parser.h>
 #include <commands/echo_utils.h>
-#include <commands/echo_handle_quotes.h>
+#include <commands/quotes.h>
 #include <env/env_utils.h>
 
 void	append_value_to_buffer(t_arg *echo_arg,
@@ -76,14 +76,12 @@ static void	add_space_between_strs(char cur_inp,
 	}
 }
 
-static t_arg	get_str_with_quotes(t_arg arg,
+t_arg	get_str_with_quotes(t_arg arg,
 							char *stdout_buffer,
 							int *buffer_index)
 {
-	t_quotes_position	quotes = get_quotes_positions(arg.start);
-	// const int				num_quotes = 2;
+	const t_quotes_position	quotes = get_quotes_positions(arg.start);
 
-	// int	size = quotes.end - quotes.start;
 	if (quotes.start && quotes.end)
 	{
 		arg.start = quotes.start;
@@ -101,9 +99,7 @@ static t_arg	get_str_with_quotes(t_arg arg,
 			}
 		}
 		add_space_between_strs(*arg.start, stdout_buffer, buffer_index);
-		// ft_memcpy(&stdout_buffer[*buffer_index], quotes.start, size);
 		arg.start = quotes.end + 1;
-		// *buffer_index += size;
 	}
 	else if (quotes.start)
 		++arg.start;

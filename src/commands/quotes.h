@@ -1,6 +1,5 @@
-#ifndef ECHO_HANDLE_QUOTES_H
-# define ECHO_HANDLE_QUOTES_H
-
+#ifndef QUOTES_H
+# define QUOTES_H
 # include <defines.h>
 
 typedef struct s_quotes_position

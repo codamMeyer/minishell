@@ -1,7 +1,7 @@
 #include <parser/command_table.h>
 #include <parser/parser.h>
 #include <parser/get_executable_path.h>
-#include <commands/echo_handle_quotes.h>
+#include <commands/quotes.h>
 #include <libft.h>
 #include <stdio.h>
 #include <ctype.h>

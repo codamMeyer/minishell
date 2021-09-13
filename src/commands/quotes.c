@@ -1,4 +1,4 @@
-#include <commands/echo_handle_quotes.h>
+#include <commands/quotes.h>
 #include <defines.h>
 #include <stdio.h>
 #include <libft.h>

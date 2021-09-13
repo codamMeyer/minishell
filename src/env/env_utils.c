@@ -1,5 +1,5 @@
 #include <env/env_utils.h>
-#include <commands/echo_handle_quotes.h>
+#include <commands/quotes.h>
 #include <defines.h>
 #include <ctype.h>
 
