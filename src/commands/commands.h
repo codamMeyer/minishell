@@ -4,6 +4,7 @@
 # define WHITESSPACE " \t"
 # define N_FLAG "-n"
 # define REDIRECTION_CHARS "<>|" 
+# define SPECIALS "<>| \0" 
 
 # include <defines.h>
 

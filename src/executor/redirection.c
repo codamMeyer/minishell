@@ -20,13 +20,39 @@ void	handle_stdout(int out_file, t_multi_pipes *pipes, int process,
 		set_stdout(pipes->current[WRITE_FD]);
 }
 
+
+int	get_file_len(const char *start)
+{
+	char	*redirection_position;
+	int		redirection_index;
+	int		start_index;
+
+	start_index = 0;
+	redirection_position = get_redirection_position(SPECIALS,
+			(char *)start);
+	while (redirection_position && start[start_index] != '\0')
+	{
+		redirection_index = redirection_position - &start[0];
+		if (!is_between_quotes(start, redirection_index))
+			return (redirection_index);
+		start_index += redirection_index + 1;
+		redirection_position = get_redirection_position(SPECIALS,
+				(char *)&start[start_index]);
+	}
+	return (ft_strlen(start));
+}
+
 void	get_file_name(char *buffer, char **input_ptr)
 {
-	const int	len = get_cmd_len(*input_ptr);
+	// const int	len_with_space = get_arg_len(*input_ptr);
+	// const int	len = get_cmd_len(*input_ptr);
+	int			file_len = get_file_len(*input_ptr);
+
+	// char *input = *input_ptr;
 
 	ft_bzero(&buffer[0], BUFSIZ);
-	ft_strlcpy(&buffer[0], *input_ptr, len + 1);
-	*input_ptr += len;
+	ft_strlcpy(&buffer[0], *input_ptr, file_len + 1);
+	*input_ptr += file_len;
 }
 
 void	handle_infile(char **file_name_ptr, int *in_file)
@@ -75,11 +101,14 @@ void	handle_files(char *cmd_str, int fd[])
 {
 	while (cmd_str && *cmd_str && *cmd_str != PIPE)
 	{
+		if (cmd_str[1] == RIGHT_ANGLE && *cmd_str != SPACE)
+			handle_errors(16, "Syntax error for outfile");
 		if (*cmd_str == LEFT_ANGLE)
 			handle_infile(&cmd_str, &fd[READ_FD]);
 		else if (*cmd_str == RIGHT_ANGLE)
 			handle_outfile(&cmd_str, &fd[WRITE_FD]);
-		++cmd_str;
+		if (*cmd_str != RIGHT_ANGLE && *cmd_str != LEFT_ANGLE)
+			++cmd_str;
 	}
 }
 
