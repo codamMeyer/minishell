@@ -47,6 +47,7 @@ printTestName "ECHO"
 runWithoutQuotes "echo Hello" "echo Hello" "Simple String"
 runWithoutQuotes "echo Hello      Hello" "echo Hello      Hello" "String with spaces to be trimmed"
 runWithoutQuotes "echo -n-n Hello" "echo -n-n Hello" "String with invalid n flag"
+runWithoutQuotes "echo $PWD" "echo \$PWD" "With env var"
 runWithQuotes "Hello      Hello" "echo \"Hello      Hello\"" "Quoted string, shouldn't trim"
 runWithQuotes "                Hello      Hello" "echo \"                Hello      Hello\"" "Quoted string, shouldn't trim"
 

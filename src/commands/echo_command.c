@@ -8,6 +8,29 @@
 #include <parser/parser.h>
 #include <commands/echo_utils.h>
 #include <commands/echo_handle_quotes.h>
+#include <env/env_utils.h>
+
+void	append_value_to_buffer(t_arg *echo_arg,
+								char *stdout_buffer,
+								int *buffer_index)
+{
+	t_env	*var;
+	int		key_len;
+	int 	value_len;
+	
+	++(echo_arg->start);
+	value_len = 0;
+	key_len = get_key_len(echo_arg->start);	
+	var = find_variable(get_environment(), echo_arg->start);
+	if (var)
+	{
+		value_len = ft_strlen(var->value);
+		ft_strlcpy(&stdout_buffer[*buffer_index], var->value, value_len + 1);
+	}
+	echo_arg->start = echo_arg->start + key_len;
+	*buffer_index += value_len;
+}
+
 
 t_arg	get_str_without_quotes(t_arg echo_arg,
 								char *stdout_buffer,
@@ -25,6 +48,8 @@ t_arg	get_str_without_quotes(t_arg echo_arg,
 			trim_extra_spaces_between_words(&echo_arg, \
 										stdout_buffer, \
 										buffer_index);
+		else if (cur == '$')
+			append_value_to_buffer(&echo_arg, stdout_buffer, buffer_index);
 		else
 		{
 			stdout_buffer[*buffer_index] = cur;
@@ -83,27 +108,23 @@ static int	handle_empty_str(t_bool has_n_flag, t_output_stdout output)
 t_exit_code	echo_command(t_command command, t_output_stdout output)
 {
 	const t_bool	has_n_flag = parse_n_flag((t_arg *)&command.arg);
-	char			*stdout_buffer;
+	char			stdout_buffer[2049];
 	int				buffer_index;
 
 	if (command.arg_len == 0)
 		return (handle_empty_str(has_n_flag, output));
-	stdout_buffer = ft_calloc(command.arg_len + 2, sizeof(char));
-	if (!stdout_buffer)
-		return (ERROR);
 	buffer_index = 0;
 	while (command.arg.start < command.arg.end)
 	{
 		command.arg = get_str_with_quotes(command.arg, \
-											stdout_buffer, \
+											&stdout_buffer[0], \
 											&buffer_index);
 		command.arg = get_str_without_quotes(command.arg, \
-												stdout_buffer, \
+												&stdout_buffer[0], \
 												&buffer_index);
 	}
 	if (has_n_flag)
 		stdout_buffer[buffer_index] = '\0';
-	output(stdout_buffer);
-	free(stdout_buffer);
+	output(&stdout_buffer[0]);
 	return (SUCCESS);
 }

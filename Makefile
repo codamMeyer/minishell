@@ -23,6 +23,7 @@ MINISHELL_INCS= 						\
 	src/commands/echo_utils.h			\
 	src/commands/echo_handle_quotes.h	\
 	src/env/environment.h				\
+	src/env/env_utils.h					\
 
 MINISHELL_SRC= 							\
 	src/parser/parser.c					\
@@ -46,6 +47,7 @@ MINISHELL_SRC= 							\
 	src/env/environment.c				\
 	src/env/environment_utils.c			\
 	src/env/export_utils.c				\
+	src/env/env_utils.c					\
 
 TEST_FILES=								\
 	tests/main.c 						\

@@ -1,4 +1,5 @@
 #include <env/environment.h>
+#include <env/env_utils.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <libft.h>
@@ -17,7 +18,7 @@ t_bool	export(t_env *env, const char *key_value_str)
 	return (set_value(env, key_buffer, value_buffer));
 }
 
-void	unset(t_env *env, const char *key_name)
+void	unset(t_env *env, const char *key)
 {
 	int	name_len;
 	int	i;
@@ -26,11 +27,11 @@ void	unset(t_env *env, const char *key_name)
 		return ;
 	i = 0;
 	name_len = 0;
-	while (!isspace(key_name[name_len]))
+	while (!isspace(key[name_len]))
 		++name_len;
 	while (i < ENV_SIZE)
 	{
-		if (env[i].key && ft_strncmp(env[i].key, key_name, name_len) == 0)
+		if (env[i].key && ft_strncmp(env[i].key, key, name_len) == 0)
 		{
 			free_key_value_pair(&env[i]);
 			break ;
@@ -59,17 +60,17 @@ void	display_env(t_env *env, t_output_stdout output)
 	}
 }
 
-t_env	*find_variable(t_env *env, const char *key_name)
+t_env	*find_variable(t_env *env, const char *key)
 {
-	const int	name_len = ft_strlen(key_name) + 1;
+	const int	name_len = get_key_len(key);
 	int			i;
 
-	if (!env)
+	if (!env || !name_len)
 		return (NULL);
 	i = 0;
 	while (i < ENV_SIZE)
 	{
-		if (env[i].key && ft_strncmp(env[i].key, key_name, name_len) == 0)
+		if (env[i].key && ft_strncmp(env[i].key, key, name_len) == 0)
 			return (&env[i]);
 		++i;
 	}
