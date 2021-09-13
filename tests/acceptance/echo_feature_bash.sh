@@ -49,6 +49,7 @@ runWithoutQuotes "echo Hello      Hello" "echo Hello      Hello" "String with sp
 runWithoutQuotes "echo -n-n Hello" "echo -n-n Hello" "String with invalid n flag"
 runWithQuotes "Hello      Hello" "echo \"Hello      Hello\"" "Quoted string, shouldn't trim"
 runWithQuotes "                Hello      Hello" "echo \"                Hello      Hello\"" "Quoted string, shouldn't trim"
+
 runNFlagTest "echo -n Hello" "echo -n Hello" "With valid -n flag"
 
 cleanUp

@@ -89,9 +89,6 @@ $(MINISHELL_ASAN): $(MINISHELL_SRC)
 acceptance_test: $(MINISHELL)
 	./tests/acceptance/acceptance_test.sh
 
-pipe_tests: $(MINISHELL)
-	./tests/pipe_tests/minitester.sh
-
 clean:
 	make -C $(LIBFT_PATH) fclean
 	rm -f $(MINISHELL_OBJS)
