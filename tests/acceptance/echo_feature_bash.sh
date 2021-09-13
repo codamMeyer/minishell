@@ -50,6 +50,7 @@ runWithoutQuotes "echo -n-n Hello" "echo -n-n Hello" "String with invalid n flag
 runWithoutQuotes "echo $PWD" "echo \$PWD" "With env var"
 runWithQuotes "Hello      Hello" "echo \"Hello      Hello\"" "Quoted string, shouldn't trim"
 runWithQuotes "Hello      Hello $PWD " "echo \"Hello      Hello \$PWD \"" "Quoted string, shouldn't trim and should get var name"
+runWithQuotes "Hello      Hello $PWDs " "echo \"Hello      Hello \$PWDs \"" "Quoted string, shouldn't trim, and variable is invalid"
 runWithQuotes "                Hello      Hello" "echo \"                Hello      Hello\"" "Quoted string, shouldn't trim"
 
 runNFlagTest "echo -n Hello" "echo -n Hello" "With valid -n flag"
