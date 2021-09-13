@@ -80,16 +80,30 @@ static t_arg	get_str_with_quotes(t_arg arg,
 							char *stdout_buffer,
 							int *buffer_index)
 {
-	const t_quotes_position	quotes = get_quotes_positions(arg.start);
-	const int				size = quotes.end - quotes.start;
-	const int				num_quotes = 2;
+	t_quotes_position	quotes = get_quotes_positions(arg.start);
+	// const int				num_quotes = 2;
 
+	// int	size = quotes.end - quotes.start;
 	if (quotes.start && quotes.end)
 	{
-		ft_memcpy(&stdout_buffer[*buffer_index], quotes.start, size);
-		arg.start += size + num_quotes;
-		*buffer_index += size;
+		arg.start = quotes.start;
+		while (arg.start < quotes.end)
+		{
+			if (quotes.is_double_quote && *arg.start == '$')
+			{
+				append_value_to_buffer(&arg, stdout_buffer, buffer_index);
+			}
+			else
+			{
+				stdout_buffer[*buffer_index] = *arg.start;
+				++(*buffer_index);
+				++(arg.start);
+			}
+		}
 		add_space_between_strs(*arg.start, stdout_buffer, buffer_index);
+		// ft_memcpy(&stdout_buffer[*buffer_index], quotes.start, size);
+		arg.start = quotes.end + 1;
+		// *buffer_index += size;
 	}
 	else if (quotes.start)
 		++arg.start;

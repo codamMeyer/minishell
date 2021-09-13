@@ -7,7 +7,8 @@ t_quotes_position	get_quotes_positions(const char *input)
 {
 	t_quotes_position	quotes_position;
 
-	if (is_double_quote(*input))
+	quotes_position.is_double_quote = is_double_quote(*input);
+	if (quotes_position.is_double_quote)
 	{
 		++input;
 		quotes_position.start = input;

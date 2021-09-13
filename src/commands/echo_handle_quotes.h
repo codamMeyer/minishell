@@ -5,6 +5,7 @@
 
 typedef struct s_quotes_position
 {
+	t_bool		is_double_quote;
 	const char	*start;
 	const char	*end;
 }	t_quotes_position;
