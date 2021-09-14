@@ -2,23 +2,11 @@
 #include <executor/run_commands.h>
 #include <parser/command_table.h>
 #include <parser/parser.h>
+#include <parser/parse_redirection.h>
 #include <libft.h>
 #include <unistd.h> 
 #include <stdio.h>
 #include <fcntl.h>
-
-void	handle_stdin(int in_file, t_multi_pipes *pipes, int process)
-{
-	if (process != FIRST_PROCESS && in_file == -1)
-		set_stdin(pipes->previous[READ_FD]);
-}
-
-void	handle_stdout(int out_file, t_multi_pipes *pipes, int process,
-	int last_process)
-{
-	if (process != last_process - 1 && out_file == -1)
-		set_stdout(pipes->current[WRITE_FD]);
-}
 
 void	get_file_name(char *buffer, char **input_ptr)
 {
@@ -59,11 +47,9 @@ void	handle_outfile(char **file_name_ptr, int *outfile)
 	char	buffer[BUFSIZ];
 	int		fd;
 
-	printf("entering outfile\n");
 	++(*file_name_ptr);
 	skip_spaces((const char **)file_name_ptr);
 	get_file_name(&buffer[0], file_name_ptr);
-	printf("outfile: %s\n", buffer);
 	fd = open(&buffer[0], O_RDWR | O_CREAT | O_TRUNC, 0664);
 	if (fd == SYS_ERROR)
 		handle_errors(SYS_ERROR, "handle_outfile_open");
@@ -73,26 +59,6 @@ void	handle_outfile(char **file_name_ptr, int *outfile)
 	close(fd);
 }
 
-
-
-void	check_cmd_str_validity(char *cmd_str)
-{
-	const int len = get_arg_len(cmd_str, "|") + 1;
-	int i = 0;
-
-	while (cmd_str && cmd_str[i] && cmd_str[i] != PIPE && i < len)
-	{
-		if (cmd_str[i] == DOUBLE_QUOTES)
-		{
-			i++;
-			while (i < len && (cmd_str[i] != DOUBLE_QUOTES || cmd_str[i] != PIPE))
-				i++;
-		}
-		if (i > 0 && cmd_str[i + 1] == RIGHT_ANGLE && cmd_str[i] != SPACE)
-			handle_errors(16, "Syntax error in checker for outfile");
-		i++;
-	}
-}
 /*
 	build a check to see if it's a valid file string cat -e main.c >1 >2>3>4
 	and add heredoc
@@ -108,7 +74,7 @@ void	handle_files(char *cmd_str, int fd[])
 	char		*cursor;
 
 	ft_strlcpy(&buffer[0], cmd_str, len + 1);
-	check_cmd_str_validity(cmd_str);
+	check_cmd_str_validity(&buffer[0]);
 	cursor = &buffer[0];
 	while (cursor && *cursor)
 	{

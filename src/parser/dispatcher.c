@@ -52,6 +52,7 @@ t_exit_code	dispatch_command(const t_command *command, char *env[])
 															env_command,
 															unknown_command,
 															};
+
 	if (command->code == SYSTEM)
 		execute_system_command(command, env);
 	else if (command->code == INVALID)

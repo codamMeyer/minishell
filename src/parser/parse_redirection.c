@@ -1,9 +1,41 @@
 #include <commands/commands.h>
 #include <parser/command_table.h>
+#include <executor/executor_utils.h>
 #include <stdlib.h>
 #include <../libft/libft.h>
 #include <parser/parser.h>
 #include <stdio.h>
+
+void	skip_redirection(const char **input_ptr)
+{
+	skip_spaces(input_ptr);
+	while (**input_ptr == LEFT_ANGLE || **input_ptr == RIGHT_ANGLE)
+	{
+		++(*input_ptr);
+		skip_spaces(input_ptr);
+		*input_ptr += get_cmd_len(*input_ptr);
+		skip_spaces(input_ptr);
+	}
+}
+
+void	check_cmd_str_validity(char *cmd_str)
+{
+	int	i;
+
+	i = 0;
+	while (cmd_str && cmd_str[i])
+	{
+		if (cmd_str[i] == DOUBLE_QUOTES)
+		{
+			i++;
+			while (cmd_str[i] && cmd_str[i] != DOUBLE_QUOTES)
+				i++;
+		}
+		if (i > 0 && cmd_str[i + 1] == RIGHT_ANGLE && cmd_str[i] != SPACE)
+			handle_errors(16, "Syntax error in checker for outfile");
+		i++;
+	}
+}
 
 // void	init_files(t_files *files)
 // {
@@ -40,15 +72,3 @@
 // 	ft_strlcpy(&buffer[0], input_ptr, len + 1);
 // 	input_ptr += len;
 // }
-
-void	skip_redirection(const char **input_ptr)
-{
-	skip_spaces(input_ptr);
-	while (**input_ptr == LEFT_ANGLE || **input_ptr == RIGHT_ANGLE)
-	{
-		++(*input_ptr);
-		skip_spaces(input_ptr);
-		*input_ptr += get_cmd_len(*input_ptr);
-		skip_spaces(input_ptr);
-	}
-}
