@@ -52,7 +52,6 @@ MINISHELL_SRC= 							\
 TEST_FILES=								\
 	tests/main.c 						\
 	tests/parser_test.c					\
-	tests/dispatch_test.c				\
 	tests/echo_test.c					\
 	tests/pwd_test.c					\
 	tests/unknown_test.c				\

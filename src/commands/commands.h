@@ -15,7 +15,8 @@ typedef enum e_special_chars
 	NULL_TERMINATOR = '\0',
 	PIPE = '|',
 	LEFT_ANGLE = '<',
-	RIGHT_ANGLE = '>'
+	RIGHT_ANGLE = '>',
+	VARIABLE = '$'
 }	t_special_chars;
 
 typedef struct s_arg

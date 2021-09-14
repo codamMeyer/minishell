@@ -10,6 +10,14 @@
 #include <commands/quotes.h>
 #include <env/env_utils.h>
 
+t_arg	append_char_to_buffer(t_arg arg, char *stdout_buffer, int *buffer_index)
+{
+	stdout_buffer[*buffer_index] = *arg.start;
+	++(*buffer_index);
+	++(arg.start);
+	return (arg);
+}
+
 void	append_value_to_buffer(t_arg *echo_arg,
 								char *stdout_buffer,
 								int *buffer_index)
@@ -31,6 +39,17 @@ void	append_value_to_buffer(t_arg *echo_arg,
 	*buffer_index += value_len;
 }
 
+void	handle_spaces(t_arg *echo_arg,
+					char *stdout_buffer,
+					int *buffer_index)
+{
+	if (isspace(*echo_arg->start) && *buffer_index)
+	{
+		stdout_buffer[*buffer_index] = SPACE;
+		++(*buffer_index);
+	}
+	skip_spaces(&echo_arg->start);
+}
 
 t_arg	get_str_without_quotes(t_arg echo_arg,
 								char *stdout_buffer,
@@ -38,12 +57,6 @@ t_arg	get_str_without_quotes(t_arg echo_arg,
 {
 	char	cur;
 
-	if (isspace(*echo_arg.start) && !is_double_quote(*echo_arg.start) && *buffer_index)
-	{
-		stdout_buffer[*buffer_index] = SPACE;
-		++(*buffer_index);
-	}
-	skip_spaces(&echo_arg.start);
 	if (is_double_quote(*echo_arg.start))
 		return (echo_arg);
 	cur = *echo_arg.start;
@@ -53,14 +66,10 @@ t_arg	get_str_without_quotes(t_arg echo_arg,
 			trim_extra_spaces_between_words(&echo_arg, \
 										stdout_buffer, \
 										buffer_index);
-		else if (cur == '$')
+		else if (is_variable(cur))
 			append_value_to_buffer(&echo_arg, stdout_buffer, buffer_index);
 		else
-		{
-			stdout_buffer[*buffer_index] = cur; // this is repeated, maybe create a function that set the char and move two ptrs
-			++(*buffer_index);
-			++(echo_arg.start);
-		}
+			echo_arg = append_char_to_buffer(echo_arg, stdout_buffer, buffer_index);
 		cur = *echo_arg.start;
 	}
 	return (echo_arg);
@@ -77,14 +86,10 @@ t_arg	get_str_with_quotes(t_arg arg,
 		arg.start = quotes.start;
 		while (arg.start < quotes.end)
 		{
-			if (quotes.is_double_quote && *arg.start == '$') // write function to detect $
-				append_value_to_buffer(&arg, stdout_buffer, buffer_index); // write a function that handle variables
+			if (quotes.is_double_quote && is_variable(*arg.start))
+				append_value_to_buffer(&arg, stdout_buffer, buffer_index);
 			else
-			{
-				stdout_buffer[*buffer_index] = *arg.start;
-				++(*buffer_index);
-				++(arg.start);
-			}
+				arg = append_char_to_buffer(arg, stdout_buffer, buffer_index);
 		}
 		++arg.start;
 	}
@@ -117,6 +122,7 @@ t_exit_code	echo_command(t_command command, t_output_stdout output)
 		command.arg = get_str_with_quotes(command.arg, \
 											&stdout_buffer[0], \
 											&buffer_index);
+		handle_spaces(&command.arg, stdout_buffer, &buffer_index);
 		command.arg = get_str_without_quotes(command.arg, \
 												&stdout_buffer[0], \
 												&buffer_index);
