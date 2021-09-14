@@ -57,29 +57,14 @@ t_arg	get_str_without_quotes(t_arg echo_arg,
 			append_value_to_buffer(&echo_arg, stdout_buffer, buffer_index);
 		else
 		{
-			stdout_buffer[*buffer_index] = cur;
+			stdout_buffer[*buffer_index] = cur; // this is repeated, maybe create a function that set the char and move two ptrs
 			++(*buffer_index);
 			++(echo_arg.start);
 		}
 		cur = *echo_arg.start;
 	}
-	stdout_buffer[*buffer_index] = '\n';
-	stdout_buffer[*buffer_index + 1] = '\0';
 	return (echo_arg);
 }
-
-// static void	add_space_between_strs(t_arg arg,
-// 								char *stdout_buffer,
-// 								int *buffer_index)
-// {
-// 	if (arg.start < arg.end && \
-// 		stdout_buffer[*buffer_index] != SPACE
-// 		&& (is_double_quote(*arg.start) || is_single_quote(*arg.start)))
-// 	{
-// 		stdout_buffer[*buffer_index] = SPACE;
-// 		++(*buffer_index);
-// 	}
-// }
 
 t_arg	get_str_with_quotes(t_arg arg,
 							char *stdout_buffer,
@@ -92,8 +77,8 @@ t_arg	get_str_with_quotes(t_arg arg,
 		arg.start = quotes.start;
 		while (arg.start < quotes.end)
 		{
-			if (quotes.is_double_quote && *arg.start == '$')
-				append_value_to_buffer(&arg, stdout_buffer, buffer_index);
+			if (quotes.is_double_quote && *arg.start == '$') // write function to detect $
+				append_value_to_buffer(&arg, stdout_buffer, buffer_index); // write a function that handle variables
 			else
 			{
 				stdout_buffer[*buffer_index] = *arg.start;
@@ -101,7 +86,7 @@ t_arg	get_str_with_quotes(t_arg arg,
 				++(arg.start);
 			}
 		}
-		arg.start = quotes.end + 1;
+		++arg.start;
 	}
 	else if (quotes.start)
 		++arg.start;
@@ -136,8 +121,8 @@ t_exit_code	echo_command(t_command command, t_output_stdout output)
 												&stdout_buffer[0], \
 												&buffer_index);
 	}
-	if (has_n_flag)
-		stdout_buffer[buffer_index] = '\0';
+	if (!has_n_flag)
+		stdout_buffer[buffer_index] = '\n';
 	output(&stdout_buffer[0]);
 	return (SUCCESS);
 }
