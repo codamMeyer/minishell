@@ -6,20 +6,20 @@ printTestName "ENV"
 
 export TEST_VAR=Hello
 TEST="env | grep TEST_VAR"
-echo -e "$TEST\nexit" | ./minishell > $MININHELL_OUTPUT
+echo -e "$TEST\nexit" | ./minishell > $MINISHELL_OUTPUT
 readMinishellOutput
 EXPECTED=$(env | grep TEST_VAR)
 assertEqual "ENV"
 
 TEST="export TEST_1=Testing"
-echo -e "$TEST\nenv | grep TEST_1\nexit\n" | ./minishell > $MININHELL_OUTPUT
-ACTUAL=$(sed -n 3p $MININHELL_OUTPUT)
+echo -e "$TEST\nenv | grep TEST_1\nexit\n" | ./minishell > $MINISHELL_OUTPUT
+ACTUAL=$(sed -n 3p $MINISHELL_OUTPUT)
 export TEST_1=Testing
 EXPECTED=$(env | grep TEST_1)
 assertEqual "EXPORT"
 
-echo -e "unset TEST_1\n env | grep TEST_1\nexit\n" | ./minishell > $MININHELL_OUTPUT
-ACTUAL=$(sed -n 3p $MININHELL_OUTPUT | grep TEST_1)
+echo -e "unset TEST_1\n env | grep TEST_1\nexit\n" | ./minishell > $MINISHELL_OUTPUT
+ACTUAL=$(sed -n 3p $MINISHELL_OUTPUT | grep TEST_1)
 unset TEST_1
 EXPECTED=$(env | grep TEST_1)
 assertEqual "UNSET"

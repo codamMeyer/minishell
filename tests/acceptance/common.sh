@@ -5,7 +5,7 @@ SUCCESS_COLOR='\033[1;32m'
 ERROR_COLOR="\033[1;31m"
 NORMAL_COLOR="\033[0m"
 TMP_FILE="tmp.txt"
-MININHELL_OUTPUT="output_minishell.txt"
+MINISHELL_OUTPUT="output_minishell.txt"
 EXIT_CODE=0
 
 function printTestName ()
@@ -17,7 +17,7 @@ function printTestName ()
 
 function runMinishell ()
 {
-    echo -e "$1\nexit" | ./minishell > $MININHELL_OUTPUT
+    echo -e "$1\nexit" | ./minishell > $MINISHELL_OUTPUT
 }
 
 function runBashWithoutQuotes ()
@@ -37,7 +37,7 @@ function readMinishellOutput ()
     elif [[ "$OSTYPE" == "darwin"* ]]; then
         OS_TYPE=1
     fi
-    ACTUAL=$(readOutputFile $OS_TYPE $MININHELL_OUTPUT)
+    ACTUAL=$(readOutputFile $OS_TYPE $MINISHELL_OUTPUT)
 }
 
 
@@ -61,7 +61,7 @@ function displayFailureMessage ()
 
 function assertEqual ()
 {
-    displayTitle "$1"
+    displayTitle "$1 "
     if [[ "$EXPECTED" == "$ACTUAL" ]]; then
         displaySuccessMessage
     else
@@ -74,5 +74,5 @@ function assertEqual ()
 function cleanUp ()
 {
     rm -f $TMP_FILE
-    rm -f $MININHELL_OUTPUT
+    rm -f $MINISHELL_OUTPUT
 }
