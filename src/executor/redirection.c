@@ -20,34 +20,20 @@ void	handle_stdout(int out_file, t_multi_pipes *pipes, int process,
 		set_stdout(pipes->current[WRITE_FD]);
 }
 
-
-int	get_file_len(const char *start)
-{
-	char	*redirection_position;
-	int		redirection_index;
-	int		start_index;
-
-	start_index = 0;
-	redirection_position = get_redirection_position(SPECIALS,
-			(char *)start);
-	while (redirection_position && start[start_index] != '\0')
-	{
-		redirection_index = redirection_position - &start[0];
-		if (!is_between_quotes(start, redirection_index))
-			return (redirection_index);
-		start_index += redirection_index + 1;
-		redirection_position = get_redirection_position(SPECIALS,
-				(char *)&start[start_index]);
-	}
-	return (ft_strlen(start));
-}
-
 void	get_file_name(char *buffer, char **input_ptr)
 {
-	int			file_len = get_file_len(*input_ptr);
+	const int	file_len = get_arg_len(*input_ptr, SPECIALS);
+	int			len_to_cpy;
 
 	ft_bzero(&buffer[0], BUFSIZ);
-	ft_strlcpy(&buffer[0], *input_ptr, file_len + 1);
+	if (**input_ptr == DOUBLE_QUOTES)
+	{
+		++(*input_ptr);
+		len_to_cpy = file_len - 2;
+	}
+	else
+		len_to_cpy = file_len;
+	ft_strlcpy(&buffer[0], *input_ptr, len_to_cpy + 1);
 	*input_ptr += file_len;
 }
 
@@ -73,9 +59,11 @@ void	handle_outfile(char **file_name_ptr, int *outfile)
 	char	buffer[BUFSIZ];
 	int		fd;
 
+	printf("entering outfile\n");
 	++(*file_name_ptr);
 	skip_spaces((const char **)file_name_ptr);
 	get_file_name(&buffer[0], file_name_ptr);
+	printf("outfile: %s\n", buffer);
 	fd = open(&buffer[0], O_RDWR | O_CREAT | O_TRUNC, 0664);
 	if (fd == SYS_ERROR)
 		handle_errors(SYS_ERROR, "handle_outfile_open");
@@ -89,27 +77,22 @@ void	handle_outfile(char **file_name_ptr, int *outfile)
 
 void	check_cmd_str_validity(char *cmd_str)
 {
-	// const int len = get_arg_len(cmd_str);
+	const int len = get_arg_len(cmd_str, "|") + 1;
 	int i = 0;
 
-	while (cmd_str && cmd_str[i] && cmd_str[i] != PIPE)
+	while (cmd_str && cmd_str[i] && cmd_str[i] != PIPE && i < len)
 	{
 		if (cmd_str[i] == DOUBLE_QUOTES)
 		{
 			i++;
-			while (cmd_str[i] != DOUBLE_QUOTES || cmd_str[i] != PIPE)
+			while (i < len && (cmd_str[i] != DOUBLE_QUOTES || cmd_str[i] != PIPE))
 				i++;
 		}
 		if (i > 0 && cmd_str[i + 1] == RIGHT_ANGLE && cmd_str[i] != SPACE)
-		{
-			printf("Current: |%c|      Next: |%c|\n", cmd_str[i], cmd_str[i + 1]);
-			handle_errors(16, "Syntax error  in checker for outfile");
-		}
+			handle_errors(16, "Syntax error in checker for outfile");
 		i++;
 	}
 }
-
-
 /*
 	build a check to see if it's a valid file string cat -e main.c >1 >2>3>4
 	and add heredoc
@@ -120,15 +103,21 @@ void	check_cmd_str_validity(char *cmd_str)
 */
 void	handle_files(char *cmd_str, int fd[])
 {
-	// check_cmd_str_validity(cmd_str);
-	while (cmd_str && *cmd_str && *cmd_str != PIPE)
+	const int	len = get_arg_len(cmd_str, "|");
+	char		buffer[BUFSIZ];
+	char		*cursor;
+
+	ft_strlcpy(&buffer[0], cmd_str, len + 1);
+	check_cmd_str_validity(cmd_str);
+	cursor = &buffer[0];
+	while (cursor && *cursor)
 	{
-		if (*cmd_str == LEFT_ANGLE)
-			handle_infile(&cmd_str, &fd[READ_FD]);
-		else if (*cmd_str == RIGHT_ANGLE)
-			handle_outfile(&cmd_str, &fd[WRITE_FD]);
-		if (*cmd_str != RIGHT_ANGLE && *cmd_str != LEFT_ANGLE)
-			++cmd_str;
+		if (*cursor == LEFT_ANGLE)
+			handle_infile(&cursor, &fd[READ_FD]);
+		if (*cursor == RIGHT_ANGLE)
+			handle_outfile(&cursor, &fd[WRITE_FD]);
+		if (*cursor != RIGHT_ANGLE && *cursor != LEFT_ANGLE)
+			++cursor;
 	}
 }
 
