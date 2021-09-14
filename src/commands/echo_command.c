@@ -38,6 +38,11 @@ t_arg	get_str_without_quotes(t_arg echo_arg,
 {
 	char	cur;
 
+	if (isspace(*echo_arg.start) && !is_double_quote(*echo_arg.start) && *buffer_index)
+	{
+		stdout_buffer[*buffer_index] = SPACE;
+		++(*buffer_index);
+	}
 	skip_spaces(&echo_arg.start);
 	if (is_double_quote(*echo_arg.start))
 		return (echo_arg);
@@ -63,18 +68,18 @@ t_arg	get_str_without_quotes(t_arg echo_arg,
 	return (echo_arg);
 }
 
-static void	add_space_between_strs(char cur_inp,
-								char *stdout_buffer,
-								int *buffer_index)
-{
-	if (cur_inp && \
-		stdout_buffer[*buffer_index] != SPACE
-		&& cur_inp != DOUBLE_QUOTES)
-	{
-		stdout_buffer[*buffer_index] = SPACE;
-		++(*buffer_index);
-	}
-}
+// static void	add_space_between_strs(t_arg arg,
+// 								char *stdout_buffer,
+// 								int *buffer_index)
+// {
+// 	if (arg.start < arg.end && \
+// 		stdout_buffer[*buffer_index] != SPACE
+// 		&& (is_double_quote(*arg.start) || is_single_quote(*arg.start)))
+// 	{
+// 		stdout_buffer[*buffer_index] = SPACE;
+// 		++(*buffer_index);
+// 	}
+// }
 
 t_arg	get_str_with_quotes(t_arg arg,
 							char *stdout_buffer,
@@ -88,9 +93,7 @@ t_arg	get_str_with_quotes(t_arg arg,
 		while (arg.start < quotes.end)
 		{
 			if (quotes.is_double_quote && *arg.start == '$')
-			{
 				append_value_to_buffer(&arg, stdout_buffer, buffer_index);
-			}
 			else
 			{
 				stdout_buffer[*buffer_index] = *arg.start;
@@ -98,7 +101,6 @@ t_arg	get_str_with_quotes(t_arg arg,
 				++(arg.start);
 			}
 		}
-		add_space_between_strs(*arg.start, stdout_buffer, buffer_index);
 		arg.start = quotes.end + 1;
 	}
 	else if (quotes.start)
@@ -123,6 +125,7 @@ t_exit_code	echo_command(t_command command, t_output_stdout output)
 
 	if (command.arg_len == 0)
 		return (handle_empty_str(has_n_flag, output));
+	ft_bzero(stdout_buffer, sizeof(stdout_buffer));
 	buffer_index = 0;
 	while (command.arg.start < command.arg.end)
 	{
