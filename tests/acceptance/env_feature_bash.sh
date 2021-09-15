@@ -15,7 +15,7 @@ assertEqual "ENV"
 
 INPUT="export SECOND_VAR=Testing"
 runMinishell "$INPUT\nenv | grep SECOND_VAR"
-removePrompt
+removePrompt $MINISHELL_OUTPUT
 ACTUAL=$(cat $MINISHELL_OUTPUT)
 export SECOND_VAR=Testing
 EXPECTED=$(env | grep SECOND_VAR)
@@ -24,7 +24,7 @@ assertEqual "EXPORT"
 INPUT="unset SECOND_VAR"
 runMinishell "$INPUT\nenv | grep SECOND_VAR"
 removePrompt $MINISHELL_OUTPUT
-ACTUAL=$(cat $MINISHELL_OUTPUT | grep SECOND=)
+ACTUAL=$(cat $MINISHELL_OUTPUT)
 unset SECOND_VAR
 EXPECTED=$(env | grep SECOND_VAR)
 assertEqual "UNSET"
