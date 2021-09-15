@@ -35,8 +35,8 @@ static void	run(char *env[])
 	while (TRUE)
 	{
 		line = readline(display_prompt(&buffer[0]));
-		if (line == NULL)
-			exit(1);
+		if (!line)
+			exit(0);
 		parse_input(line, env);
 		free(line);
 	}
