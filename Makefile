@@ -15,7 +15,7 @@ MINISHELL_INCS= 						\
 	src/parser/parse_redirection.h		\
 	src/output/prompt.h					\
 	src/executor/run_commands.h			\
-	src/executor/executor_utils.h				\
+	src/executor/executor_utils.h		\
 	src/executor/redirection.h			\
 	src/parser/dispatcher.h				\
 	src/parser/get_executable_path.h	\
@@ -28,9 +28,9 @@ MINISHELL_SRC= 							\
 	src/parser/parser.c					\
 	src/output/prompt.c					\
 	src/executor/run_commands.c			\
-	src/executor/executor_utils.c				\
+	src/executor/executor_utils.c		\
 	src/executor/redirection.c			\
-	src/executor/redirection_utils.c		\
+	src/executor/redirection_utils.c	\
 	src/parser/parser_utils.c			\
 	src/parser/command_table.c			\
 	src/parser/command_table_utils.c	\
@@ -87,10 +87,7 @@ $(MINISHELL_ASAN): $(MINISHELL_SRC)
 	$(CC) $(CFLAGS_ASAN) $(INC_PATH) main.c -o $(MINISHELL_ASAN) $^ $(LDFLAGS)
 
 acceptance_test: $(MINISHELL)
-	python3 tests/acceptance/main.py
-
-pipe_tests: $(MINISHELL)
-	./tests/pipe_tests/minitester.sh
+	./tests/acceptance/acceptance_test.sh
 
 clean:
 	make -C $(LIBFT_PATH) fclean
