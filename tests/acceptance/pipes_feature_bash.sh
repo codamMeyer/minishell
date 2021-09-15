@@ -56,8 +56,8 @@ prompt="-►"
 
 INPUT="< tests/acceptance/bigfile grep int | cat -e > $TMP_FILE"
 runMinishell "$INPUT"
-removePrompt $MININHELL_OUTPUT
-ACTUAL=$(cat $MININHELL_OUTPUT)
+removePrompt $MINISHELL_OUTPUT
+ACTUAL=$(cat $MINISHELL_OUTPUT)
 EXPECTED=$(< tests/acceptance/bigfile grep int | cat -e > $TMP_FILE)
 assertEqual "$INPUT"
 
