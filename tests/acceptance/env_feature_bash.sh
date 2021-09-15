@@ -4,24 +4,29 @@ source ./tests/acceptance/common.sh
 
 printTestName "ENV"
 
-export TEST_VAR=Hello
-TEST="env | grep TEST_VAR"
-echo -e "$TEST\nexit" | ./minishell > $MINISHELL_OUTPUT
+
+
+export FIRST_VAR=Hello
+INPUT="env | grep FIRST_VAR"
+runMinishell "$INPUT"
 readMinishellOutput
-EXPECTED=$(env | grep TEST_VAR)
+EXPECTED=$(env | grep FIRST_VAR)
 assertEqual "ENV"
 
-TEST="export TEST_1=Testing"
-echo -e "$TEST\nenv | grep TEST_1\nexit\n" | ./minishell > $MINISHELL_OUTPUT
-ACTUAL=$(sed -n 3p $MINISHELL_OUTPUT)
-export TEST_1=Testing
-EXPECTED=$(env | grep TEST_1)
+INPUT="export SECOND_VAR=Testing"
+runMinishell "$INPUT\nenv | grep SECOND_VAR"
+removePrompt
+ACTUAL=$(grep SECOND_VAR= $MININHELL_OUTPUT)
+export SECOND_VAR=Testing
+EXPECTED=$(env | grep SECOND_VAR)
 assertEqual "EXPORT"
 
-echo -e "unset TEST_1\n env | grep TEST_1\nexit\n" | ./minishell > $MINISHELL_OUTPUT
-ACTUAL=$(sed -n 3p $MINISHELL_OUTPUT | grep TEST_1)
-unset TEST_1
-EXPECTED=$(env | grep TEST_1)
+INPUT="unset SECOND_VAR"
+runMinishell "$INPUT\nenv | grep SECOND_VAR"
+removePrompt
+ACTUAL=$(grep SECOND_VAR= $MININHELL_OUTPUT)
+unset SECOND_VAR
+EXPECTED=$(env | grep SECOND_VAR)
 assertEqual "UNSET"
 
 cleanUp
