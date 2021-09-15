@@ -24,4 +24,7 @@ RESULT+=$?
 ./tests/acceptance/env_feature_bash.sh
 RESULT+=$?
 
+./tests/acceptance/redirection_feature_bash.sh
+RESULT+=$?
+
 exit $RESULT
