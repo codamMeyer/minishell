@@ -4,63 +4,62 @@ source ./tests/acceptance/common.sh
 
 printTestName "PIPES"
 
-cases="tests/pipe_tests/commands.txt"
 prompt="-►"
 
-TEST="echo first test"
-echo -e "$TEST\nexit" | ./minishell > $MININHELL_OUTPUT
+INPUT="echo first test"
+runMinishell "$INPUT"
 readMinishellOutput
-EXPECTED=$($TEST)
-assertEqual "$TEST "
+EXPECTED=$($INPUT)
+assertEqual "$INPUT "
 
-TEST='echo "This      Should Wooooork       !     |       "'
-echo -e "$TEST\nexit" | ./minishell > $MININHELL_OUTPUT
+INPUT='echo "This      Should Wooooork       !     |       "'
+runMinishell "$INPUT"
 readMinishellOutput
 EXPECTED=$(echo "This      Should Wooooork       !     |       ")
-assertEqual "$TEST "
+assertEqual "$INPUT "
 
-TEST="echo buillt-in with a system command | cat -e"
-echo -e "$TEST\nexit" | ./minishell > $MININHELL_OUTPUT
+INPUT="echo buillt-in with a system cmd | cat -e"
+runMinishell "$INPUT"
 readMinishellOutput
-EXPECTED=$(echo buillt-in with a system command | cat -e)
-assertEqual "$TEST "
+EXPECTED=$(echo buillt-in with a system cmd | cat -e)
+assertEqual "$INPUT "
 
-TEST="< tests/acceptance/bigfile grep int | /../../../bin/cat -e"
-echo -e "$TEST\nexit" | ./minishell > $MININHELL_OUTPUT
+INPUT="< tests/acceptance/bigfile grep int | /../../../bin/cat -e"
+runMinishell "$INPUT"
 readMinishellOutput
 EXPECTED=$(< tests/acceptance/bigfile grep int | /../../../bin/cat -e)
-assertEqual "$TEST "
+assertEqual "$INPUT "
 
-TEST="< tests/acceptance/bigfile grep int | /bin/cat -e"
-echo -e "$TEST\nexit" | ./minishell > $MININHELL_OUTPUT
+INPUT="< tests/acceptance/bigfile grep int | /bin/cat -e"
+runMinishell "$INPUT"
 readMinishellOutput
 EXPECTED=$(< tests/acceptance/bigfile grep int | /bin/cat -e)
-assertEqual "$TEST "
+assertEqual "$INPUT "
 
-TEST="cat tests/acceptance/bigfile | wc -l"
-echo -e "$TEST\nexit" | ./minishell > $MININHELL_OUTPUT
+INPUT="cat tests/acceptance/bigfile | wc -l"
+runMinishell "$INPUT"
 readMinishellOutput
 EXPECTED=$(cat tests/acceptance/bigfile | wc -l)
-assertEqual "$TEST "
+assertEqual "$INPUT "
 
-TEST="cat tests/acceptance/bigfile | wc -l | cat -e | cat -e"
-echo -e "$TEST\nexit" | ./minishell > $MININHELL_OUTPUT
+INPUT="cat tests/acceptance/bigfile | wc -l | cat -e | cat -e"
+runMinishell "$INPUT"
 readMinishellOutput
 EXPECTED=$(cat tests/acceptance/bigfile | wc -l | cat -e | cat -e)
-assertEqual "$TEST "
+assertEqual "$INPUT "
 
-TEST="< tests/acceptance/bigfile grep int | cat -e"
-echo -e "$TEST\nexit" | ./minishell > $MININHELL_OUTPUT
+INPUT="< tests/acceptance/bigfile grep int | cat -e"
+runMinishell "$INPUT"
 readMinishellOutput
 EXPECTED=$(< tests/acceptance/bigfile grep int | cat -e)
-assertEqual "$TEST "
+assertEqual "$INPUT "
 
-TEST="< tests/acceptance/bigfile grep int | cat -e > $TMP_FILE"
-echo -e "$TEST\nexit" | ./minishell > $MININHELL_OUTPUT
-sed -i "/$prompt/d" $MININHELL_OUTPUT
+INPUT="< tests/acceptance/bigfile grep int | cat -e > $TMP_FILE"
+runMinishell "$INPUT"
+removePrompt
 readMinishellOutput
 EXPECTED=$(< tests/acceptance/bigfile grep int | cat -e > $TMP_FILE)
-assertEqual "$TEST "
+assertEqual "$INPUT "
 
 cleanUp
 

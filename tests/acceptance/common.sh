@@ -40,7 +40,6 @@ function readMinishellOutput ()
     ACTUAL=$(readOutputFile $OS_TYPE $MININHELL_OUTPUT)
 }
 
-
 function displayTitle ()
 {
     printf "$YELLOW Test case:$TITLE_COLOR %-40s" "$1"
@@ -52,6 +51,7 @@ function displaySuccessMessage ()
     echo "   expected: $EXPECTED"
     echo "   actual:   $ACTUAL"
 }
+
 function displayFailureMessage ()
 {
     echo -e "$ERROR_COLOR[✗] $NORMAL_COLOR"
@@ -75,4 +75,9 @@ function cleanUp ()
 {
     rm -f $TMP_FILE
     rm -f $MININHELL_OUTPUT
+}
+
+function removePrompt ()
+{
+    sed -i "/-►/d" $MININHELL_OUTPUT
 }
