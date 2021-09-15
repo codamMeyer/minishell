@@ -79,5 +79,5 @@ function cleanUp ()
 
 function removePrompt ()
 {
-    sed -i "/-►/d" $MINISHELL_OUTPUT
+    sed -i "/-►/d" $1
 }
