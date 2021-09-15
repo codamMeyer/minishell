@@ -74,7 +74,7 @@ function assertEqual ()
 function cleanUp ()
 {
     rm -f $TMP_FILE
-    rm -f $MININHELL_OUTPUT
+    rm -f $MINISHELL_OUTPUT
 }
 
 function removePrompt ()
