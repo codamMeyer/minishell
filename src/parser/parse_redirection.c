@@ -67,18 +67,40 @@ int		get_file_name_and_length(char *buffer, char *input)
 	return (file_name_len);
 }
 
-int	open_infile(char *file_name_ptr, int *in_file)
+void	open_in_mode(const char *file, t_files *files, int mode_id)
+{
+	if (mode_id == LEFT_ANGLE)
+	{
+		if (files->in > 0)
+			close (files->in);
+		files->in = open(file, O_RDONLY, 0644);
+		if (files->in == -1)
+		{
+			printf("Couldn't open in file: %s\n", file);
+			exit(1);
+		}
+	}
+	else if (mode_id == RIGHT_ANGLE)
+	{
+		if (files->out > 0)
+			close(files->out);
+		files->out = open(file, O_RDWR | O_CREAT | O_TRUNC, 0664);
+		if (files->out == -1)
+		{
+			printf("Couldn't open out file:%s\n", file);
+			exit(1);
+		}
+	}
+}
+
+int	open_file(char *file_name_ptr, t_files *files, int redirection_id)
 {
 	char	buffer[BUFSIZ];
 	int		i;
 
 	i = count_consecutive_spaces(file_name_ptr);
 	i += get_file_name_and_length(&buffer[0], &file_name_ptr[i]);
-	if (*in_file > 0)
-		close(*in_file);
-	*in_file = open(buffer, O_RDONLY, 0644);
-	if (*in_file == -1)
-		printf("ERROR! open_infile\n");
+	open_in_mode((const char *)buffer, files, redirection_id);
 	return (i);
 }
 
@@ -94,14 +116,14 @@ void	replace_redirection_w_whitespace(char **input, int len, int start)
 	}
 }
 
-int	get_files_descriptors(char *input, t_files *fd, int redirection_id)
-{
-	if (redirection_id == '<')
-		return(open_infile(input, &fd->in));
-	// if (*input == RIGHT_ANGLE)
-	// 	return(handle_outfile(&input, &fd->out));
-	return (0);
-}
+// int	get_files_descriptors(char *input, t_files *fd, int redirection_id)
+// {
+// 	if (redirection_id == '<')
+// 		return(open_infile(input, &fd->in));
+// 	// if (*input == RIGHT_ANGLE)
+// 	// 	return(handle_outfile(&input, &fd->out));
+// 	return (0);
+// }
 
 /*
 	return t_files which have an int for the in and out fd's respectively
@@ -119,14 +141,14 @@ t_files	get_redirection(char **input)
 	fd.in = -1;
 	fd.out = -1;
 	redirection_index = get_arg_len(&cursor[0], "><") + 1;
-	while (redirection_index < string_to_parse_len && cursor[redirection_index])
+	while (redirection_index < string_to_parse_len)
 	{
 		redirection_id = cursor[redirection_index - 1];
-		redirection_length = get_files_descriptors(&cursor[redirection_index], &fd, redirection_id);
+		redirection_length = open_file(&cursor[redirection_index], &fd, redirection_id);
 		replace_redirection_w_whitespace(input, redirection_length + 1, redirection_index - 1);
 		redirection_index += get_arg_len(&cursor[redirection_index], "><") + 1;
 	}
 	return (fd);
 }
 
-// echo halla > out
+// echo halla <random_infile everybody

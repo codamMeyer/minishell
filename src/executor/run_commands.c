@@ -34,7 +34,7 @@ int	run_multi_processes(char *env[],
 		if (process_id == CHILD_PROCESS)
 		{
 			redirect_in_and_output(&pipes, i, num_of_processes,
-				commands[i].command_string);
+				&commands[i]);
 			exit(dispatch_command(&commands[i], env));
 		}
 		if (i != FIRST_PROCESS)
@@ -62,7 +62,7 @@ int	run_commands(t_command commands[],
 {
 	if (is_single_command(num_of_commands, commands[0].code))
 	{
-		redirect_in_and_output(NULL, 0, 0, commands[0].command_string);
+		redirect_in_and_output(NULL, 0, 0, &commands[0]);
 		dispatch_command(&commands[0], env);
 	}
 	else

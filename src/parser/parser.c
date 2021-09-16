@@ -27,8 +27,8 @@ t_command	populate_command(const char **input_ptr)
 	t_command	command;
 
 	command.command_string = *input_ptr;
-	get_redirection((char **)input_ptr);
-	printf("input: |%s|\n", *input_ptr);
+	command.files = get_redirection((char **)input_ptr);
+	// printf("%s\n", *input_ptr);
 	skip_redirection(input_ptr);
 	command.code = get_command_code(input_ptr, &command);
 	command.arg.start = *input_ptr;

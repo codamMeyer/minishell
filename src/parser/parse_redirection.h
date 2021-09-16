@@ -11,7 +11,8 @@ t_files	get_redirection(char **input);
 int		get_files_descriptors(char *input, t_files *fd, int redirection_id);
 int		count_consecutive_spaces(char *str);
 int		get_file_name_and_length(char *buffer, char *input);
-int		open_infile(char *file_name_ptr, int *in_file);
+// int		open_infile(char *file_name_ptr, int *in_file);
+int	open_file(char *file_name_ptr, t_files *files, int redirection_id);
 void	replace_redirection_w_whitespace(char **input, int len, int start);
 
 #endif

@@ -4,14 +4,24 @@
 
 void	handle_stdin(int in_file, t_multi_pipes *pipes, int current_process)
 {
-	if (current_process != FIRST_PROCESS && in_file == -1)
+	if (in_file != -1)
+	{
+		set_stdin(in_file);
+		close(in_file);
+	}
+	else if (current_process != FIRST_PROCESS && in_file == -1)
 		set_stdin(pipes->previous[READ_FD]);
 }
 
 void	handle_stdout(int out_file, t_multi_pipes *pipes, int current_process,
 	int last_process)
 {
-	if (current_process != last_process - 1 && out_file == -1)
+	if (out_file != -1)
+	{
+		set_stdout(out_file);
+		close(out_file);
+	}
+	else if (current_process != last_process - 1 && out_file == -1)
 		set_stdout(pipes->current[WRITE_FD]);
 }
 
