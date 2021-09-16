@@ -22,6 +22,7 @@ MINISHELL_INCS= 						\
 	src/commands/commands.h				\
 	src/commands/echo_utils.h			\
 	src/commands/quotes.h				\
+	src/commands/buffer.h				\
 	src/env/environment.h				\
 	src/env/env_utils.h					\
 
@@ -42,6 +43,7 @@ MINISHELL_SRC= 							\
 	src/commands/echo_command.c			\
 	src/commands/echo_utils.c			\
 	src/commands/quotes.c				\
+	src/commands/buffer.c				\
 	src/commands/pwd_command.c			\
 	src/commands/environment_commands.c	\
 	src/env/environment.c				\

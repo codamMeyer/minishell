@@ -63,14 +63,15 @@ void	display_env(t_env *env, t_output_stdout output)
 t_env	*find_variable(t_env *env, const char *key)
 {
 	const size_t	name_len = get_key_len(key);
-	int			i;
+	int				i;
 
 	if (!env || !name_len)
 		return (NULL);
 	i = 0;
 	while (i < ENV_SIZE)
 	{
-		if (env[i].key && ft_strlen(env[i].key) == name_len && ft_strncmp(env[i].key, key, name_len) == 0)
+		if (env[i].key && ft_strlen(env[i].key) == name_len
+			&& ft_strncmp(env[i].key, key, name_len) == 0)
 			return (&env[i]);
 		++i;
 	}

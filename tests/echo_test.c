@@ -250,3 +250,25 @@ CTEST2(echo_test, followed_by_pipe)
 	ASSERT_EQUAL(strlen("hello you this is a\n"), strlen(&echo_buf1[0]));
 	ASSERT_STR("hello you this is a\n", &echo_buf1[0]);
 }
+
+CTEST2(echo_test, write_string_with_single_quote)
+{
+	const char *input = "hello    '!     you     !'";
+	data->command.arg.start = input;
+	data->command.arg.end = input + 26;
+	data->command.arg_len = 26;
+	ASSERT_EQUAL(SUCCESS, echo_command(data->command, write_to_buf));
+	ASSERT_EQUAL(strlen("hello !     you     !\n"), strlen(&echo_buf1[0]));
+	ASSERT_STR("hello !     you     !\n", &echo_buf1[0]);
+}
+
+CTEST2(echo_test, write_string_with_single_quote_and_var)
+{
+	const char *input = "hello    '$PWD'";
+	data->command.arg.start = input;
+	data->command.arg.end = input + 15;
+	data->command.arg_len = 15;
+	ASSERT_EQUAL(SUCCESS, echo_command(data->command, write_to_buf));
+	ASSERT_EQUAL(strlen("hello $PWD\n"), strlen(&echo_buf1[0]));
+	ASSERT_STR("hello $PWD\n", &echo_buf1[0]);
+}

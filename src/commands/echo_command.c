@@ -8,6 +8,7 @@
 #include <parser/parser.h>
 #include <commands/echo_utils.h>
 #include <commands/quotes.h>
+#include <commands/buffer.h>
 #include <env/env_utils.h>
 
 t_arg	append_char_to_buffer(t_arg arg, t_buffer *buffer)
@@ -22,11 +23,11 @@ void	append_value_to_buffer(t_arg *echo_arg, t_buffer *buffer)
 {
 	t_env	*var;
 	int		key_len;
-	int 	value_len;
-	
+	int		value_len;
+
 	++(echo_arg->start);
 	value_len = 0;
-	key_len = get_key_len(echo_arg->start);	
+	key_len = get_key_len(echo_arg->start);
 	var = find_variable(get_environment(), echo_arg->start);
 	if (var)
 	{
@@ -51,10 +52,10 @@ t_arg	get_str_without_quotes(t_arg echo_arg, t_buffer *buffer)
 {
 	char	cur;
 
-	if (is_double_quote(*echo_arg.start))
-		return (echo_arg);
 	cur = *echo_arg.start;
-	while (cur && !is_double_quote(cur) && echo_arg.start < echo_arg.end)
+	if (is_quote(cur))
+		return (echo_arg);
+	while (cur && !is_quote(cur) && echo_arg.start < echo_arg.end)
 	{
 		if (isspace(cur))
 			trim_extra_spaces_between_words(&echo_arg, buffer);
@@ -102,10 +103,9 @@ t_exit_code	echo_command(t_command command, t_output_stdout output)
 	const t_bool	has_n_flag = parse_n_flag((t_arg *)&command.arg);
 	t_buffer		buffer;
 
+	init_buffer(&buffer);
 	if (command.arg_len == 0)
 		return (handle_empty_str(has_n_flag, output));
-	ft_bzero(&buffer.buf[0], BUFFER_SIZE);
-	buffer.index = 0;
 	while (command.arg.start < command.arg.end)
 	{
 		command.arg = get_str_with_quotes(command.arg, &buffer);
