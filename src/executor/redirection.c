@@ -94,9 +94,9 @@ void	redirect_in_and_output(t_multi_pipes *pipes, int process,
 
 	fd[0] = -1;
 	fd[1] = -1;
+	handle_files((char *)cmd_string, fd);
 	if (!pipes)
 		return ;
-	handle_files((char *)cmd_string, fd);
 	handle_stdin(fd[READ_FD], pipes, process);
 	handle_stdout(fd[WRITE_FD], pipes, process, last_process);
 	close(pipes->current[READ_FD]);

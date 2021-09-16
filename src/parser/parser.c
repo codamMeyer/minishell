@@ -27,6 +27,7 @@ t_command	populate_command(const char **input_ptr)
 	t_command	command;
 
 	command.command_string = *input_ptr;
+	get_redirection((char **)input_ptr);
 	skip_redirection(input_ptr);
 	command.code = get_command_code(input_ptr, &command);
 	command.arg.start = *input_ptr;
@@ -35,10 +36,6 @@ t_command	populate_command(const char **input_ptr)
 	return (command);
 }
 
-/* 
-	if invalid command, should still continue parsing
-	Check for multiple in out files, can be before or after the command
-*/
 int	populate_commands_table(const char *input, t_command commands_table[])
 {
 	const char	*input_line = input;

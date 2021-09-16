@@ -21,3 +21,5 @@ runMinishell "$INPUT"
 check_file_content "$MINI_REDIRECT_OUT" "$BASH_REDIRECT_OUT"
 assertEqual "Redirection basic"
 cleanUp
+
+exit $EXIT_CODE

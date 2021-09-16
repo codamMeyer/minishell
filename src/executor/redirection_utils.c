@@ -2,16 +2,16 @@
 #include <parser/command_table.h>
 #include <../libft/libft.h>
 
-void	handle_stdin(int in_file, t_multi_pipes *pipes, int process)
+void	handle_stdin(int in_file, t_multi_pipes *pipes, int current_process)
 {
-	if (process != FIRST_PROCESS && in_file == -1)
+	if (current_process != FIRST_PROCESS && in_file == -1)
 		set_stdin(pipes->previous[READ_FD]);
 }
 
-void	handle_stdout(int out_file, t_multi_pipes *pipes, int process,
+void	handle_stdout(int out_file, t_multi_pipes *pipes, int current_process,
 	int last_process)
 {
-	if (process != last_process - 1 && out_file == -1)
+	if (current_process != last_process - 1 && out_file == -1)
 		set_stdout(pipes->current[WRITE_FD]);
 }
 

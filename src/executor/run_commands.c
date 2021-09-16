@@ -17,6 +17,8 @@ void	create_table(t_command commands[], char *arg, char *path)
 /*
 	Creates a process for each command 
 	Important check that all fd's are closed at the end
+	Important!!! Check that there are more than one 
+	processes when creating pipes
 */
 int	run_multi_processes(char *env[],
 	t_command commands[], int num_of_processes)
@@ -53,8 +55,7 @@ t_bool	is_single_command(int num_of_cmds, t_command_code command_code)
 /*
 	add redirection for single command
 	if file doesn't exist, exit command immediately
-	< man.c grep
-	echo hello > 1 2 3 
+	IMPORTANT! check when dispatching only one command
 */
 int	run_commands(t_command commands[],
 				int num_of_commands, char *env[])

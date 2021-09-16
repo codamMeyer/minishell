@@ -27,14 +27,15 @@ typedef struct s_arg
 
 typedef struct s_files
 {
-	const char		*out;
-	const char		*in;
+	int	out;
+	int	in;
 }	t_files;
 
 typedef struct s_command
 {
 	t_command_code	code;
 	t_arg			arg;
+	t_files			files;
 	int				arg_len;
 	const char		*exe_path;
 	const char		*command_string;

@@ -58,6 +58,7 @@ TEST_FILES=								\
 	tests/redirection_tests.c			\
 	tests/pipe_test.c					\
 	tests/env_api_test.c				\
+	tests/redirection_tests.c			\
 
 MINISHELL_OBJS=$(MINISHELL_SRC:.c=.o)
 
