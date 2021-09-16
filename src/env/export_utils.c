@@ -31,26 +31,56 @@ t_bool	copy_key_to_buffer(const char *key_value_str, char *buffer)
 	return (is_valid_key(&buffer[0], key_len));
 }
 
+t_bool	handle_quoted_value(const char *value, char *buffer)
+{
+	t_arg		arg;
+	t_buffer	tmp_buffer;
+	
+	arg.start = value;
+	init_buffer(&tmp_buffer);
+	parse_str_with_quotes(arg, &tmp_buffer);
+	ft_bzero(buffer, 4096);
+	if (!ft_memcpy(&buffer[0], &tmp_buffer.buf[0], tmp_buffer.index))
+		return (FALSE);
+	return (TRUE);
+}
+
+/*
+	unquoted string should get value of env var
+*/
+
+t_bool	handle_unquoted_value(const char *value, char *buffer)
+{
+	char	cur;
+	int		value_len;
+
+	value_len = 0;
+	cur = *value;
+	while (cur && !isspace(cur))
+	{
+		++value_len;
+		cur = value[value_len];
+	}
+	ft_bzero(buffer, 4096);
+	if (value_len == 0)
+		return (TRUE);
+	if (!ft_memcpy(&buffer[0], value, value_len))
+		return (FALSE);
+	return (TRUE);
+}
+
 t_bool	copy_value_to_buffer(const char *key_value_str, char *buffer)
 {
 	const char	*delimiter_position =
 		get_equal_sign_position(key_value_str) + 1;
-	int			value_len;
 	char		cur;
 
-	value_len = 0;
 	if (!delimiter_position)
 		return (FALSE);
-	cur = delimiter_position[value_len];
-	while (cur && !isspace(cur))
-	{
-		++value_len;
-		cur = delimiter_position[value_len];
-	}
-	ft_bzero(buffer, 4096);
-	if (value_len != 0)
-		ft_memcpy(&buffer[0], delimiter_position, value_len);
-	return (TRUE);
+	cur = delimiter_position[0];
+	if (is_quote(cur))
+		return (handle_quoted_value(delimiter_position, buffer));
+	return (handle_unquoted_value(delimiter_position, buffer));
 }
 
 t_bool	set_key(t_env *env, char *key)

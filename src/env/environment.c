@@ -1,5 +1,6 @@
 #include <env/environment.h>
 #include <env/env_utils.h>
+#include <commands/buffer.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <libft.h>
@@ -7,8 +8,8 @@
 
 t_bool	export(t_env *env, const char *key_value_str)
 {
-	char	key_buffer[4096];
-	char	value_buffer[4096];
+	char	key_buffer[BUFFER_SIZE];
+	char	value_buffer[BUFFER_SIZE];
 
 	if (!copy_key_to_buffer(key_value_str, key_buffer) || \
 		!copy_value_to_buffer(key_value_str, value_buffer))

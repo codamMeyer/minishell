@@ -218,25 +218,10 @@ CTEST2(environment, empty_value)
     ASSERT_STR(find_variable(data->env, "key")->value, "");
 }
 
-CTEST2_SKIP(environment, string_with_single_quote_as_value)
+CTEST2(environment, string_with_single_quote_as_value)
 {
-    char *pair = "key=\'test with single quotes\'";
+    char *pair = "key='test with single quotes'";
     
     ASSERT_TRUE(export(data->env, pair));
-    ASSERT_STR(find_variable(data->env, pair)->value, "test with single quotes");
-}
-
-CTEST2_SKIP(environment, string_with_double_quote_as_value)
-{
-    char *pair = "key=\"test with single quotes\"";
-    
-    ASSERT_TRUE(export(data->env, pair));
-    ASSERT_STR(find_variable(data->env, pair)->value, "test with single quotes");
-}
-
-CTEST2_SKIP(environment, string_missing_double_quote_as_value)
-{
-    char *pair = "key=\"test with single quotes";
-    
-    ASSERT_FALSE(export(data->env, pair));
+    ASSERT_STR(find_variable(data->env, "key")->value, "test with single quotes");
 }
