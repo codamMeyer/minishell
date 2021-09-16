@@ -8,6 +8,13 @@
 #include <fcntl.h>
 
 #define BUFFERSIZE 1024
+CTEST(create_files, create_test_files)
+{
+    char no_implicit_quotes[] = "      test_file     ";
+    int test_fd = open(&no_implicit_quotes[0], O_RDWR | O_CREAT | O_TRUNC, 0664);
+    close(test_fd);
+    test_fd = open("test_file",  O_RDWR | O_CREAT | O_TRUNC, 0664);
+}
 
 CTEST(spaces_test, empty_str)
 {
@@ -90,6 +97,7 @@ CTEST(handle_infile, infile_with_space_and_quotes)
     ASSERT_EQUAL(ft_strlen(input), open_infile(&input[0], &fd));
     ASSERT_NOT_EQUAL(-1, fd);
     close(fd);
+    system("rm  \"      test_file     \"");
 }
 
 CTEST(get_fds, operations_test)
@@ -113,4 +121,5 @@ CTEST(redirection_test, basic_infile)
     ASSERT_NOT_EQUAL(-1, files.in);
     ASSERT_STR(expected, str);
     free(str);
+    system("rm test_file");
 }

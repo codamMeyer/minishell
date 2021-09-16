@@ -74,7 +74,6 @@ int	open_infile(char *file_name_ptr, int *in_file)
 
 	i = count_consecutive_spaces(file_name_ptr);
 	i += get_file_name_and_length(&buffer[0], &file_name_ptr[i]);
-	printf("file name: |%s|\n", buffer);
 	if (*in_file > 0)
 		close(*in_file);
 	*in_file = open(buffer, O_RDONLY, 0644);
