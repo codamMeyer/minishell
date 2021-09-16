@@ -4,51 +4,14 @@
 #include <stdlib.h>
 #include <../libft/libft.h>
 #include <parser/parser.h>
+#include <parser/parse_redirection.h>
 #include <stdio.h>
 #include <fcntl.h>
 
-void	skip_redirection(const char **input_ptr)
-{
-	skip_spaces(input_ptr);
-	while (**input_ptr == LEFT_ANGLE || **input_ptr == RIGHT_ANGLE)
-	{
-		++(*input_ptr);
-		skip_spaces(input_ptr);
-		*input_ptr += get_cmd_len(*input_ptr);
-		skip_spaces(input_ptr);
-	}
-}
-
-void	check_cmd_str_validity(char *cmd_str)
-{
-	int	i;
-
-	i = 0;
-	while (cmd_str && cmd_str[i])
-	{
-		if (cmd_str[i] == DOUBLE_QUOTES)
-		{
-			i++;
-			while (cmd_str[i] && cmd_str[i] != DOUBLE_QUOTES)
-				i++;
-		}
-		if (i > 0 && cmd_str[i + 1] == RIGHT_ANGLE && cmd_str[i] != SPACE)
-			handle_errors(16, "Syntax error in checker for outfile");
-		i++;
-	}
-}
-
-int	count_consecutive_spaces(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str && str[i] && str[i] == SPACE)
-		i++;
-	return (i);
-}
-
-int		get_file_name_and_length(char *buffer, char *input)
+/*
+	Assumes that string has been checked for quotes
+*/
+int	get_file_name_and_length(char *buffer, char *input)
 {
 	const int	file_name_len = get_arg_len(input, SPECIALS);
 	int			len_to_cpy;
@@ -67,12 +30,15 @@ int		get_file_name_and_length(char *buffer, char *input)
 	return (file_name_len);
 }
 
+/*
+	Might still split this into diff functions
+*/
 void	open_in_mode(const char *file, t_files *files, int mode_id)
 {
 	if (mode_id == LEFT_ANGLE)
 	{
 		if (files->in > 0)
-			close (files->in);
+			close(files->in);
 		files->in = open(file, O_RDONLY, 0644);
 		if (files->in == -1)
 		{
@@ -93,6 +59,10 @@ void	open_in_mode(const char *file, t_files *files, int mode_id)
 	}
 }
 
+/*
+	i keeps trtack of how many chars need to be
+	replaced by spaces
+*/
 int	open_file(char *file_name_ptr, t_files *files, int redirection_id)
 {
 	char	buffer[BUFSIZ];
@@ -104,51 +74,27 @@ int	open_file(char *file_name_ptr, t_files *files, int redirection_id)
 	return (i);
 }
 
-void	replace_redirection_w_whitespace(char **input, int len, int start)
-{
-	int i;
-
-	i = 0;
-	while (i < len)
-	{
-		(*input)[start + i] = SPACE;
-		++i;
-	}
-}
-
-// int	get_files_descriptors(char *input, t_files *fd, int redirection_id)
-// {
-// 	if (redirection_id == '<')
-// 		return(open_infile(input, &fd->in));
-// 	// if (*input == RIGHT_ANGLE)
-// 	// 	return(handle_outfile(&input, &fd->out));
-// 	return (0);
-// }
-
 /*
 	return t_files which have an int for the in and out fd's respectively
 */
-
-t_files	get_redirection(char **input)
+t_files	get_redirection(char **input, const int string_to_parse_len)
 {
-	const int	string_to_parse_len = get_arg_len(*input, "|");
-	int			redirection_index;
-	int			redirection_length;
-	int			redirection_id;
-	t_files		fd;
-	char *cursor = *input;
+	int		index;
+	int		length;
+	int		char_id;
+	t_files	fd;
+	char	*cursor;
 
 	fd.in = -1;
 	fd.out = -1;
-	redirection_index = get_arg_len(&cursor[0], "><") + 1;
-	while (redirection_index < string_to_parse_len)
+	cursor = *input;
+	index = get_arg_len(&cursor[0], "><") + 1;
+	while (index < string_to_parse_len)
 	{
-		redirection_id = cursor[redirection_index - 1];
-		redirection_length = open_file(&cursor[redirection_index], &fd, redirection_id);
-		replace_redirection_w_whitespace(input, redirection_length + 1, redirection_index - 1);
-		redirection_index += get_arg_len(&cursor[redirection_index], "><") + 1;
+		char_id = cursor[index - 1];
+		length = open_file(&cursor[index], &fd, char_id);
+		replace_redirection_w_space(input, length + 1, index - 1);
+		index += get_arg_len(&cursor[index], "><") + 1;
 	}
 	return (fd);
 }
-
-// echo halla <random_infile everybody

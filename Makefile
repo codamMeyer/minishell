@@ -37,6 +37,7 @@ MINISHELL_SRC= 							\
 	src/parser/dispatcher.c				\
 	src/parser/get_executable_path.c	\
 	src/parser/parse_redirection.c		\
+	src/parser/parse_redirect_utils.c	\
 	src/commands/exit_command.c			\
 	src/commands/echo_command.c			\
 	src/commands/echo_utils.c			\

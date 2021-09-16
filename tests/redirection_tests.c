@@ -33,7 +33,7 @@ CTEST(replace_with_whitespace, basic_test)
 {
     char *str = ft_strdup("remove thisSuccess!");
     char exp[] = "           Success!";
-    replace_redirection_w_whitespace(&str, 11, 0);
+    replace_redirection_w_space(&str, 11, 0);
     ASSERT_STR(exp, str);
     free(str);
 }
@@ -124,7 +124,7 @@ CTEST(redirection_test, basic_infile)
     const char *expected=("echo             | cat -e");
     t_files files;
 
-    files = get_redirection(&str);
+    files = get_redirection(&str, get_arg_len("echo < test_file | cat -e", "|"));
     ASSERT_NOT_EQUAL(-1, files.in);
     ASSERT_STR(expected, str);
     free(str);
@@ -139,7 +139,7 @@ CTEST(redirection_test, infile_inside_command_argument)
     const char *expected=("echo halla            everybody");
     t_files files;
 
-    files = get_redirection(&str);
+    files = get_redirection(&str, get_arg_len("echo halla <test_file everybody", "|"));
     ASSERT_NOT_EQUAL(-1, files.in);
     ASSERT_STR(expected, str);
     free(str);

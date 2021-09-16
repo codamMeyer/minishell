@@ -26,10 +26,8 @@ t_command	populate_command(const char **input_ptr)
 {
 	t_command	command;
 
-	command.command_string = *input_ptr;
-	command.files = get_redirection((char **)input_ptr);
-	// printf("%s\n", *input_ptr);
-	skip_redirection(input_ptr);
+	command.files = get_redirection((char **)input_ptr,
+			get_arg_len(*input_ptr, "|"));
 	command.code = get_command_code(input_ptr, &command);
 	command.arg.start = *input_ptr;
 	command.arg_len = get_arg_len(command.arg.start, REDIRECTION_CHARS);
@@ -51,7 +49,6 @@ int	populate_commands_table(const char *input, t_command commands_table[])
 		commands_table[i] = populate_command(&input_line);
 		input_line += commands_table[i].arg_len;
 		skip_spaces(&input_line);
-		skip_redirection(&input_line);
 		++i;
 	}
 	return (i);
