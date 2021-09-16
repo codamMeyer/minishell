@@ -51,15 +51,13 @@ void	write_to_stderr(const char *string_to_write)
 	write(STDERR_FILENO, string_to_write, len_inside);
 }
 
-void	trim_extra_spaces_between_words(t_arg *arg,
-										char *stdout_buffer,
-										int *buffer_index)
+void	trim_extra_spaces_between_words(t_arg *arg, t_buffer *buffer)
 {
 	if (isspace(*arg->start) && *(arg->start + 1))
 		skip_spaces(&arg->start);
 	if (arg->start != arg->end)
 	{
-		stdout_buffer[*buffer_index] = SPACE;
-		++(*buffer_index);
+		buffer->buf[buffer->index] = SPACE;
+		++(buffer->index);
 	}
 }

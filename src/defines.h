@@ -4,6 +4,7 @@
 # define DOUBLE_QUOTES '"'
 # define SINGLE_QUOTES 39
 # define MAX_CMDS_PER_LINE 100
+# define BUFFER_SIZE 4096
 
 typedef enum e_bool
 {
@@ -30,5 +31,12 @@ typedef enum e_exit_code
 	SUCCESS = 0,
 	ERROR = 1
 }	t_exit_code;
+
+typedef struct s_buffer
+{
+	char	buf[BUFFER_SIZE];
+	int		index;
+}	t_buffer;
+
 
 #endif
