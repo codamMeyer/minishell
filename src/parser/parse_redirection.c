@@ -5,6 +5,7 @@
 #include <../libft/libft.h>
 #include <parser/parser.h>
 #include <stdio.h>
+#include <fcntl.h>
 
 void	skip_redirection(const char **input_ptr)
 {
@@ -51,44 +52,57 @@ int		get_file_name_and_length(char *buffer, char *input)
 {
 	const int	file_name_len = get_arg_len(input, SPECIALS);
 	int			len_to_cpy;
+	char		*cursor;
 
 	ft_bzero(&buffer[0], BUFSIZ);
-	if (*input == DOUBLE_QUOTES)
+	cursor = input;
+	if (*cursor == DOUBLE_QUOTES)
 	{
-		++(input);
+		++(cursor);
 		len_to_cpy = file_name_len - 2;
 	}
 	else
 		len_to_cpy = file_name_len;
-	ft_strlcpy(&buffer[0], input, len_to_cpy + 1);
+	ft_strlcpy(&buffer[0], cursor, len_to_cpy + 1);
 	return (file_name_len);
 }
 
-// void	handle_infile(char **file_name_ptr, int *in_file)
-// {
-// 	char	buffer[BUFSIZ];
-// 	int		fd;
-// 	int		i;
+int	open_infile(char *file_name_ptr, int *in_file)
+{
+	char	buffer[BUFSIZ];
+	int		i;
 
-// 	i = count_consecutive_spaces(*file_name_ptr);
-// 	get_file_name(&buffer[0], file_name_ptr);
-// 	fd = open(buffer, O_RDONLY, 0644);
-// 	if (fd == SYS_ERROR)
-// 		handle_errors(SYS_ERROR, "handle_infile_open");
-// 	if (dup2(fd, STDIN_FILENO) == SYS_ERROR)
-// 		handle_errors(SYS_ERROR, "handle_infile_dup2");
-// 	*in_file = fd;
-// 	close(fd);
-// }
+	i = count_consecutive_spaces(file_name_ptr);
+	i += get_file_name_and_length(&buffer[0], &file_name_ptr[i]);
+	printf("file name: |%s|\n", buffer);
+	if (*in_file > 0)
+		close(*in_file);
+	*in_file = open(buffer, O_RDONLY, 0644);
+	if (*in_file == -1)
+		printf("ERROR! open_infile\n");
+	return (i);
+}
 
-// int	get_files_descriptors(char *input, t_files *fd)
-// {
+void	replace_redirection_w_whitespace(char **input, int len, int start)
+{
+	int i;
 
-// 	if (*input == LEFT_ANGLE)
-// 		// return(handle_infile(&input, &fd->in));
-// 	if (*input == RIGHT_ANGLE)
-// 		return(handle_outfile(&input, &fd->out));
-// }
+	i = 0;
+	while (i < len)
+	{
+		(*input)[start + i] = SPACE;
+		++i;
+	}
+}
+
+int	get_files_descriptors(char *input, t_files *fd, int redirection_id)
+{
+	if (redirection_id == '<')
+		return(open_infile(input, &fd->in));
+	// if (*input == RIGHT_ANGLE)
+	// 	return(handle_outfile(&input, &fd->out));
+	return (0);
+}
 
 /*
 	return t_files which have an int for the in and out fd's respectively
@@ -98,17 +112,19 @@ t_files	get_redirection(char **input)
 {
 	const int	string_to_parse_len = get_arg_len(*input, "|");
 	int			redirection_index;
-	// int			redirection_length;
+	int			redirection_length;
+	int			redirection_id;
 	t_files		fd;
 	char *cursor = *input;
 
 	fd.in = -1;
 	fd.out = -1;
-	// redirection_index = get_arg_len(&(*input[0]), "><");
 	redirection_index = get_arg_len(&cursor[0], "><") + 1;
 	while (redirection_index < string_to_parse_len && cursor[redirection_index])
 	{
-		// redirection_length = get_files_descriptors(&cursor[redirection_index], &fd);
+		redirection_id = cursor[redirection_index - 1];
+		redirection_length = get_files_descriptors(&cursor[redirection_index], &fd, redirection_id);
+		replace_redirection_w_whitespace(input, redirection_length + 1, redirection_index - 1);
 		redirection_index += get_arg_len(&cursor[redirection_index], "><") + 1;
 	}
 	return (fd);
