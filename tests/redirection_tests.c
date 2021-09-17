@@ -38,37 +38,37 @@ CTEST(replace_with_whitespace, basic_test)
     free(str);
 }
 
-CTEST(file_name_tests, basic_file_name)
-{
-    char buffer[BUFFERSIZE];
-    char file_name[] = "test_file";
-    ASSERT_EQUAL(ft_strlen(&file_name[0]), get_file_name_and_length(&buffer[0], file_name));
-    ASSERT_STR(file_name, buffer);
-}
+// CTEST(file_name_tests, basic_file_name)
+// {
+//     char buffer[BUFFERSIZE];
+//     char file_name[] = "test_file";
+//     ASSERT_EQUAL(ft_strlen(&file_name[0]), get_file_name_and_length(&buffer[0], file_name));
+//     ASSERT_STR(file_name, buffer);
+// }
 
-CTEST(file_name_tests, file_name_with_spaces)
-{
-    char buffer[BUFFERSIZE];
-    char file_name[] = "\"      test_file      \"";
-    ASSERT_EQUAL(ft_strlen(&file_name[0]), get_file_name_and_length(&buffer[0], file_name));
-    ASSERT_STR("      test_file      ", buffer);
-}
+// CTEST(file_name_tests, file_name_with_spaces)
+// {
+//     char buffer[BUFFERSIZE];
+//     char file_name[] = "\"      test_file      \"";
+//     ASSERT_EQUAL(ft_strlen(&file_name[0]), get_file_name_and_length(&buffer[0], file_name));
+//     ASSERT_STR("      test_file      ", buffer);
+// }
 
-CTEST(file_name_tests, file_name_with_next_command)
-{
-    char buffer[BUFFERSIZE];
-    char file_name[] = "test_file | applesauces";
-    ASSERT_EQUAL(9, get_file_name_and_length(&buffer[0], file_name));
-    ASSERT_STR("test_file", buffer);
-}
+// CTEST(file_name_tests, file_name_with_next_command)
+// {
+//     char buffer[BUFFERSIZE];
+//     char file_name[] = "test_file | applesauces";
+//     ASSERT_EQUAL(9, get_file_name_and_length(&buffer[0], file_name));
+//     ASSERT_STR("test_file", buffer);
+// }
 
-CTEST(file_name_tests, file_name_with_spaces_and_quotes)
-{
-    char buffer[BUFFERSIZE];
-    char file_name[] = "\"      test_file\"| applesauces";
-    ASSERT_EQUAL(ft_strlen("      test_file") + 2, get_file_name_and_length(&buffer[0], file_name));
-    ASSERT_STR("      test_file", buffer);
-}
+// CTEST(file_name_tests, file_name_with_spaces_and_quotes)
+// {
+//     char buffer[BUFFERSIZE];
+//     char file_name[] = "\"      test_file\"| applesauces";
+//     ASSERT_EQUAL(ft_strlen("      test_file") + 2, get_file_name_and_length(&buffer[0], file_name));
+//     ASSERT_STR("      test_file", buffer);
+// }
 
 CTEST(handle_infile, basic_infile)
 {
