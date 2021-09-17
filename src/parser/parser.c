@@ -30,7 +30,7 @@ t_command	populate_command(const char **input_ptr)
 			get_arg_len(*input_ptr, "|"));
 	command.code = get_command_code(input_ptr, &command);
 	command.arg.start = *input_ptr;
-	command.arg_len = get_arg_len(command.arg.start, REDIRECTION_CHARS);
+	command.arg_len = get_arg_len(command.arg.start, "|");
 	command.arg.end = *input_ptr + command.arg_len;
 	return (command);
 }

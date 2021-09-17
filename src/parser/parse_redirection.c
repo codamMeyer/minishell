@@ -37,7 +37,7 @@ void	open_in_mode(const char *file, t_files *files, int mode_id)
 {
 	if (mode_id == LEFT_ANGLE)
 		open_infile(file, &files->in);
-	else if (mode_id == RIGHT_ANGLE)
+	else if (mode_id == RIGHT_ANGLE || mode_id == APPEND)
 		open_outfile(file, &files->out, mode_id);
 }
 
@@ -63,7 +63,7 @@ t_files	get_redirection(char **input, const int string_to_parse_len)
 {
 	int		index;
 	int		length;
-	int		char_id;
+	int		redirect_id;
 	t_files	fd;
 	char	*cursor;
 
@@ -73,8 +73,10 @@ t_files	get_redirection(char **input, const int string_to_parse_len)
 	index = get_arg_len(&cursor[0], "><") + 1;
 	while (index < string_to_parse_len)
 	{
-		char_id = cursor[index - 1];
-		length = open_file(&cursor[index], &fd, char_id);
+		redirect_id = get_redirect_id(&cursor[index - 1]);
+		if (redirect_id == APPEND || redirect_id == HERE_DOC)
+			index++;
+		length = open_file(&cursor[index], &fd, redirect_id);
 		replace_redirection_w_space(input, length + 1, index - 1);
 		index += get_arg_len(&cursor[index], "><") + 1;
 	}

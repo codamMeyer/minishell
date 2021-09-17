@@ -2,6 +2,7 @@
 # define PARSE_REDIRECTION_H
 # define INVALID_FD -1
 # define APPEND 1
+# define HERE_DOC 666
 
 # include <commands/commands.h>
 
@@ -13,5 +14,6 @@ int		open_file(char *file_name_ptr, t_files *files, int redirection_id);
 void	open_infile(const char *file, int *in_file);
 void	open_outfile(const char *file, int *out_file, t_bool should_append);
 void	replace_redirection_w_space(char **input, int len, int start);
+int		get_redirect_id(const char *cursor);
 
 #endif
