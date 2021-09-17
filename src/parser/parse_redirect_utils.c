@@ -23,6 +23,19 @@ void	check_cmd_str_validity(char *cmd_str)
 		i++;
 	}
 }
+// while (*cmd_str)
+// {
+//     if (*cmd_str == DOUBLE_QUOTES)
+//     {
+//       ++cmd_str;
+//       cmd_str = ft_strcchar(&cmd_str[i], DOUBLE_QUOTES);
+//       if (!cmd_str)
+//             handle_errors(16, "Syntax error in checker for outfile");
+//       }
+//       if (!is_valid_redirection(cmd_str))
+//               handle_errors(16, "Syntax error in checker for outfile");
+//       ++cmd_str;
+// }
 
 void	replace_redirection_w_space(char **input, int len, int start)
 {

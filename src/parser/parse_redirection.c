@@ -36,27 +36,9 @@ int	get_file_name_and_length(char *buffer, char *input)
 void	open_in_mode(const char *file, t_files *files, int mode_id)
 {
 	if (mode_id == LEFT_ANGLE)
-	{
-		if (files->in > 0)
-			close(files->in);
-		files->in = open(file, O_RDONLY, 0644);
-		if (files->in == INVALID_FD)
-		{
-			printf("Couldn't open in file: %s\n", file);
-			exit(1);
-		}
-	}
+		open_infile(file, &files->in);
 	else if (mode_id == RIGHT_ANGLE)
-	{
-		if (files->out > 0)
-			close(files->out);
-		files->out = open(file, O_RDWR | O_CREAT | O_TRUNC, 0664);
-		if (files->out == INVALID_FD)
-		{
-			printf("Couldn't open out file:%s\n", file);
-			exit(1);
-		}
-	}
+		open_outfile(file, &files->out, mode_id);
 }
 
 /*
