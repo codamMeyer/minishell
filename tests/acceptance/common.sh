@@ -77,8 +77,8 @@ function cleanUp ()
 {
     rm -f $TMP_FILE
     rm -f $MINISHELL_OUTPUT
-    rm -f "$MINI_OUT1"1
-    rm -f "$BASH_OUT"1
+    rm -f "$MINI_OUT"
+    rm -f "$BASH_OUT"
 }
 
 function removePrompt ()
