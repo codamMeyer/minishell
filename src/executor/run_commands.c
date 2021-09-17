@@ -46,10 +46,14 @@ int	run_multi_processes(char *env[],
 	return (SUCCESS);
 }
 
-t_bool	is_single_command(int num_of_cmds, t_command_code command_code)
+static t_bool	is_env_command(t_command_code code)
 {
-	return (num_of_cmds == 1 && (command_code == EXIT
-			|| (command_code >= EXPORT && command_code <= ENV)));
+	return (code == EXPORT || code == UNSET || code == ENV);
+}
+
+t_bool	is_single_command(int num_of_cmds, t_command_code code)
+{
+	return (num_of_cmds == 1 && (code == EXIT || is_env_command(code)));
 }
 
 /*

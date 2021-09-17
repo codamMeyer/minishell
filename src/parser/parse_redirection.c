@@ -17,7 +17,7 @@ int	get_file_name_and_length(char *buffer, char *input)
 	int			len_to_cpy;
 	char		*cursor;
 
-	ft_bzero(&buffer[0], BUFSIZ);
+	ft_bzero(&buffer[0], BUFFER_SIZE);
 	cursor = input;
 	if (*cursor == DOUBLE_QUOTES)
 	{
@@ -40,7 +40,7 @@ void	open_in_mode(const char *file, t_files *files, int mode_id)
 		if (files->in > 0)
 			close(files->in);
 		files->in = open(file, O_RDONLY, 0644);
-		if (files->in == -1)
+		if (files->in == INVALID_FD)
 		{
 			printf("Couldn't open in file: %s\n", file);
 			exit(1);
@@ -51,7 +51,7 @@ void	open_in_mode(const char *file, t_files *files, int mode_id)
 		if (files->out > 0)
 			close(files->out);
 		files->out = open(file, O_RDWR | O_CREAT | O_TRUNC, 0664);
-		if (files->out == -1)
+		if (files->out == INVALID_FD)
 		{
 			printf("Couldn't open out file:%s\n", file);
 			exit(1);
@@ -65,7 +65,7 @@ void	open_in_mode(const char *file, t_files *files, int mode_id)
 */
 int	open_file(char *file_name_ptr, t_files *files, int redirection_id)
 {
-	char	buffer[BUFSIZ];
+	char	buffer[BUFFER_SIZE];
 	int		i;
 
 	i = count_consecutive_spaces(file_name_ptr);
@@ -85,8 +85,8 @@ t_files	get_redirection(char **input, const int string_to_parse_len)
 	t_files	fd;
 	char	*cursor;
 
-	fd.in = -1;
-	fd.out = -1;
+	fd.in = INVALID_FD;
+	fd.out = INVALID_FD;
 	cursor = *input;
 	index = get_arg_len(&cursor[0], "><") + 1;
 	while (index < string_to_parse_len)

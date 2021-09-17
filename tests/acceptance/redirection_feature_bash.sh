@@ -38,28 +38,28 @@ INPUT="echo first test > $MINI_OUT"
 echo first test > "$BASH_OUT"
 runMinishell "$INPUT"
 check_file_content "$MINI_OUT" "$BASH_OUT"
-assertEqual "Redirection basic"
+assertEqual "Basic outfile"
 cleanUp
 
 INPUT="< main.c cat -e | grep int > $MINI_OUT"
 < main.c cat -e | grep int > "$BASH_OUT"
 runMinishell "$INPUT"
 check_file_content "$MINI_OUT" "$BASH_OUT"
-assertEqual "Redirection basic in and outfile"
+assertEqual "Basic in and outfile"
 cleanUp
 
 INPUT="< main.c cat <Makefile -e | grep int > $MINI_OUT"
 < main.c cat <Makefile -e | grep int > "$BASH_OUT"
 runMinishell "$INPUT"
 check_file_content "$MINI_OUT" "$BASH_OUT"
-assertEqual "Redirection Multiple infiles"
+assertEqual "Multiple infiles"
 cleanUp
 
 INPUT="echo halla > "$MINI_OUT"1 > "$MINI_OUT"2 > "$MINI_OUT"3"
 echo halla > "$BASH_OUT"1 > "$BASH_OUT"2 > "$BASH_OUT"3
 runMinishell "$INPUT"
 check_multiple_files 3
-assertEqual "Redirection Multiple outfiles"
+assertEqual "Multiple outfiles"
 remove_multiple_files 3
 cleanUp
 
@@ -67,7 +67,7 @@ INPUT="< main.c cat -e <Makefile | grep int > "$MINI_OUT"1 > "$MINI_OUT"2 > "$MI
 < main.c cat -e <Makefile | grep int > "$BASH_OUT"1 > "$BASH_OUT"2 > "$BASH_OUT"3
 runMinishell "$INPUT"
 check_multiple_files 3
-assertEqual "Redirection Multiple in and outfiles"
+assertEqual "Multiple in and outfiles"
 remove_multiple_files 3
 cleanUp
 

@@ -36,7 +36,7 @@ void	replace_redirection_w_space(char **input, int len, int start)
 	}
 }
 
-int	count_consecutive_spaces(char *str)
+int	count_consecutive_spaces(const char *str)
 {
 	int	i;
 
