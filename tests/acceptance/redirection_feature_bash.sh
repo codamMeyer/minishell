@@ -13,12 +13,28 @@ function check_file_content ()
 	EXPECTED=$(cat "$2")
 }
 
+function check_multiple_files ()
+{
+	for (( c=1; c<=$1; c++ ))
+	do  
+	   check_file_content mini_"$c" bash_"$c"
+	done
+}
+
+function remove_multiple_files
+(
+	for (( c=1; c<=$1; c++ ))
+	do  
+	   rm -f mini_"$c" bash_"$c"
+	done
+)
+
 printTestName "Redirection"
 
-INPUT="echo first test > $MINI_REDIRECT_OUT"
-echo first test > "$BASH_REDIRECT_OUT"
+INPUT="echo first test > $MINI_OUT"1
+echo first test > "$BASH_OUT"1
 runMinishell "$INPUT"
-check_file_content "$MINI_REDIRECT_OUT" "$BASH_REDIRECT_OUT"
+check_file_content "$MINI_OUT"1 "$BASH_OUT"1
 assertEqual "Redirection basic"
 cleanUp
 

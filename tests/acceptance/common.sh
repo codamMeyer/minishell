@@ -7,8 +7,8 @@ NORMAL_COLOR="\033[0m"
 TMP_FILE="tmp.txt"
 MINISHELL_OUTPUT="output_minishell.txt"
 EXIT_CODE=0
-MINI_REDIRECT_OUT="mini_outfile"
-BASH_REDIRECT_OUT="bash_outfile"
+MINI_OUT="mini_"
+BASH_OUT="bash_"
 
 function printTestName ()
 {
@@ -77,8 +77,8 @@ function cleanUp ()
 {
     rm -f $TMP_FILE
     rm -f $MINISHELL_OUTPUT
-    rm -f $MINI_REDIRECT_OUT
-    rm -f $BASH_REDIRECT_OUT
+    rm -f "$MINI_OUT1"1
+    rm -f "$BASH_OUT"1
 }
 
 function removePrompt ()
