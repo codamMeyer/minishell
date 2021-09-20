@@ -1,11 +1,7 @@
 source ./tests/acceptance/common.sh
-
-# function to loop through file (num file)
-	# function check_that_file_exists
-	# check content
-# MINI_FILE_WITH_SPACES="\"mini      out    \""
-# FILE_TO_OPEN="mini\ \ \ \ \ \ out\ \ \ \\"
-# BASH_FILE_WITH_SPACES="bash      out    "
+	
+MINI_FILE_WITH_SPACES="mini      out    "
+BASH_FILE_WITH_SPACES="bash      out    "
 
 function check_file_content ()
 {
@@ -63,8 +59,8 @@ assertEqual "Multiple outfiles"
 remove_multiple_files 3
 cleanUp
 
-INPUT="< main.c cat -e <Makefile | grep int > "$MINI_OUT"1 > "$MINI_OUT"2 > "$MINI_OUT"3"
-< main.c cat -e <Makefile | grep int > "$BASH_OUT"1 > "$BASH_OUT"2 > "$BASH_OUT"3
+INPUT="< main.c cat -e <Makefile | grep > "$MINI_OUT"1 int > "$MINI_OUT"2 > "$MINI_OUT"3"
+< main.c cat -e <Makefile | grep > "$BASH_OUT"1 int  > "$BASH_OUT"2 > "$BASH_OUT"3
 runMinishell "$INPUT"
 check_multiple_files 3
 assertEqual "Multiple in and outfiles"
@@ -87,12 +83,13 @@ assertEqual "echo with outfiles in-between commands"
 remove_multiple_files 3
 cleanUp
 
-# INPUT="echo halla > "$MINI_FILE_WITH_SPACES""
-# echo halla > "$BASH_FILE_WITH_SPACES"
-# runMinishell "$INPUT"
-# check_file_content "$FILE_TO_OPEN" "$BASH_FILE_WITH_SPACES"
-# assertEqual "outfiles with spaces"
-# rm -f "$MINI_FILE_WITH_SPACES" "$BASH_FILE_WITH_SPACES" "$FILE_TO_OPEN"
-# cleanUp
+INPUT="echo halla > \""$MINI_FILE_WITH_SPACES"\""
+echo halla > "$BASH_FILE_WITH_SPACES"
+runMinishell "$INPUT"
+ACTUAL=$(cat "$MINI_FILE_WITH_SPACES")
+EXPECTED=$(cat "$BASH_FILE_WITH_SPACES")
+assertEqual 
+rm -f "$MINI_FILE_WITH_SPACES" "$BASH_FILE_WITH_SPACES"
+cleanUp
 
 exit $EXIT_CODE
