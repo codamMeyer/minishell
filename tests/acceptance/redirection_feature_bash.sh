@@ -1,3 +1,5 @@
+#!/bin/bash
+
 source ./tests/acceptance/common.sh
 	
 MINI_FILE_WITH_SPACES="mini      out    "
@@ -67,14 +69,6 @@ assertEqual "Multiple in and outfiles"
 remove_multiple_files 3
 cleanUp
 
-INPUT="cat -e >"$MINI_OUT"1 < main.c | <"$MINI_OUT"1 grep int > "$MINI_OUT"2"
-cat -e >"$BASH_OUT"1 < main.c | <"$BASH_OUT"1 grep int > "$BASH_OUT"2
-runMinishell "$INPUT"
-check_multiple_files 2
-assertEqual "Reading and outputting to multiple outfiles"
-remove_multiple_files 2
-cleanUp
-
 INPUT="echo Rhino >"$MINI_OUT"1 Saurus >"$MINI_OUT"2 Rex >"$MINI_OUT"3"
 echo Rhino >"$BASH_OUT"1 Saurus >"$BASH_OUT"2 Rex >"$BASH_OUT"3
 runMinishell "$INPUT"
@@ -91,5 +85,14 @@ EXPECTED=$(cat "$BASH_FILE_WITH_SPACES")
 assertEqual 
 rm -f "$MINI_FILE_WITH_SPACES" "$BASH_FILE_WITH_SPACES"
 cleanUp
+
+INPUT="echo Hallo >"$MINI_OUT"1 < main.c | <"$MINI_OUT"1 grep Hallo > "$MINI_OUT"2"
+echo Hallo >"$BASH_OUT"1 < main.c | <"$BASH_OUT"1 grep Hallo > "$BASH_OUT"2
+runMinishell "$INPUT"
+check_multiple_files 2
+assertEqual "Reading and outputting to multiple outfiles"
+remove_multiple_files 2
+cleanUp
+
 
 exit $EXIT_CODE
