@@ -7,6 +7,8 @@ NORMAL_COLOR="\033[0m"
 TMP_FILE="tmp.txt"
 MINISHELL_OUTPUT="output_minishell.txt"
 EXIT_CODE=0
+MINI_OUT="mini_"
+BASH_OUT="bash_"
 
 function printTestName ()
 {
@@ -75,9 +77,13 @@ function cleanUp ()
 {
     rm -f $TMP_FILE
     rm -f $MINISHELL_OUTPUT
+    rm -f "$MINI_OUT"
+    rm -f "$BASH_OUT"
 }
 
 function removePrompt ()
 {
-    sed -i "/-►/d" $1
+    if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+        sed -i "/-►/d" $1
+    fi
 }
