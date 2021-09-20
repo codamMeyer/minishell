@@ -43,11 +43,10 @@ int	get_file_name_and_length(char *buffer, char *input)
 		dup2()
 */
 
-void	handle_here_doc(char *delimeter, int *in_file)
+void	handle_here_doc(const char *delimeter, int *in_file)
 {
 	const char	path[] = "/tmp/minishell";
-	const char	*file_name = ft_strjoin(delimeter, path);
-	char	buffer[BUFFER_SIZE];
+	const char	*file_name = ft_strjoin(path, delimeter);
 	int			fd;
 	char		*line;
 
@@ -56,22 +55,20 @@ void	handle_here_doc(char *delimeter, int *in_file)
 		handle_errors(19, "here_doc");
 	while(1)
 	{
-		line = readline(&buffer[0]);
-		if (ft_strncmp(line, delimeter, ft_strlen(delimeter)) == 0 && ft_strlen(delimeter) == ft_strlen(line))
+		line = readline("> ");
+		if (ft_strlen(delimeter) == ft_strlen(line) && ft_strncmp(line, delimeter, ft_strlen(delimeter)) == 0)
 		{
 			free(line);
 			break ;
 		}
 		if (!line)
 			handle_errors(20, "heredoc line read");
-		write(fd, buffer, ft_strlen(line));
-		write(fd, "\n", 1);
+		ft_putendl_fd(line, fd);
 		free(line);
 	}
 	close(fd);
 	*in_file = open(file_name, O_RDONLY, 0664);
-	// unlink(filename)
-	// dup2()
+	unlink(file_name);
 }
 /*
 	Might still split this into diff functions
