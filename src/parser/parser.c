@@ -26,14 +26,12 @@ t_command	populate_command(const char **input_ptr)
 {
 	t_command	command;
 
-	printf("PARSING: %s\n", *input_ptr);
 	command.files = get_redirection((char **)input_ptr,
 			get_arg_len(*input_ptr, "|"));
 	command.code = get_command_code(input_ptr, &command);
 	command.arg.start = *input_ptr;
 	command.arg_len = get_arg_len(command.arg.start, "|");
 	command.arg.end = *input_ptr + command.arg_len;
-	printf("AFTERPARSING: %s\n", command.arg.end);
 	return (command);
 }
 

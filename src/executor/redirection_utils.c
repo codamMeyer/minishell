@@ -7,13 +7,11 @@ void	handle_stdin(int in_file, t_multi_pipes *pipes, int current_process)
 {
 	if (in_file != -1)
 	{
-		printf("SETTING INFILE\n");
 		set_stdin(in_file);
 		close(in_file);
 	}
 	else if (current_process != FIRST_PROCESS && in_file == -1)
 	{
-		printf("PIPING INPUT\n");
 		set_stdin(pipes->previous[READ_FD]);
 	}
 }
@@ -23,7 +21,6 @@ void	handle_stdout(int out_file, t_multi_pipes *pipes, int current_process,
 {
 	if (out_file != -1)
 	{
-		printf("CHANGING STDOUT\n");
 		set_stdout(out_file);
 		close(out_file);
 	}
