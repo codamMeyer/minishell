@@ -23,11 +23,14 @@ void	open_outfile(const char *file, int *out_file, t_bool should_append)
 		close(*out_file);
 	if (should_append == APPEND)
 	{
-		printf("opening!!!\n");
+		// printf("Openingn in Append mode!!!\n");
 		*out_file = open(file, O_RDWR | O_CREAT | O_APPEND, 0664);
 	}
 	else
+	{
+		// printf("Openingn in truncate mode!!!\n");
 		*out_file = open(file, O_RDWR | O_CREAT | O_TRUNC, 0664);
+	}
 	if (*out_file == INVALID_FD)
 	{
 		printf("Couldn't open in file: %s\n", file);

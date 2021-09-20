@@ -28,6 +28,7 @@ int	run_multi_processes(char *env[],
 	int				i;
 
 	i = 0;
+	printf("ENTERING EXECUTOR\n");
 	while (num_of_processes > 0 && i < num_of_processes)
 	{
 		process_id = create_new_process(&pipes);

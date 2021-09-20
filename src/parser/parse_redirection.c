@@ -75,9 +75,11 @@ t_files	get_redirection(char **input, const int string_to_parse_len)
 	{
 		redirect_id = get_redirect_id(&cursor[index - 1]);
 		if (redirect_id == APPEND || redirect_id == HERE_DOC)
-			index++;
+			index += 1;
 		length = open_file(&cursor[index], &fd, redirect_id);
-		replace_redirection_w_space(input, length + 1, index - 1);
+		if (redirect_id == APPEND || redirect_id == HERE_DOC)
+			index -= 1;
+		replace_redirection_w_space(input, length + 2, index - 1);
 		index += get_arg_len(&cursor[index], "><") + 1;
 	}
 	return (fd);
