@@ -7,6 +7,8 @@
 #include <parser/parse_redirection.h>
 #include <stdio.h>
 #include <fcntl.h>
+#include <readline/readline.h>
+#include <readline/history.h>
 
 /*
 	Assumes that string has been checked for quotes
@@ -31,6 +33,47 @@ int	get_file_name_and_length(char *buffer, char *input)
 }
 
 /*
+	HERE_DOC
+	fork
+		open_temporary file "/tmp/filenamekajdiabisbd" o_trunc
+			write to that file until delimiter is found
+		close
+		open again in readonly mode
+		unlink
+		dup2()
+*/
+
+void	handle_here_doc(char *delimeter, int *in_file)
+{
+	const char	path[] = "/tmp/minishell";
+	const char	*file_name = ft_strjoin(delimeter, path);
+	char	buffer[BUFFER_SIZE];
+	int			fd;
+	char		*line;
+
+	fd = open(file_name, O_RDWR | O_CREAT | O_APPEND, 0664);
+	if (fd == -1)
+		handle_errors(19, "here_doc");
+	while(1)
+	{
+		line = readline(&buffer[0]);
+		if (ft_strncmp(line, delimeter, ft_strlen(delimeter)) == 0 && ft_strlen(delimeter) == ft_strlen(line))
+		{
+			free(line);
+			break ;
+		}
+		if (!line)
+			handle_errors(20, "heredoc line read");
+		write(fd, buffer, ft_strlen(line));
+		write(fd, "\n", 1);
+		free(line);
+	}
+	close(fd);
+	*in_file = open(file_name, O_RDONLY, 0664);
+	// unlink(filename)
+	// dup2()
+}
+/*
 	Might still split this into diff functions
 */
 void	open_in_mode(const char *file, t_files *files, int mode_id)
@@ -39,6 +82,9 @@ void	open_in_mode(const char *file, t_files *files, int mode_id)
 		open_infile(file, &files->in);
 	else if (mode_id == RIGHT_ANGLE || mode_id == APPEND)
 		open_outfile(file, &files->out, mode_id);
+	else if (mode_id == HERE_DOC)
+		handle_here_doc(file, &files->in);
+
 }
 
 /*

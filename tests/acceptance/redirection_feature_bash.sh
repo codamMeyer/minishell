@@ -1,3 +1,4 @@
+#!/bin/bash
 source ./tests/acceptance/common.sh
 	
 MINI_FILE_WITH_SPACES="mini      out    "
