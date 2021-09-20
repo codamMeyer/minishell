@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        ::::::::            */
-/*   run_commands.c                                     :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: rmeiboom <marvin@codam.nl>                   +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2021/09/07 22:11:52 by rmeiboom      #+#    #+#                 */
-/*   Updated: 2021/09/07 22:11:53 by rmeiboom      ########   odam.nl         */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "run_commands.h"
 #include <string.h>
 #include <stdio.h>
@@ -29,6 +17,8 @@ void	create_table(t_command commands[], char *arg, char *path)
 /*
 	Creates a process for each command 
 	Important check that all fd's are closed at the end
+	Important!!! Check that there are more than one 
+	processes when creating pipes
 */
 int	run_multi_processes(char *env[],
 	t_command commands[], int num_of_processes)
@@ -44,7 +34,7 @@ int	run_multi_processes(char *env[],
 		if (process_id == CHILD_PROCESS)
 		{
 			redirect_in_and_output(&pipes, i, num_of_processes,
-				&commands[i].files);
+				&commands[i]);
 			exit(dispatch_command(&commands[i], env));
 		}
 		if (i != FIRST_PROCESS)
@@ -56,18 +46,33 @@ int	run_multi_processes(char *env[],
 	return (SUCCESS);
 }
 
-t_bool	is_single_command(int num_of_cmds, t_command_code command_code)
+static t_bool	is_env_command(t_command_code code)
 {
-	return (num_of_cmds == 1 && command_code != SYSTEM);
+	return (code == EXPORT || code == UNSET || code == ENV);
 }
 
+t_bool	is_single_command(int num_of_cmds, t_command_code code)
+{
+	return (num_of_cmds == 1 && (code == EXIT || is_env_command(code)));
+}
+
+/*
+	add redirection for single command
+	if file doesn't exist, exit command immediately
+	IMPORTANT! check when dispatching only one command
+*/
 int	run_commands(t_command commands[],
 				int num_of_commands, char *env[])
 {
 	if (is_single_command(num_of_commands, commands[0].code))
+	{
+		redirect_in_and_output(NULL, 0, 0, &commands[0]);
 		dispatch_command(&commands[0], env);
+	}
 	else
+	{
 		run_multi_processes(env, commands, num_of_commands);
-	wait_for_all_processes(num_of_commands);
+		wait_for_all_processes(num_of_commands);
+	}
 	return (1);
 }

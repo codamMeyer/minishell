@@ -26,18 +26,15 @@ t_command	populate_command(const char **input_ptr)
 {
 	t_command	command;
 
-	command.files = get_redirection(input_ptr);
+	command.files = get_redirection((char **)input_ptr,
+			get_arg_len(*input_ptr, "|"));
 	command.code = get_command_code(input_ptr, &command);
 	command.arg.start = *input_ptr;
-	command.arg_len = get_arg_len(command.arg.start);
+	command.arg_len = get_arg_len(command.arg.start, REDIRECTION_CHARS);
 	command.arg.end = *input_ptr + command.arg_len;
 	return (command);
 }
 
-/* 
-	if invalid command, should still continue parsing
-	Check for multiple in out files, can be before or after the command
-*/
 int	populate_commands_table(const char *input, t_command commands_table[])
 {
 	const char	*input_line = input;
@@ -52,8 +49,6 @@ int	populate_commands_table(const char *input, t_command commands_table[])
 		commands_table[i] = populate_command(&input_line);
 		input_line += commands_table[i].arg_len;
 		skip_spaces(&input_line);
-		if (*input_line == RIGHT_ANGLE)
-			get_in_out_file(&input_line, RIGHT_ANGLE, &commands_table[i].files);
 		++i;
 	}
 	return (i);

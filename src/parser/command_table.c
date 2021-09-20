@@ -73,14 +73,14 @@ t_bool	is_between_quotes(const char *input, int reserved_char_index)
 	return (FALSE);
 }
 
-int	get_arg_len(const char *start)
+int	get_arg_len(const char *start, const char *set)
 {
 	char	*redirection_position;
 	int		redirection_index;
 	int		start_index;
 
 	start_index = 0;
-	redirection_position = get_redirection_position(REDIRECTION_CHARS,
+	redirection_position = get_redirection_position(set,
 			(char *)start);
 	while (redirection_position && start[start_index] != '\0')
 	{
@@ -88,7 +88,7 @@ int	get_arg_len(const char *start)
 		if (!is_between_quotes(start, redirection_index))
 			return (redirection_index);
 		start_index += redirection_index + 1;
-		redirection_position = get_redirection_position(REDIRECTION_CHARS,
+		redirection_position = get_redirection_position(set,
 				(char *)&start[start_index]);
 	}
 	return (ft_strlen(start));

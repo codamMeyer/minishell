@@ -4,6 +4,7 @@
 # define WHITESSPACE " \t"
 # define N_FLAG "-n"
 # define REDIRECTION_CHARS "<>|" 
+# define SPECIALS "<>| \0" 
 
 # include <defines.h>
 
@@ -26,17 +27,17 @@ typedef struct s_arg
 
 typedef struct s_files
 {
-	const char		*out;
-	const char		*in;
+	int	out;
+	int	in;
 }	t_files;
 
 typedef struct s_command
 {
 	t_command_code	code;
 	t_arg			arg;
+	t_files			files;
 	int				arg_len;
 	const char		*exe_path;
-	t_files			files;
 }	t_command;
 
 typedef void	(*t_output_stdout)(const char *);

@@ -37,6 +37,8 @@ MINISHELL_SRC= 							\
 	src/parser/dispatcher.c				\
 	src/parser/get_executable_path.c	\
 	src/parser/parse_redirection.c		\
+	src/parser/parse_redirect_utils.c	\
+	src/parser/file_utils.c				\
 	src/commands/exit_command.c			\
 	src/commands/echo_command.c			\
 	src/commands/echo_utils.c			\
@@ -58,6 +60,7 @@ TEST_FILES=								\
 	tests/redirection_tests.c			\
 	tests/pipe_test.c					\
 	tests/env_api_test.c				\
+	tests/redirection_tests.c			\
 
 MINISHELL_OBJS=$(MINISHELL_SRC:.c=.o)
 
