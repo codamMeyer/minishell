@@ -1,105 +1,146 @@
 #include <commands/commands.h>
+#include <defines.h>
 #include <parser/command_table.h>
 #include <stdlib.h>
 #include <../libft/libft.h>
 #include <parser/parser.h>
 #include <parser/parse_redirection.h>
 #include "ctest.h"
+#include <fcntl.h>
 
-t_files files;
-
-CTEST(redirection_tests, basic_infile)
+CTEST(create_files, create_test_files)
 {
-	const char	*str = "   < infile cat -e";
-	char		buffer[4096];
-
-	init_files(&files);
-	files = get_redirection(&str);
-	ft_strlcpy(buffer, files.in, get_cmd_len(files.in) + 1);
-	ASSERT_STR("infile", buffer);
-	ASSERT_STR(" cat -e", str);
+    char no_implicit_quotes[] = "      test_file     ";
+    int test_fd = open(&no_implicit_quotes[0], O_RDWR | O_CREAT | O_TRUNC, 0664);
+    close(test_fd);
+    test_fd = open("test_file",  O_RDWR | O_CREAT | O_TRUNC, 0664);
 }
 
-CTEST(redirection_tests, basic_outfile)
+CTEST(spaces_test, empty_str)
 {
-	const char	*str = " > outfile | next cmd";
-	char		buffer[4096];
-	
-	init_files(&files);
-	files = get_redirection(&str);
-	ft_strlcpy(buffer, files.out, get_cmd_len(files.out) + 1);
-	ASSERT_STR("outfile", buffer);
-	ASSERT_STR(" | next cmd", str);
+    ASSERT_EQUAL(0, count_consecutive_spaces(""));
 }
 
-CTEST_DATA(command_table_redirection_tests)
+CTEST(spaces_test, spaced_str)
 {
-    t_command command_table[100];
-};
+    ASSERT_EQUAL(4, count_consecutive_spaces("    "));
+    ASSERT_EQUAL(4, count_consecutive_spaces("    cmd"));
 
-CTEST_SETUP(command_table_redirection_tests)
-{
-    (void)data;
-};
-
-CTEST_TEARDOWN(command_table_redirection_tests)
-{
-    (void)data;
-};
-
-CTEST2(command_table_redirection_tests, one_command_echo)
-{
-    const char *input = "echo Hello you this is a test";
-    ASSERT_EQUAL(1, populate_commands_table(input, data->command_table));
-    ASSERT_EQUAL(ECHO, data->command_table[0].code);
-    ASSERT_STR(" Hello you this is a test", data->command_table[0].arg.start);
 }
 
-
-CTEST2(command_table_redirection_tests, basic_in_and_outfile_one_command)
+CTEST(replace_with_whitespace, basic_test)
 {
-	const char	*input = "< infile pwd > outfile";
-	char		in_buffer[400];
-	char		out_buffer[400];
-	
-	ASSERT_EQUAL(1, populate_commands_table(input, data->command_table));
-	ASSERT_EQUAL(PWD, data->command_table[0].code);
-	ft_strlcpy(in_buffer, data->command_table[0].files.in, get_cmd_len(data->command_table[0].files.in) + 1);
-	ft_strlcpy(out_buffer, data->command_table[0].files.out, get_cmd_len(data->command_table[0].files.out) + 1);
-	ASSERT_STR("infile", in_buffer);
-	ASSERT_STR("outfile", out_buffer);
+    char *str = ft_strdup("remove thisSuccess!");
+    char exp[] = "           Success!";
+    replace_redirection_w_space(&str, 11, 0);
+    ASSERT_STR(exp, str);
+    free(str);
 }
 
-CTEST2(command_table_redirection_tests, basic_in_and_outfile_two_commands)
+CTEST(file_name_tests, basic_file_name)
 {
-	const char	*input = "< infile pwd | cat -e > outfile";
-	char		in_buffer[400];
-	char		out_buffer[400];
-	
-	ASSERT_EQUAL(2, populate_commands_table(input, data->command_table));
-	ASSERT_EQUAL(PWD, data->command_table[0].code);
-	ASSERT_EQUAL(SYSTEM, data->command_table[1].code);
-	ASSERT_NULL(data->command_table[0].files.out);
-	ASSERT_NULL(data->command_table[1].files.in);
-	ft_strlcpy(in_buffer, data->command_table[0].files.in, get_cmd_len(data->command_table[0].files.in) + 1);
-	ft_strlcpy(out_buffer, data->command_table[1].files.out, get_cmd_len(data->command_table[1].files.out) + 1);
-	ASSERT_STR("infile", in_buffer);
-	ASSERT_STR("outfile", out_buffer);
+    char buffer[BUFFER_SIZE];
+    char file_name[] = "test_file";
+    ASSERT_EQUAL(ft_strlen(&file_name[0]), get_file_name_and_length(&buffer[0], file_name));
+    ASSERT_STR(file_name, buffer);
 }
 
-CTEST2(command_table_redirection_tests, multiple_commands_and_infiles)
+CTEST(file_name_tests, file_name_with_spaces)
 {
-	const char	*input = "< file1 pwd | < file2 cat -e > outfile";
-	char		in_buffer[400];
-	char		out_buffer[400];
-	
-	ASSERT_EQUAL(2, populate_commands_table(input, data->command_table));
-	ASSERT_EQUAL(PWD, data->command_table[0].code);
-	ASSERT_NULL(data->command_table[0].files.out);
-	ft_strlcpy(in_buffer, data->command_table[0].files.in, get_cmd_len(data->command_table[0].files.in) + 1);
-	ASSERT_STR("file1", in_buffer);
-	ft_strlcpy(in_buffer, data->command_table[1].files.in, get_cmd_len(data->command_table[1].files.in) + 1);
-	ft_strlcpy(out_buffer, data->command_table[1].files.out, get_cmd_len(data->command_table[1].files.out) + 1);
-	ASSERT_STR("file2", in_buffer);
-	ASSERT_STR("outfile", out_buffer);
+    char buffer[BUFFER_SIZE];
+    char file_name[] = "\"      test_file      \"";
+    ASSERT_EQUAL(ft_strlen(&file_name[0]), get_file_name_and_length(&buffer[0], file_name));
+    ASSERT_STR("      test_file      ", buffer);
+}
+
+CTEST(file_name_tests, file_name_with_next_command)
+{
+    char buffer[BUFFER_SIZE];
+    char file_name[] = "test_file | applesauces";
+    ASSERT_EQUAL(9, get_file_name_and_length(&buffer[0], file_name));
+    ASSERT_STR("test_file", buffer);
+}
+
+CTEST(file_name_tests, file_name_with_spaces_and_quotes)
+{
+    char buffer[BUFFER_SIZE];
+    char file_name[] = "\"      test_file\"| applesauces";
+    ASSERT_EQUAL(ft_strlen("      test_file") + 2, get_file_name_and_length(&buffer[0], file_name));
+    ASSERT_STR("      test_file", buffer);
+}
+
+CTEST(handle_infile, basic_infile)
+{
+    char input[] = "test_file";
+    t_files  fd;
+
+    fd.in = -1;
+    ASSERT_EQUAL(ft_strlen(input), open_file(&input[0], &fd, LEFT_ANGLE));
+    ASSERT_NOT_EQUAL(-1, fd.in);
+    close(fd.in);
+}
+
+CTEST(handle_infile, infile_with_space_no_quotes)
+{
+    char input[] = "      test_file";
+     t_files  fd;
+
+    fd.in = -1;
+    ASSERT_EQUAL(ft_strlen(input), open_file(&input[0], &fd, LEFT_ANGLE));
+    ASSERT_NOT_EQUAL(-1, fd.in);
+    close(fd.in);
+}
+
+CTEST(handle_infile, infile_with_space_and_quotes)
+{
+    char input[] = "\"      test_file     \"";
+    char no_implicit_quotes[] = "      test_file     ";
+    int test_fd = open(&no_implicit_quotes[0], O_RDWR | O_CREAT | O_TRUNC, 0664);
+    close(test_fd);
+     t_files  fd;
+
+    fd.in = -1;
+    ASSERT_EQUAL(ft_strlen(input), open_file(&input[0], &fd, LEFT_ANGLE));
+    ASSERT_NOT_EQUAL(-1, fd.in);
+    close(fd.in);
+    system("rm  \"      test_file     \"");
+}
+
+CTEST(get_fds, operations_test)
+{
+    char *str = ft_strdup(" test_file echo halla | cat -e");
+    t_files fd;
+
+    int result = open_file((char*)str, &fd, '<');
+    ASSERT_EQUAL(ft_strlen(" test_file"), result);
+    ASSERT_NOT_EQUAL(-1, fd.in);
+    free(str);
+}
+
+CTEST(redirection_test, basic_infile)
+{
+    char *str = ft_strdup("echo < test_file | cat -e");
+    const char *expected=("echo             | cat -e");
+    t_files files;
+
+    files = get_redirection(&str, get_arg_len("echo < test_file | cat -e", "|"));
+    ASSERT_NOT_EQUAL(-1, files.in);
+    ASSERT_STR(expected, str);
+    free(str);
+    system("rm test_file");
+}
+
+CTEST(redirection_test, infile_inside_command_argument)
+{
+    int test_fd = open("test_file",  O_RDWR | O_CREAT | O_TRUNC, 0664);
+    close(test_fd);
+    char *str = ft_strdup("echo halla <test_file everybody");
+    const char *expected=("echo halla            everybody");
+    t_files files;
+
+    files = get_redirection(&str, get_arg_len("echo halla <test_file everybody", "|"));
+    ASSERT_NOT_EQUAL(-1, files.in);
+    ASSERT_STR(expected, str);
+    free(str);
+    system("rm test_file");
 }

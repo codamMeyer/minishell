@@ -1,18 +1,29 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        ::::::::            */
-/*   redirection_utils.c                                :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: rmeiboom <marvin@codam.nl>                   +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2021/09/07 22:11:42 by rmeiboom      #+#    #+#                 */
-/*   Updated: 2021/09/07 22:11:43 by rmeiboom      ########   odam.nl         */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include <executor/run_commands.h>
 #include <parser/command_table.h>
 #include <../libft/libft.h>
+
+void	handle_stdin(int in_file, t_multi_pipes *pipes, int current_process)
+{
+	if (in_file != -1)
+	{
+		set_stdin(in_file);
+		close(in_file);
+	}
+	else if (current_process != FIRST_PROCESS && in_file == -1)
+		set_stdin(pipes->previous[READ_FD]);
+}
+
+void	handle_stdout(int out_file, t_multi_pipes *pipes, int current_process,
+	int last_process)
+{
+	if (out_file != -1)
+	{
+		set_stdout(out_file);
+		close(out_file);
+	}
+	else if (current_process != last_process - 1 && out_file == -1)
+		set_stdout(pipes->current[WRITE_FD]);
+}
 
 void	previous_to_current_pipe(t_multi_pipes *pipes)
 {
@@ -30,11 +41,4 @@ void	set_stdin(int new_std_in)
 {
 	if (dup2(new_std_in, STDIN_FILENO) == SYS_ERROR)
 		handle_errors(9, "redirect, setting child input");
-}
-
-void	get_file_name(char *dst_buffer, const char *src)
-{
-	const int	file_name_len = get_cmd_len(src);
-
-	ft_strlcpy(dst_buffer, src, file_name_len + 1);
 }

@@ -37,7 +37,7 @@ char	*get_redirection_position(const char *set, char *str_to_check)
 	int	i;
 
 	i = 0;
-	while (str_to_check[i])
+	while (str_to_check && str_to_check[i])
 	{
 		if (ft_strchr(set, str_to_check[i]))
 			return (&str_to_check[i]);

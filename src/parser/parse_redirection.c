@@ -1,45 +1,82 @@
 #include <commands/commands.h>
 #include <parser/command_table.h>
+#include <executor/executor_utils.h>
 #include <stdlib.h>
 #include <../libft/libft.h>
 #include <parser/parser.h>
+#include <parser/parse_redirection.h>
 #include <stdio.h>
+#include <fcntl.h>
 
-void	init_files(t_files *files)
+/*
+	Assumes that string has been checked for quotes
+*/
+int	get_file_name_and_length(char *buffer, char *input)
 {
-	files->in = NULL;
-	files->out = NULL;
+	const int	file_name_len = get_arg_len(input, SPECIALS);
+	int			len_to_cpy;
+	char		*cursor;
+
+	ft_bzero(&buffer[0], BUFFER_SIZE);
+	cursor = input;
+	if (*cursor == DOUBLE_QUOTES)
+	{
+		++(cursor);
+		len_to_cpy = file_name_len - 2;
+	}
+	else
+		len_to_cpy = file_name_len;
+	ft_strlcpy(&buffer[0], cursor, len_to_cpy + 1);
+	return (file_name_len);
 }
 
 /*
-	Points to files name and consumes that part of the user input string
+	Might still split this into diff functions
 */
-void	get_in_out_file(const char **input_ptr, const char id, t_files *files)
+void	open_in_mode(const char *file, t_files *files, int mode_id)
 {
-	++(*input_ptr);
-	skip_spaces(input_ptr);
-	if (id == LEFT_ANGLE)
-		files->in = *input_ptr;
-	else if (id == RIGHT_ANGLE)
-		files->out = *input_ptr;
-	*input_ptr += get_cmd_len(*input_ptr);
+	if (mode_id == LEFT_ANGLE)
+		open_infile(file, &files->in);
+	else if (mode_id == RIGHT_ANGLE)
+		open_outfile(file, &files->out, mode_id);
 }
 
 /*
-	Creates a struct with two char pointers to the name of the files.
-	TODO: Check if file is valid with fstat
-	< infile cmd1 < infile2
-	if multiple infile, take the last one
-	if any of the multiple infiles is invalid, point to the invalid file.
-	check <>, >< filename
+	i keeps trtack of how many chars need to be
+	replaced by spaces
 */
-t_files	get_redirection(const char **input_ptr)
+int	open_file(char *file_name_ptr, t_files *files, int redirection_id)
 {
-	t_files	files;
+	char	buffer[BUFFER_SIZE];
+	int		i;
 
-	init_files(&files);
-	skip_spaces(input_ptr);
-	if (**input_ptr == LEFT_ANGLE || **input_ptr == RIGHT_ANGLE)
-		get_in_out_file(input_ptr, **input_ptr, &files);
-	return (files);
+	i = count_consecutive_spaces(file_name_ptr);
+	i += get_file_name_and_length(&buffer[0], &file_name_ptr[i]);
+	open_in_mode((const char *)buffer, files, redirection_id);
+	return (i);
+}
+
+/*
+	return t_files which have an int for the in and out fd's respectively
+*/
+t_files	get_redirection(char **input, const int string_to_parse_len)
+{
+	int		index;
+	int		length;
+	int		char_id;
+	t_files	fd;
+	char	*cursor;
+
+	fd.in = INVALID_FD;
+	fd.out = INVALID_FD;
+	cursor = *input;
+	index = get_arg_len(&cursor[0], "><") + 1;
+	while (index < string_to_parse_len)
+	{
+		char_id = cursor[index - 1];
+		length = open_file(&cursor[index], &fd, char_id);
+		replace_redirection_w_space(input, length + 1, index - 1);
+		index += get_arg_len(&cursor[index], "><") + 1;
+	}
+	return (fd);
 }

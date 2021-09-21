@@ -21,18 +21,18 @@ t_bool	export(t_env *env, const char *key_value_str)
 
 void	unset(t_env *env, const char *key)
 {
-	int	name_len;
+	int	key_len;
 	int	i;
 
 	if (!env)
 		return ;
 	i = 0;
-	name_len = 0;
-	while (!isspace(key[name_len]))
-		++name_len;
+	key_len = 0;
+	while (!isspace(key[key_len]))
+		++key_len;
 	while (i < ENV_SIZE)
 	{
-		if (env[i].key && ft_strncmp(env[i].key, key, name_len) == 0)
+		if (env[i].key && ft_strncmp(env[i].key, key, key_len) == 0)
 		{
 			free_key_value_pair(&env[i]);
 			break ;
@@ -63,16 +63,16 @@ void	display_env(t_env *env, t_output_stdout output)
 
 t_env	*find_variable(t_env *env, const char *key)
 {
-	const size_t	name_len = get_key_len(key);
+	const size_t	key_len = get_key_len(key);
 	int				i;
 
-	if (!env || !name_len)
+	if (!env || !key_len)
 		return (NULL);
 	i = 0;
 	while (i < ENV_SIZE)
 	{
-		if (env[i].key && ft_strlen(env[i].key) == name_len
-			&& ft_strncmp(env[i].key, key, name_len) == 0)
+		if (env[i].key && ft_strlen(env[i].key) == key_len
+			&& ft_strncmp(env[i].key, key, key_len) == 0)
 			return (&env[i]);
 		++i;
 	}

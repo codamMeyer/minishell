@@ -3,6 +3,6 @@
 # include <defines.h>
 
 int		get_key_len(const char *key);
-t_bool	is_variable(char cur);
+t_bool	is_env_variable(const char *str);
 
 #endif
