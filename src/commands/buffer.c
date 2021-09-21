@@ -2,6 +2,7 @@
 #include <libft.h>
 #include <env/environment.h>
 #include <env/env_utils.h>
+#include <commands/quotes.h>
 
 void	init_buffer(t_buffer *buffer)
 {
@@ -17,11 +18,11 @@ t_arg	append_char_to_buffer(t_arg arg, t_buffer *buffer)
 	return (arg);
 }
 
-void	append_value_to_buffer(t_arg *echo_arg, t_buffer *buffer)
+void	append_env_value_to_buffer(t_arg *echo_arg, t_buffer *buffer)
 {
-	t_env	*var;
-	int		key_len;
-	int		value_len;
+	t_env			*var;
+	int				key_len;
+	int				value_len;
 
 	++(echo_arg->start);
 	value_len = 0;

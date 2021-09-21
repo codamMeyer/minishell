@@ -11,6 +11,6 @@ typedef struct s_buffer
 
 void	init_buffer(t_buffer *buffer);
 t_arg	append_char_to_buffer(t_arg arg, t_buffer *buffer);
-void	append_value_to_buffer(t_arg *echo_arg, t_buffer *buffer);
+void	append_env_value_to_buffer(t_arg *echo_arg, t_buffer *buffer);
 
 #endif

@@ -11,7 +11,7 @@
 #include <commands/buffer.h>
 #include <env/env_utils.h>
 
-void	handle_spaces(t_arg *echo_arg, t_buffer *buffer)
+static void	handle_spaces(t_arg *echo_arg, t_buffer *buffer)
 {
 	if (isspace(*echo_arg->start) && buffer->index)
 	{
@@ -32,8 +32,8 @@ t_arg	parse_str_without_quotes(t_arg echo_arg, t_buffer *buffer)
 	{
 		if (isspace(cur))
 			trim_extra_spaces_between_words(&echo_arg, buffer);
-		else if (is_variable(cur))
-			append_value_to_buffer(&echo_arg, buffer);
+		else if (is_env_variable(echo_arg.start))
+			append_env_value_to_buffer(&echo_arg, buffer);
 		else
 			echo_arg = append_char_to_buffer(echo_arg, buffer);
 		cur = *echo_arg.start;
