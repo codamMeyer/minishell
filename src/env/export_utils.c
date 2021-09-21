@@ -1,4 +1,5 @@
 #include <env/environment.h>
+#include <env/env_utils.h>
 #include <commands/echo_utils.h>
 #include <commands/quotes.h>
 #include <ctype.h>
@@ -51,21 +52,33 @@ t_bool	handle_quoted_value(const char *value, char *buffer)
 
 t_bool	handle_unquoted_value(const char *value, char *buffer)
 {
-	char	cur;
-	int		value_len;
+	int		i;
+	int		buf_i;
+	t_env	*env_var;
 
-	value_len = 0;
-	cur = *value;
-	while (cur && !isspace(cur))
+	i = 0;
+	buf_i = 0;
+	ft_bzero(buffer, BUFFER_SIZE);
+	while (value[i] && !isspace(value[i]))
 	{
-		++value_len;
-		cur = value[value_len];
+		if (is_env_variable(&value[i]))
+		{
+			++i;
+			env_var = find_variable(get_environment(), &value[i]);
+			i += get_key_len(&value[i]);
+			if (env_var)
+			{
+				ft_memcpy(&buffer[buf_i], env_var->value, ft_strlen(env_var->value));
+				buf_i += ft_strlen(env_var->value);
+			}
+		}
+		else
+		{
+			buffer[buf_i] = value[i];
+			++i;
+			++buf_i;
+		}
 	}
-	ft_bzero(buffer, 4096);
-	if (value_len == 0)
-		return (TRUE);
-	if (!ft_memcpy(&buffer[0], value, value_len))
-		return (FALSE);
 	return (TRUE);
 }
 

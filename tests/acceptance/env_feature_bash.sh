@@ -29,6 +29,15 @@ export SECOND_VAR="Testing     with     quotes     $USER"
 EXPECTED=$(env | grep SECOND_VAR)
 assertEqual "EXPORT with quotes"
 
+
+INPUT='export SECOND_VAR=testing$USER$USER'
+runMinishell "$INPUT\nenv | grep SECOND_VAR"
+removePrompt $MINISHELL_OUTPUT
+ACTUAL=$(cat $MINISHELL_OUTPUT)
+export SECOND_VAR=testing$USER$USER
+EXPECTED=$(env | grep SECOND_VAR)
+assertEqual "EXPORT env var"
+
 INPUT="unset SECOND_VAR"
 runMinishell "$INPUT\nenv | grep SECOND_VAR"
 removePrompt $MINISHELL_OUTPUT
