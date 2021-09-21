@@ -46,10 +46,6 @@ t_bool	handle_quoted_value(const char *value, char *buffer)
 	return (TRUE);
 }
 
-/*
-	unquoted string should get value of env var
-*/
-
 t_bool	handle_unquoted_value(const char *value, char *buffer)
 {
 	int		i;

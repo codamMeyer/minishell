@@ -15,10 +15,13 @@ static void	handle_spaces(t_arg *echo_arg, t_buffer *buffer)
 {
 	if (isspace(*echo_arg->start) && buffer->index)
 	{
-		buffer->buf[buffer->index] = SPACE;
-		++(buffer->index);
+		skip_spaces(&echo_arg->start);
+		if (echo_arg->start != echo_arg->end)
+		{	
+			buffer->buf[buffer->index] = SPACE;
+			++(buffer->index);
+		}
 	}
-	skip_spaces(&echo_arg->start);
 }
 
 t_arg	parse_str_without_quotes(t_arg echo_arg, t_buffer *buffer)
