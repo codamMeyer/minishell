@@ -85,17 +85,17 @@ t_files	get_redirection(char **input, const int string_to_parse_len)
 	fd.in = INVALID_FD;
 	fd.out = INVALID_FD;
 	cursor = *input;
-	index = get_arg_len(&cursor[0], "><") + 1;
+	index = get_arg_len(&cursor[0], "><");
 	while (index < string_to_parse_len)
 	{
-		redirect_id = get_redirect_id(&cursor[index - 1]);
+		redirect_id = get_redirect_id(&cursor[index]);
 		if (redirect_id == FT_APPEND || redirect_id == HERE_DOC)
 			index += 1;
-		length = open_file(&cursor[index], &fd, redirect_id);
+		length = open_file(&cursor[index + 1], &fd, redirect_id);
 		if (redirect_id == FT_APPEND || redirect_id == HERE_DOC)
 			index -= 1;
-		replace_redirection_w_space(input, length + 2, index - 1);
-		index += get_arg_len(&cursor[index], "><") + 1;
+		replace_redirection_w_space(input, length + 2, index);
+		index += get_arg_len(&cursor[index], "><");
 	}
 	return (fd);
 }

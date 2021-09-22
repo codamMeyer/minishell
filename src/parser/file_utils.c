@@ -31,29 +31,3 @@ void	open_outfile(const char *file, int *out_file, int out_mode)
 		exit(1);
 	}
 }
-
-// t_files	get_redirection(char **input, const int string_to_parse_len)
-// {
-// 	int		index;
-// 	int		length;
-// 	int		redirect_id;
-// 	t_files	fd;
-// 	char	*cursor;
-
-// 	fd.in = INVALID_FD;
-// 	fd.out = INVALID_FD;
-// 	cursor = *input;
-// 	index = get_arg_len(&cursor[0], "><") + 1;
-// 	while (index < string_to_parse_len)
-// 	{
-// 		redirect_id = get_redirect_id(&cursor[index - 1]);
-// 		if (redirect_id == FT_APPEND || redirect_id == HERE_DOC)
-// 			index += 1;
-// 		length = open_file(&cursor[index], &fd, redirect_id);
-// 		if (redirect_id == FT_APPEND || redirect_id == HERE_DOC)
-// 			index -= 1;
-// 		replace_redirection_w_space(input, length + 2, index - 1);
-// 		index += get_arg_len(&cursor[index], "><") + 1;
-// 	}
-// 	return (fd);
-// }
