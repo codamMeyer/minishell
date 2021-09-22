@@ -63,7 +63,7 @@ function displayFailureMessage ()
 
 function assertEqual ()
 {
-    displayTitle "$1"
+    displayTitle "$1 "
     if [[ "$EXPECTED" == "$ACTUAL" ]]; then
         displaySuccessMessage
     else

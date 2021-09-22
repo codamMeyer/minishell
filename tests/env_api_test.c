@@ -175,7 +175,6 @@ CTEST2(environment, find_value_with_name_almost_equal)
     
     for (int i = 0; i < 4; ++i)
         ASSERT_TRUE(export(data->env, pairs[i]));
-
     ASSERT_NULL(find_variable(data->env, "TEST"));
 }
 
