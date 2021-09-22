@@ -40,7 +40,7 @@ void	execute_system_command(const t_command *command, char *env[])
 	char		buffer[4096];
 
 	ft_strlcpy(&buffer[0], command->arg.start, command->arg_len + 1);
-	cmd = ft_split(&buffer[0], SPACE);
+	cmd = ft_split(&buffer[0], SPACE_CHAR);
 	if (!cmd)
 		handle_errors(3, "child, invalid command");
 	if (execute_command(command->exe_path, cmd, env) == SYS_ERROR)

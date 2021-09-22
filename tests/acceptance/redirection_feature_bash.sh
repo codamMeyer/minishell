@@ -1,8 +1,4 @@
 #!/bin/bash
-<<<<<<< HEAD
-=======
-
->>>>>>> 3f02166e1507fb8330dd6295598e9b9ef356be44
 source ./tests/acceptance/common.sh
 	
 MINI_FILE_WITH_SPACES="mini      out    "

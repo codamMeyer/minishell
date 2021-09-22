@@ -18,7 +18,7 @@ void	check_cmd_str_validity(char *cmd_str)
 			while (cmd_str[i] && cmd_str[i] != DOUBLE_QUOTES)
 				i++;
 		}
-		if (i > 0 && cmd_str[i + 1] == RIGHT_ANGLE && cmd_str[i] != SPACE)
+		if (i > 0 && cmd_str[i + 1] == RIGHT_ANGLE && cmd_str[i] != SPACE_CHAR)
 			handle_errors(16, "Syntax error in checker for outfile");
 		i++;
 	}
@@ -31,7 +31,7 @@ void	replace_redirection_w_space(char **input, int len, int start)
 	i = 0;
 	while (i < len)
 	{
-		(*input)[start + i] = SPACE;
+		(*input)[start + i] = SPACE_CHAR;
 		++i;
 	}
 }
@@ -41,7 +41,7 @@ int	count_consecutive_spaces(const char *str)
 	int	i;
 
 	i = 0;
-	while (str && str[i] && str[i] == SPACE)
+	while (str && str[i] && str[i] == SPACE_CHAR)
 		i++;
 	return (i);
 }

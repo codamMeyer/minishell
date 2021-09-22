@@ -15,7 +15,7 @@ static void	handle_spaces(t_arg *echo_arg, t_buffer *buffer)
 {
 	if (isspace(*echo_arg->start) && buffer->index)
 	{
-		buffer->buf[buffer->index] = SPACE;
+		buffer->buf[buffer->index] = SPACE_CHAR;
 		++(buffer->index);
 	}
 	skip_spaces(&echo_arg->start);

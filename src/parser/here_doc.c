@@ -1,6 +1,6 @@
 #include <readline/readline.h>
 #include <readline/history.h>
-// #include <executor/executor_utils.h>
+#include <executor/executor_utils.h>
 #include <parser/parse_redirection.h>
 #include <fcntl.h>
 #include <stdlib.h>
@@ -31,7 +31,7 @@ static int	append_line_to_heredoc(char *line,
 		const char *delimeter, int fd)
 {
 	if (!line)
-		printf("ERROR! append_line heredoc line read\n");
+		handle_errors(20, "heredoc line read");
 	if (is_valid_delimeter(delimeter, line))
 		return (ERROR);
 	ft_putendl_fd(line, fd);
@@ -47,9 +47,6 @@ void	cleanup_here_doc(char *line, int fd)
 /*
 	syntax checker responsible for assuring that this is only entered
 	when ere is a valid here_doc token
-	The printf statements are for handeling errors, atm tey are define in the
-	same h file as the SPAC definition, which causes conflict in
-	the readline.h file
 */
 int	handle_here_doc(const char *delimeter)
 {
@@ -60,7 +57,7 @@ int	handle_here_doc(const char *delimeter)
 	get_file_name(&file_name[0], delimeter);
 	fd = open(file_name, O_RDWR | O_CREAT | O_APPEND, 0664);
 	if (fd == INVALID_FD)
-		printf("ERROR! Heredoc, line 60\n ");
+		handle_errors(19, "here_doc");
 	while (1)
 	{
 		line = readline("> ");
@@ -71,7 +68,7 @@ int	handle_here_doc(const char *delimeter)
 	cleanup_here_doc(line, fd);
 	fd = open(file_name, O_RDONLY, 0664);
 	if (fd == INVALID_FD)
-		printf("ERROR! Heredoc line 71\n");
+		handle_errors(19, "here_doc");
 	unlink(file_name);
 	return (fd);
 }
