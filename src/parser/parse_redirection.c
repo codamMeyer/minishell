@@ -5,10 +5,9 @@
 #include <../libft/libft.h>
 #include <parser/parser.h>
 #include <parser/parse_redirection.h>
+#include <parser/here_doc.h>
 #include <stdio.h>
 #include <fcntl.h>
-#include <readline/readline.h>
-#include <readline/history.h>
 
 /*
 	Assumes that string has been checked for quotes
@@ -32,61 +31,17 @@ int	get_file_name_and_length(char *buffer, char *input)
 	return (file_name_len);
 }
 
-/*
-	HERE_DOC
-	fork
-		open_temporary file "/tmp/filenamekajdiabisbd" o_trunc
-			write to that file until delimiter is found
-		close
-		open again in readonly mode
-		unlink
-		dup2()
-*/
-
-void	get_file_name(char *buffer, const char *delimeter)
+int	get_redirect_id(const char *cursor)
 {
-	const int	path_len = ft_strlen(TMP_FILE_PATH);
-	const int	delimiter_len = ft_strlen(delimeter);
-
-	ft_memcpy(buffer, TMP_FILE_PATH, path_len);
-	ft_strlcpy(buffer, delimeter, delimiter_len + 1);
-}
-
-t_bool	is_valid_delimeter(const char *delimeter, const char *line)
-{
-	const int	delimeter_len = ft_strlen(delimeter);
-	const int	line_len = ft_strlen(line);
-
-	return (delimeter_len == line_len
-		&& ft_strncmp(line, delimeter, delimeter_len) == 0);
-}
-
-void	handle_here_doc(const char *delimeter, int *in_file)
-{
-	char		file_name[BUFFER_SIZE];
-	int			fd;
-	char		*line;
-
-	if (!delimeter)
-		return ;
-	get_file_name(&file_name[0], delimeter);
-	fd = open(file_name, O_RDWR | O_CREAT | O_APPEND, 0664);
-	if (fd == -1)
-		handle_errors(19, "here_doc");
-	while (1)
-	{
-		line = readline("> ");
-		if (!line)
-			handle_errors(20, "heredoc line read");
-		if (is_valid_delimeter(delimeter, line))
-			break ;
-		ft_putendl_fd(line, fd);
-		free(line);
-	}
-	free(line);
-	close(fd);
-	*in_file = open(file_name, O_RDONLY, 0664);
-	unlink(file_name);
+	if (*cursor == LEFT_ANGLE && *(cursor + 1) != LEFT_ANGLE)
+		return (LEFT_ANGLE);
+	else if (*cursor == RIGHT_ANGLE && *(cursor + 1) != RIGHT_ANGLE)
+		return (RIGHT_ANGLE);
+	else if (ft_strncmp(cursor, "<<", 2) == 0)
+		return (HERE_DOC);
+	else if (ft_strncmp(cursor, ">>", 2) == 0)
+		return (APPEND);
+	return (-1);
 }
 
 /*
@@ -100,7 +55,6 @@ void	open_in_mode(const char *file, t_files *files, int mode_id)
 		open_outfile(file, &files->out, mode_id);
 	else if (mode_id == HERE_DOC)
 		handle_here_doc(file, &files->in);
-
 }
 
 /*
@@ -146,4 +100,3 @@ t_files	get_redirection(char **input, const int string_to_parse_len)
 	}
 	return (fd);
 }
-

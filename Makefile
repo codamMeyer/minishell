@@ -17,6 +17,7 @@ MINISHELL_INCS= 						\
 	src/executor/run_commands.h			\
 	src/executor/executor_utils.h		\
 	src/executor/redirection.h			\
+	src/parser/here_doc.h				\
 	src/parser/dispatcher.h				\
 	src/parser/get_executable_path.h	\
 	src/commands/commands.h				\
@@ -38,6 +39,7 @@ MINISHELL_SRC= 							\
 	src/parser/get_executable_path.c	\
 	src/parser/parse_redirection.c		\
 	src/parser/parse_redirect_utils.c	\
+	src/parser/here_doc.c	\
 	src/parser/file_utils.c				\
 	src/commands/exit_command.c			\
 	src/commands/echo_command.c			\
