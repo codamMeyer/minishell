@@ -52,6 +52,14 @@ void	get_file_name(char *buffer, const char *delimeter)
 	ft_strlcpy(buffer, delimeter, delimiter_len + 1);
 }
 
+t_bool	is_valid_delimeter(const char *delimeter, const char *line)
+{
+	const int	delimeter_len = ft_strlen(delimeter);
+	const int	line_len = ft_strlen(line);
+
+	return (delimeter_len == line_len
+		&& ft_strncmp(line, delimeter, delimeter_len) == 0);
+}
 
 void	handle_here_doc(const char *delimeter, int *in_file)
 {
@@ -65,23 +73,22 @@ void	handle_here_doc(const char *delimeter, int *in_file)
 	fd = open(file_name, O_RDWR | O_CREAT | O_APPEND, 0664);
 	if (fd == -1)
 		handle_errors(19, "here_doc");
-	while(1)
+	while (1)
 	{
 		line = readline("> ");
-		if (ft_strlen(delimeter) == ft_strlen(line) && ft_strncmp(line, delimeter, ft_strlen(delimeter)) == 0)
-		{
-			free(line);
-			break ;
-		}
 		if (!line)
 			handle_errors(20, "heredoc line read");
+		if (is_valid_delimeter(delimeter, line))
+			break ;
 		ft_putendl_fd(line, fd);
 		free(line);
 	}
+	free(line);
 	close(fd);
 	*in_file = open(file_name, O_RDONLY, 0664);
 	unlink(file_name);
 }
+
 /*
 	Might still split this into diff functions
 */
@@ -139,3 +146,4 @@ t_files	get_redirection(char **input, const int string_to_parse_len)
 	}
 	return (fd);
 }
+
