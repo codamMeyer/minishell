@@ -44,9 +44,6 @@ int	get_redirect_id(const char *cursor)
 	return (-1);
 }
 
-/*
-	Might still split this into diff functions
-*/
 void	open_in_mode(const char *file, t_files *files, int mode_id)
 {
 	if (mode_id == LEFT_ANGLE)
