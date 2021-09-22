@@ -7,7 +7,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <libft.h>
-#include <commands/echo_handle_quotes.h>
+#include <commands/quotes.h>
 #include <commands/echo_utils.h>
 #include <executor/run_commands.h>
 
