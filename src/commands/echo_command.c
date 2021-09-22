@@ -11,12 +11,12 @@
 #include <commands/buffer.h>
 #include <env/env_utils.h>
 
-static void	handle_spaces(t_arg *echo_arg, t_buffer *buffer)
+static void	handle_spaces(t_arg *arg, t_buffer *buffer)
 {
-	if (isspace(*echo_arg->start) && buffer->index)
+	if (isspace(*arg->start) && buffer->index)
 	{
-		skip_spaces(&echo_arg->start);
-		if (echo_arg->start != echo_arg->end)
+		skip_spaces(&arg->start);
+		if (arg->start != arg->end)
 		{	
 			buffer->buf[buffer->index] = SPACE;
 			++(buffer->index);
@@ -24,24 +24,24 @@ static void	handle_spaces(t_arg *echo_arg, t_buffer *buffer)
 	}
 }
 
-t_arg	parse_str_without_quotes(t_arg echo_arg, t_buffer *buffer)
+t_arg	parse_str_without_quotes(t_arg arg, t_buffer *buffer)
 {
 	char	cur;
 
-	cur = *echo_arg.start;
+	cur = *arg.start;
 	if (is_quote(cur))
-		return (echo_arg);
-	while (cur && !is_quote(cur) && echo_arg.start < echo_arg.end)
+		return (arg);
+	while (cur && !is_quote(cur) && arg.start < arg.end)
 	{
 		if (isspace(cur))
-			trim_extra_spaces_between_words(&echo_arg, buffer);
-		else if (is_env_variable(echo_arg.start))
-			append_env_value_to_buffer(&echo_arg, buffer);
+			trim_extra_spaces_between_words(&arg, buffer);
+		else if (is_env_variable(arg.start))
+			append_env_value_to_buffer(&arg, buffer);
 		else
-			echo_arg = append_char_to_buffer(echo_arg, buffer);
-		cur = *echo_arg.start;
+			append_char_to_buffer(&arg, buffer);
+		cur = *arg.start;
 	}
-	return (echo_arg);
+	return (arg);
 }
 
 static int	handle_empty_str(t_bool has_n_flag, t_output_stdout output)
