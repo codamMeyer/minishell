@@ -3,6 +3,7 @@
 # define INVALID_FD -1
 # define APPEND 1
 # define HERE_DOC 666
+# define TMP_FILE_PATH "/tmp/minishell"
 
 # include <commands/commands.h>
 

@@ -43,13 +43,25 @@ int	get_file_name_and_length(char *buffer, char *input)
 		dup2()
 */
 
+void	get_file_name(char *buffer, const char *delimeter)
+{
+	const int	path_len = ft_strlen(TMP_FILE_PATH);
+	const int	delimiter_len = ft_strlen(delimeter);
+
+	ft_memcpy(buffer, TMP_FILE_PATH, path_len);
+	ft_strlcpy(buffer, delimeter, delimiter_len + 1);
+}
+
+
 void	handle_here_doc(const char *delimeter, int *in_file)
 {
-	const char	path[] = "/tmp/minishell";
-	const char	*file_name = ft_strjoin(path, delimeter);
+	char		file_name[BUFFER_SIZE];
 	int			fd;
 	char		*line;
 
+	if (!delimeter)
+		return ;
+	get_file_name(&file_name[0], delimeter);
 	fd = open(file_name, O_RDWR | O_CREAT | O_APPEND, 0664);
 	if (fd == -1)
 		handle_errors(19, "here_doc");
