@@ -36,14 +36,13 @@ int	get_redirect_id(const char *cursor)
 	if (*cursor == LEFT_ANGLE && *(cursor + 1) != LEFT_ANGLE)
 		return (LEFT_ANGLE);
 	else if (*cursor == RIGHT_ANGLE && *(cursor + 1) != RIGHT_ANGLE)
-		return (RIGHT_ANGLE);
+		return (FT_TRUNCATE);
 	else if (ft_strncmp(cursor, "<<", 2) == 0)
 		return (HERE_DOC);
 	else if (ft_strncmp(cursor, ">>", 2) == 0)
-		return (APPEND);
+		return (FT_APPEND);
 	return (-1);
 }
-
 /*
 	Might still split this into diff functions
 */
@@ -51,10 +50,10 @@ void	open_in_mode(const char *file, t_files *files, int mode_id)
 {
 	if (mode_id == LEFT_ANGLE)
 		open_infile(file, &files->in);
-	else if (mode_id == RIGHT_ANGLE || mode_id == APPEND)
+	else if (mode_id == FT_TRUNCATE || mode_id == FT_APPEND)
 		open_outfile(file, &files->out, mode_id);
 	else if (mode_id == HERE_DOC)
-		handle_here_doc(file, &files->in);
+		files->in = handle_here_doc(file);
 }
 
 /*
@@ -90,10 +89,10 @@ t_files	get_redirection(char **input, const int string_to_parse_len)
 	while (index < string_to_parse_len)
 	{
 		redirect_id = get_redirect_id(&cursor[index - 1]);
-		if (redirect_id == APPEND || redirect_id == HERE_DOC)
+		if (redirect_id == FT_APPEND || redirect_id == HERE_DOC)
 			index += 1;
 		length = open_file(&cursor[index], &fd, redirect_id);
-		if (redirect_id == APPEND || redirect_id == HERE_DOC)
+		if (redirect_id == FT_APPEND || redirect_id == HERE_DOC)
 			index -= 1;
 		replace_redirection_w_space(input, length + 2, index - 1);
 		index += get_arg_len(&cursor[index], "><") + 1;

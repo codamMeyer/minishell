@@ -24,30 +24,51 @@ static t_bool	is_valid_delimeter(const char *delimeter, const char *line)
 		&& ft_strncmp(line, delimeter, delimeter_len) == 0);
 }
 
-void	handle_here_doc(const char *delimeter, int *in_file)
+/*
+	returns an int to indicate if loop shoud stop
+*/
+static int	append_line_to_heredoc(char *line,
+		const char *delimeter, int fd)
+{
+	if (!line)
+		handle_errors(20, "heredoc line read");
+	if (is_valid_delimeter(delimeter, line))
+		return (ERROR);
+	ft_putendl_fd(line, fd);
+	return (SUCCESS);
+}
+
+void	cleanup_here_doc(char *line, int fd)
+{
+	close(fd);
+	free(line);
+}
+
+/*
+	syntax checker responsible for assuring that this is only entered
+	when ere is a valid here_doc token
+*/
+int	handle_here_doc(const char *delimeter)
 {
 	char		file_name[BUFFER_SIZE];
 	int			fd;
 	char		*line;
 
-	if (!delimeter)
-		return ;
 	get_file_name(&file_name[0], delimeter);
 	fd = open(file_name, O_RDWR | O_CREAT | O_APPEND, 0664);
-	if (fd == -1)
+	if (fd == INVALID_FD)
 		handle_errors(19, "here_doc");
 	while (1)
 	{
 		line = readline("> ");
-		if (!line)
-			handle_errors(20, "heredoc line read");
-		if (is_valid_delimeter(delimeter, line))
+		if (append_line_to_heredoc(line, delimeter, fd) == ERROR)
 			break ;
-		ft_putendl_fd(line, fd);
 		free(line);
 	}
-	close(fd);
-	free(line);
-	*in_file = open(file_name, O_RDONLY, 0664);
+	cleanup_here_doc(line, fd);
+	fd = open(file_name, O_RDONLY, 0664);
+	if (fd == INVALID_FD)
+		handle_errors(19, "here_doc");
 	unlink(file_name);
+	return (fd);
 }
