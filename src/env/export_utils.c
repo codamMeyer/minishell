@@ -20,41 +20,33 @@ static t_bool	is_valid_key(char *key, int key_len)
 	return (TRUE);
 }
 
-t_bool	copy_key_to_buffer(const char *key_value_str, char *buffer)
+t_bool	copy_key_to_buffer(const char *key_value_str, t_buffer *buffer)
 {
 	const char	*delimiter_position = get_equal_sign_position(key_value_str);
 	const int	key_len = delimiter_position - &key_value_str[0];
 
 	if (!delimiter_position)
 		return (FALSE);
-	ft_bzero(buffer, 4096);
-	ft_memcpy(&buffer[0], key_value_str, key_len);
-	return (is_valid_key(&buffer[0], key_len));
+	ft_memcpy(&buffer->buf[0], key_value_str, key_len);
+	return (is_valid_key(&buffer->buf[0], key_len));
 }
 
-t_bool	handle_quoted_value(const char *value, char *buffer)
+t_bool	handle_quoted_value(const char *value, t_buffer *buffer)
 {
 	t_arg		arg;
-	t_buffer	tmp_buffer;
 	
 	arg.start = value;
-	init_buffer(&tmp_buffer);
-	parse_str_with_quotes(arg, &tmp_buffer);
-	ft_bzero(buffer, 4096);
-	if (!ft_memcpy(&buffer[0], &tmp_buffer.buf[0], tmp_buffer.index))
-		return (FALSE);
+	init_buffer(buffer);
+	parse_str_with_quotes(arg, buffer);
 	return (TRUE);
 }
 
-t_bool	handle_unquoted_value(const char *value, char *buffer)
+t_bool	handle_unquoted_value(const char *value, t_buffer *buffer)
 {
 	int		i;
-	int		buf_i;
 	t_env	*env_var;
 
 	i = 0;
-	buf_i = 0;
-	ft_bzero(buffer, BUFFER_SIZE);
 	while (value[i] && !isspace(value[i]))
 	{
 		if (is_env_variable(&value[i]))
@@ -64,21 +56,21 @@ t_bool	handle_unquoted_value(const char *value, char *buffer)
 			i += get_key_len(&value[i]);
 			if (env_var)
 			{
-				ft_memcpy(&buffer[buf_i], env_var->value, ft_strlen(env_var->value));
-				buf_i += ft_strlen(env_var->value);
+				ft_memcpy(&buffer->buf[buffer->index], env_var->value, ft_strlen(env_var->value));
+				buffer->index += ft_strlen(env_var->value);
 			}
 		}
 		else
 		{
-			buffer[buf_i] = value[i];
+			buffer->buf[buffer->index] = value[i];
 			++i;
-			++buf_i;
+			++buffer->index;
 		}
 	}
 	return (TRUE);
 }
 
-t_bool	copy_value_to_buffer(const char *key_value_str, char *buffer)
+t_bool	copy_value_to_buffer(const char *key_value_str, t_buffer *buffer)
 {
 	const char	*delimiter_position =
 		get_equal_sign_position(key_value_str) + 1;
