@@ -31,7 +31,7 @@ function remove_multiple_files
 
 printTestName "Redirection"
 
-sleep .5
+sleep 1
 INPUT="cat -e >"$MINI_OUT"1 < main.c | <"$MINI_OUT"1 grep int > "$MINI_OUT"2"
 cat -e >"$BASH_OUT"1 < main.c | <"$BASH_OUT"1 grep int > "$BASH_OUT"2
 runMinishell "$INPUT"
@@ -40,7 +40,7 @@ assertEqual "Reading and outputting to multiple outfiles"
 remove_multiple_files 2
 cleanUp
 
-sleep .5
+sleep 1
 INPUT="echo first test > $MINI_OUT"
 echo first test > "$BASH_OUT"
 runMinishell "$INPUT"
@@ -48,7 +48,7 @@ check_file_content "$MINI_OUT" "$BASH_OUT"
 assertEqual "Basic outfile"
 cleanUp
 
-sleep .5
+sleep 1
 INPUT="< main.c cat -e | grep int > $MINI_OUT"
 < main.c cat -e | grep int > "$BASH_OUT"
 runMinishell "$INPUT"
@@ -56,7 +56,7 @@ check_file_content "$MINI_OUT" "$BASH_OUT"
 assertEqual "Basic in and outfile"
 cleanUp
 
-sleep .5
+sleep 1
 INPUT="< main.c cat <Makefile -e | grep int > $MINI_OUT"
 < main.c cat <Makefile -e | grep int > "$BASH_OUT"
 runMinishell "$INPUT"
@@ -64,7 +64,7 @@ check_file_content "$MINI_OUT" "$BASH_OUT"
 assertEqual "Multiple infiles"
 cleanUp
 
-sleep .5
+sleep 1
 INPUT="echo halla > "$MINI_OUT"1 > "$MINI_OUT"2 > "$MINI_OUT"3"
 echo halla > "$BASH_OUT"1 > "$BASH_OUT"2 > "$BASH_OUT"3
 runMinishell "$INPUT"
@@ -82,7 +82,7 @@ assertEqual "Multiple in and outfiles"
 remove_multiple_files 3
 cleanUp
 
-sleep .5
+sleep 1
 INPUT="echo Rhino >"$MINI_OUT"1 Saurus >"$MINI_OUT"2 Rex >"$MINI_OUT"3"
 echo Rhino >"$BASH_OUT"1 Saurus >"$BASH_OUT"2 Rex >"$BASH_OUT"3
 runMinishell "$INPUT"
@@ -91,7 +91,7 @@ assertEqual "echo with outfiles in-between commands"
 remove_multiple_files 3
 cleanUp
 
-sleep .5
+sleep 1
 INPUT="echo halla > \""$MINI_FILE_WITH_SPACES"\""
 echo halla > "$BASH_FILE_WITH_SPACES"
 runMinishell "$INPUT"
@@ -101,7 +101,7 @@ assertEqual "File name with spaces"
 rm -f "$MINI_FILE_WITH_SPACES" "$BASH_FILE_WITH_SPACES"
 cleanUp
 
-sleep .5
+sleep 1
 INPUT1="echo halla1 >>            $MINI_OUT"
 INPUT2="echo halla2 >>$MINI_OUT"
 echo halla1 >>            $BASH_OUT && echo halla2 >>$BASH_OUT
