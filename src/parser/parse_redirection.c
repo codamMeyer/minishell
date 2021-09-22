@@ -43,6 +43,7 @@ int	get_redirect_id(const char *cursor)
 		return (FT_APPEND);
 	return (-1);
 }
+
 /*
 	Might still split this into diff functions
 */
