@@ -30,7 +30,7 @@ void	free_key_value_pair(t_env *env)
 
 t_env	*get_environment(void)
 {
-	static t_env	env[ENV_SIZE];
+	static t_env	env[ENV_SIZE] = {};
 
 	return (&env[0]);
 }

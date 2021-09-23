@@ -30,8 +30,8 @@ t_command	populate_command(const char **input_ptr)
 			get_arg_len(*input_ptr, "|"));
 	command.code = get_command_code(input_ptr, &command);
 	command.arg.start = *input_ptr;
-	command.arg_len = get_arg_len(command.arg.start, REDIRECTION_CHARS);
-	command.arg.end = *input_ptr + command.arg_len;
+	command.arg.len = get_arg_len(command.arg.start, REDIRECTION_CHARS);
+	command.arg.end = *input_ptr + command.arg.len;
 	return (command);
 }
 
@@ -47,7 +47,7 @@ int	populate_commands_table(const char *input, t_command commands_table[])
 	{
 		consume_pipe(&input_line, i);
 		commands_table[i] = populate_command(&input_line);
-		input_line += commands_table[i].arg_len;
+		input_line += commands_table[i].arg.len;
 		skip_spaces(&input_line);
 		++i;
 	}

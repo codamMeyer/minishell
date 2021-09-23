@@ -19,12 +19,6 @@ static void	setup_env(char *envp[])
 		export(env, envp[i]);
 		++i;
 	}
-	while (i < ENV_SIZE)
-	{
-		env[i].key = NULL;
-		env[i].value = NULL;
-		++i;
-	}
 }
 
 static void	run(char *env[])

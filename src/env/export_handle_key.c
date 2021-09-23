@@ -24,15 +24,13 @@ t_bool	copy_key_to_buffer(const char *key_value_str, t_buffer *buffer)
 {
 	const char	*delimiter_position = get_equal_sign_position(key_value_str);
 	const int	key_len = delimiter_position - &key_value_str[0];
+	t_arg		str;
 	t_buffer	tmp_buffer;
 
 	init_buffer(&tmp_buffer);
 	if (!delimiter_position)
 		return (FALSE);
 	ft_memcpy(&tmp_buffer.buf[0], key_value_str, key_len);
-	
-	t_arg	str;
-
 	str.start = &tmp_buffer.buf[0];
 	while (*str.start && !isspace(*str.start))
 	{
