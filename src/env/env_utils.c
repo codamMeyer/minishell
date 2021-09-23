@@ -11,7 +11,7 @@ int	get_key_len(const char *key)
 
 	len = 0;
 	while (key[len] != '\0' && !isspace(key[len])
-		&& !is_quote(key[len]) && key[len] != VARIABLE_TOKEN)
+		&& !is_quote(key[len]) && key[len] != VARIABLE_TOKEN && key[len] != EQUAL_SIGN)
 		++len;
 	return (len);
 }

@@ -1,5 +1,6 @@
 #include <env/environment.h>
 #include <env/env_utils.h>
+#include <executor/run_commands.h>
 #include <commands/echo_utils.h>
 #include <commands/quotes.h>
 #include <ctype.h>
@@ -25,14 +26,11 @@ t_bool	copy_key_to_buffer(const char *key_value_str, t_buffer *buffer)
 	const char	*delimiter_position = get_equal_sign_position(key_value_str);
 	const int	key_len = delimiter_position - &key_value_str[0];
 	t_arg		str;
-	t_buffer	tmp_buffer;
 
-	init_buffer(&tmp_buffer);
 	if (!delimiter_position)
 		return (FALSE);
-	ft_memcpy(&tmp_buffer.buf[0], key_value_str, key_len);
-	str.start = &tmp_buffer.buf[0];
-	while (*str.start && !isspace(*str.start))
+	str.start = key_value_str;
+	while (str.start < delimiter_position)
 	{
 		if (is_env_variable(str.start))
 			append_env_value_to_buffer(&str, buffer);
