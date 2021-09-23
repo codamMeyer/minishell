@@ -5,13 +5,21 @@
 #include <ctype.h>
 #include <stdio.h>
 
+static t_bool	is_invalid_key_char(char c)
+{
+	return (c == '\0'
+		|| isspace(c)
+		|| is_quote(c)
+		|| c == VARIABLE_TOKEN
+		|| c == EQUAL_SIGN);
+}
+
 int	get_key_len(const char *key)
 {
 	int	len;
 
 	len = 0;
-	while (key[len] != '\0' && !isspace(key[len])
-		&& !is_quote(key[len]) && key[len] != VARIABLE_TOKEN && key[len] != EQUAL_SIGN)
+	while (!is_invalid_key_char(key[len]))
 		++len;
 	return (len);
 }
