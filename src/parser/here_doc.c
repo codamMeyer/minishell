@@ -5,6 +5,7 @@
 #include <fcntl.h>
 #include <stdlib.h>
 #include <libft.h>
+#include <stdio.h>
 
 static void	get_file_name(char *buffer, const char *delimeter)
 {

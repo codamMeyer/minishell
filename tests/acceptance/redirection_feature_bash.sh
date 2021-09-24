@@ -32,7 +32,7 @@ function remove_multiple_files
 printTestName "Redirection"
 
 INPUT="cat -e >"$MINI_OUT"1 < main.c | <"$MINI_OUT"1 grep int > "$MINI_OUT"2"
-cat -e >"$BASH_OUT"1 < main.c | <"$BASH_OUT"1 grep int > "$BASH_OUT"2
+cat -e > "$BASH_OUT"1 < main.c | < "$BASH_OUT"1 grep int > "$BASH_OUT"2
 runMinishell "$INPUT"
 check_multiple_files 2
 assertEqual "Reading and outputting to multiple outfiles"
@@ -96,7 +96,7 @@ cleanUp
 
 INPUT1="echo halla1 >>            $MINI_OUT"
 INPUT2="echo halla2 >>$MINI_OUT"
-echo halla1 >>            $BASH_OUT && echo halla2 >>$BASH_OUT
+echo halla1 >>            $BASH_OUT && echo halla2 >> $BASH_OUT
 runMinishell "$INPUT1"
 runMinishell "$INPUT2"
 check_file_content "$MINI_OUT" "$BASH_OUT"

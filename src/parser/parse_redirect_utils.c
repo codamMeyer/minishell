@@ -1,6 +1,7 @@
 #include <commands/commands.h>
 #include <parser/command_table.h>
 #include <executor/executor_utils.h>
+#include <stdio.h>
 
 /*
 	This'll probably change, saving for syntax checker

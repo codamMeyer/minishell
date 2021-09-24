@@ -1,8 +1,8 @@
 #ifndef PARSE_REDIRECTION_H
 # define PARSE_REDIRECTION_H
 # define INVALID_FD -1
-# define FT_APPEND 0x0008
-# define FT_TRUNCATE 0x0400
+# define FT_APPEND O_APPEND
+# define FT_TRUNCATE O_TRUNC
 # define HERE_DOC 666
 # define TMP_FILE_PATH "/tmp/minishell"
 
