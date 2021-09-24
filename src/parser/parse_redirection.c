@@ -63,6 +63,10 @@ int	open_file(char *file_name_ptr, t_files *files, int redirection_id)
 	char	buffer[BUFFER_SIZE];
 	int		i;
 
+	if (redirection_id == FT_APPEND || redirection_id == HERE_DOC)
+		file_name_ptr += 2;
+	else
+		file_name_ptr += 1;
 	i = count_consecutive_spaces(file_name_ptr);
 	i += get_file_name_and_length(&buffer[0], &file_name_ptr[i]);
 	open_in_mode((const char *)buffer, files, redirection_id);
@@ -88,12 +92,13 @@ t_files	get_redirection(char **input, const int string_to_parse_len)
 	index = get_arg_len(&cursor[0], "><");
 	while (index < string_to_parse_len)
 	{
+		// echo hallo >> outfile
 		redirect_id = get_redirect_id(&cursor[index]);
-		if (redirect_id == FT_APPEND || redirect_id == HERE_DOC)
-			index += 1;
-		length = open_file(&cursor[index + 1], &fd, redirect_id);
-		if (redirect_id == FT_APPEND || redirect_id == HERE_DOC)
-			index -= 1;
+		// if (redirect_id == FT_APPEND || redirect_id == HERE_DOC)
+		// 	index += 1;
+		length = open_file(&cursor[index], &fd, redirect_id);
+		// if (redirect_id == FT_APPEND || redirect_id == HERE_DOC)
+		// 	index -= 1;
 		replace_redirection_w_space(input, length, index);
 		index += get_arg_len(&cursor[index], "><");
 	}
