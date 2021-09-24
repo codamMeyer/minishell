@@ -19,4 +19,3 @@ void	replace_redirection_w_space(char **input, int len, int start);
 int		get_redirect_id(const char *cursor);
 
 #endif
-// cat -e > 1 < main.c | < 1 grep int > 2
