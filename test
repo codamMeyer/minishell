@@ -1,0 +1,12 @@
+Makefile
+README.md
+diagrams_and_screenshots
+libft
+main.c
+minishell
+minishell.code-workspace
+minishell.dSYM
+minishell_test.dSYM
+src
+test
+tests

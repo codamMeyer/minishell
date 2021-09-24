@@ -17,7 +17,7 @@ function check_multiple_files ()
 {
 	for (( c=1; c<=$1; c++ ))
 	do  
-	   check_file_content mini_"$c" bash_"$c"
+	   check_file_content "mini_"$c"" "bash_"$c""
 	done
 }
 
