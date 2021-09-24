@@ -41,7 +41,7 @@ CTEST(file_name_tests, basic_file_name)
 {
     char buffer[BUFFER_SIZE];
     char file_name[] = "test_file";
-    ASSERT_EQUAL(ft_strlen(&file_name[0]), get_file_name_and_length(&buffer[0], file_name));
+    ASSERT_EQUAL(ft_strlen(&file_name[0]) + 1, get_file_name_and_length(&buffer[0], file_name));
     ASSERT_STR(file_name, buffer);
 }
 
@@ -49,15 +49,16 @@ CTEST(file_name_tests, file_name_with_spaces)
 {
     char buffer[BUFFER_SIZE];
     char file_name[] = "\"      test_file      \"";
-    ASSERT_EQUAL(ft_strlen(&file_name[0]), get_file_name_and_length(&buffer[0], file_name));
+    ASSERT_EQUAL(ft_strlen(&file_name[0]) + 1, get_file_name_and_length(&buffer[0], file_name));
     ASSERT_STR("      test_file      ", buffer);
 }
 
 CTEST(file_name_tests, file_name_with_next_command)
 {
     char buffer[BUFFER_SIZE];
+    int expected = ft_strlen("test_file") + 1;
     char file_name[] = "test_file | applesauces";
-    ASSERT_EQUAL(9, get_file_name_and_length(&buffer[0], file_name));
+    ASSERT_EQUAL(expected, get_file_name_and_length(&buffer[0], file_name));
     ASSERT_STR("test_file", buffer);
 }
 
@@ -65,13 +66,13 @@ CTEST(file_name_tests, file_name_with_spaces_and_quotes)
 {
     char buffer[BUFFER_SIZE];
     char file_name[] = "\"      test_file\"| applesauces";
-    ASSERT_EQUAL(ft_strlen("      test_file") + 2, get_file_name_and_length(&buffer[0], file_name));
+    ASSERT_EQUAL(ft_strlen("      test_file") + 3, get_file_name_and_length(&buffer[0], file_name));
     ASSERT_STR("      test_file", buffer);
 }
 
 CTEST(handle_infile, basic_infile)
 {
-    char input[] = "test_file";
+    char input[] = "< test_file";
     t_files  fd;
 
     fd.in = -1;
@@ -82,7 +83,7 @@ CTEST(handle_infile, basic_infile)
 
 CTEST(handle_infile, infile_with_space_no_quotes)
 {
-    char input[] = "      test_file";
+    char input[] = "<      test_file";
      t_files  fd;
 
     fd.in = -1;
@@ -93,7 +94,7 @@ CTEST(handle_infile, infile_with_space_no_quotes)
 
 CTEST(handle_infile, infile_with_space_and_quotes)
 {
-    char input[] = "\"      test_file     \"";
+    char input[] = "< \"      test_file     \"";
     char no_implicit_quotes[] = "      test_file     ";
     int test_fd = open(&no_implicit_quotes[0], O_RDWR | O_CREAT | O_TRUNC, 0664);
     close(test_fd);
