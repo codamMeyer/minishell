@@ -29,7 +29,7 @@ void	replace_redirection_w_space(char **input, int len, int start)
 	int	i;
 
 	i = 0;
-	while (i < len)
+	while (i < len && (*input)[start + i] != NULL_TERMINATOR)
 	{
 		(*input)[start + i] = SPACE_CHAR;
 		++i;
