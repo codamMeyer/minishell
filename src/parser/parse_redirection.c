@@ -14,7 +14,7 @@
 */
 int	get_file_name_and_length(char *buffer, char *input)
 {
-	const int	file_name_len = get_arg_len(input, SPECIALS);
+	const int	file_name_len = get_arg_len(input, SPECIALS) + 1;
 	int			len_to_cpy;
 	char		*cursor;
 
@@ -27,7 +27,7 @@ int	get_file_name_and_length(char *buffer, char *input)
 	}
 	else
 		len_to_cpy = file_name_len;
-	ft_strlcpy(&buffer[0], cursor, len_to_cpy + 1);
+	ft_strlcpy(&buffer[0], cursor, len_to_cpy);
 	return (file_name_len);
 }
 
@@ -66,6 +66,8 @@ int	open_file(char *file_name_ptr, t_files *files, int redirection_id)
 	i = count_consecutive_spaces(file_name_ptr);
 	i += get_file_name_and_length(&buffer[0], &file_name_ptr[i]);
 	open_in_mode((const char *)buffer, files, redirection_id);
+	if (redirection_id == HERE_DOC || redirection_id == FT_APPEND)
+		++i;
 	return (i);
 }
 
@@ -92,7 +94,7 @@ t_files	get_redirection(char **input, const int string_to_parse_len)
 		length = open_file(&cursor[index + 1], &fd, redirect_id);
 		if (redirect_id == FT_APPEND || redirect_id == HERE_DOC)
 			index -= 1;
-		replace_redirection_w_space(input, length + 2, index);
+		replace_redirection_w_space(input, length, index);
 		index += get_arg_len(&cursor[index], "><");
 	}
 	return (fd);
