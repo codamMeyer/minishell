@@ -6,7 +6,7 @@
 
 t_exit_code	exit_command(t_command command, t_output_stdout write_to_stdout)
 {
-	t_exit_code exit_code;
+	t_exit_code	exit_code;
 
 	(void)write_to_stdout;
 	skip_spaces(&command.arg.start);
