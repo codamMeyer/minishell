@@ -15,6 +15,8 @@ t_bool	is_valid_angled_brackets_syntax(const char *input)
 
 t_bool	only_contains_white_space_after_pipe(const char *str)
 {
+	if (*str)
+		++str;
 	while (str && *str)
 	{
 		if (!isspace(*str))
@@ -34,24 +36,16 @@ t_bool	is_valid_pipes_syntax(const char *input)
 	{
 		skip_spaces(&input);
 		i += get_arg_len(&input[i], "|");
-		printf("\ni = %d\nlen = %d\n", i, len);
 		if (i == len && input[i] != PIPE)
 			break ;
+		else if (i == 0)
+			return (FALSE);
+		while (input[i] && isspace(input[i + 1]))
+			i++;
 		if (input[i + 1] == PIPE)
-		{
-			printf("\nDOUBLE PIPES\n");
 			return (FALSE);
-		}
-		else if (only_contains_white_space_after_pipe(&input[i + 1]))
-		{
-			printf("\nLAST CHAR PIPE\n");
+		else if (only_contains_white_space_after_pipe(&input[i]))
 			return (FALSE);
-		}
-		if (i == 0)
-		{
-			printf("\nFIRST CHAR PIPE\n");
-			return (FALSE);
-		}
 		++i;
 	}
 	return (TRUE);
