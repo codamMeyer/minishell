@@ -238,7 +238,7 @@ CTEST2(environment, export_with_double_quotes_and_var)
     };
     
     for (int i = 0; i < 4; ++i)
-        ASSERT_TRUE(export(data->env, pairs[i]));
+        export(data->env, pairs[i]);
     ASSERT_STR(find_variable(data->env, "TEST_2")->value, "ENV_2    ENV_1");
 }
 
@@ -252,7 +252,7 @@ CTEST2(environment, export_with_var_in_the_key)
     };
     
     for (int i = 0; i < 4; ++i)
-        ASSERT_TRUE(export(data->env, pairs[i]));
+        export(data->env, pairs[i]);
     ASSERT_STR(find_variable(data->env, "TEST_2ENV_1")->key, "TEST_2ENV_1");
 }
 

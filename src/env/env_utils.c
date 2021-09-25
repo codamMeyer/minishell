@@ -5,7 +5,7 @@
 #include <ctype.h>
 #include <stdio.h>
 
-static t_bool	is_invalid_key_char(char c)
+t_bool	is_invalid_key_char(char c)
 {
 	return (c == '\0'
 		|| isspace(c)

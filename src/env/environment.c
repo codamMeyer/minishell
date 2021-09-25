@@ -22,8 +22,7 @@ t_bool	export(t_env *env, const char *key_value_str)
 		if (!set_key(env, &key_buffer.buf[0])
 			|| !set_value(env, &key_buffer.buf[0], &value_buffer.buf[0]))
 			return (FALSE);
-		while (*key_value_str && !isspace(*key_value_str))
-			++key_value_str;
+		key_value_str += key_buffer.index + value_buffer.index + 1;
 		skip_spaces(&key_value_str);
 	}
 	return (TRUE);

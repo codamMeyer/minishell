@@ -44,6 +44,7 @@ ACTUAL=$(cat $MINISHELL_OUTPUT)
 export SECOND_VAR$USER=testing$USER$USER$
 EXPECTED=$(env | grep SECOND_VAR$USER)
 assertEqual "EXPORT env var with variable in the key"
+unset SECOND_VAR$USER
 
 INPUT='export TEST_1=1 TEST_2=2 TEST_3=3'
 runMinishell "$INPUT\nenv | grep TEST"
@@ -51,6 +52,14 @@ removePrompt $MINISHELL_OUTPUT
 ACTUAL=$(cat $MINISHELL_OUTPUT)
 export TEST_1=1 TEST_2=2 TEST_3=3
 EXPECTED=$(env | grep TEST)
+assertEqual "EXPORT more than one variable"
+
+INPUT='export TEST_4="First env var" TEST_5=5 TEST_6=6'
+runMinishell "$INPUT\nenv | grep TEST_6"
+removePrompt $MINISHELL_OUTPUT
+ACTUAL=$(cat $MINISHELL_OUTPUT)
+export TEST_4="First env var" TEST_5=5 TEST_6=6
+EXPECTED=$(env | grep TEST_6)
 assertEqual "EXPORT more than one variable"
 
 INPUT="unset SECOND_VAR"
