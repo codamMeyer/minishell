@@ -8,33 +8,35 @@ CTEST(PIPES, VALID_PIPE)
     ASSERT_EQUAL(TRUE, is_valid_syntax("echo hallo |cat -e"));
 }
 
-CTEST(PIPES, VALID_MULTI_PIPES)
+CTEST(pipes, valid_multi_pipes)
 {
     ASSERT_EQUAL(TRUE, is_valid_syntax("echo hallo | cat -e | wc"));
 }
 
-CTEST(PIPES, INVALID_PIPE_FIRST_CHAR)
+CTEST(pipes, invalid_first_char_pipe)
 {
     ASSERT_EQUAL(FALSE, is_valid_syntax("| echo hallo"));
     ASSERT_EQUAL(FALSE, is_valid_syntax("      | echo hallo"));
 }
 
-CTEST(PIPES, INVALID_PIPE_LAST_CHAR)
+CTEST(pipes, invalid_last_char_pipe)
 {
     ASSERT_EQUAL(FALSE, is_valid_syntax("echo hallo|"));
     ASSERT_EQUAL(FALSE, is_valid_syntax("echo hallo     |"));
     ASSERT_EQUAL(FALSE, is_valid_syntax("echo hallo | "));
+    ASSERT_EQUAL(FALSE, is_valid_syntax("echo hallo | cat -e | wc -l |"));
 }
 
-CTEST(PIPES, INVALID_PIPE_LAST_CHAR_BEFORE_WHITESPACE)
+CTEST(pipes, invalid_last_char_pipe_with_spaces)
 {
     ASSERT_EQUAL(FALSE, is_valid_syntax("echo hallo      |           "));
     ASSERT_EQUAL(FALSE, is_valid_syntax("echo hallo|           "));
 }
 
-CTEST(PIPES, DOUBLE_PIPES)
+CTEST(pipes, DOUBLE_pipes)
 {
     ASSERT_EQUAL(FALSE, is_valid_syntax("echo hallo      || cat -e           "));
     ASSERT_EQUAL(FALSE, is_valid_syntax("echo hallo      | | cat -e           "));
     ASSERT_EQUAL(FALSE, is_valid_syntax("echo hallo      |       | cat -e           "));
+    ASSERT_EQUAL(FALSE, is_valid_syntax("echo hallo      |        cat -e    | | "));
 }
