@@ -7,7 +7,7 @@
 
 static t_bool	is_invalid_key_char(char c)
 {
-	return (c == '\0'
+	return (c == NULL_TERMINATOR
 		|| isspace(c)
 		|| is_quote(c)
 		|| c == VARIABLE_TOKEN
