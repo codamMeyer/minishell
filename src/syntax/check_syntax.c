@@ -49,7 +49,7 @@ t_bool	isvalid_redirection_syntax(const char *input)
 	{
 		skip_spaces(&input);
 		i += get_arg_len(&input[i], REDIRECTION_CHARS);
-		if (is_valid_EOL(i, len, input[i]))
+		if (is_valid_eol(i, len, input[i]))
 			break ;
 		else if (i == 0 && input[i] == PIPE)
 			return (FALSE);
@@ -57,9 +57,7 @@ t_bool	isvalid_redirection_syntax(const char *input)
 			i++;
 		if (only_contains_white_space_after_redirect(&input[i]))
 			return (FALSE);
-		if (input[i + 1] == PIPE)
-			return (FALSE);
-		else if (only_contains_white_space_after_redirect(&input[i]))
+		else if (input[i + 1] == PIPE)
 			return (FALSE);
 		++i;
 	}
