@@ -4,7 +4,6 @@
 # include <commands/commands.h>
 # include <commands/buffer.h>
 # define ENV_SIZE 2049
-# define EQUAL_SIGN EQUAL_SIGN
 
 typedef struct s_env
 {
