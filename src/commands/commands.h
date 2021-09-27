@@ -17,7 +17,8 @@ typedef enum e_special_chars
 	PIPE = '|',
 	LEFT_ANGLE = '<',
 	RIGHT_ANGLE = '>',
-	VARIABLE_TOKEN = '$'
+	VARIABLE_TOKEN = '$',
+	EQUAL_SIGN = '=',
 }	t_special_chars;
 
 typedef struct s_arg

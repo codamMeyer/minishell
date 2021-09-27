@@ -106,39 +106,6 @@ CTEST2(echo_test, write_strs_with_and_without_quotes_n_flag)
 	ASSERT_EQUAL(strlen("   First   string  N  O  T  trimmed !"), strlen(&echo_buf1[0]));
 	ASSERT_STR("   First   string  N  O  T  trimmed !", &echo_buf1[0]);
 }
-      
-CTEST2(echo_test, write_strs_with_missing_quote_and_without_quotes)
-{
-	const char *input = "\"   First  string  \"        trimmed\"      !";
-	data->command.arg.start = input;
-	data->command.arg.end = input + 43;
-	data->command.arg_len = 43;
-	ASSERT_EQUAL(SUCCESS, echo_command(data->command, write_to_buf));
-	ASSERT_EQUAL(strlen("   First  string   trimmed !\n"), strlen(&echo_buf1[0]));
-	ASSERT_STR("   First  string   trimmed !\n", &echo_buf1[0]);
-}
-
-CTEST2(echo_test, write_str_missing_closing_quote)
-{
-	const char *input = "\"   First  string         trimmed      !";
-	data->command.arg.start = input;
-	data->command.arg.end = input + 40;
-	data->command.arg_len = 40;
-	ASSERT_EQUAL(SUCCESS, echo_command(data->command, write_to_buf));
-	ASSERT_EQUAL(strlen("First string trimmed !\n"), strlen(&echo_buf1[0]));
-	ASSERT_STR("First string trimmed !\n", &echo_buf1[0]);
-}
-
-CTEST2(echo_test, write_str_missing_closing_quote_at_the_end)
-{
-	const char *input = "   First  string         trimmed      !\"";
-	data->command.arg.start = input;
-	data->command.arg.end = input + 40;
-	data->command.arg_len = 40;
-	ASSERT_EQUAL(SUCCESS, echo_command(data->command, write_to_buf));
-	ASSERT_EQUAL(strlen("First string trimmed !\n"), strlen(&echo_buf1[0]));
-	ASSERT_STR("First string trimmed !\n", &echo_buf1[0]);
-}
 
 CTEST2(echo_test, write_two_empty_strings)
 {
