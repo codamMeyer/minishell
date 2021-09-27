@@ -17,13 +17,15 @@ typedef enum e_special_chars
 	PIPE = '|',
 	LEFT_ANGLE = '<',
 	RIGHT_ANGLE = '>',
-	VARIABLE_TOKEN = '$'
+	VARIABLE_TOKEN = '$',
+	EQUAL_SIGN = '='
 }	t_special_chars;
 
 typedef struct s_arg
 {
 	const char	*start;
 	const char	*end;
+	int			len;
 }	t_arg;
 
 typedef struct s_files
@@ -37,7 +39,6 @@ typedef struct s_command
 	t_command_code	code;
 	t_arg			arg;
 	t_files			files;
-	int				arg_len;
 	const char		*exe_path;
 }	t_command;
 

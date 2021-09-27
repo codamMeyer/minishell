@@ -51,6 +51,7 @@ CTEST(file_name_tests, file_name_with_spaces)
     char file_name[] = "\"      test_file      \"";
     ASSERT_EQUAL(ft_strlen(&file_name[0]) + 1, get_file_name_and_length(&buffer[0], file_name));
     ASSERT_STR("      test_file      ", buffer);
+    system("rm  \"      test_file     \"");
 }
 
 CTEST(file_name_tests, file_name_with_next_command)
@@ -68,6 +69,7 @@ CTEST(file_name_tests, file_name_with_spaces_and_quotes)
     char file_name[] = "\"      test_file\"| applesauces";
     ASSERT_EQUAL(ft_strlen("      test_file") + 3, get_file_name_and_length(&buffer[0], file_name));
     ASSERT_STR("      test_file", buffer);
+
 }
 
 CTEST(handle_infile, basic_infile)
@@ -92,13 +94,13 @@ CTEST(handle_infile, infile_with_space_no_quotes)
     close(fd.in);
 }
 
-CTEST(handle_infile, infile_with_space_and_quotes)
+CTEST_SKIP(handle_infile, infile_with_space_and_quotes)
 {
     char input[] = "< \"      test_file     \"";
     char no_implicit_quotes[] = "      test_file     ";
     int test_fd = open(&no_implicit_quotes[0], O_RDWR | O_CREAT | O_TRUNC, FILE_RIGHTS);
     close(test_fd);
-     t_files  fd;
+    t_files  fd;
 
     fd.in = -1;
     ASSERT_EQUAL(ft_strlen(input), open_file(&input[0], &fd, LEFT_ANGLE));

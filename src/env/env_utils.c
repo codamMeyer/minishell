@@ -5,13 +5,21 @@
 #include <ctype.h>
 #include <stdio.h>
 
+static t_bool	is_valid_key_char(char c)
+{
+	return (c != NULL_TERMINATOR
+		&& !isspace(c)
+		&& !is_quote(c)
+		&& c != VARIABLE_TOKEN
+		&& c != EQUAL_SIGN);
+}
+
 int	get_key_len(const char *key)
 {
 	int	len;
 
 	len = 0;
-	while (key[len] != '\0' && !isspace(key[len])
-		&& !is_quote(key[len]) && key[len] != VARIABLE_TOKEN)
+	while (is_valid_key_char(key[len]))
 		++len;
 	return (len);
 }
@@ -19,9 +27,7 @@ int	get_key_len(const char *key)
 t_bool	is_env_variable(const char *str)
 {
 	const char		next_char = str[1];
-	const t_bool	is_valid_next_char = next_char && \
-										!isspace(next_char) && \
-										!is_quote(next_char);
+	const t_bool	is_valid_next_char = is_valid_key_char(next_char);
 
 	return (*str == VARIABLE_TOKEN && is_valid_next_char);
 }
