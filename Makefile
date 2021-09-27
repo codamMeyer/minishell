@@ -13,6 +13,7 @@ MINISHELL_INCS= 						\
 	src/parser/parser.h					\
 	src/parser/command_table.h			\
 	src/parser/parse_redirection.h		\
+	src/parser/syntax_checker.h			\
 	src/output/prompt.h					\
 	src/executor/run_commands.h			\
 	src/executor/executor_utils.h		\
@@ -28,6 +29,7 @@ MINISHELL_INCS= 						\
 
 MINISHELL_SRC= 							\
 	src/parser/parser.c					\
+	src/parser/syntax_checker.c			\
 	src/output/prompt.c					\
 	src/executor/run_commands.c			\
 	src/executor/executor_utils.c		\
@@ -66,6 +68,7 @@ TEST_FILES=								\
 	tests/pipe_test.c					\
 	tests/env_api_test.c				\
 	tests/redirection_tests.c			\
+	tests/syntax_checker_test.c			\
 
 MINISHELL_OBJS=$(MINISHELL_SRC:.c=.o)
 
