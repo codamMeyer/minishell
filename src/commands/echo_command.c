@@ -15,8 +15,12 @@ static void	handle_spaces(t_arg *arg, t_buffer *buffer)
 {
 	if (isspace(*arg->start) && buffer->index)
 	{
-		buffer->buf[buffer->index] = SPACE_CHAR;
-		++(buffer->index);
+		skip_spaces(&arg->start);
+		if (arg->start != arg->end)
+		{	
+			buffer->buf[buffer->index] = SPACE_CHAR;
+			++(buffer->index);
+		}
 	}
 }
 
