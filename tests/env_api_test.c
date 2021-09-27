@@ -214,6 +214,19 @@ CTEST2(environment, export_two_variables_together)
     ASSERT_STR(find_variable(data->env, "TEST_3")->value, "ENV_3");
 }
 
+CTEST2(environment, export_all_in_the_same_line)
+{
+    char *pairs[1] = {"TEST_1=ENV_1 TEST_2=\"ENV_2        test\"  TEST_3=ENV_3                   TEST_4=ENV_4    "};
+    
+    ASSERT_TRUE(export(data->env, pairs[0]));
+
+    ASSERT_STR(find_variable(data->env, "TEST_1")->value, "ENV_1");
+    ASSERT_STR(find_variable(data->env, "TEST_2")->value, "ENV_2        test");
+    ASSERT_STR(find_variable(data->env, "TEST_3")->value, "ENV_3");
+    ASSERT_STR(find_variable(data->env, "TEST_4")->value, "ENV_4");
+
+}
+
 CTEST2(environment, export_with_double_quotes)
 {
     char *pairs[4] = {
