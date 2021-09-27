@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include <readline/readline.h>
 #include <readline/history.h>
 #include <executor/executor_utils.h>
@@ -5,7 +6,6 @@
 #include <fcntl.h>
 #include <stdlib.h>
 #include <libft.h>
-#include <stdio.h>
 
 static void	get_file_name(char *buffer, const char *delimeter)
 {
@@ -28,7 +28,7 @@ static t_bool	is_valid_delimeter(const char *delimeter, const char *line)
 /*
 	returns an int to indicate if loop shoud stop
 */
-static int	append_line_to_heredoc(char *line,
+static t_exit_code	append_line_to_heredoc(char *line,
 		const char *delimeter, int fd)
 {
 	if (!line)
@@ -59,7 +59,7 @@ int	handle_here_doc(const char *delimeter)
 	fd = open(file_name, O_RDWR | O_CREAT | O_APPEND, FILE_RIGHTS);
 	if (fd == INVALID_FD)
 		handle_errors(19, "here_doc");
-	while (1)
+	while (TRUE)
 	{
 		line = readline("> ");
 		if (append_line_to_heredoc(line, delimeter, fd) == ERROR)

@@ -33,20 +33,24 @@ int	get_file_name_and_length(char *buffer, char *input)
 
 int	get_redirect_id(const char *cursor)
 {
-	if (*cursor == LEFT_ANGLE && *(cursor + 1) != LEFT_ANGLE)
-		return (LEFT_ANGLE);
-	else if (*cursor == RIGHT_ANGLE && *(cursor + 1) != RIGHT_ANGLE)
-		return (FT_TRUNCATE);
-	else if (ft_strncmp(cursor, "<<", 2) == 0)
+	if (ft_strncmp(cursor, "<<", 2) == SUCCESS)
 		return (HERE_DOC);
-	else if (ft_strncmp(cursor, ">>", 2) == 0)
+	else if (ft_strncmp(cursor, ">>", 2) == SUCCESS)
 		return (FT_APPEND);
-	return (-1);
+	else if (ft_strncmp(cursor, "<>", 2) == SUCCESS)
+		return (DIAMOND_BRACKETS);
+	else if (*cursor == LEFT_ANGLE)
+		return (LEFT_ANGLE);
+	else if (*cursor == RIGHT_ANGLE)
+		return (FT_TRUNCATE);
+	else
+		handle_errors(ERROR, "Invalid redirect id");
+	return (INVALID);
 }
 
 void	open_in_mode(const char *file, t_files *files, int mode_id)
 {
-	if (mode_id == LEFT_ANGLE)
+	if (mode_id == LEFT_ANGLE || mode_id == DIAMOND_BRACKETS)
 		open_infile(file, &files->in);
 	else if (mode_id == FT_TRUNCATE || mode_id == FT_APPEND)
 		open_outfile(file, &files->out, mode_id);
@@ -64,7 +68,7 @@ int	open_file(char *file_name_ptr, t_files *files, int redirection_id)
 	int		i;
 
 	ft_bzero(buffer, BUFFER_SIZE);
-	if (redirection_id == FT_APPEND || redirection_id == HERE_DOC)
+	if (is_multi_angled_bracket(redirection_id))
 		file_name_ptr += 1;
 	file_name_ptr += 1;
 	i = count_consecutive_spaces(file_name_ptr);
