@@ -14,7 +14,7 @@ static t_bool	is_valid_key(char *key, int key_len)
 	i = 0;
 	while (i < key_len)
 	{
-		if (is_invalid_key_char(key[i]))
+		if (!is_valid_key_char(key[i]))
 			return (FALSE);
 		++i;
 	}
