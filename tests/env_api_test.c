@@ -5,23 +5,28 @@
 
 CTEST_DATA(environment)
 {
-    t_env env[ENV_SIZE];
+    t_env *env;
 };
 
 CTEST_SETUP(environment)
 {
-    for (int i = 0; i < ENV_SIZE; ++i)
-    {
-        data->env[i].key = NULL;
-        data->env[i].value = NULL;
-    }
+    data->env = get_environment();
 };
 
 CTEST_TEARDOWN(environment)
 {
     destroy_env(data->env, ENV_SIZE);
-    destroy_env(data->env, ENV_SIZE);
 };
+
+CTEST2(environment, ensure_env_is_set_to_null)
+{
+    (void)data;
+    for (int i = 0; i < ENV_SIZE; ++i)
+    {
+        ASSERT_NULL(get_environment()[i].key);
+        ASSERT_NULL(get_environment()[i].value);
+    }
+}
 
 CTEST2(environment, export_wrong_set)
 {
@@ -210,6 +215,62 @@ CTEST2(environment, export_with_space_in_value)
     ASSERT_STR(find_variable(data->env, "TEST_2")->value, "ENV_2");
 }
 
+CTEST2(environment, export_with_double_quotes)
+{
+    char *pairs[4] = {
+        "TEST_1=ENV_1",
+        "TEST_2=\"ENV_2    TEST\"",
+        "TEST_3=ENV_3",
+        "TEST_4=ENV_4",
+    };
+    
+    for (int i = 0; i < 4; ++i)
+        ASSERT_TRUE(export(data->env, pairs[i]));
+    ASSERT_STR(find_variable(data->env, "TEST_2")->value, "ENV_2    TEST");
+}
+
+CTEST2(environment, export_with_double_quotes_and_var)
+{
+    char *pairs[4] = {
+        "TEST_1=ENV_1",
+        "TEST_2=\"ENV_2    $TEST_1\"",
+        "TEST_3=ENV_3",
+        "TEST_4=ENV_4",
+    };
+    
+    for (int i = 0; i < 4; ++i)
+        ASSERT_TRUE(export(data->env, pairs[i]));
+    ASSERT_STR(find_variable(data->env, "TEST_2")->value, "ENV_2    ENV_1");
+}
+
+CTEST2(environment, export_with_var_in_the_key)
+{
+    char *pairs[4] = {
+        "TEST_1=ENV_1",
+        "TEST_2$TEST_1=ENV_2",
+        "TEST_3=ENV_3",
+        "TEST_4=ENV_4",
+    };
+    
+    for (int i = 0; i < 4; ++i)
+        ASSERT_TRUE(export(data->env, pairs[i]));
+    ASSERT_STR(find_variable(data->env, "TEST_2ENV_1")->key, "TEST_2ENV_1");
+}
+
+CTEST2(environment, export_with_single_quotes)
+{
+    char *pairs[4] = {
+        "TEST_1=ENV_1",
+        "TEST_2='ENV_2    $TEST_1'",
+        "TEST_3=ENV_3",
+        "TEST_4=ENV_4",
+    };
+    
+    for (int i = 0; i < 4; ++i)
+        ASSERT_TRUE(export(data->env, pairs[i]));
+    ASSERT_STR(find_variable(data->env, "TEST_2")->value, "ENV_2    $TEST_1");
+}
+
 CTEST2(environment, empty_value)
 {
     char *pair = "key=";
@@ -218,25 +279,10 @@ CTEST2(environment, empty_value)
     ASSERT_STR(find_variable(data->env, "key")->value, "");
 }
 
-CTEST2_SKIP(environment, string_with_single_quote_as_value)
+CTEST2(environment, string_with_single_quote_as_value)
 {
-    char *pair = "key=\'test with single quotes\'";
+    char *pair = "key='test with single quotes'";
     
     ASSERT_TRUE(export(data->env, pair));
-    ASSERT_STR(find_variable(data->env, pair)->value, "test with single quotes");
-}
-
-CTEST2_SKIP(environment, string_with_double_quote_as_value)
-{
-    char *pair = "key=\"test with single quotes\"";
-    
-    ASSERT_TRUE(export(data->env, pair));
-    ASSERT_STR(find_variable(data->env, pair)->value, "test with single quotes");
-}
-
-CTEST2_SKIP(environment, string_missing_double_quote_as_value)
-{
-    char *pair = "key=\"test with single quotes";
-    
-    ASSERT_FALSE(export(data->env, pair));
+    ASSERT_STR(find_variable(data->env, "key")->value, "test with single quotes");
 }

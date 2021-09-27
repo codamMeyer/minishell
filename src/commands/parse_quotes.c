@@ -16,7 +16,7 @@ t_arg	parse_str_with_quotes(t_arg arg, t_buffer *buffer)
 			if (quotes.is_double_quote && is_env_variable(arg.start))
 				append_env_value_to_buffer(&arg, buffer);
 			else
-				arg = append_char_to_buffer(arg, buffer);
+				append_char_to_buffer(&arg, buffer);
 		}
 		++arg.start;
 	}
