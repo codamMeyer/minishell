@@ -1,9 +1,11 @@
 #ifndef PARSE_REDIRECTION_H
 # define PARSE_REDIRECTION_H
+
 # define INVALID_FD -1
 # define FT_APPEND O_APPEND
 # define FT_TRUNCATE O_TRUNC
 # define HERE_DOC 666
+# define FILE_RIGHTS 0664
 # define TMP_FILE_PATH "/tmp/minishell"
 
 # include <commands/commands.h>

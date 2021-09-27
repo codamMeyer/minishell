@@ -39,7 +39,7 @@ static int	append_line_to_heredoc(char *line,
 	return (SUCCESS);
 }
 
-void	cleanup_here_doc(char *line, int fd)
+static void	cleanup_here_doc(char *line, int fd)
 {
 	close(fd);
 	free(line);
@@ -56,7 +56,7 @@ int	handle_here_doc(const char *delimeter)
 	char		*line;
 
 	get_file_name(&file_name[0], delimeter);
-	fd = open(file_name, O_RDWR | O_CREAT | O_APPEND, 0664);
+	fd = open(file_name, O_RDWR | O_CREAT | O_APPEND, FILE_RIGHTS);
 	if (fd == INVALID_FD)
 		handle_errors(19, "here_doc");
 	while (1)
@@ -67,7 +67,7 @@ int	handle_here_doc(const char *delimeter)
 		free(line);
 	}
 	cleanup_here_doc(line, fd);
-	fd = open(file_name, O_RDONLY, 0664);
+	fd = open(file_name, O_RDONLY, FILE_RIGHTS);
 	if (fd == INVALID_FD)
 		handle_errors(19, "here_doc");
 	unlink(file_name);

@@ -63,7 +63,7 @@ int	open_file(char *file_name_ptr, t_files *files, int redirection_id)
 	char	buffer[BUFFER_SIZE];
 	int		i;
 
-	ft_bzero(buffer, BUFFER_SIZE - 1);
+	ft_bzero(buffer, BUFFER_SIZE);
 	if (redirection_id == FT_APPEND || redirection_id == HERE_DOC)
 		file_name_ptr += 1;
 	file_name_ptr += 1;

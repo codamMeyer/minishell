@@ -24,7 +24,7 @@ void	open_outfile(const char *file, int *out_file, int out_mode)
 {
 	if (*out_file != INVALID_FD)
 		close(*out_file);
-	*out_file = open(file, O_RDWR | O_CREAT | out_mode, 0664);
+	*out_file = open(file, O_RDWR | O_CREAT | out_mode, FILE_RIGHTS);
 	if (*out_file == INVALID_FD)
 	{
 		printf("Couldn't open in file: %s\n", file);
