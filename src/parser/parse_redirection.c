@@ -14,7 +14,7 @@
 */
 int	get_file_name_and_length(char *buffer, char *input)
 {
-	const int	file_name_len = get_arg_len(input, SPECIALS) + 1;
+	const int	file_name_len = get_arg_len(input, ALL_TERMINATORS) + 1;
 	int			len_to_cpy;
 	char		*cursor;
 
