@@ -8,7 +8,7 @@ int	get_cmd_len(const char *input)
 	int	i;
 
 	i = 0;
-	while (input[i] && input[i] != SPACE)
+	while (input[i] && input[i] != SPACE_CHAR)
 		i++;
 	return (i);
 }

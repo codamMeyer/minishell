@@ -12,7 +12,7 @@
 in special chars, we should create a new enum for them */
 typedef enum e_special_chars
 {
-	SPACE = ' ',
+	SPACE_CHAR = ' ',
 	NULL_TERMINATOR = '\0',
 	PIPE = '|',
 	LEFT_ANGLE = '<',

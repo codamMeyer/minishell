@@ -1,6 +1,7 @@
 #include <executor/run_commands.h>
 #include <parser/command_table.h>
-#include <../libft/libft.h>
+#include <libft.h>
+#include <stdio.h>
 
 void	handle_stdin(int in_file, t_multi_pipes *pipes, int current_process)
 {
@@ -10,7 +11,9 @@ void	handle_stdin(int in_file, t_multi_pipes *pipes, int current_process)
 		close(in_file);
 	}
 	else if (current_process != FIRST_PROCESS && in_file == -1)
+	{
 		set_stdin(pipes->previous[READ_FD]);
+	}
 }
 
 void	handle_stdout(int out_file, t_multi_pipes *pipes, int current_process,
