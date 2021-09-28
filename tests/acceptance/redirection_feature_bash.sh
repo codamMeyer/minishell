@@ -75,7 +75,6 @@ assertEqual "Multiple outfiles"
 remove_multiple_files 3
 cleanUp
 
-sleep .5
 INPUT="< main.c cat -e <Makefile | grep > "$MINI_OUT"1 int > "$MINI_OUT"2 > "$MINI_OUT"3"
 < main.c cat -e <Makefile | grep > "$BASH_OUT"1 int  > "$BASH_OUT"2 > "$BASH_OUT"3
 runMinishell "$INPUT"

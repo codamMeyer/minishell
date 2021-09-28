@@ -32,7 +32,7 @@ t_bool	is_system_command(const char *input, t_command *command)
 	return (FALSE);
 }
 
-char	*get_redirection_position(const char *set, char *str_to_check)
+char	*get_set_position(const char *set, char *str_to_check)
 {
 	int	i;
 

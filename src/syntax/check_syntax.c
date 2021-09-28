@@ -25,16 +25,17 @@ t_bool	only_contains_white_space_after_redirect(const char *str)
 	return (TRUE);
 }
 
-t_bool	is_valid_eol(int index, int len, char last_char)
+t_bool	is_valid_eol(char last_char)
 {
-	return (index == len && (last_char == NULL_TERMINATOR
-			|| ft_strchr(REDIRECTION_CHARS, last_char)));
+	printf("\n>%c<\n", last_char);
+	return (last_char == NULL_TERMINATOR 
+			|| ft_strchr(REDIRECTION_CHARS, last_char));
 }
 
 /*
 	Some checks are the same, like if a redirect char
 	is followed by only spaces it's invalid
-	Thinking of doing get_arg_len up to the first redirect char
+	Thinking of doing get_set_index up to the first redirect char
 	and then that as an index for calling a function
 	in an array of function pointers 
 	Might be over complex but hey!?
@@ -48,8 +49,9 @@ t_bool	is_valid_redirection_syntax(const char *input)
 	while (input && input[i])
 	{
 		skip_spaces(&input);
-		i += get_arg_len(&input[i], REDIRECTION_CHARS);
-		if (is_valid_eol(i, len, input[i]))
+		i += get_set_index(&input[i], REDIRECTION_CHARS);
+		printf("\nlen: %d\nindex: %d\n", len, i);
+		if (i == len && is_valid_eol(input[i]))
 			break ;
 		else if (i == 0 && input[i] == PIPE)
 			return (FALSE);
@@ -57,7 +59,7 @@ t_bool	is_valid_redirection_syntax(const char *input)
 			i++;
 		if (only_contains_white_space_after_redirect(&input[i]))
 			return (FALSE);
-		else if (input[i + 1] == PIPE)
+		if (input[i + 1] == PIPE)
 			return (FALSE);
 		++i;
 	}
