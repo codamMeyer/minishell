@@ -39,7 +39,7 @@ t_bool	is_valid_eol(int index, int len, char last_char)
 	in an array of function pointers 
 	Might be over complex but hey!?
 */
-t_bool	isvalid_redirection_syntax(const char *input)
+t_bool	is_valid_redirection_syntax(const char *input)
 {
 	const int	len = ft_strlen(input);
 	int			i;
@@ -71,7 +71,7 @@ t_bool	isvalid_redirection_syntax(const char *input)
 */
 t_bool	is_valid_syntax(const char *input)
 {
-	if (!isvalid_redirection_syntax(input))
+	if (!is_valid_redirection_syntax(input))
 		return (FALSE);
 	else if (!is_valid_angled_brackets_syntax(input))
 		return (FALSE);
