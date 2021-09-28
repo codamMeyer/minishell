@@ -5,7 +5,6 @@
 #include <env/environment.h>
 #include <env/env_utils.h>
 
-
 t_bool	handle_quoted_value(const char *value, t_buffer *buffer)
 {
 	t_arg		arg;

@@ -6,7 +6,6 @@
 #include <env/env_utils.h>
 #include <executor/run_commands.h>
 
-
 static t_bool	is_valid_key(char *key, int key_len)
 {
 	int	i;

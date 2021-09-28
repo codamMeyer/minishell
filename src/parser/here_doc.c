@@ -7,7 +7,6 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 
-
 static void	get_file_name(char *buffer, const char *delimeter)
 {
 	const int	path_len = ft_strlen(TMP_FILE_PATH);
