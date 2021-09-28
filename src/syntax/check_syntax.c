@@ -12,24 +12,26 @@ t_bool	is_valid_angled_brackets_syntax(const char *input)
 	return (TRUE);
 }
 
-t_bool	only_contains_white_space_after_redirect(const char *str)
+t_bool	redirect_is_last_char(const char *str)
 {
 	if (*str)
 		++str;
-	while (str && *str)
-	{
-		if (!isspace(*str))
-			return (FALSE);
-		++str;
-	}
-	return (TRUE);
+	skip_spaces(&str);
+	return (*str == NULL_TERMINATOR);
 }
 
 t_bool	is_valid_eol(char last_char)
 {
-	printf("\n>%c<\n", last_char);
 	return (last_char == NULL_TERMINATOR 
-			|| ft_strchr(REDIRECTION_CHARS, last_char));
+			|| !ft_strchr(REDIRECTION_CHARS, last_char));
+}
+
+t_bool is_double_pipe(const char *str)
+{
+	if (*str == PIPE)
+		++str;
+	skip_spaces(&str);
+	return (*str == PIPE);
 }
 
 /*
@@ -39,29 +41,22 @@ t_bool	is_valid_eol(char last_char)
 	and then that as an index for calling a function
 	in an array of function pointers 
 	Might be over complex but hey!?
+	REMEMBER TO REMOVE UNNECESARY SKIP SPACES
 */
 t_bool	is_valid_redirection_syntax(const char *input)
 {
-	const int	len = ft_strlen(input);
-	int			i;
-
-	i = 0;
-	while (input && input[i])
+	skip_spaces(&input);
+	if (*input == PIPE)
+		return (FALSE);
+	while (input && *input)
 	{
 		skip_spaces(&input);
-		i += get_set_index(&input[i], REDIRECTION_CHARS);
-		printf("\nlen: %d\nindex: %d\n", len, i);
-		if (i == len && is_valid_eol(input[i]))
+		input += get_set_index(input, "|");
+		if (*input == NULL_TERMINATOR)
 			break ;
-		else if (i == 0 && input[i] == PIPE)
+		if (redirect_is_last_char(input) || is_double_pipe(input))
 			return (FALSE);
-		while (input[i] && isspace(input[i + 1]))
-			i++;
-		if (only_contains_white_space_after_redirect(&input[i]))
-			return (FALSE);
-		if (input[i + 1] == PIPE)
-			return (FALSE);
-		++i;
+		++input;
 	}
 	return (TRUE);
 }
