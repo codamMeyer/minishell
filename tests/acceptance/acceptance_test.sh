@@ -27,4 +27,7 @@ RESULT+=$?
 ./tests/acceptance/redirection_feature_bash.sh
 RESULT+=$?
 
+./tests/acceptance/syntax_checker_test.sh
+RESULT+=$?
+
 exit $RESULT

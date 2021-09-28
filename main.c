@@ -27,7 +27,7 @@ static char	*get_trimmed_line(void)
 {
 	char *line;
 	char *trimmed_line;
-	char	buffer[4096];
+	char	buffer[BUFFER_SIZE];
 
 	line = readline(display_prompt(&buffer[0]));
 	if (!line)

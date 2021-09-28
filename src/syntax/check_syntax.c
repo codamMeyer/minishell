@@ -45,7 +45,6 @@ t_bool is_double_pipe(const char *str)
 */
 t_bool	is_valid_redirection_syntax(const char *input)
 {
-	skip_spaces(&input);
 	if (*input == PIPE)
 		return (FALSE);
 	while (input && *input)
