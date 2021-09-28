@@ -7,13 +7,6 @@
 #include <parser/dispatcher.h>
 #include <commands/echo_utils.h>
 
-void	create_table(t_command commands[], char *arg, char *path)
-{
-	commands->arg.start = arg;
-	commands->arg.len = strlen(arg);
-	commands->exe_path = path;
-}
-
 /*
 	Creates a process for each command 
 	Important check that all fd's are closed at the end

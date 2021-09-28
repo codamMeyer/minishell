@@ -1,31 +1,9 @@
 #include <stdio.h>
 #include <commands/commands.h>
-#include <parser/command_table.h>
 #include <executor/executor_utils.h>
-#include <parser/parse_redirection.h>
 #include <fcntl.h>
-
-/*
-	This'll probably change, saving for syntax checker
-*/
-void	check_cmd_str_validity(char *cmd_str)
-{
-	int	i;
-
-	i = 0;
-	while (cmd_str && cmd_str[i])
-	{
-		if (cmd_str[i] == DOUBLE_QUOTES)
-		{
-			i++;
-			while (cmd_str[i] && cmd_str[i] != DOUBLE_QUOTES)
-				i++;
-		}
-		if (i > 0 && cmd_str[i + 1] == RIGHT_ANGLE && cmd_str[i] != SPACE_CHAR)
-			handle_errors(16, "Syntax error in checker for outfile");
-		i++;
-	}
-}
+#include <parser/command_table.h>
+#include <parser/parse_redirection.h>
 
 void	replace_redirection_w_space(char **input, int len, int start)
 {
