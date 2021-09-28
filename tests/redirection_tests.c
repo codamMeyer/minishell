@@ -11,9 +11,9 @@
 CTEST(create_files, create_test_files)
 {
     char no_implicit_quotes[] = "      test_file     ";
-    int test_fd = open(&no_implicit_quotes[0], O_RDWR | O_CREAT | O_TRUNC, 0664);
+    int test_fd = open(&no_implicit_quotes[0], O_RDWR | O_CREAT | O_TRUNC, FILE_RIGHTS);
     close(test_fd);
-    test_fd = open("test_file",  O_RDWR | O_CREAT | O_TRUNC, 0664);
+    test_fd = open("test_file",  O_RDWR | O_CREAT | O_TRUNC, FILE_RIGHTS);
 }
 
 CTEST(spaces_test, empty_str)
@@ -98,7 +98,7 @@ CTEST_SKIP(handle_infile, infile_with_space_and_quotes)
 {
     char input[] = "< \"      test_file     \"";
     char no_implicit_quotes[] = "      test_file     ";
-    int test_fd = open(&no_implicit_quotes[0], O_RDWR | O_CREAT | O_TRUNC, 0664);
+    int test_fd = open(&no_implicit_quotes[0], O_RDWR | O_CREAT | O_TRUNC, FILE_RIGHTS);
     close(test_fd);
     t_files  fd;
 
@@ -135,7 +135,7 @@ CTEST(redirection_test, basic_infile)
 
 CTEST(redirection_test, infile_inside_command_argument)
 {
-    int test_fd = open("test_file",  O_RDWR | O_CREAT | O_TRUNC, 0664);
+    int test_fd = open("test_file",  O_RDWR | O_CREAT | O_TRUNC, FILE_RIGHTS);
     close(test_fd);
     char *str = ft_strdup("echo halla <test_file everybody");
     const char *expected=("echo halla            everybody");

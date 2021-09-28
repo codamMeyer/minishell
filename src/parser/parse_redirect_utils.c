@@ -1,7 +1,9 @@
+#include <stdio.h>
 #include <commands/commands.h>
 #include <parser/command_table.h>
 #include <executor/executor_utils.h>
-#include <stdio.h>
+#include <parser/parse_redirection.h>
+#include <fcntl.h>
 
 /*
 	This'll probably change, saving for syntax checker
@@ -43,6 +45,12 @@ int	count_consecutive_spaces(const char *str)
 
 	i = 0;
 	while (str && str[i] && str[i] == SPACE_CHAR)
-		i++;
+		++i;
 	return (i);
+}
+
+t_bool	is_multi_angled_bracket(const int redirection_id)
+{
+	return (redirection_id == FT_APPEND || redirection_id == HERE_DOC
+		|| redirection_id == DIAMOND_BRACKETS);
 }

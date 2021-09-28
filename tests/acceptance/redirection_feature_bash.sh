@@ -46,6 +46,13 @@ check_file_content "$MINI_OUT" "$BASH_OUT"
 assertEqual "Basic outfile"
 cleanUp
 
+INPUT="< main.c > $MINI_OUT"
+< main.c > "$BASH_OUT"
+runMinishell "$INPUT"
+check_file_content "$MINI_OUT" "$BASH_OUT"
+assertEqual "In and outfile with no command"
+cleanUp
+
 INPUT="< main.c cat -e | grep int > $MINI_OUT"
 < main.c cat -e | grep int > "$BASH_OUT"
 runMinishell "$INPUT"
@@ -94,6 +101,7 @@ assertEqual "File name with spaces"
 rm -f "$MINI_FILE_WITH_SPACES" "$BASH_FILE_WITH_SPACES"
 cleanUp
 
+
 INPUT1="echo halla1 >>            $MINI_OUT"
 INPUT2="echo halla2 >>$MINI_OUT"
 echo halla1 >>            $BASH_OUT && echo halla2 >> $BASH_OUT
@@ -101,6 +109,26 @@ runMinishell "$INPUT1"
 runMinishell "$INPUT2"
 check_file_content "$MINI_OUT" "$BASH_OUT"
 assertEqual "Append mode >> with and without spaces before the file name"
+cleanUp
+
+INPUT1="cat -e < main.c | grep int >            $MINI_OUT"
+INPUT2="echo halla2 >>$MINI_OUT"
+cat -e < main.c | grep int >            $BASH_OUT && echo halla2 >> $BASH_OUT
+runMinishell "$INPUT1"
+runMinishell "$INPUT2"
+check_file_content "$MINI_OUT" "$BASH_OUT"
+assertEqual "Multi_pipes with system and built-in command, in/output with append mode"
+cleanUp
+
+
+# <> is valid only if no spaces are in between
+# >< is invalid
+
+INPUT="<> main.c grep int > $MINI_OUT"
+<> main.c grep int > "$BASH_OUT"
+runMinishell "$INPUT"
+check_file_content "$MINI_OUT" "$BASH_OUT"
+assertEqual "Diamond brackets <>"
 cleanUp
 
 exit $EXIT_CODE
