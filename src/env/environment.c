@@ -1,6 +1,7 @@
 #include <env/environment.h>
 #include <env/env_utils.h>
 #include <commands/buffer.h>
+#include <parser/parser.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <libft.h>
@@ -11,14 +12,20 @@ t_bool	export(t_env *env, const char *key_value_str)
 	t_buffer	key_buffer;
 	t_buffer	value_buffer;
 
-	init_buffer(&key_buffer);
-	init_buffer(&value_buffer);
-	if (!copy_key_to_buffer(key_value_str, &key_buffer) || \
-		!copy_value_to_buffer(key_value_str, &value_buffer))
-		return (FALSE);
-	if (!set_key(env, &key_buffer.buf[0]))
-		return (FALSE);
-	return (set_value(env, &key_buffer.buf[0], &value_buffer.buf[0]));
+	while (*key_value_str)
+	{
+		init_buffer(&key_buffer);
+		init_buffer(&value_buffer);
+		if (!copy_key_to_buffer(key_value_str, &key_buffer) || \
+			!copy_value_to_buffer(key_value_str, &value_buffer))
+			return (FALSE);
+		if (!set_key(env, &key_buffer.buf[0])
+			|| !set_value(env, &key_buffer.buf[0], &value_buffer.buf[0]))
+			return (FALSE);
+		key_value_str += key_buffer.index + value_buffer.index + 1;
+		skip_spaces(&key_value_str);
+	}
+	return (TRUE);
 }
 
 void	unset(t_env *env, const char *key)
