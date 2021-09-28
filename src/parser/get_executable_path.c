@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <libft.h>
 #include <parser/get_executable_path.h>
+#include <commands/buffer.h>
 #include <sys/stat.h>
 
 static void	append_command_to_path(char	*buffer, const char *command)
@@ -39,7 +40,7 @@ int	is_executable(char *full_path_executable)
 char	*get_executable_path(const char *command)
 {
 	const char	*all_paths = getenv(PATH);
-	char		buffer[CMD_BUFFER_SIZE];
+	char		buffer[BUFFER_SIZE];
 	int			single_path_len;
 
 	if (!command || !all_paths)
