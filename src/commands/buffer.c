@@ -1,8 +1,8 @@
-#include <commands/buffer.h>
 #include <libft.h>
+#include <commands/buffer.h>
+#include <commands/quotes.h>
 #include <env/environment.h>
 #include <env/env_utils.h>
-#include <commands/quotes.h>
 
 void	init_buffer(t_buffer *buffer)
 {

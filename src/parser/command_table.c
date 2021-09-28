@@ -1,10 +1,10 @@
-#include <parser/command_table.h>
-#include <parser/parser.h>
-#include <parser/get_executable_path.h>
-#include <commands/quotes.h>
+#include <ctype.h>
 #include <libft.h>
 #include <stdio.h>
-#include <ctype.h>
+#include <commands/quotes.h>
+#include <parser/command_table.h>
+#include <parser/get_executable_path.h>
+#include <parser/parser.h>
 
 static t_bool	is_valid_last_char(const char *input, int command_len)
 {

@@ -4,12 +4,9 @@
 # define WHITESSPACE " \t"
 # define N_FLAG "-n"
 # define REDIRECTION_CHARS "<>|" 
-# define SPECIALS "<>| \0" 
-
+# define SPECIALS "<>| \0"
 # include <defines.h>
 
-/* I think space and NULL shouldn't be
-in special chars, we should create a new enum for them */
 typedef enum e_special_chars
 {
 	SPACE_CHAR = ' ',

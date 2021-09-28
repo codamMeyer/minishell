@@ -1,10 +1,9 @@
-#include "commands.h"
 #include <ctype.h>
 #include <libft.h>
-#include <parser/parser.h>
+#include <commands/commands.h>
 #include <commands/echo_utils.h>
-#include <stdio.h>
 #include <commands/quotes.h>
+#include <parser/parser.h>
 
 t_bool	is_valid_n_flag_extras(const char **input)
 {

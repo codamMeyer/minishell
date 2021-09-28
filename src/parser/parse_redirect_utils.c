@@ -1,9 +1,9 @@
+#include <fcntl.h>
 #include <stdio.h>
 #include <commands/commands.h>
-#include <parser/command_table.h>
 #include <executor/executor_utils.h>
+#include <parser/command_table.h>
 #include <parser/parse_redirection.h>
-#include <fcntl.h>
 
 /*
 	This'll probably change, saving for syntax checker

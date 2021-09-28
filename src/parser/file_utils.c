@@ -1,12 +1,10 @@
 #include <fcntl.h>
-#include <parser/parse_redirection.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
 #include <libft.h>
+#include <stdio.h>
+#include <executor/executor_utils.h>
+#include <parser/parse_redirection.h>
 #include <readline/readline.h>
 #include <readline/history.h>
-#include <executor/executor_utils.h>
 
 void	open_infile(const char *file, int *in_file)
 {

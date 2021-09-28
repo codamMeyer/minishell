@@ -1,11 +1,11 @@
-#include "run_commands.h"
+#include <libft.h>
 #include <string.h>
 #include <stdio.h>
 #include <unistd.h>
-#include "executor_utils.h"
-#include <libft.h>
-#include <parser/dispatcher.h>
 #include <commands/echo_utils.h>
+#include <executor/run_commands.h>
+#include <executor/executor_utils.h>
+#include <parser/dispatcher.h>
 
 void	create_table(t_command commands[], char *arg, char *path)
 {

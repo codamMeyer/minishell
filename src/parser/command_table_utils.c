@@ -1,7 +1,6 @@
-#include "command_table.h"
-#include "get_executable_path.h"
-#include <../libft/libft.h>
-#include <stdio.h>
+#include <libft.h>
+#include <parser/command_table.h>
+#include <parser/get_executable_path.h>
 
 int	get_cmd_len(const char *input)
 {

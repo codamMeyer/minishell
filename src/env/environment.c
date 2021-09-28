@@ -1,8 +1,6 @@
 #include <env/environment.h>
 #include <env/env_utils.h>
 #include <commands/buffer.h>
-#include <stdlib.h>
-#include <stdio.h>
 #include <libft.h>
 #include <ctype.h>
 

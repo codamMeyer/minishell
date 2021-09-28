@@ -1,11 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <output/prompt.h>
-#include <parser/parser.h>
-#include <env/environment.h>
+#include <signal.h>
 #include <readline/readline.h>
 #include <readline/history.h>
-#include <signal.h>
+#include <env/environment.h>
+#include <output/prompt.h>
+#include <parser/parser.h>
 
 static void	setup_env(char *envp[])
 {
