@@ -20,7 +20,7 @@ void    create_command_array()
     for (int i = 0; i < number_of_commands; i++)
     {
         int size = 0;
-        while ((command_array[i][size]) != SPACE)
+        while ((command_array[i][size]) != SPACE_CHAR)
             size++;
         char *cmd = ft_substr(command_array[i], 0, size);
         char *path = get_executable_path(cmd);
