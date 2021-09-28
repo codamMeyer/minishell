@@ -40,7 +40,11 @@ t_bool	copy_value_to_buffer(const char *key_value_str, t_buffer *buffer)
 		return (FALSE);
 	cur = delimiter_position[0];
 	if (is_quote(cur))
-		return (handle_quoted_value(delimiter_position, buffer));
+	{
+		handle_quoted_value(delimiter_position, buffer);
+		buffer->index += 2;
+		return (TRUE);
+	}
 	return (handle_unquoted_value(delimiter_position, buffer));
 }
 

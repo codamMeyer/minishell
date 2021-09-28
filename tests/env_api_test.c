@@ -200,19 +200,31 @@ CTEST2(environment, export_new_value_for_existent_key)
     ASSERT_STR(find_variable(data->env, "TEST_2")->value, "ENV_2_NEW_VALUE");
 }
 
-CTEST2(environment, export_with_space_in_value)
+CTEST2(environment, export_two_variables_together)
 {
-    char *pairs[4] = {
+    char *pairs[3] = {
         "TEST_1=ENV_1",
-        "TEST_2=ENV_2 TEST",
-        "TEST_3=ENV_3",
+        "TEST_2=ENV_2       TEST_3=ENV_3",
         "TEST_4=ENV_4",
     };
     
-    for (int i = 0; i < 4; ++i)
+    for (int i = 0; i < 3; ++i)
         ASSERT_TRUE(export(data->env, pairs[i]));
 
-    ASSERT_STR(find_variable(data->env, "TEST_2")->value, "ENV_2");
+    ASSERT_STR(find_variable(data->env, "TEST_3")->value, "ENV_3");
+}
+
+CTEST2(environment, export_all_in_the_same_line)
+{
+    char *pairs[1] = {"TEST_1=ENV_1 TEST_2=\"ENV_2        test\"  TEST_3=ENV_3                   TEST_4=ENV_4    "};
+    
+    ASSERT_TRUE(export(data->env, pairs[0]));
+
+    ASSERT_STR(find_variable(data->env, "TEST_1")->value, "ENV_1");
+    ASSERT_STR(find_variable(data->env, "TEST_2")->value, "ENV_2        test");
+    ASSERT_STR(find_variable(data->env, "TEST_3")->value, "ENV_3");
+    ASSERT_STR(find_variable(data->env, "TEST_4")->value, "ENV_4");
+
 }
 
 CTEST2(environment, export_with_double_quotes)
@@ -225,7 +237,7 @@ CTEST2(environment, export_with_double_quotes)
     };
     
     for (int i = 0; i < 4; ++i)
-        ASSERT_TRUE(export(data->env, pairs[i]));
+        export(data->env, pairs[i]);
     ASSERT_STR(find_variable(data->env, "TEST_2")->value, "ENV_2    TEST");
 }
 
@@ -239,7 +251,7 @@ CTEST2(environment, export_with_double_quotes_and_var)
     };
     
     for (int i = 0; i < 4; ++i)
-        ASSERT_TRUE(export(data->env, pairs[i]));
+        export(data->env, pairs[i]);
     ASSERT_STR(find_variable(data->env, "TEST_2")->value, "ENV_2    ENV_1");
 }
 
@@ -253,7 +265,7 @@ CTEST2(environment, export_with_var_in_the_key)
     };
     
     for (int i = 0; i < 4; ++i)
-        ASSERT_TRUE(export(data->env, pairs[i]));
+        export(data->env, pairs[i]);
     ASSERT_STR(find_variable(data->env, "TEST_2ENV_1")->key, "TEST_2ENV_1");
 }
 

@@ -3,7 +3,7 @@
 #include <commands/commands.h>
 #include <env/env_utils.h>
 
-static t_bool	is_valid_key_char(char c)
+t_bool	is_valid_key_char(char c)
 {
 	return (c != NULL_TERMINATOR
 		&& !isspace(c)

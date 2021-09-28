@@ -101,6 +101,7 @@ assertEqual "File name with spaces"
 rm -f "$MINI_FILE_WITH_SPACES" "$BASH_FILE_WITH_SPACES"
 cleanUp
 
+
 INPUT1="echo halla1 >>            $MINI_OUT"
 INPUT2="echo halla2 >>$MINI_OUT"
 echo halla1 >>            $BASH_OUT && echo halla2 >> $BASH_OUT

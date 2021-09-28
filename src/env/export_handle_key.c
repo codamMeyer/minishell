@@ -14,7 +14,7 @@ static t_bool	is_valid_key(char *key, int key_len)
 	i = 0;
 	while (i < key_len)
 	{
-		if (isspace(key[i]))
+		if (!is_valid_key_char(key[i]))
 			return (FALSE);
 		++i;
 	}
@@ -24,7 +24,6 @@ static t_bool	is_valid_key(char *key, int key_len)
 t_bool	copy_key_to_buffer(const char *key_value_str, t_buffer *buffer)
 {
 	const char	*delimiter_position = get_equal_sign_position(key_value_str);
-	const int	key_len = delimiter_position - &key_value_str[0];
 	t_arg		str;
 
 	if (!delimiter_position)
@@ -37,7 +36,7 @@ t_bool	copy_key_to_buffer(const char *key_value_str, t_buffer *buffer)
 		else
 			append_char_to_buffer(&str, buffer);
 	}
-	return (is_valid_key(&buffer->buf[0], key_len));
+	return (is_valid_key(&buffer->buf[0], buffer->index));
 }
 
 t_bool	set_key(t_env *env, char *key)
