@@ -1,7 +1,5 @@
-#include <commands/quotes.h>
-#include <defines.h>
-#include <stdio.h>
 #include <libft.h>
+#include <commands/quotes.h>
 
 t_quotes_position	get_quotes_positions(const char *input)
 {

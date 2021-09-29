@@ -1,5 +1,5 @@
-#include <env/environment.h>
 #include <libft.h>
+#include <env/environment.h>
 
 int	get_next_available_index(t_env *env)
 {

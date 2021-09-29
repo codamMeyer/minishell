@@ -1,9 +1,8 @@
-#include "executor_utils.h"
-#include "run_commands.h"
-#include <unistd.h>
 #include <stdio.h>
 #include <libft.h>
 #include <sys/wait.h>
+#include <executor/executor_utils.h>
+#include <executor/run_commands.h>
 
 void	wait_for_all_processes(int num_of_processes)
 {

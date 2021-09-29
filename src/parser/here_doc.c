@@ -1,11 +1,11 @@
+#include <fcntl.h>
+#include <libft.h>
+#include <stdlib.h>
 #include <stdio.h>
-#include <readline/readline.h>
-#include <readline/history.h>
 #include <executor/executor_utils.h>
 #include <parser/parse_redirection.h>
-#include <fcntl.h>
-#include <stdlib.h>
-#include <libft.h>
+#include <readline/readline.h>
+#include <readline/history.h>
 
 static void	get_file_name(char *buffer, const char *delimeter)
 {

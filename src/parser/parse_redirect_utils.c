@@ -1,7 +1,7 @@
+#include <fcntl.h>
 #include <stdio.h>
 #include <commands/commands.h>
 #include <executor/executor_utils.h>
-#include <fcntl.h>
 #include <parser/command_table.h>
 #include <parser/parse_redirection.h>
 
