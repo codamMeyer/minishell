@@ -1,6 +1,6 @@
 #include "ctest.h"
 #include "../src/commands/commands.h"
-#include "../src/parser/syntax_checker.h"
+#include "../src/syntax/check_quotes_syntax.h"
 #include "../libft/libft.h"
 #include <stdio.h>
 #include <string.h>

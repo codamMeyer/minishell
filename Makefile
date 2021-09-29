@@ -11,10 +11,10 @@ LIBFT_PATH = libft/
 MINISHELL_INCS= 						\
 	src/defines.h						\
 	src/syntax/check_syntax.h			\
+	src/syntax/check_quotes_syntax.h	\
 	src/parser/parser.h					\
 	src/parser/command_table.h			\
 	src/parser/parse_redirection.h		\
-	src/parser/syntax_checker.h			\
 	src/output/prompt.h					\
 	src/output/write_to_std.h			\
 	src/executor/run_commands.h			\
@@ -32,8 +32,8 @@ MINISHELL_INCS= 						\
 
 MINISHELL_SRC= 							\
 	src/syntax/check_syntax.c			\
+	src/syntax/check_quotes_syntax.c	\
 	src/parser/parser.c					\
-	src/parser/syntax_checker.c			\
 	src/output/prompt.c					\
 	src/output/write_to_std.c			\
 	src/executor/run_commands.c			\

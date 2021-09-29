@@ -1,4 +1,4 @@
-#include <parser/syntax_checker.h>
+#include <syntax/check_quotes_syntax.h>
 #include <commands/quotes.h>
 
 t_exit_code	is_missing_quotes(const char *input, t_output_stdout output)
