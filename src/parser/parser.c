@@ -59,7 +59,6 @@ t_bool	parse_input(const char *input, char *env[])
 	t_command	commands_table[MAX_CMDS_PER_LINE];
 	int			num_commands;
 
-	
 	num_commands = populate_commands_table(input, commands_table);
 	run_commands(commands_table, num_commands, env);
 	return (TRUE);
