@@ -9,7 +9,5 @@ t_bool	is_valid_syntax(const char *input)
 {
 	if (!is_valid_redirection_syntax(input))
 		return (FALSE);
-	else if (!is_valid_angled_brackets_syntax(input))
-		return (FALSE);
 	return (TRUE);
 }

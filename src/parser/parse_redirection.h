@@ -1,6 +1,9 @@
 #ifndef PARSE_REDIRECTION_H
 # define PARSE_REDIRECTION_H
 
+# include <commands/commands.h>
+# include <fcntl.h>
+
 # define INVALID_FD -1
 # define FT_APPEND O_APPEND
 # define FT_TRUNCATE O_TRUNC
@@ -9,7 +12,6 @@
 # define TMP_FILE_PATH "/tmp/minishell"
 # define DIAMOND_BRACKETS 777
 
-# include <commands/commands.h>
 
 void	check_cmd_str_validity(char *cmd_str);
 t_files	get_redirection(char **input, const int string_to_parse_len);

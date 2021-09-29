@@ -4,13 +4,9 @@
 #include <parser/command_table.h>
 #include <executor/executor_utils.h>
 #include <parser/parser.h>
+#include <parser/parse_redirection.h>
 #include <libft.h>
-
-t_bool	is_valid_angled_brackets_syntax(const char *input)
-{
-	(void)input;
-	return (TRUE);
-}
+#include <stdio.h>
 
 t_bool	redirect_is_last_char(const char *str)
 {
@@ -44,31 +40,50 @@ t_bool	is_double_pipe(const char *str)
 	return (FALSE);
 }
 
-/*
-	Some checks are the same, like if a redirect char
-	is followed by only spaces it's invalid
-	Thinking of doing get_set_index up to the first redirect char
-	and then that as an index for calling a function
-	in an array of function pointers 
-	Might be over complex but hey!?
-	REMEMBER TO REMOVE UNNECESARY SKIP SPACES
-*/
+t_bool	is_invalid_token(const char *input)
+{
+	if (ft_strncmp(input, "<<<", 3) == SUCCESS)
+		return (TRUE);
+	else if (ft_strncmp(input, ">>>", 3) == SUCCESS)
+		return (TRUE);
+	return (FALSE);
+}
 
+int	get_redirect_token(const char *cursor)
+{
+	if (is_invalid_token(cursor))
+		return (ERROR);
+	if (*cursor == PIPE)
+		return (PIPE);
+	else
+		return (get_redirect_id(cursor));
+}
+
+
+/* REMEMBER TO REMOVE UNNECESARY SKIP SPACES */
 /* is_valid_redirection_syntax input will always be a trimmed string */
+/*  */
 t_bool	is_valid_redirection_syntax(const char *input)
 {
+	int redirect_token;
+
 	if (*input == PIPE)
 	{
-		write_to_stderr("syntax error near unexpected token `|'");
+		write_to_stderr("syntax error near unexpected token `|'\n");
 		return (FALSE);
 	}
 	while (input && *input)
 	{
-		input += get_set_index(input, "|");
+		input += get_set_index(input, REDIRECTION_CHARS);
+		redirect_token = get_redirect_token(input);
 		if (*input == NULL_TERMINATOR)
 			break ;
-		if (redirect_is_last_char(input) || is_double_pipe(input))
+		if (redirect_token == INVALID)
+			printf("ERROROOOOROOROROROOROROR\n");
+		else if (redirect_token == PIPE && (redirect_is_last_char(input) || is_double_pipe(input)))
 			return (FALSE);
+		// else
+		// 	check_file_token_syntax(input, redirect_token);
 		++input;
 	}
 	return (TRUE);
