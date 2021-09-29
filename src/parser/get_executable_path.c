@@ -1,9 +1,7 @@
-#include <stdio.h>
-#include <stdlib.h>
 #include <libft.h>
-#include <parser/get_executable_path.h>
 #include <commands/buffer.h>
 #include <sys/stat.h>
+#include <parser/get_executable_path.h>
 
 static void	append_command_to_path(char	*buffer, const char *command)
 {

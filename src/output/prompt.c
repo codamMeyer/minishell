@@ -1,7 +1,6 @@
-#include <stdio.h>
-#include <output/prompt.h>
-#include <unistd.h>
 #include <libft.h>
+#include <unistd.h>
+#include <output/prompt.h>
 #define COLOR "\e[1;36m "
 #define RESET_COLOR " -► \e[0m "
 

@@ -1,7 +1,5 @@
-#include <commands/commands.h>
-#include <unistd.h>
 #include <libft.h>
-#include <stdio.h>
+#include <commands/commands.h>
 
 t_exit_code	pwd_command(t_command command, t_output_stdout output)
 {

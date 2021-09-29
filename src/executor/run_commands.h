@@ -4,9 +4,8 @@
 # define CHILD_PROCESS 0
 # define SYS_ERROR -1
 # define MAX_CMDS_PER_LINE 100
-
 # include <commands/commands.h>
-# include "redirection.h"
+# include <executor/redirection.h>
 
 int		run_pipes(const char *env[]);
 int		run_commands(t_command commands[],

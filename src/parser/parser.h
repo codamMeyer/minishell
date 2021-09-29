@@ -1,8 +1,7 @@
 #ifndef PARSER_H
 # define PARSER_H
-
-# include <defines.h>
 # include <commands/commands.h>
+# include <defines.h>
 # include <env/environment.h>
 
 t_bool			parse_input(const char *input, char *env[]);

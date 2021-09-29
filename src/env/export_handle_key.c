@@ -1,11 +1,10 @@
+#include <ctype.h>
+#include <libft.h>
+#include <commands/echo_utils.h>
+#include <commands/quotes.h>
 #include <env/environment.h>
 #include <env/env_utils.h>
 #include <executor/run_commands.h>
-#include <commands/echo_utils.h>
-#include <commands/quotes.h>
-#include <ctype.h>
-#include <libft.h>
-#include <stdio.h>
 
 static t_bool	is_valid_key(char *key, int key_len)
 {

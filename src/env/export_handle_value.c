@@ -1,10 +1,9 @@
-#include <env/environment.h>
-#include <env/env_utils.h>
-#include <commands/echo_utils.h>
-#include <commands/quotes.h>
 #include <ctype.h>
 #include <libft.h>
-#include <stdio.h>
+#include <commands/echo_utils.h>
+#include <commands/quotes.h>
+#include <env/environment.h>
+#include <env/env_utils.h>
 
 t_bool	handle_quoted_value(const char *value, t_buffer *buffer)
 {

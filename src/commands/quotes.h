@@ -1,8 +1,8 @@
 #ifndef QUOTES_H
 # define QUOTES_H
-# include <defines.h>
 # include <commands/commands.h>
 # include <commands/buffer.h>
+# include <defines.h>
 
 typedef struct s_quotes_position
 {

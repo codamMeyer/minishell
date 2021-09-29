@@ -1,13 +1,12 @@
-#include <commands/commands.h>
-#include <parser/command_table.h>
-#include <executor/executor_utils.h>
+#include <fcntl.h>
+#include <libft.h>
+#include <stdio.h>
 #include <stdlib.h>
-#include <../libft/libft.h>
+#include <executor/executor_utils.h>
+#include <parser/command_table.h>
+#include <parser/here_doc.h>
 #include <parser/parser.h>
 #include <parser/parse_redirection.h>
-#include <parser/here_doc.h>
-#include <stdio.h>
-#include <fcntl.h>
 
 /*
 	Assumes that string has been checked for quotes

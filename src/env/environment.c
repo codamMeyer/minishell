@@ -1,11 +1,11 @@
-#include <env/environment.h>
-#include <env/env_utils.h>
-#include <commands/buffer.h>
-#include <parser/parser.h>
+#include <ctype.h>
+#include <libft.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include <libft.h>
-#include <ctype.h>
+#include <commands/buffer.h>
+#include <env/environment.h>
+#include <env/env_utils.h>
+#include <parser/parser.h>
 
 t_bool	export(t_env *env, const char *key_value_str)
 {

@@ -1,6 +1,5 @@
 #ifndef REDIRECTION_H
 # define REDIRECTION_H
-
 # include <commands/commands.h>
 
 typedef enum e_pipe_fds

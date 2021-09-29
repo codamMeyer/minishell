@@ -1,8 +1,7 @@
-#include <commands/commands.h>
-#include <parser/parser.h>
 #include <libft.h>
 #include <stdlib.h>
-#include <stdio.h>
+#include <commands/commands.h>
+#include <parser/parser.h>
 
 t_exit_code	exit_command(t_command command, t_output_stdout write_to_stdout)
 {

@@ -1,15 +1,15 @@
-#include "parser.h"
-#include <parser/command_table.h>
-#include <parser/dispatcher.h>
-#include <parser/parse_redirection.h>
-#include <string.h>
 #include <ctype.h>
+#include <libft.h>
+#include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <libft.h>
 #include <commands/quotes.h>
 #include <commands/echo_utils.h>
 #include <executor/run_commands.h>
+#include <parser/command_table.h>
+#include <parser/dispatcher.h>
+#include <parser/parser.h>
+#include <parser/parse_redirection.h>
 
 static void	consume_pipe(const char **input, int index)
 {
