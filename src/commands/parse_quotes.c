@@ -1,8 +1,8 @@
+#include <ctype.h>
+#include <libft.h>
 #include <commands/quotes.h>
 #include <env/env_utils.h>
 #include <env/environment.h>
-#include <libft.h>
-#include <ctype.h>
 
 t_arg	parse_str_with_quotes(t_arg arg, t_buffer *buffer)
 {

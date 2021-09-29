@@ -1,11 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <output/prompt.h>
-#include <parser/parser.h>
-#include <env/environment.h>
+#include <signal.h>
 #include <readline/readline.h>
 #include <readline/history.h>
-#include <signal.h>
+#include <env/environment.h>
+#include <libft.h>
+#include <parser/parser.h>
+#include <output/prompt.h>
+#include <syntax/check_syntax.h>
 
 static void	setup_env(char *envp[])
 {
@@ -21,17 +23,31 @@ static void	setup_env(char *envp[])
 	}
 }
 
+static char	*get_trimmed_line(void)
+{
+	char *line;
+	char *trimmed_line;
+	char	buffer[BUFFER_SIZE];
+
+	line = readline(display_prompt(&buffer[0]));
+	if (!line)
+		exit(0);
+	trimmed_line = ft_strtrim(line, WHITESSPACE);
+	free(line);
+	return (trimmed_line);
+}
+
 static void	run(char *env[])
 {
 	char	*line;
-	char	buffer[4096];
 
 	while (TRUE)
 	{
-		line = readline(display_prompt(&buffer[0]));
+		line = get_trimmed_line();
 		if (!line)
-			exit(0);
-		parse_input(line, env);
+			printf("Allocation error\n");
+		if (is_valid_syntax(line))
+			parse_input(line, env);
 		free(line);
 	}
 }

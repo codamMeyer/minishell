@@ -11,9 +11,9 @@
 CTEST(create_files, create_test_files)
 {
     char no_implicit_quotes[] = "      test_file     ";
-    int test_fd = open(&no_implicit_quotes[0], O_RDWR | O_CREAT | O_TRUNC, 0664);
+    int test_fd = open(&no_implicit_quotes[0], O_RDWR | O_CREAT | O_TRUNC, FILE_RIGHTS);
     close(test_fd);
-    test_fd = open("test_file",  O_RDWR | O_CREAT | O_TRUNC, 0664);
+    test_fd = open("test_file",  O_RDWR | O_CREAT | O_TRUNC, FILE_RIGHTS);
 }
 
 CTEST(spaces_test, empty_str)
@@ -41,7 +41,7 @@ CTEST(file_name_tests, basic_file_name)
 {
     char buffer[BUFFER_SIZE];
     char file_name[] = "test_file";
-    ASSERT_EQUAL(ft_strlen(&file_name[0]), get_file_name_and_length(&buffer[0], file_name));
+    ASSERT_EQUAL(ft_strlen(&file_name[0]) + 1, get_file_name_and_length(&buffer[0], file_name));
     ASSERT_STR(file_name, buffer);
 }
 
@@ -49,7 +49,7 @@ CTEST(file_name_tests, file_name_with_spaces)
 {
     char buffer[BUFFER_SIZE];
     char file_name[] = "\"      test_file      \"";
-    ASSERT_EQUAL(ft_strlen(&file_name[0]), get_file_name_and_length(&buffer[0], file_name));
+    ASSERT_EQUAL(ft_strlen(&file_name[0]) + 1, get_file_name_and_length(&buffer[0], file_name));
     ASSERT_STR("      test_file      ", buffer);
     system("rm  \"      test_file     \"");
 }
@@ -57,8 +57,9 @@ CTEST(file_name_tests, file_name_with_spaces)
 CTEST(file_name_tests, file_name_with_next_command)
 {
     char buffer[BUFFER_SIZE];
+    int expected = ft_strlen("test_file") + 1;
     char file_name[] = "test_file | applesauces";
-    ASSERT_EQUAL(9, get_file_name_and_length(&buffer[0], file_name));
+    ASSERT_EQUAL(expected, get_file_name_and_length(&buffer[0], file_name));
     ASSERT_STR("test_file", buffer);
 }
 
@@ -66,14 +67,14 @@ CTEST(file_name_tests, file_name_with_spaces_and_quotes)
 {
     char buffer[BUFFER_SIZE];
     char file_name[] = "\"      test_file\"| applesauces";
-    ASSERT_EQUAL(ft_strlen("      test_file") + 2, get_file_name_and_length(&buffer[0], file_name));
+    ASSERT_EQUAL(ft_strlen("      test_file") + 3, get_file_name_and_length(&buffer[0], file_name));
     ASSERT_STR("      test_file", buffer);
 
 }
 
 CTEST(handle_infile, basic_infile)
 {
-    char input[] = "test_file";
+    char input[] = "< test_file";
     t_files  fd;
 
     fd.in = -1;
@@ -84,7 +85,7 @@ CTEST(handle_infile, basic_infile)
 
 CTEST(handle_infile, infile_with_space_no_quotes)
 {
-    char input[] = "      test_file";
+    char input[] = "<      test_file";
      t_files  fd;
 
     fd.in = -1;
@@ -95,9 +96,9 @@ CTEST(handle_infile, infile_with_space_no_quotes)
 
 CTEST_SKIP(handle_infile, infile_with_space_and_quotes)
 {
-    char input[] = "\"      test_file     \"";
+    char input[] = "< \"      test_file     \"";
     char no_implicit_quotes[] = "      test_file     ";
-    int test_fd = open(&no_implicit_quotes[0], O_RDWR | O_CREAT | O_TRUNC, 0664);
+    int test_fd = open(&no_implicit_quotes[0], O_RDWR | O_CREAT | O_TRUNC, FILE_RIGHTS);
     close(test_fd);
     t_files  fd;
 
@@ -125,7 +126,7 @@ CTEST(redirection_test, basic_infile)
     const char *expected=("echo             | cat -e");
     t_files files;
 
-    files = get_redirection(&str, get_arg_len("echo < test_file | cat -e", "|"));
+    files = get_redirection(&str, get_set_index("echo < test_file | cat -e", "|"));
     ASSERT_NOT_EQUAL(-1, files.in);
     ASSERT_STR(expected, str);
     free(str);
@@ -134,13 +135,13 @@ CTEST(redirection_test, basic_infile)
 
 CTEST(redirection_test, infile_inside_command_argument)
 {
-    int test_fd = open("test_file",  O_RDWR | O_CREAT | O_TRUNC, 0664);
+    int test_fd = open("test_file",  O_RDWR | O_CREAT | O_TRUNC, FILE_RIGHTS);
     close(test_fd);
     char *str = ft_strdup("echo halla <test_file everybody");
     const char *expected=("echo halla            everybody");
     t_files files;
 
-    files = get_redirection(&str, get_arg_len("echo halla <test_file everybody", "|"));
+    files = get_redirection(&str, get_set_index("echo halla <test_file everybody", "|"));
     ASSERT_NOT_EQUAL(-1, files.in);
     ASSERT_STR(expected, str);
     free(str);

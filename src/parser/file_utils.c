@@ -1,8 +1,10 @@
 #include <fcntl.h>
-#include <parser/parse_redirection.h>
+#include <libft.h>
 #include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
+#include <executor/executor_utils.h>
+#include <parser/parse_redirection.h>
+#include <readline/readline.h>
+#include <readline/history.h>
 
 void	open_infile(const char *file, int *in_file)
 {
@@ -16,14 +18,11 @@ void	open_infile(const char *file, int *in_file)
 	}
 }
 
-void	open_outfile(const char *file, int *out_file, t_bool should_append)
+void	open_outfile(const char *file, int *out_file, int out_mode)
 {
 	if (*out_file != INVALID_FD)
 		close(*out_file);
-	if (should_append == APPEND)
-		*out_file = open(file, O_RDWR | O_CREAT | O_APPEND, 0664);
-	else
-		*out_file = open(file, O_RDWR | O_CREAT | O_TRUNC, 0664);
+	*out_file = open(file, O_RDWR | O_CREAT | out_mode, FILE_RIGHTS);
 	if (*out_file == INVALID_FD)
 	{
 		printf("Couldn't open in file: %s\n", file);

@@ -1,15 +1,10 @@
-#include "commands.h"
-#include <stdio.h>
-#include <unistd.h>
-#include <string.h>
-#include <stdlib.h>
 #include <ctype.h>
-#include <libft.h>
-#include <parser/parser.h>
+#include <commands/buffer.h>
+#include <commands/commands.h>
 #include <commands/echo_utils.h>
 #include <commands/quotes.h>
-#include <commands/buffer.h>
 #include <env/env_utils.h>
+#include <parser/parser.h>
 
 static void	handle_spaces(t_arg *arg, t_buffer *buffer)
 {
@@ -18,7 +13,7 @@ static void	handle_spaces(t_arg *arg, t_buffer *buffer)
 		skip_spaces(&arg->start);
 		if (arg->start != arg->end)
 		{	
-			buffer->buf[buffer->index] = SPACE;
+			buffer->buf[buffer->index] = SPACE_CHAR;
 			++(buffer->index);
 		}
 	}
@@ -59,7 +54,7 @@ t_exit_code	echo_command(t_command command, t_output_stdout output)
 	t_buffer		buffer;
 
 	init_buffer(&buffer);
-	if (command.arg.len == 0)
+	if (command.arg_len == 0)
 		return (handle_empty_str(has_n_flag, output));
 	while (command.arg.start < command.arg.end)
 	{

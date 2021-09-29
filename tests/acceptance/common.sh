@@ -9,6 +9,7 @@ MINISHELL_OUTPUT="output_minishell.txt"
 EXIT_CODE=0
 MINI_OUT="mini_"
 BASH_OUT="bash_"
+prompt="-►"
 
 function printTestName ()
 {
@@ -77,8 +78,8 @@ function cleanUp ()
 {
     rm -f $TMP_FILE
     rm -f $MINISHELL_OUTPUT
-    rm -f "$MINI_OUT"
-    rm -f "$BASH_OUT"
+    rm -f $MINI_OUT
+    rm -f $BASH_OUT
 }
 
 function removePrompt ()

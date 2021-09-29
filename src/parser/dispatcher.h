@@ -1,7 +1,7 @@
 #ifndef DISPATCHER_H
 # define DISPATCHER_H
-# include <defines.h>
 # include <commands/commands.h>
+# include <defines.h>
 
 typedef t_exit_code(*t_command_function)(t_command, t_output_stdout);
 

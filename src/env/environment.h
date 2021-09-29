@@ -1,8 +1,8 @@
 #ifndef ENVIRONMENT_H
 # define ENVIRONMENT_H
-# include <defines.h>
 # include <commands/commands.h>
 # include <commands/buffer.h>
+# include <defines.h>
 # define ENV_SIZE 2049
 
 typedef struct s_env

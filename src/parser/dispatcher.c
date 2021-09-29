@@ -1,11 +1,11 @@
+#include <ctype.h>
+#include <libft.h>
 #include <parser/dispatcher.h>
 #include <commands/commands.h>
 #include <commands/echo_utils.h>
+#include <output/write_to_std.h>
 #include <parser/parser.h>
 #include <executor/executor_utils.h>
-#include <stdio.h>
-#include <libft.h>
-#include <ctype.h>
 
 static void	copy_unknown_command_to_buffer(const char **input, char buffer[])
 {

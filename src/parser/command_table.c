@@ -1,10 +1,10 @@
-#include <parser/command_table.h>
-#include <parser/parser.h>
-#include <parser/get_executable_path.h>
-#include <commands/quotes.h>
+#include <ctype.h>
 #include <libft.h>
 #include <stdio.h>
-#include <ctype.h>
+#include <commands/quotes.h>
+#include <parser/command_table.h>
+#include <parser/get_executable_path.h>
+#include <parser/parser.h>
 
 static t_bool	is_valid_last_char(const char *input, int command_len)
 {
@@ -14,7 +14,7 @@ static t_bool	is_valid_last_char(const char *input, int command_len)
 	if (input_len >= command_len)
 	{
 		last_char = input[command_len];
-		return (isspace(last_char) || last_char == '\0');
+		return (isspace(last_char) || last_char == NULL_TERMINATOR);
 	}
 	return (FALSE);
 }
@@ -73,14 +73,14 @@ t_bool	is_between_quotes(const char *input, int reserved_char_index)
 	return (FALSE);
 }
 
-int	get_arg_len(const char *start, const char *set)
+int	get_set_index(const char *start, const char *set)
 {
 	char	*redirection_position;
 	int		redirection_index;
 	int		start_index;
 
 	start_index = 0;
-	redirection_position = get_redirection_position(set,
+	redirection_position = get_set_position(set,
 			(char *)start);
 	while (redirection_position && start[start_index] != '\0')
 	{
@@ -88,7 +88,7 @@ int	get_arg_len(const char *start, const char *set)
 		if (!is_between_quotes(start, redirection_index))
 			return (redirection_index);
 		start_index += redirection_index + 1;
-		redirection_position = get_redirection_position(set,
+		redirection_position = get_set_position(set,
 				(char *)&start[start_index]);
 	}
 	return (ft_strlen(start));

@@ -1,6 +1,6 @@
-#include <parser/parser.h>
 #include <ctype.h>
 #include <string.h>
+#include <parser/parser.h>
 
 void	advance_pointer(const char **input, const char *parsed_str)
 {

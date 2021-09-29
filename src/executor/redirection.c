@@ -1,12 +1,11 @@
+#include <fcntl.h>
+#include <libft.h>
+#include <unistd.h> 
 #include <executor/redirection.h>
 #include <executor/run_commands.h>
 #include <parser/command_table.h>
 #include <parser/parser.h>
 #include <parser/parse_redirection.h>
-#include <libft.h>
-#include <unistd.h> 
-#include <stdio.h>
-#include <fcntl.h>
 
 void	redirect_in_and_output(t_multi_pipes *pipes, int process,
 	int last_process, t_command *command)

@@ -1,14 +1,13 @@
-#include "command_table.h"
-#include "get_executable_path.h"
-#include <../libft/libft.h>
-#include <stdio.h>
+#include <libft.h>
+#include <parser/command_table.h>
+#include <parser/get_executable_path.h>
 
 int	get_cmd_len(const char *input)
 {
 	int	i;
 
 	i = 0;
-	while (input[i] && input[i] != SPACE)
+	while (input[i] && input[i] != SPACE_CHAR)
 		i++;
 	return (i);
 }
@@ -32,7 +31,7 @@ t_bool	is_system_command(const char *input, t_command *command)
 	return (FALSE);
 }
 
-char	*get_redirection_position(const char *set, char *str_to_check)
+char	*get_set_position(const char *set, char *str_to_check)
 {
 	int	i;
 

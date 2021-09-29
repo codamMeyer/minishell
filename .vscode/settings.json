@@ -9,7 +9,9 @@
         "locale": "c",
         "libft.h": "c",
         "get_executable_path.h": "c",
-        "ios": "c"
+        "ios": "c",
+        "readline.h": "c",
+        "history.h": "c"
     },
     "python.linting.flake8Args": [
         "--max-line-length=120",

@@ -1,15 +1,15 @@
-#include "parser.h"
-#include <parser/command_table.h>
-#include <parser/dispatcher.h>
-#include <parser/parse_redirection.h>
-#include <string.h>
 #include <ctype.h>
+#include <libft.h>
+#include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <libft.h>
 #include <commands/quotes.h>
 #include <commands/echo_utils.h>
 #include <executor/run_commands.h>
+#include <parser/command_table.h>
+#include <parser/dispatcher.h>
+#include <parser/parser.h>
+#include <parser/parse_redirection.h>
 
 static void	consume_pipe(const char **input, int index)
 {
@@ -27,11 +27,11 @@ t_command	populate_command(const char **input_ptr)
 	t_command	command;
 
 	command.files = get_redirection((char **)input_ptr,
-			get_arg_len(*input_ptr, "|"));
+			get_set_index(*input_ptr, "|") - 1);
 	command.code = get_command_code(input_ptr, &command);
 	command.arg.start = *input_ptr;
-	command.arg.len = get_arg_len(command.arg.start, REDIRECTION_CHARS);
-	command.arg.end = *input_ptr + command.arg.len;
+	command.arg_len = get_set_index(command.arg.start, "|");
+	command.arg.end = *input_ptr + command.arg_len;
 	return (command);
 }
 
@@ -47,7 +47,7 @@ int	populate_commands_table(const char *input, t_command commands_table[])
 	{
 		consume_pipe(&input_line, i);
 		commands_table[i] = populate_command(&input_line);
-		input_line += commands_table[i].arg.len;
+		input_line += commands_table[i].arg_len;
 		skip_spaces(&input_line);
 		++i;
 	}
@@ -59,6 +59,7 @@ t_bool	parse_input(const char *input, char *env[])
 	t_command	commands_table[MAX_CMDS_PER_LINE];
 	int			num_commands;
 
+	
 	num_commands = populate_commands_table(input, commands_table);
 	run_commands(commands_table, num_commands, env);
 	return (TRUE);
