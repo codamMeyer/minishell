@@ -1,9 +1,19 @@
 #!/bin/bash
 source ./tests/acceptance/common.sh
 
-printTestName "SYNTAX_CHECKER_FOR_PIPES"
-runWithoutQuotes "| echo Hello" "| echo Hello" "Pipe in the beginning"
-
+INPUT="| echo hello | cat -e"
+echo -e "$INPUT\nexit" | ./minishell 2> $MINISHELL_OUTPUT
+ACTUAL=$(cat $MINISHELL_OUTPUT)
+EXPECTED="syntax error near unexpected token \`|'"
+assertEqual "$INPUT"
 cleanUp
+
+INPUT="echo hello | cat -e  |"
+echo -e "$INPUT\nexit" | ./minishell 2> $MINISHELL_OUTPUT
+ACTUAL=$(cat $MINISHELL_OUTPUT)
+EXPECTED="syntax error near unexpected token \`|'"
+assertEqual "$INPUT"
+cleanUp
+
 
 exit $EXIT_CODE

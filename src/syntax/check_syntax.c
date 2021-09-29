@@ -19,7 +19,12 @@ t_bool	redirect_is_last_char(const char *str)
 	if (*str)
 		++str;
 	skip_spaces(&str);
-	return (*str == NULL_TERMINATOR);
+	if (*str == NULL_TERMINATOR)
+	{
+		write_to_stderr("syntax error near unexpected token `|'\n");
+		return (TRUE);
+	}
+	return (FALSE);
 }
 
 t_bool	is_valid_eol(char last_char)
@@ -33,7 +38,12 @@ t_bool is_double_pipe(const char *str)
 	if (*str == PIPE)
 		++str;
 	skip_spaces(&str);
-	return (*str == PIPE);
+	if (*str == PIPE)
+	{
+		write_to_stderr("syntax error near unexpected token `|'\n");
+		return (TRUE);
+	}
+	return (FALSE);
 }
 
 /*
@@ -45,16 +55,17 @@ t_bool is_double_pipe(const char *str)
 	Might be over complex but hey!?
 	REMEMBER TO REMOVE UNNECESARY SKIP SPACES
 */
+
+/* is_valid_redirection_syntax input will always be a trimmed string */
 t_bool	is_valid_redirection_syntax(const char *input)
 {
 	if (*input == PIPE)
 	{
-		write_to_stderr("bash: syntax error near unexpected token `|'\n");
+		write_to_stderr("syntax error near unexpected token `|'");
 		return (FALSE);
 	}
 	while (input && *input)
 	{
-		skip_spaces(&input);
 		input += get_set_index(input, "|");
 		if (*input == NULL_TERMINATOR)
 			break ;
