@@ -1,5 +1,7 @@
 #include <defines.h>
 #include <commands/commands.h>
+#include <executor/executor_utils.h>
+#include <output/write_to_std.h>
 #include <parser/command_table.h>
 #include <parser/parser.h>
 #include <libft.h>
@@ -46,7 +48,10 @@ t_bool is_double_pipe(const char *str)
 t_bool	is_valid_redirection_syntax(const char *input)
 {
 	if (*input == PIPE)
+	{
+		write_to_stderr("bash: syntax error near unexpected token `|'\n");
 		return (FALSE);
+	}
 	while (input && *input)
 	{
 		skip_spaces(&input);

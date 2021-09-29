@@ -1,4 +1,5 @@
 #include <executor/run_commands.h>
+#include <executor/executor_utils.h>
 #include <parser/command_table.h>
 #include <libft.h>
 #include <stdio.h>

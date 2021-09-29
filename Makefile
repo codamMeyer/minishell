@@ -15,6 +15,7 @@ MINISHELL_INCS= 						\
 	src/parser/command_table.h			\
 	src/parser/parse_redirection.h		\
 	src/output/prompt.h					\
+	src/output/write_to_std.h			\
 	src/executor/run_commands.h			\
 	src/executor/executor_utils.h		\
 	src/executor/redirection.h			\
@@ -29,9 +30,10 @@ MINISHELL_INCS= 						\
 	src/env/env_utils.h					\
 
 MINISHELL_SRC= 							\
-	src/syntax/check_syntax.c					\
+	src/syntax/check_syntax.c			\
 	src/parser/parser.c					\
 	src/output/prompt.c					\
+	src/output/write_to_std.c			\
 	src/executor/run_commands.c			\
 	src/executor/executor_utils.c		\
 	src/executor/redirection.c			\

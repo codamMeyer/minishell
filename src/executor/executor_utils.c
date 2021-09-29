@@ -20,7 +20,7 @@ void	wait_for_all_processes(int num_of_processes)
 /*
 	Basic error handeling fucntion to make troubleshooting easier for system calls
 */
-void	handle_errors(int error_code, char *description_location)
+void	handle_errors(int error_code, const char *description_location)
 {
 	perror(description_location);
 	exit(error_code);
