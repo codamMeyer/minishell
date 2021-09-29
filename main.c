@@ -25,8 +25,8 @@ static void	setup_env(char *envp[])
 
 static char	*get_trimmed_line(void)
 {
-	char *line;
-	char *trimmed_line;
+	char	*line;
+	char	*trimmed_line;
 	char	buffer[BUFFER_SIZE];
 
 	line = readline(display_prompt(&buffer[0]));
