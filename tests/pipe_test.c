@@ -9,6 +9,13 @@
 #include <strings.h>
 #include <fcntl.h>
 
+void	create_table(t_command commands[], char *arg, char *path)
+{
+	commands->arg.start = arg;
+	commands->arg.len = strlen(arg);
+	commands->exe_path = path;
+}
+
 t_command commands[50];
 int array_size = sizeof(commands);
 int number_of_commands = 3;
