@@ -151,7 +151,7 @@ CTEST(redirection_test, infile_inside_command_argument)
     const char *expected=("echo halla            everybody");
     t_files files;
 
-    files = get_redirection(&str, get_arg_len("echo halla <test_file everybody", "|"));
+    files = get_redirection(&str, get_set_index("echo halla <test_file everybody", "|"));
     ASSERT_NOT_EQUAL(-1, files.in);
     ASSERT_STR(expected, str);
     free(str);

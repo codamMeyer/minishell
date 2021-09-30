@@ -4,7 +4,8 @@
 # define WHITESSPACE " \t"
 # define N_FLAG "-n"
 # define REDIRECTION_CHARS "<>|" 
-# define SPECIALS "<>| \0"
+# define ALL_TERMINATORS "<>| \0" 
+
 # include <defines.h>
 
 typedef enum e_special_chars
@@ -15,14 +16,13 @@ typedef enum e_special_chars
 	LEFT_ANGLE = '<',
 	RIGHT_ANGLE = '>',
 	VARIABLE_TOKEN = '$',
-	EQUAL_SIGN = '='
+	EQUAL_SIGN = '=',
 }	t_special_chars;
 
 typedef struct s_arg
 {
 	const char	*start;
 	const char	*end;
-	int			len;
 }	t_arg;
 
 typedef struct s_files
@@ -36,6 +36,7 @@ typedef struct s_command
 	t_command_code	code;
 	t_arg			arg;
 	t_files			files;
+	int				arg_len;
 	const char		*exe_path;
 }	t_command;
 

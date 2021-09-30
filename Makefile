@@ -10,10 +10,13 @@ LIBFT_PATH = libft/
 
 MINISHELL_INCS= 						\
 	src/defines.h						\
+	src/syntax/check_syntax.h			\
+	src/syntax/redirection_syntax.h		\
 	src/parser/parser.h					\
 	src/parser/command_table.h			\
 	src/parser/parse_redirection.h		\
 	src/output/prompt.h					\
+	src/output/write_to_std.h			\
 	src/executor/run_commands.h			\
 	src/executor/executor_utils.h		\
 	src/executor/redirection.h			\
@@ -28,8 +31,11 @@ MINISHELL_INCS= 						\
 	src/env/env_utils.h					\
 
 MINISHELL_SRC= 							\
+	src/syntax/check_syntax.c			\
+	src/syntax/redirection_syntax.c		\
 	src/parser/parser.c					\
 	src/output/prompt.c					\
+	src/output/write_to_std.c			\
 	src/executor/run_commands.c			\
 	src/executor/executor_utils.c		\
 	src/executor/redirection.c			\
@@ -41,7 +47,7 @@ MINISHELL_SRC= 							\
 	src/parser/get_executable_path.c	\
 	src/parser/parse_redirection.c		\
 	src/parser/parse_redirect_utils.c	\
-	src/parser/here_doc.c	\
+	src/parser/here_doc.c				\
 	src/parser/file_utils.c				\
 	src/commands/exit_command.c			\
 	src/commands/echo_command.c			\
@@ -59,6 +65,7 @@ MINISHELL_SRC= 							\
 
 TEST_FILES=								\
 	tests/main.c 						\
+	tests/syntax_checker_tests.c 		\
 	tests/parser_test.c					\
 	tests/echo_test.c					\
 	tests/pwd_test.c					\

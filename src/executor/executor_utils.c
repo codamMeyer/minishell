@@ -19,7 +19,7 @@ void	wait_for_all_processes(int num_of_processes)
 /*
 	Basic error handeling fucntion to make troubleshooting easier for system calls
 */
-void	handle_errors(int error_code, char *description_location)
+void	handle_errors(int error_code, const char *description_location)
 {
 	perror(description_location);
 	exit(error_code);
@@ -38,7 +38,7 @@ void	execute_system_command(const t_command *command, char *env[])
 	char		**cmd;
 	char		buffer[4096];
 
-	ft_strlcpy(&buffer[0], command->arg.start, command->arg.len + 1);
+	ft_strlcpy(&buffer[0], command->arg.start, command->arg_len + 1);
 	cmd = ft_split(&buffer[0], SPACE_CHAR);
 	if (!cmd)
 		handle_errors(3, "child, invalid command");

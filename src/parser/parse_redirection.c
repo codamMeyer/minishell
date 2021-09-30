@@ -16,10 +16,10 @@
 */
 int	get_file_name_and_length(char *buffer, char *input)
 {
-	// const int	file_name_len = get_arg_len(input, SPECIALS) + 1;
 	int			i;
 	t_arg		arg;
 	t_buffer	buffer_t;
+	// const int	file_name_len = get_set_index(input, ALL_TERMINATORS) + 1;
 
 	init_buffer(&buffer_t);
 	i = 1; // starts at one to already include the \0
@@ -122,13 +122,13 @@ t_files	get_redirection(char **input, const int string_to_parse_len)
 	fd.in = INVALID_FD;
 	fd.out = INVALID_FD;
 	cursor = *input;
-	index = get_arg_len(&cursor[0], "><");
+	index = get_set_index(&cursor[0], "><");
 	while (index < string_to_parse_len)
 	{
 		redirect_id = get_redirect_id(&cursor[index]);
 		length = open_file(&cursor[index], &fd, redirect_id) + 1;
 		replace_redirection_w_space(input, length, index);
-		index += get_arg_len(&cursor[index], "><");
+		index += get_set_index(&cursor[index], "><");
 	}
 	return (fd);
 }

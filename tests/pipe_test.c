@@ -12,7 +12,7 @@
 void	create_table(t_command commands[], char *arg, char *path)
 {
 	commands->arg.start = arg;
-	commands->arg.len = strlen(arg);
+	commands->arg_len = strlen(arg);
 	commands->exe_path = path;
 }
 

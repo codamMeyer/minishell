@@ -54,7 +54,7 @@ t_exit_code	echo_command(t_command command, t_output_stdout output)
 	t_buffer		buffer;
 
 	init_buffer(&buffer);
-	if (command.arg.len == 0)
+	if (command.arg_len == 0)
 		return (handle_empty_str(has_n_flag, output));
 	while (command.arg.start < command.arg.end)
 	{

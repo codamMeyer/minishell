@@ -9,6 +9,7 @@ MINISHELL_OUTPUT="output_minishell.txt"
 EXIT_CODE=0
 MINI_OUT="mini_"
 BASH_OUT="bash_"
+prompt="-►"
 
 function printTestName ()
 {

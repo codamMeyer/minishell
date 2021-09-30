@@ -4,8 +4,6 @@ source ./tests/acceptance/common.sh
 
 printTestName "PIPES"
 
-prompt="-►"
-
 INPUT="echo first test"
 runMinishell "$INPUT"
 readMinishellOutput
