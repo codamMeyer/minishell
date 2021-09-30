@@ -1,20 +1,31 @@
 #include <syntax/check_quotes_syntax.h>
 #include <commands/quotes.h>
+#include <parser/command_table.h>
 
-t_exit_code	is_missing_quotes(const char *input, t_output_stdout output)
+char *find_quote(const char *input)
+{
+	while (*input)
+	{
+		if (is_quote(*input))
+			return ((char *)input);
+		++input;
+	}
+	return ((char *)input);
+}
+
+
+t_exit_code	has_missing_quotes(const char *input, t_output_stdout output)
 {
 	t_quotes_position	quotes;
 
-	while (*input && !is_quote(*input))
-		++input;
-	if (!*input)
+	quotes.start = find_quote(input);
+	if (!*quotes.start)
 		return (SUCCESS);
-	quotes = get_quotes_positions(input);
+	quotes = get_quotes_positions(quotes.start);
 	while (quotes.start && quotes.end)
 	{
 		++quotes.end;
-		while (*quotes.end && !is_quote(*quotes.end))
-			++quotes.end;
+		quotes.end = find_quote(quotes.end);
 		quotes = get_quotes_positions(quotes.end);
 	}
 	if (quotes.start)

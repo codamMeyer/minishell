@@ -59,7 +59,7 @@ t_bool	is_valid_redirection_syntax(const char *input)
 {
 	if (*input == PIPE)
 	{
-		write_to_stderr("syntax error near unexpected token `|'");
+		write_to_stderr("syntax error near unexpected token `|'\n");
 		return (FALSE);
 	}
 	while (input && *input)

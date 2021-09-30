@@ -3,6 +3,6 @@
 # include <defines.h>
 # include <commands/commands.h>
 
-t_exit_code	is_missing_quotes(const char *input, t_output_stdout output);
+t_exit_code	has_missing_quotes(const char *input, t_output_stdout output);
 
 #endif
