@@ -2,6 +2,7 @@
 #include <commands/buffer.h>
 #include <sys/stat.h>
 #include <parser/get_executable_path.h>
+#include <env/environment.h>
 
 static void	append_command_to_path(char	*buffer, const char *command)
 {
@@ -37,15 +38,17 @@ int	is_executable(char *full_path_executable)
 
 char	*get_executable_path(const char *command)
 {
-	const char	*all_paths = getenv(PATH);
+	const t_env	*env = find_variable(get_environment(), PATH);
+	char		*all_paths;
 	char		buffer[BUFFER_SIZE];
 	int			single_path_len;
 
-	if (!command || !*command || !all_paths)
+	if (!command || !*command || !env)
 		return (NULL);
 	else if (ft_strchr(command, FORWARD_SLASH)
 		&& is_executable((char *) command) == F_OK)
 		return (ft_strdup(command));
+	all_paths = env->value;
 	while (all_paths && *all_paths)
 	{
 		single_path_len = get_sub_path_len(all_paths);
