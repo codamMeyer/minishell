@@ -31,8 +31,20 @@ int	get_file_name_and_length(char *buffer, char *input)
 	}
 	if (is_quote(*arg.start))
 	{
+		if (is_single_quote(*arg.start))
+		{
+			buffer_t.buf[buffer_t.index] = '\'';
+			++buffer_t.index;
+		}
 		arg = parse_str_with_quotes(arg, &buffer_t);
-		i += buffer_t.index + 2;
+		if (is_single_quote(*(arg.start - 1)))
+		{
+			buffer_t.buf[buffer_t.index] = '\'';
+			++buffer_t.index;
+			i += buffer_t.index;
+		}
+		else
+			i += buffer_t.index + 2;
 	}
 	else
 	{

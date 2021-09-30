@@ -54,6 +54,16 @@ CTEST(file_name_tests, file_name_with_spaces)
     system("rm  \"      test_file     \"");
 }
 
+CTEST(file_name_tests, file_name_single_quotes)
+{
+    char buffer[BUFFER_SIZE];
+    char file_name[] = "'test_file'";
+    ASSERT_EQUAL(ft_strlen(&file_name[0]) + 1, get_file_name_and_length(&buffer[0], file_name));
+    ASSERT_STR("'test_file'", buffer);
+    system("rm  \'test_file\'");
+}
+
+
 CTEST(file_name_tests, file_name_with_next_command)
 {
     char buffer[BUFFER_SIZE];
@@ -72,27 +82,27 @@ CTEST(file_name_tests, file_name_with_spaces_and_quotes)
 
 }
 
-CTEST(handle_infile, basic_infile)
-{
-    char input[] = "< test_file";
-    t_files  fd;
+// CTEST(handle_infile, basic_infile)
+// {
+//     char input[] = "< test_file";
+//     t_files  fd;
 
-    fd.in = -1;
-    ASSERT_EQUAL(ft_strlen(input), open_file(&input[0], &fd, LEFT_ANGLE));
-    ASSERT_NOT_EQUAL(-1, fd.in);
-    close(fd.in);
-}
+//     fd.in = -1;
+//     ASSERT_EQUAL(ft_strlen(input), open_file(&input[0], &fd, LEFT_ANGLE));
+//     ASSERT_NOT_EQUAL(-1, fd.in);
+//     close(fd.in);
+// }
 
-CTEST(handle_infile, infile_with_space_no_quotes)
-{
-    char input[] = "<      test_file";
-     t_files  fd;
+// CTEST(handle_infile, infile_with_space_no_quotes)
+// {
+//     char input[] = "<      test_file";
+//      t_files  fd;
 
-    fd.in = -1;
-    ASSERT_EQUAL(ft_strlen(input), open_file(&input[0], &fd, LEFT_ANGLE));
-    ASSERT_NOT_EQUAL(-1, fd.in);
-    close(fd.in);
-}
+//     fd.in = -1;
+//     ASSERT_EQUAL(ft_strlen(input), open_file(&input[0], &fd, LEFT_ANGLE));
+//     ASSERT_NOT_EQUAL(-1, fd.in);
+//     close(fd.in);
+// }
 
 CTEST_SKIP(handle_infile, infile_with_space_and_quotes)
 {
@@ -109,29 +119,29 @@ CTEST_SKIP(handle_infile, infile_with_space_and_quotes)
     system("rm  \"      test_file     \"");
 }
 
-CTEST(get_fds, operations_test)
-{
-    char *str = ft_strdup(" test_file echo halla | cat -e");
-    t_files fd;
+// CTEST(get_fds, operations_test)
+// {
+//     char *str = ft_strdup(" test_file echo halla | cat -e");
+//     t_files fd;
 
-    int result = open_file((char*)str, &fd, '<');
-    ASSERT_EQUAL(ft_strlen(" test_file"), result);
-    ASSERT_NOT_EQUAL(-1, fd.in);
-    free(str);
-}
+//     int result = open_file((char*)str, &fd, '<');
+//     ASSERT_EQUAL(ft_strlen(" test_file"), result);
+//     ASSERT_NOT_EQUAL(-1, fd.in);
+//     free(str);
+// }
 
-CTEST(redirection_test, basic_infile)
-{
-    char *str = ft_strdup("echo < test_file | cat -e");
-    const char *expected=("echo             | cat -e");
-    t_files files;
+// CTEST(redirection_test, basic_infile)
+// {
+//     char *str = ft_strdup("echo < test_file | cat -e");
+//     const char *expected=("echo             | cat -e");
+//     t_files files;
 
-    files = get_redirection(&str, get_arg_len("echo < test_file | cat -e", "|"));
-    ASSERT_NOT_EQUAL(-1, files.in);
-    ASSERT_STR(expected, str);
-    free(str);
-    system("rm test_file");
-}
+//     files = get_redirection(&str, get_arg_len("echo < test_file | cat -e", "|"));
+//     ASSERT_NOT_EQUAL(-1, files.in);
+//     ASSERT_STR(expected, str);
+//     free(str);
+//     system("rm test_file");
+// }
 
 CTEST(redirection_test, infile_inside_command_argument)
 {
