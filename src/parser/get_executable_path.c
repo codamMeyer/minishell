@@ -41,7 +41,7 @@ char	*get_executable_path(const char *command)
 	char		buffer[BUFFER_SIZE];
 	int			single_path_len;
 
-	if (!command || !all_paths)
+	if (!command || !*command || !all_paths)
 		return (NULL);
 	else if (ft_strchr(command, FORWARD_SLASH)
 		&& is_executable((char *) command) == F_OK)
