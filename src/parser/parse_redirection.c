@@ -1,7 +1,10 @@
+#include <ctype.h>
 #include <fcntl.h>
 #include <libft.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <commands/quotes.h>
+#include <env/env_utils.h>
 #include <executor/executor_utils.h>
 #include <parser/command_table.h>
 #include <parser/here_doc.h>
@@ -13,21 +16,38 @@
 */
 int	get_file_name_and_length(char *buffer, char *input)
 {
-	const int	file_name_len = get_arg_len(input, SPECIALS) + 1;
-	int			len_to_cpy;
-	char		*cursor;
+	// const int	file_name_len = get_arg_len(input, SPECIALS) + 1;
+	int			i;
+	t_arg		arg;
+	t_buffer	buffer_t;
 
-	ft_bzero(&buffer[0], BUFFER_SIZE);
-	cursor = input;
-	if (*cursor == DOUBLE_QUOTES)
+	init_buffer(&buffer_t);
+	i = 1; // starts at one to already include the \0
+	arg.start = input;
+	while (*arg.start && isspace(*arg.start))
 	{
-		++(cursor);
-		len_to_cpy = file_name_len - 2;
+		++arg.start;
+		++i;
+	}
+	if (is_quote(*arg.start))
+	{
+		arg = parse_str_with_quotes(arg, &buffer_t);
+		i += buffer_t.index + 2;
 	}
 	else
-		len_to_cpy = file_name_len;
-	ft_strlcpy(&buffer[0], cursor, len_to_cpy);
-	return (file_name_len);
+	{
+		while (*arg.start && !isspace(*arg.start))
+		{
+			if (is_env_variable(arg.start))
+				append_env_value_to_buffer(&arg, &buffer_t);
+			else
+				append_char_to_buffer(&arg, &buffer_t);
+		}
+		i += buffer_t.index;
+	}
+	++buffer_t.index;
+	ft_strlcpy(buffer, &buffer_t.buf[0], buffer_t.index);
+	return (i);
 }
 
 int	get_redirect_id(const char *cursor)
