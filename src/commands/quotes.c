@@ -36,7 +36,7 @@ t_quotes_index	get_quotes_indexes(const char *input)
 		quotes.end = 0;
 		return (quotes);
 	}
-	quotes.start = pos_quotes.start - &input[0];
+	quotes.start = pos_quotes.start - &input[0] - 1;
 	quotes.end = pos_quotes.end - &input[0];
 	return (quotes);
 }

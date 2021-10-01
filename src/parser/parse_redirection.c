@@ -16,50 +16,41 @@
 */
 int	get_file_name_and_length(char *buffer, char *input)
 {
-	int			i;
 	t_arg		arg;
 	t_buffer	buffer_t;
-	// const int	file_name_len = get_set_index(input, ALL_TERMINATORS) + 1;
+	int			len_to_replace = get_set_index(input, ALL_TERMINATORS);
 
 	init_buffer(&buffer_t);
-	i = 1; // starts at one to already include the \0
 	arg.start = input;
 	while (*arg.start && isspace(*arg.start))
 	{
 		++arg.start;
-		++i;
 	}
-	if (is_quote(*arg.start))
+	while (*arg.start && !isspace(*arg.start))
 	{
-		if (is_single_quote(*arg.start))
+		if (is_quote(*arg.start))
 		{
-			buffer_t.buf[buffer_t.index] = '\'';
-			++buffer_t.index;
+			if (is_single_quote(*arg.start))
+			{
+				buffer_t.buf[buffer_t.index] = '\'';
+				++buffer_t.index;
+			}
+			arg = parse_str_with_quotes(arg, &buffer_t);
+			if (is_single_quote(*(arg.start - 1)))
+			{
+				buffer_t.buf[buffer_t.index] = '\'';
+				++buffer_t.index;
+			}
 		}
-		arg = parse_str_with_quotes(arg, &buffer_t);
-		if (is_single_quote(*(arg.start - 1)))
-		{
-			buffer_t.buf[buffer_t.index] = '\'';
-			++buffer_t.index;
-			i += buffer_t.index;
-		}
+		if (is_env_variable(arg.start))
+			append_env_value_to_buffer(&arg, &buffer_t);
+		if (*arg.start == PIPE || *arg.start == SPACE_CHAR)
+			break ;
 		else
-			i += buffer_t.index + 2;
+			append_char_to_buffer(&arg, &buffer_t);
 	}
-	else
-	{
-		while (*arg.start && !isspace(*arg.start))
-		{
-			if (is_env_variable(arg.start))
-				append_env_value_to_buffer(&arg, &buffer_t);
-			else
-				append_char_to_buffer(&arg, &buffer_t);
-		}
-		i += buffer_t.index;
-	}
-	++buffer_t.index;
-	ft_strlcpy(buffer, &buffer_t.buf[0], buffer_t.index);
-	return (i);
+	ft_strlcpy(buffer, &buffer_t.buf[0], buffer_t.index + 1);
+	return (len_to_replace+1);
 }
 
 int	get_redirect_id(const char *cursor)

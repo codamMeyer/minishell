@@ -116,24 +116,6 @@ CTEST2(command_table, command_cointaining_pipe_between_quotes)
     ASSERT_STR(" this is a \" | \"", data->command_table[0].arg.start);
 }
 
-/*
-    we need to check what happens if there is a syntax error
-*/
-CTEST2(command_table, input_starting_with_pipe)
-{
-    const char *input = "| this is syntax error";
-    ASSERT_EQUAL(2, populate_commands_table(input, data->command_table));
-    ASSERT_EQUAL(INVALID, data->command_table[0].code);
-}
-
-CTEST2_SKIP(command_table, input_ending_with_pipe)
-{
-    // We need to decide if pipe at the end will be syntax error or not
-    const char *input = "echo this is syntax error |";
-    ASSERT_EQUAL(2, populate_commands_table(input, data->command_table));
-    ASSERT_EQUAL(INVALID, data->command_table[1].code);
-}
-
 CTEST2(command_table, command_separated_by_pipe)
 {
     const char *input = "echo this is the end | echo test";
