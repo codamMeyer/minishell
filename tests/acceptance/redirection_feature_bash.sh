@@ -146,12 +146,12 @@ EXPECTED=$(echo hello >$A apple test |cat -e APPLE)
 assertEqual "Test with varible in filename"
 rm APPLE
 
-ACTUAL=$(echo -e "echo hello >'\$A' apple test |cat -e '\$A'\nexit" | ./minishell > $MINISHELL_OUTPUT)
+ACTUAL=$(echo -e "echo hello >'\$A' apple test |cat -e \$A\nexit" | ./minishell > $MINISHELL_OUTPUT)
 removePrompt $MINISHELL_OUTPUT
 ACTUAL=$(cat $MINISHELL_OUTPUT | grep "test")
 EXPECTED=$(echo hello >'$A' apple test |cat -e '$A')
 assertEqual "Test with varible in filename, but inside single quotes"
-rm \'\$A\' '$A'
+rm '$A'
 
 
 exit $EXIT_CODE

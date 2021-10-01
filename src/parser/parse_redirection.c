@@ -14,43 +14,25 @@
 /*
 	Assumes that string has been checked for quotes
 */
-int	get_file_name_and_length(char *buffer, char *input)
+int	get_file_name_and_length(t_buffer *buffer, char *input)
 {
+	const int	len_to_replace = get_set_index(input, ALL_TERMINATORS) + 1;
 	t_arg		arg;
-	t_buffer	buffer_t;
-	int			len_to_replace = get_set_index(input, ALL_TERMINATORS);
 
-	init_buffer(&buffer_t);
 	arg.start = input;
-	while (*arg.start && isspace(*arg.start))
-	{
-		++arg.start;
-	}
+	skip_spaces(&arg.start);
 	while (*arg.start && !isspace(*arg.start))
 	{
 		if (is_quote(*arg.start))
-		{
-			if (is_single_quote(*arg.start))
-			{
-				buffer_t.buf[buffer_t.index] = '\'';
-				++buffer_t.index;
-			}
-			arg = parse_str_with_quotes(arg, &buffer_t);
-			if (is_single_quote(*(arg.start - 1)))
-			{
-				buffer_t.buf[buffer_t.index] = '\'';
-				++buffer_t.index;
-			}
-		}
+			arg = parse_str_with_quotes(arg, buffer);
 		if (is_env_variable(arg.start))
-			append_env_value_to_buffer(&arg, &buffer_t);
+			append_env_value_to_buffer(&arg, buffer);
 		if (*arg.start == PIPE || *arg.start == SPACE_CHAR)
 			break ;
 		else
-			append_char_to_buffer(&arg, &buffer_t);
+			append_char_to_buffer(&arg, buffer);
 	}
-	ft_strlcpy(buffer, &buffer_t.buf[0], buffer_t.index + 1);
-	return (len_to_replace+1);
+	return (len_to_replace);
 }
 
 int	get_redirect_id(const char *cursor)
@@ -86,16 +68,16 @@ void	open_in_mode(const char *file, t_files *files, int mode_id)
 */
 int	open_file(char *file_name_ptr, t_files *files, int redirection_id)
 {
-	char	buffer[BUFFER_SIZE];
+	t_buffer	buffer;
 	int		i;
 
-	ft_bzero(buffer, BUFFER_SIZE);
+	init_buffer(&buffer);
 	if (is_multi_angled_bracket(redirection_id))
 		file_name_ptr += 1;
 	file_name_ptr += 1;
 	i = count_consecutive_spaces(file_name_ptr);
-	i += get_file_name_and_length(&buffer[0], &file_name_ptr[i]);
-	open_in_mode((const char *)buffer, files, redirection_id);
+	i += get_file_name_and_length(&buffer, &file_name_ptr[i]);
+	open_in_mode(&buffer.buf[0], files, redirection_id);
 	return (i);
 }
 
