@@ -7,8 +7,8 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Install dependencies GCC and CLANG and Norminette
-          command: 'apt-get update && apt-get install -y clang gcc make python3 python3-pip && apt-get install -y libreadline-dev && pip3 install -U norminette'
+          name: Install dependenciesCLANG and Norminette
+          command: 'apt-get update && apt-get -y install wget && apt-get install -y clang make python3 python3-pip && apt-get install -y libreadline-dev && pip3 install -U norminette'
       - run:
           name: Install Bash 3.2
           command: 'mkdir ~/bash && cd ~/bash && wget http://ftp.gnu.org/gnu/bash/bash-3.2.57.tar.gz && tar xvzf bash-3.2.57.tar.gz && cd bash-3.2.57 && ./configure && make && ./bash -version && cp bash /bin/bash'
