@@ -22,19 +22,22 @@ t_quotes_position	get_quotes_positions(const char *input)
 
 t_quotes_index	get_quotes_indexes(const char *input)
 {
-	char			*start;
-	t_quotes_index	quotes;
+	char				*start;
+	t_quotes_position	pos_quotes;
+	t_quotes_index		quotes;
 
-	start = ft_strchr(input, DOUBLE_QUOTES);
-	if (start)
+	start = (char *)input;
+	while (*start && !is_quote(*start))
+		++start;
+	pos_quotes = get_quotes_positions(start);
+	if (!pos_quotes.start || !pos_quotes.end)
 	{
-		quotes.start = start - &input[0];
-		quotes.end = \
-			ft_strchr(&input[quotes.start + 1], DOUBLE_QUOTES) - &input[0];
+		quotes.start = 0;
+		quotes.end = 0;
 		return (quotes);
 	}
-	quotes.start = 0;
-	quotes.end = 0;
+	quotes.start = pos_quotes.start - &input[0] - 1;
+	quotes.end = pos_quotes.end - &input[0];
 	return (quotes);
 }
 

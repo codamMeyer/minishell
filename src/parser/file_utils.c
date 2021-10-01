@@ -13,7 +13,7 @@ void	open_infile(const char *file, int *in_file)
 	*in_file = open(file, O_RDONLY, 0644);
 	if (*in_file == INVALID_FD)
 	{
-		printf("Couldn't open in file: %s\n", file);
+		printf("Couldn't open in file: >%s<\n", file);
 		exit(1);
 	}
 }
@@ -25,7 +25,7 @@ void	open_outfile(const char *file, int *out_file, int out_mode)
 	*out_file = open(file, O_RDWR | O_CREAT | out_mode, FILE_RIGHTS);
 	if (*out_file == INVALID_FD)
 	{
-		printf("Couldn't open in file: %s\n", file);
+		printf("Couldn't open in file: >%s<\n", file);
 		exit(1);
 	}
 }
