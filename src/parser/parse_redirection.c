@@ -69,7 +69,7 @@ void	open_in_mode(const char *file, t_files *files, int mode_id)
 int	open_file(char *file_name_ptr, t_files *files, int redirection_id)
 {
 	t_buffer	buffer;
-	int		i;
+	int			i;
 
 	init_buffer(&buffer);
 	if (is_multi_angled_bracket(redirection_id))
