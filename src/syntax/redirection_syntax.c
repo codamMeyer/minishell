@@ -65,6 +65,31 @@ int	get_redirect_token(const char *cursor)
 		return (get_redirect_id(cursor));
 }
 
+t_bool has_no_spaces_after_digit_only_file_name(const char *file_name, const char *input)
+{
+	const int	file_len = ft_strlen(file_name);
+	int			i;
+
+	i = 0;
+	while (file_name[i] && ft_isdigit(file_name[i]))
+		i++;
+	if (file_len == i && input[file_len] && input[file_len] != SPACE_CHAR)
+		return (TRUE);
+	return (FALSE);
+}
+
+t_bool is_valid_file_redirect(const char *input, int id)
+{
+	char	buffer[BUFFER_SIZE];
+	int		len;
+
+	++input;
+	len = get_file_name_and_length(&buffer[0], (char *)input);
+	if (id == FT_TRUNCATE && has_no_spaces_after_digit_only_file_name(buffer, input))
+		return (FALSE);
+	return (TRUE);
+}
+
 
 /* REMEMBER TO REMOVE UNNECESARY SKIP SPACES */
 /* is_valid_redirection_syntax input will always be a trimmed string */
@@ -90,8 +115,8 @@ t_bool	is_valid_redirection_syntax(const char *input)
 			return (FALSE);
 		else if (redirect_token == PIPE && is_double_pipe(input))
 			return (FALSE);
-		// else
-		// 	check_file_token_syntax(input, redirect_token);
+		else if (!is_valid_file_redirect(input, redirect_token))
+			return (FALSE);
 		++input;
 	}
 	return (TRUE);
