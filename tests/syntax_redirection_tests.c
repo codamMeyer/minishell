@@ -47,3 +47,21 @@ CTEST(single_angled_bracket, numbered_outfiles_without_spaces)
     ASSERT_EQUAL(FALSE, is_valid_redirection_syntax("echo halla >1 >2>3 >out"));
     ASSERT_EQUAL(FALSE, is_valid_redirection_syntax("echo halla >1 >2 >3> out"));
 }
+
+CTEST(multi_angled_brackets, valid_multi_angled_brackets)
+{
+    ASSERT_EQUAL(TRUE, is_valid_redirection_syntax("echo >> appending"));
+    ASSERT_EQUAL(TRUE, is_valid_redirection_syntax("<< EOF cat -e"));
+}
+
+/*
+    check that next chAr is not white space ex. 
+    < < EOF cat -e
+    << <
+*/
+
+CTEST(multi_angled_brackets, invalid_multi_angled_brackets)
+{
+    ASSERT_EQUAL(FALSE, is_valid_redirection_syntax("echo >>> NOT_appending"));
+    ASSERT_EQUAL(FALSE, is_valid_redirection_syntax("<< < EOF cat -e"));
+}

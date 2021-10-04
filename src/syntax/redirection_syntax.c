@@ -23,7 +23,13 @@ t_bool	is_valid_file_redirect(const char *input, int id)
 	char	buffer[BUFFER_SIZE];
 	int		len;
 
+	if (id == ERROR)
+		return (FALSE);
 	++input;
+	skip_spaces(&input);
+	if ((id == FT_TRUNCATE || id == LEFT_ANGLE)
+		&& (*input == LEFT_ANGLE || *input == RIGHT_ANGLE))
+		return (FALSE);
 	len = get_file_name_and_length(&buffer[0], (char *)input);
 	if (id == FT_TRUNCATE && file_name_contains_only_digits(buffer, input))
 		return (FALSE);
@@ -48,8 +54,6 @@ t_bool	is_valid_redirection_syntax(const char *input)
 		redirect_token = get_redirect_token(input);
 		if (*input == NULL_TERMINATOR)
 			break ;
-		if (redirect_token == INVALID)
-			printf("ERROROOOOROOROROROOROROR\n");
 		if (redirect_is_last_char(input))
 			return (FALSE);
 		else if (redirect_token == PIPE && is_double_pipe(input))
