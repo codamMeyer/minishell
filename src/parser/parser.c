@@ -27,10 +27,10 @@ t_command	populate_command(const char **input_ptr)
 	t_command	command;
 
 	command.files = get_redirection((char **)input_ptr,
-			get_arg_len(*input_ptr, "|") - 1);
+			get_set_index(*input_ptr, "|") - 1);
 	command.code = get_command_code(input_ptr, &command);
 	command.arg.start = *input_ptr;
-	command.arg.len = get_arg_len(command.arg.start, "|");
+	command.arg.len = get_set_index(command.arg.start, "|");
 	command.arg.end = *input_ptr + command.arg.len;
 	return (command);
 }
