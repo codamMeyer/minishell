@@ -19,7 +19,7 @@ int	get_cmd_len(const char *input)
 */
 t_bool	is_system_command(const char *input, t_command *command)
 {
-	const int	len = get_cmd_len(input);
+	const int	len = get_set_index(input, " |");
 	char		cmd_buffer[4098];
 
 	if (!input || !command)
