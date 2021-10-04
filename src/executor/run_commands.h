@@ -3,7 +3,6 @@
 # define FIRST_PROCESS 0
 # define CHILD_PROCESS 0
 # define SYS_ERROR -1
-# define MAX_CMDS_PER_LINE 100
 # include <commands/commands.h>
 # include <executor/redirection.h>
 
