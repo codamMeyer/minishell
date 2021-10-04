@@ -8,5 +8,7 @@ t_bool	redirect_is_last_char(const char *str);
 t_bool	is_valid_eol(char last_char);
 t_bool	is_double_pipe(const char *str);
 t_bool	is_valid_redirection_syntax(const char *input);
+t_bool	file_name_contains_only_digits(const char *file, const char *input);
+t_bool	is_invalid_token(const char *input);
 
 #endif

@@ -12,7 +12,6 @@
 # define TMP_FILE_PATH "/tmp/minishell"
 # define DIAMOND_BRACKETS 777
 
-
 void	check_cmd_str_validity(char *cmd_str);
 t_files	get_redirection(char **input, const int string_to_parse_len);
 int		count_consecutive_spaces(const char *str);

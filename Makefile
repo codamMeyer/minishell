@@ -33,6 +33,7 @@ MINISHELL_INCS= 						\
 MINISHELL_SRC= 							\
 	src/syntax/check_syntax.c			\
 	src/syntax/redirection_syntax.c		\
+	src/syntax/redirect_syntax_utils.c	\
 	src/parser/parser.c					\
 	src/output/prompt.c					\
 	src/output/write_to_std.c			\

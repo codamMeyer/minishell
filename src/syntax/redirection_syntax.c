@@ -5,55 +5,8 @@
 #include <executor/executor_utils.h>
 #include <parser/parser.h>
 #include <parser/parse_redirection.h>
-#include <libft.h>
+#include "redirection_syntax.h"
 #include <stdio.h>
-
-t_bool	redirect_is_last_char(const char *str)
-{
-	char	token_buf[2];
-
-	token_buf[0] = *str;
-	token_buf[1] = '\0';
-	if (*str)
-		++str;
-	skip_spaces(&str);
-	if (*str == NULL_TERMINATOR)
-	{
-		write_to_stderr("syntax error near unexpected token `");
-		write_to_stderr(token_buf);
-		write_to_stderr("'\n");
-		return (TRUE);
-	}
-	return (FALSE);
-}
-
-t_bool	is_valid_eol(char last_char)
-{
-	return (last_char == NULL_TERMINATOR
-		|| !ft_strchr(REDIRECTION_CHARS, last_char));
-}
-
-t_bool	is_double_pipe(const char *str)
-{
-	if (*str == PIPE)
-		++str;
-	skip_spaces(&str);
-	if (*str == PIPE)
-	{
-		write_to_stderr("syntax error near unexpected token `|'\n");
-		return (TRUE);
-	}
-	return (FALSE);
-}
-
-t_bool	is_invalid_token(const char *input)
-{
-	if (ft_strncmp(input, "<<<", 3) == SUCCESS)
-		return (TRUE);
-	else if (ft_strncmp(input, ">>>", 3) == SUCCESS)
-		return (TRUE);
-	return (FALSE);
-}
 
 int	get_redirect_token(const char *cursor)
 {
@@ -65,38 +18,24 @@ int	get_redirect_token(const char *cursor)
 		return (get_redirect_id(cursor));
 }
 
-t_bool has_no_spaces_after_digit_only_file_name(const char *file_name, const char *input)
-{
-	const int	file_len = ft_strlen(file_name);
-	int			i;
-
-	i = 0;
-	while (file_name[i] && ft_isdigit(file_name[i]))
-		i++;
-	if (file_len == i && input[file_len] && input[file_len] != SPACE_CHAR)
-		return (TRUE);
-	return (FALSE);
-}
-
-t_bool is_valid_file_redirect(const char *input, int id)
+t_bool	is_valid_file_redirect(const char *input, int id)
 {
 	char	buffer[BUFFER_SIZE];
 	int		len;
 
 	++input;
 	len = get_file_name_and_length(&buffer[0], (char *)input);
-	if (id == FT_TRUNCATE && has_no_spaces_after_digit_only_file_name(buffer, input))
+	if (id == FT_TRUNCATE && file_name_contains_only_digits(buffer, input))
 		return (FALSE);
 	return (TRUE);
 }
-
 
 /* REMEMBER TO REMOVE UNNECESARY SKIP SPACES */
 /* is_valid_redirection_syntax input will always be a trimmed string */
 /*  */
 t_bool	is_valid_redirection_syntax(const char *input)
 {
-	int redirect_token;
+	int	redirect_token;
 
 	if (*input == PIPE)
 	{

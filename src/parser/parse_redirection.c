@@ -71,7 +71,6 @@ int	open_file(char *file_name_ptr, t_files *files, int redirection_id)
 	i = count_consecutive_spaces(file_name_ptr);
 	i += get_file_name_and_length(&buffer[0], &file_name_ptr[i]);
 	open_in_mode((const char *)buffer, files, redirection_id);
-	// printf("opened file: |%.*s|\nIncrementing with: %d\n",i, file_name_ptr, i);
 	return (i);
 }
 
@@ -93,7 +92,6 @@ t_files	get_redirection(char **input, const int string_to_parse_len)
 	index = get_set_index(&cursor[0], "><");
 	while (index < string_to_parse_len)
 	{
-		// printf("%s\n", &cursor[index]);
 		redirect_id = get_redirect_id(&cursor[index]);
 		length = open_file(&cursor[index], &fd, redirect_id);
 		if (is_multi_angled_bracket(redirect_id))
