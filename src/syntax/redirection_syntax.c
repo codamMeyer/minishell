@@ -10,12 +10,18 @@
 
 t_bool	redirect_is_last_char(const char *str)
 {
+	char	token_buf[2];
+
+	token_buf[0] = *str;
+	token_buf[1] = '\0';
 	if (*str)
 		++str;
 	skip_spaces(&str);
 	if (*str == NULL_TERMINATOR)
 	{
-		write_to_stderr("syntax error near unexpected token `|'\n");
+		write_to_stderr("syntax error near unexpected token `");
+		write_to_stderr(token_buf);
+		write_to_stderr("'\n");
 		return (TRUE);
 	}
 	return (FALSE);
@@ -80,7 +86,9 @@ t_bool	is_valid_redirection_syntax(const char *input)
 			break ;
 		if (redirect_token == INVALID)
 			printf("ERROROOOOROOROROROOROROR\n");
-		else if (redirect_token == PIPE && (redirect_is_last_char(input) || is_double_pipe(input)))
+		if (redirect_is_last_char(input))
+			return (FALSE);
+		else if (redirect_token == PIPE && is_double_pipe(input))
 			return (FALSE);
 		// else
 		// 	check_file_token_syntax(input, redirect_token);
