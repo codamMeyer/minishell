@@ -65,9 +65,24 @@ t_bool	is_double_pipe(const char *str)
 
 t_bool	is_invalid_token(const char *input)
 {
+	int	i;
+
+	i = 0;
+	while (input[i])
+		i++;
+	if (i > 2)
+
+	else if (i  1 && !is_multi_angled_bracket())
+		retrun ("EERRRRORRRRbitch")
 	if (ft_strncmp(input, "<<<", 3) == SUCCESS)
 		return (TRUE);
 	else if (ft_strncmp(input, ">>>", 3) == SUCCESS)
+		return (TRUE);
+	else if (ft_strncmp(input, "<>>", 3) == SUCCESS)
+		return (TRUE);
+	else if (ft_strncmp(input, "<><", 3) == SUCCESS)
+		return (TRUE);
+	else if (ft_strncmp(input, ">><", 3) == SUCCESS)
 		return (TRUE);
 	return (FALSE);
 }

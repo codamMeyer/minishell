@@ -22,7 +22,6 @@ CTEST(single_angled_bracket, multi_valid_files)
     ASSERT_EQUAL(TRUE, is_valid_redirection_syntax("< Makefile >out1 cat -e   >outreal      <main.c   "));
 }
 
-
 CTEST(single_angled_bracket, only_single_angled_bracket)
 {
     ASSERT_EQUAL(FALSE, is_valid_redirection_syntax("<"));
@@ -35,10 +34,6 @@ CTEST(single_angled_bracket, last_char_single_angled_bracket)
     ASSERT_EQUAL(FALSE, is_valid_redirection_syntax("random text here: >"));
 }
 
-// if fullfile name is digits, must be followed by space ex.
-// echo  halla >1>2
-// syntax error near unexpected token `1'
-// echo halla >h1>2 is fine, fuckin minishell
 CTEST(single_angled_bracket, numbered_outfiles_without_spaces)
 {
     ASSERT_EQUAL(TRUE, is_valid_redirection_syntax("echo halla >1 > out"));
@@ -55,21 +50,27 @@ CTEST(single_angled_bracket, with_spaces_followed_another_redirect_char)
 
 }
 
-
 CTEST(multi_angled_brackets, valid_multi_angled_brackets)
 {
     ASSERT_EQUAL(TRUE, is_valid_redirection_syntax("echo >> appending"));
-    ASSERT_EQUAL(TRUE, is_valid_redirection_syntax("<< EOF cat -e"));
+    ASSERT_EQUAL(TRUE, is_valid_redirection_syntax("<<       EOF cat -e"));
 }
-
-/*
-    check that next chAr is not white space ex. 
-    < < EOF cat -e
-    << <
-*/
 
 CTEST(multi_angled_brackets, invalid_multi_angled_brackets)
 {
     ASSERT_EQUAL(FALSE, is_valid_redirection_syntax("echo >>> NOT_appending"));
     ASSERT_EQUAL(FALSE, is_valid_redirection_syntax("<< < EOF cat -e"));
+    ASSERT_EQUAL(FALSE, is_valid_redirection_syntax("echo > >> NOT_appending"));
+    ASSERT_EQUAL(FALSE, is_valid_redirection_syntax("<< < EOF cat -e"));
+    ASSERT_EQUAL(FALSE, is_valid_redirection_syntax(">>1>2  cat -e main.c"));
+    ASSERT_EQUAL(FALSE, is_valid_redirection_syntax("<< < EOF cat -e"));
+    ASSERT_EQUAL(FALSE, is_valid_redirection_syntax(">><<2  cat -e main.c"));
+    ASSERT_EQUAL(FALSE, is_valid_redirection_syntax("<<>> main.c cat -e"));
+}
+
+CTEST(multi_angled_brackets, valid_diamond_brackets)
+{
+    ASSERT_EQUAL(TRUE, is_valid_redirection_syntax("echo <> valid"));
+    ASSERT_EQUAL(FALSE, is_valid_redirection_syntax("echo <>< valid"));
+
 }

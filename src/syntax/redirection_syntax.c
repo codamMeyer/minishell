@@ -26,7 +26,6 @@ t_bool	is_redirection_char(const char c)
 t_bool	is_valid_file_redirect(const char *input, int id)
 {
 	char	buffer[BUFFER_SIZE];
-	int		len;
 
 	if (id == ERROR)
 		return (FALSE);
@@ -35,15 +34,15 @@ t_bool	is_valid_file_redirect(const char *input, int id)
 	skip_spaces(&input);
 	if (is_redirection_char(*input))
 		return (FALSE);
-	len = get_file_name_and_length(&buffer[0], (char *)input);
+	get_file_name_and_length(&buffer[0], (char *)input);
 	if (id == FT_TRUNCATE && file_name_contains_only_digits(buffer, input))
 		return (FALSE);
 	return (TRUE);
 }
 
-/* REMEMBER TO REMOVE UNNECESARY SKIP SPACES */
-/* is_valid_redirection_syntax input will always be a trimmed string */
-/*  */
+/* 
+	is_valid_redirection_syntax expects a trimmed string
+*/
 t_bool	is_valid_redirection_syntax(const char *input)
 {
 	int	redirect_token;
