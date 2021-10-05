@@ -16,10 +16,9 @@ int	get_redirect_token(const char *cursor)
 		id = PIPE;
 	else
 		id = get_redirect_id(cursor);
-	if (is_invalid_token(cursor))
+	if (!is_valid_token(cursor, id))
 		return (ERROR);
-	else
-		return (id);
+	return (id);
 }
 
 t_bool	is_redirection_char(const char c)
@@ -73,9 +72,3 @@ t_bool	is_valid_redirection_syntax(const char *input)
 	}
 	return (TRUE);
 }
-
-
-// echo hello > mini_"$A"_test apple test |cat -e mini_APPLE_test
-// echo hello >$A apple test |cat -e APPLE
-// echo hello > '$A' apple test |cat -e $A
-

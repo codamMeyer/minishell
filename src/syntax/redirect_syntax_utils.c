@@ -1,4 +1,5 @@
 #include <syntax/check_syntax.h>
+#include <syntax/redirection_syntax.h>
 #include <commands/commands.h>
 #include <output/write_to_std.h>
 #include <parser/command_table.h>
@@ -63,26 +64,16 @@ t_bool	is_double_pipe(const char *str)
 	return (FALSE);
 }
 
-t_bool	is_invalid_token(const char *input, int redirect_id)
+t_bool	is_valid_token(const char *input, int redirect_id)
 {
-	// int	i;
+	int	i;
 
-	// i = 0;
-	// while (input && input[i] && is_redirection_char(input[i]))
-	// 	i++;
-	// if (i > 2)
-	// 	return (FALSE);
-	// else if (i > 1 && !is_multi_angled_bracket(redirect_id))
-	// 	return (FALSE);
-	if (ft_strncmp(input, "<<<", 3) == SUCCESS)
-		return (TRUE);
-	else if (ft_strncmp(input, ">>>", 3) == SUCCESS)
-		return (TRUE);
-	else if (ft_strncmp(input, "<>>", 3) == SUCCESS)
-		return (TRUE);
-	else if (ft_strncmp(input, "<><", 3) == SUCCESS)
-		return (TRUE);
-	else if (ft_strncmp(input, ">><", 3) == SUCCESS)
-		return (TRUE);
-	return (FALSE);
+	i = 0;
+	while (input && input[i] && is_redirection_char(input[i]))
+		i++;
+	if (i > 2)
+		return (FALSE);
+	else if (i > 1 && !is_multi_angled_bracket(redirect_id))
+		return (FALSE);
+	return (TRUE);
 }

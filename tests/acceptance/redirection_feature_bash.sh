@@ -130,7 +130,6 @@ check_file_content "$MINI_OUT" "$BASH_OUT"
 assertEqual "Diamond brackets <>"
 cleanUp
 
-INPUT=""
 export A="APPLE"
 ACTUAL=$(echo -e "echo hello >mini_\"\$A\"_test apple test |cat -e mini_APPLE_test\nexit" | ./minishell > $MINISHELL_OUTPUT)
 removePrompt $MINISHELL_OUTPUT
