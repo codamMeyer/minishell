@@ -132,7 +132,7 @@ printTestName "Redirection"
 
 INPUT=""
 export A="APPLE"
-echo -e "echo hello >mini_\"\$A\"_test apple test |cat -e mini_APPLE_test\nexit" | ./minishell
+echo -e "echo hello\nexit" | ./minishell
 # removePrompt $MINISHELL_OUTPUT
 # ACTUAL=$(cat $MINISHELL_OUTPUT | grep "test")
 # EXPECTED=$(echo hello >mini_"$A"_test apple test |cat -e mini_APPLE_test)
