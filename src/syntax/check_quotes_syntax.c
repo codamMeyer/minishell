@@ -2,7 +2,7 @@
 #include <commands/quotes.h>
 #include <parser/command_table.h>
 
-char	*find_quote(const char *input)
+static char	*find_quote(const char *input)
 {
 	while (*input)
 	{

@@ -131,26 +131,29 @@ assertEqual "Diamond brackets <>"
 cleanUp
 
 export A="APPLE"
-ACTUAL=$(echo -e "echo hello >mini_\"\$A\"_test apple test |cat -e mini_APPLE_test\nexit" | ./minishell > $MINISHELL_OUTPUT)
-removePrompt $MINISHELL_OUTPUT
-ACTUAL=$(cat $MINISHELL_OUTPUT | grep "test")
-EXPECTED=$(echo hello >mini_"$A"_test apple test |cat -e mini_APPLE_test)
-assertEqual "Test with variable in filename double quotes"
+echo -e "echo hello >mini_\"\$A\"_test apple test |cat -e mini_APPLE_test\nexit" | ./minishell
+ls | grep mini_APPLE_test
+# removePrompt $MINISHELL_OUTPUT
+# ACTUAL=$(cat $MINISHELL_OUTPUT | grep "test")
+# EXPECTED=$(echo hello >mini_"$A"_test apple test |cat -e mini_APPLE_test)
+# assertEqual "Test with variable in filename double quotes"
 rm mini_APPLE_test
 
-ACTUAL=$(echo -e "echo hello >\$A apple test |cat -e APPLE\nexit" | ./minishell > $MINISHELL_OUTPUT)
-removePrompt $MINISHELL_OUTPUT
-ACTUAL=$(cat $MINISHELL_OUTPUT | grep "test")
-EXPECTED=$(echo hello >$A apple test |cat -e APPLE)
-assertEqual "Test with variable in filename no quotes"
-rm APPLE
+echo -e "echo hello >\$A apple test |cat -e APPLE\nexit" | ./minishell
+ls | APPLE
+# removePrompt $MINISHELL_OUTPUT
+# ACTUAL=$(cat $MINISHELL_OUTPUT | grep "test")
+# EXPECTED=$(echo hello >$A apple test |cat -e APPLE)
+# assertEqual "Test with variable in filename no quotes"
+# rm APPLE
 
-ACTUAL=$(echo -e "echo hello >'\$A' apple test |cat -e \$A\nexit" | ./minishell > $MINISHELL_OUTPUT)
-removePrompt $MINISHELL_OUTPUT
-ACTUAL=$(cat $MINISHELL_OUTPUT | grep "test")
-EXPECTED=$(echo hello >'$A' apple test |cat -e '$A')
-assertEqual "Test with variable in filename, but inside single quotes"
-rm '$A'
+echo -e "echo hello >'\$A' apple test |cat -e \$A\nexit" | ./minishell
+ls -la
 
+# removePrompt $MINISHELL_OUTPUT
+# ACTUAL=$(cat $MINISHELL_OUTPUT | grep "test")
+# EXPECTED=$(echo hello >'$A' apple test |cat -e '$A')
+# assertEqual "Test with variable in filename, but inside single quotes"
+# rm '$A'
 
 exit $EXIT_CODE
