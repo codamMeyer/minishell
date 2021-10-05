@@ -39,116 +39,115 @@ printTestName "Redirection"
 # remove_multiple_files 2
 # cleanUp
 
-INPUT="echo first test > $MINI_OUT"
-echo first test > "$BASH_OUT"
-runMinishell "$INPUT"
-check_file_content "$MINI_OUT" "$BASH_OUT"
-assertEqual "Basic outfile"
-cleanUp
+# INPUT="echo first test > $MINI_OUT"
+# echo first test > "$BASH_OUT"
+# runMinishell "$INPUT"
+# check_file_content "$MINI_OUT" "$BASH_OUT"
+# assertEqual "Basic outfile"
+# cleanUp
 
-INPUT="< main.c > $MINI_OUT"
-< main.c > "$BASH_OUT"
-runMinishell "$INPUT"
-check_file_content "$MINI_OUT" "$BASH_OUT"
-assertEqual "In and outfile with no command"
-cleanUp
+# INPUT="< main.c > $MINI_OUT"
+# < main.c > "$BASH_OUT"
+# runMinishell "$INPUT"
+# check_file_content "$MINI_OUT" "$BASH_OUT"
+# assertEqual "In and outfile with no command"
+# cleanUp
 
-INPUT="< main.c cat -e | grep int > $MINI_OUT"
-< main.c cat -e | grep int > "$BASH_OUT"
-runMinishell "$INPUT"
-check_file_content "$MINI_OUT" "$BASH_OUT"
-assertEqual "Basic in and outfile"
-cleanUp
+# INPUT="< main.c cat -e | grep int > $MINI_OUT"
+# < main.c cat -e | grep int > "$BASH_OUT"
+# runMinishell "$INPUT"
+# check_file_content "$MINI_OUT" "$BASH_OUT"
+# assertEqual "Basic in and outfile"
+# cleanUp
 
-INPUT="< main.c cat <Makefile -e | grep int > $MINI_OUT"
-< main.c cat <Makefile -e | grep int > "$BASH_OUT"
-runMinishell "$INPUT"
-check_file_content "$MINI_OUT" "$BASH_OUT"
-assertEqual "Multiple infiles"
-cleanUp
+# INPUT="< main.c cat <Makefile -e | grep int > $MINI_OUT"
+# < main.c cat <Makefile -e | grep int > "$BASH_OUT"
+# runMinishell "$INPUT"
+# check_file_content "$MINI_OUT" "$BASH_OUT"
+# assertEqual "Multiple infiles"
+# cleanUp
 
-INPUT="echo halla > "$MINI_OUT"1 > "$MINI_OUT"2 > "$MINI_OUT"3"
-echo halla > "$BASH_OUT"1 > "$BASH_OUT"2 > "$BASH_OUT"3
-runMinishell "$INPUT"
-check_multiple_files 3
-assertEqual "Multiple outfiles"
-remove_multiple_files 3
-cleanUp
+# INPUT="echo halla > "$MINI_OUT"1 > "$MINI_OUT"2 > "$MINI_OUT"3"
+# echo halla > "$BASH_OUT"1 > "$BASH_OUT"2 > "$BASH_OUT"3
+# runMinishell "$INPUT"
+# check_multiple_files 3
+# assertEqual "Multiple outfiles"
+# remove_multiple_files 3
+# cleanUp
 
-INPUT="< main.c cat -e <Makefile | grep > "$MINI_OUT"1 int > "$MINI_OUT"2 > "$MINI_OUT"3"
-< main.c cat -e <Makefile | grep > "$BASH_OUT"1 int  > "$BASH_OUT"2 > "$BASH_OUT"3
-runMinishell "$INPUT"
-check_multiple_files 3
-assertEqual "Multiple in and outfiles"
-remove_multiple_files 3
-cleanUp
+# INPUT="< main.c cat -e <Makefile | grep > "$MINI_OUT"1 int > "$MINI_OUT"2 > "$MINI_OUT"3"
+# < main.c cat -e <Makefile | grep > "$BASH_OUT"1 int  > "$BASH_OUT"2 > "$BASH_OUT"3
+# runMinishell "$INPUT"
+# check_multiple_files 3
+# assertEqual "Multiple in and outfiles"
+# remove_multiple_files 3
+# cleanUp
 
-INPUT="echo Rhino >"$MINI_OUT"1 Saurus >"$MINI_OUT"2 Rex >"$MINI_OUT"3"
-echo Rhino >"$BASH_OUT"1 Saurus >"$BASH_OUT"2 Rex >"$BASH_OUT"3
-runMinishell "$INPUT"
-check_multiple_files 3
-assertEqual "echo with outfiles in-between commands"
-remove_multiple_files 3
-cleanUp
+# INPUT="echo Rhino >"$MINI_OUT"1 Saurus >"$MINI_OUT"2 Rex >"$MINI_OUT"3"
+# echo Rhino >"$BASH_OUT"1 Saurus >"$BASH_OUT"2 Rex >"$BASH_OUT"3
+# runMinishell "$INPUT"
+# check_multiple_files 3
+# assertEqual "echo with outfiles in-between commands"
+# remove_multiple_files 3
+# cleanUp
 
-INPUT="echo halla > \""$MINI_FILE_WITH_SPACES"\""
-echo halla > "$BASH_FILE_WITH_SPACES"
-runMinishell "$INPUT"
-ACTUAL=$(cat "$MINI_FILE_WITH_SPACES")
-EXPECTED=$(cat "$BASH_FILE_WITH_SPACES")
-assertEqual "File name with spaces"
-rm -f "$MINI_FILE_WITH_SPACES" "$BASH_FILE_WITH_SPACES"
-cleanUp
-
-
-INPUT1="echo halla1 >>            $MINI_OUT"
-INPUT2="echo halla2 >>$MINI_OUT"
-echo halla1 >>            $BASH_OUT && echo halla2 >> $BASH_OUT
-runMinishell "$INPUT1"
-runMinishell "$INPUT2"
-check_file_content "$MINI_OUT" "$BASH_OUT"
-assertEqual "Append mode >> with and without spaces before the file name"
-cleanUp
-
-INPUT1="cat -e < main.c | grep int >            $MINI_OUT"
-INPUT2="echo halla2 >>$MINI_OUT"
-cat -e < main.c | grep int >            $BASH_OUT && echo halla2 >> $BASH_OUT
-runMinishell "$INPUT1"
-runMinishell "$INPUT2"
-check_file_content "$MINI_OUT" "$BASH_OUT"
-assertEqual "Multi_pipes with system and built-in command, in/output with append mode"
-cleanUp
+# INPUT="echo halla > \""$MINI_FILE_WITH_SPACES"\""
+# echo halla > "$BASH_FILE_WITH_SPACES"
+# runMinishell "$INPUT"
+# ACTUAL=$(cat "$MINI_FILE_WITH_SPACES")
+# EXPECTED=$(cat "$BASH_FILE_WITH_SPACES")
+# assertEqual "File name with spaces"
+# rm -f "$MINI_FILE_WITH_SPACES" "$BASH_FILE_WITH_SPACES"
+# cleanUp
 
 
-# <> is valid only if no spaces are in between
-# >< is invalid
+# INPUT1="echo halla1 >>            $MINI_OUT"
+# INPUT2="echo halla2 >>$MINI_OUT"
+# echo halla1 >>            $BASH_OUT && echo halla2 >> $BASH_OUT
+# runMinishell "$INPUT1"
+# runMinishell "$INPUT2"
+# check_file_content "$MINI_OUT" "$BASH_OUT"
+# assertEqual "Append mode >> with and without spaces before the file name"
+# cleanUp
 
-INPUT="<> main.c grep int > $MINI_OUT"
-<> main.c grep int > "$BASH_OUT"
-runMinishell "$INPUT"
-check_file_content "$MINI_OUT" "$BASH_OUT"
-assertEqual "Diamond brackets <>"
-cleanUp
+# INPUT1="cat -e < main.c | grep int >            $MINI_OUT"
+# INPUT2="echo halla2 >>$MINI_OUT"
+# cat -e < main.c | grep int >            $BASH_OUT && echo halla2 >> $BASH_OUT
+# runMinishell "$INPUT1"
+# runMinishell "$INPUT2"
+# check_file_content "$MINI_OUT" "$BASH_OUT"
+# assertEqual "Multi_pipes with system and built-in command, in/output with append mode"
+# cleanUp
+
+
+# # <> is valid only if no spaces are in between
+# # >< is invalid
+
+# INPUT="<> main.c grep int > $MINI_OUT"
+# <> main.c grep int > "$BASH_OUT"
+# runMinishell "$INPUT"
+# check_file_content "$MINI_OUT" "$BASH_OUT"
+# assertEqual "Diamond brackets <>"
+# cleanUp
 
 INPUT=""
 export A="APPLE"
-ACTUAL=$(echo -e "echo hello >mini_\"\$A\"_test apple test |cat -e mini_APPLE_test\nexit" | ./minishell > $MINISHELL_OUTPUT)
-removePrompt $MINISHELL_OUTPUT
-ACTUAL=$(cat $MINISHELL_OUTPUT | grep "test")
-EXPECTED=$(echo hello >mini_"$A"_test apple test |cat -e mini_APPLE_test)
-assertEqual "Test with variable in filename"
-rm mini_APPLE_test
-
-ACTUAL=$(echo -e "echo hello >\$A apple test |cat -e APPLE\nexit" | ./minishell > $MINISHELL_OUTPUT)
-removePrompt $MINISHELL_OUTPUT
-ACTUAL=$(cat $MINISHELL_OUTPUT | grep "test")
-EXPECTED=$(echo hello >$A apple test |cat -e APPLE)
-assertEqual "Test with variable in filename"
-rm APPLE
-
-echo -e "echo hello >'\$A' apple test |ls\nexit" | ./minishell > $MINISHELL_OUTPUT
+echo -e "echo hello >mini_\"\$A\"_test apple test |cat -e mini_APPLE_test\nexit" | ./minishell
 # removePrompt $MINISHELL_OUTPUT
-cat $MINISHELL_OUTPUT
+# ACTUAL=$(cat $MINISHELL_OUTPUT | grep "test")
+# EXPECTED=$(echo hello >mini_"$A"_test apple test |cat -e mini_APPLE_test)
+# assertEqual "Test with variable in filename"
+# rm mini_APPLE_test
+
+# ACTUAL=$(echo -e "echo hello >\$A apple test |cat -e APPLE\nexit" | ./minishell > $MINISHELL_OUTPUT)
+# removePrompt $MINISHELL_OUTPUT
+# ACTUAL=$(cat $MINISHELL_OUTPUT | grep "test")
+# EXPECTED=$(echo hello >$A apple test |cat -e APPLE)
+# assertEqual "Test with variable in filename"
+# rm APPLE
+
+# ACTUAL=$(echo -e "echo hello >'\$A' apple test |cat -e \$A\nexit" | ./minishell > $MINISHELL_OUTPUT)
+# removePrompt $MINISHELL_OUTPUT
 # ACTUAL=$(cat $MINISHELL_OUTPUT | grep "test")
 # EXPECTED=$(echo hello >'$A' apple test |cat -e '$A')
 # assertEqual "Test with variable in filename, but inside single quotes"
