@@ -4,8 +4,6 @@ source ./tests/acceptance/common.sh
 
 printTestName "ENV"
 
-
-
 export FIRST_VAR=Hello
 INPUT="env | grep FIRST_VAR"
 runMinishell "$INPUT"
@@ -54,6 +52,16 @@ export TEST_1=1 TEST_2=2 TEST_3=3
 EXPECTED=$(env | grep TEST_3)
 assertEqual "EXPORT more than one variable"
 unset TEST_1 TEST_2 TEST_3
+
+
+INPUT='export TEST_1_$USER=1 TEST_2=2 TEST_3=3'
+runMinishell "$INPUT\nenv | grep TEST_3"
+removePrompt $MINISHELL_OUTPUT
+ACTUAL=$(cat $MINISHELL_OUTPUT)
+export TEST_1_$USER=1 TEST_2=2 TEST_3=3
+EXPECTED=$(env | grep TEST_3)
+assertEqual "EXPORT more than one variable with env variable in name"
+unset TEST_1_$USER TEST_2 TEST_3
 
 INPUT='export TEST_4="First env var" TEST_5=5 TEST_6=6'
 runMinishell "$INPUT\nenv | grep TEST_6"

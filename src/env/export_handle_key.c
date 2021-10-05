@@ -1,5 +1,6 @@
 #include <ctype.h>
 #include <libft.h>
+#include <stdio.h>
 #include <commands/echo_utils.h>
 #include <commands/quotes.h>
 #include <env/environment.h>
@@ -35,7 +36,10 @@ t_bool	copy_key_to_buffer(const char *key_value_str, t_buffer *buffer)
 		else
 			append_char_to_buffer(&str, buffer);
 	}
-	return (is_valid_key(&buffer->buf[0], buffer->index));
+	if (!is_valid_key(&buffer->buf[0], buffer->index))
+		return (FALSE);
+	buffer->index = delimiter_position - key_value_str;
+	return (TRUE);
 }
 
 t_bool	set_key(t_env *env, char *key)
