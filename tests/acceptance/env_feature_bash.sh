@@ -63,11 +63,11 @@ EXPECTED=$(env | grep TEST_3)
 assertEqual "EXPORT more than one variable with env variable in name"
 unset TEST_1_$USER TEST_2 TEST_3
 
-INPUT='export TEST_4="First env var" TEST_5=5 TEST_6=6'
+INPUT='export TEST_4="$PATH" TEST_5=5 TEST_6=6'
 runMinishell "$INPUT\nenv | grep TEST_6"
 removePrompt $MINISHELL_OUTPUT
 ACTUAL=$(cat $MINISHELL_OUTPUT)
-export TEST_4="First env var" TEST_5=5 TEST_6=6
+export TEST_4="$PATH" TEST_5=5 TEST_6=6
 EXPECTED=$(env | grep TEST_6)
 assertEqual "EXPORT more than one variable with quotes"
 unset TEST_4 TEST_5 TEST_6
