@@ -1,4 +1,5 @@
 #include <ctype.h>
+#include <stdio.h>
 #include <libft.h>
 #include <commands/echo_utils.h>
 #include <commands/quotes.h>
@@ -31,8 +32,8 @@ t_bool	handle_unquoted_value(const char *value, t_buffer *buffer)
 
 t_bool	copy_value_to_buffer(const char *key_value_str, t_buffer *buffer)
 {
-	const char	*delimiter_position =
-		get_equal_sign_position(key_value_str) + 1;
+	const char	*delimiter_position = get_equal_sign_position(key_value_str) + 1;
+	const t_quotes_position	quotes_pos = get_quotes_positions(delimiter_position);
 	char		cur;
 
 	if (!delimiter_position)
@@ -41,10 +42,14 @@ t_bool	copy_value_to_buffer(const char *key_value_str, t_buffer *buffer)
 	if (is_quote(cur))
 	{
 		handle_quoted_value(delimiter_position, buffer);
-		buffer->index += 2;
+		buffer->index = (quotes_pos.end + 1) - delimiter_position;
 		return (TRUE);
 	}
-	return (handle_unquoted_value(delimiter_position, buffer));
+	handle_unquoted_value(delimiter_position, buffer);
+	buffer->index = 0;
+	while (delimiter_position[buffer->index] && !isspace(delimiter_position[buffer->index]))
+		++buffer->index;
+	return (TRUE);
 }
 
 t_bool	set_value(t_env *env, char *key, char *value)
