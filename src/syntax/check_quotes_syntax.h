@@ -1,5 +1,5 @@
-#ifndef SYNTAX_CHECKER_H
-# define SYNTAX_CHECKER_H
+#ifndef CHECK_QUOTES_SYNTAX_H
+# define CHECK_QUOTES_SYNTAX_H
 # include <defines.h>
 # include <commands/commands.h>
 

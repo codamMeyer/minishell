@@ -2,7 +2,7 @@
 #include <commands/quotes.h>
 #include <parser/command_table.h>
 
-char *find_quote(const char *input)
+char	*find_quote(const char *input)
 {
 	while (*input)
 	{
@@ -12,7 +12,6 @@ char *find_quote(const char *input)
 	}
 	return ((char *)input);
 }
-
 
 t_exit_code	has_missing_quotes(const char *input, t_output_stdout output)
 {
