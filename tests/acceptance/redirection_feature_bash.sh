@@ -134,6 +134,7 @@ export A="APPLE"
 STD=$(echo -e "echo hello >mini_\"\$A\"_test apple test |cat -e mini_APPLE_test\nexit" | ./minishell > $MINISHELL_OUTPUT)
 removePrompt $MINISHELL_OUTPUT
 ACTUAL=$(cat $MINISHELL_OUTPUT | grep "test")
+rm mini_APPLE_test
 EXPECTED=$(echo hello >mini_"$A"_test apple test |cat -e mini_APPLE_test)
 assertEqual "Test with variable in filename double quotes"
 rm mini_APPLE_test
@@ -141,6 +142,7 @@ rm mini_APPLE_test
 STD=$(echo -e "echo hello >\$A hello apple test |cat -e APPLE\nexit" | ./minishell > $MINISHELL_OUTPUT)
 removePrompt $MINISHELL_OUTPUT
 ACTUAL=$(cat $MINISHELL_OUTPUT | grep "test")
+rm APPLE
 EXPECTED=$(echo hello >$A hello apple test |cat -e APPLE)
 assertEqual "Test with variable in filename no quotes"
 rm APPLE
@@ -148,6 +150,7 @@ rm APPLE
 STD=$(echo -e "echo hello >'\$A' apple hello test |cat -e \$A\nexit" | ./minishell > $MINISHELL_OUTPUT)
 removePrompt $MINISHELL_OUTPUT
 ACTUAL=$(cat $MINISHELL_OUTPUT | grep "test")
+rm '$A'
 EXPECTED=$(echo hello >'$A' apple hello test |cat -e '$A')
 assertEqual "Test with variable in filename, but inside single quotes"
 rm '$A'
