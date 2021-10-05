@@ -22,11 +22,10 @@ t_quotes_position	get_quotes_positions(const char *input)
 
 t_quotes_index	get_quotes_indexes(const char *input)
 {
-	char				*start;
+	const char			*start = input;
 	t_quotes_position	pos_quotes;
 	t_quotes_index		quotes;
 
-	start = (char *)input;
 	while (*start && !is_quote(*start))
 		++start;
 	pos_quotes = get_quotes_positions(start);
