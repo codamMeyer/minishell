@@ -27,7 +27,7 @@ int	get_file_name_and_length(t_buffer *buffer, char *input)
 			arg = parse_str_with_quotes(arg, buffer);
 		if (is_env_variable(arg.start))
 			append_env_value_to_buffer(&arg, buffer);
-		if (*arg.start == PIPE || *arg.start == SPACE_CHAR)
+		if (ft_strchr(ALL_TERMINATORS, *arg.start))
 			break ;
 		else
 			append_char_to_buffer(&arg, buffer);
@@ -99,7 +99,9 @@ t_files	get_redirection(char **input, const int string_to_parse_len)
 	while (index < string_to_parse_len)
 	{
 		redirect_id = get_redirect_id(&cursor[index]);
-		length = open_file(&cursor[index], &fd, redirect_id) + 1;
+		length = open_file(&cursor[index], &fd, redirect_id);
+		if (is_multi_angled_bracket(redirect_id))
+			++length;
 		replace_redirection_w_space(input, length, index);
 		index += get_set_index(&cursor[index], "><");
 	}
