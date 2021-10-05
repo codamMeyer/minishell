@@ -132,7 +132,9 @@ cleanUp
 
 export A="APPLE"
 echo -e "echo hello >mini_\"\$A\"_test apple test |cat -e mini_APPLE_test\nexit" | ./minishell
+echo "--"
 ls | grep mini_APPLE_test
+echo "--"
 # removePrompt $MINISHELL_OUTPUT
 # ACTUAL=$(cat $MINISHELL_OUTPUT | grep "test")
 # EXPECTED=$(echo hello >mini_"$A"_test apple test |cat -e mini_APPLE_test)
@@ -140,7 +142,9 @@ ls | grep mini_APPLE_test
 rm mini_APPLE_test
 
 echo -e "echo hello >\$A apple test |cat -e APPLE\nexit" | ./minishell
-ls | APPLE
+echo "--"
+ls | grep APPLE
+echo "--"
 # removePrompt $MINISHELL_OUTPUT
 # ACTUAL=$(cat $MINISHELL_OUTPUT | grep "test")
 # EXPECTED=$(echo hello >$A apple test |cat -e APPLE)
@@ -148,8 +152,9 @@ ls | APPLE
 # rm APPLE
 
 echo -e "echo hello >'\$A' apple test |cat -e \$A\nexit" | ./minishell
-ls -la
-
+echo "--"
+ls | grep A
+echo "--"
 # removePrompt $MINISHELL_OUTPUT
 # ACTUAL=$(cat $MINISHELL_OUTPUT | grep "test")
 # EXPECTED=$(echo hello >'$A' apple test |cat -e '$A')
