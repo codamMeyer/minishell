@@ -4,7 +4,8 @@
 # define WHITESSPACE " \t"
 # define N_FLAG "-n"
 # define REDIRECTION_CHARS "<>|" 
-# define SPECIALS "<>| \0"
+# define ALL_TERMINATORS "<>| \0" 
+
 # include <defines.h>
 
 typedef enum e_special_chars
@@ -15,7 +16,7 @@ typedef enum e_special_chars
 	LEFT_ANGLE = '<',
 	RIGHT_ANGLE = '>',
 	VARIABLE_TOKEN = '$',
-	EQUAL_SIGN = '='
+	EQUAL_SIGN = '=',
 }	t_special_chars;
 
 typedef struct s_arg

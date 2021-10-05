@@ -75,7 +75,6 @@ assertEqual "Multiple outfiles"
 remove_multiple_files 3
 cleanUp
 
-sleep .5
 INPUT="< main.c cat -e <Makefile | grep > "$MINI_OUT"1 int > "$MINI_OUT"2 > "$MINI_OUT"3"
 < main.c cat -e <Makefile | grep > "$BASH_OUT"1 int  > "$BASH_OUT"2 > "$BASH_OUT"3
 runMinishell "$INPUT"
@@ -130,5 +129,29 @@ runMinishell "$INPUT"
 check_file_content "$MINI_OUT" "$BASH_OUT"
 assertEqual "Diamond brackets <>"
 cleanUp
+
+INPUT=""
+export A="APPLE"
+ACTUAL=$(echo -e "echo hello >mini_\"\$A\"_test apple test |cat -e mini_APPLE_test\nexit" | ./minishell > $MINISHELL_OUTPUT)
+removePrompt $MINISHELL_OUTPUT
+ACTUAL=$(cat $MINISHELL_OUTPUT | grep "test")
+EXPECTED=$(echo hello >mini_"$A"_test apple test |cat -e mini_APPLE_test)
+assertEqual "Test with varible in filename"
+rm mini_APPLE_test
+
+ACTUAL=$(echo -e "echo hello >\$A apple test |cat -e APPLE\nexit" | ./minishell > $MINISHELL_OUTPUT)
+removePrompt $MINISHELL_OUTPUT
+ACTUAL=$(cat $MINISHELL_OUTPUT | grep "test")
+EXPECTED=$(echo hello >$A apple test |cat -e APPLE)
+assertEqual "Test with varible in filename"
+rm APPLE
+
+ACTUAL=$(echo -e "echo hello >'\$A' apple test |cat -e \$A\nexit" | ./minishell > $MINISHELL_OUTPUT)
+removePrompt $MINISHELL_OUTPUT
+ACTUAL=$(cat $MINISHELL_OUTPUT | grep "test")
+EXPECTED=$(echo hello >'$A' apple test |cat -e '$A')
+assertEqual "Test with varible in filename, but inside single quotes"
+rm '$A'
+
 
 exit $EXIT_CODE

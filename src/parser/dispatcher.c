@@ -3,6 +3,7 @@
 #include <parser/dispatcher.h>
 #include <commands/commands.h>
 #include <commands/echo_utils.h>
+#include <output/write_to_std.h>
 #include <parser/parser.h>
 #include <executor/executor_utils.h>
 

@@ -1,7 +1,10 @@
+#include <ctype.h>
 #include <fcntl.h>
 #include <libft.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <commands/quotes.h>
+#include <env/env_utils.h>
 #include <executor/executor_utils.h>
 #include <parser/command_table.h>
 #include <parser/here_doc.h>
@@ -11,23 +14,25 @@
 /*
 	Assumes that string has been checked for quotes
 */
-int	get_file_name_and_length(char *buffer, char *input)
+int	get_file_name_and_length(t_buffer *buffer, char *input)
 {
-	const int	file_name_len = get_arg_len(input, SPECIALS) + 1;
-	int			len_to_cpy;
-	char		*cursor;
+	const int	len_to_replace = get_set_index(input, ALL_TERMINATORS) + 1;
+	t_arg		arg;
 
-	ft_bzero(&buffer[0], BUFFER_SIZE);
-	cursor = input;
-	if (*cursor == DOUBLE_QUOTES)
+	arg.start = input;
+	skip_spaces(&arg.start);
+	while (*arg.start && !isspace(*arg.start))
 	{
-		++(cursor);
-		len_to_cpy = file_name_len - 2;
+		if (is_quote(*arg.start))
+			arg = parse_str_with_quotes(arg, buffer);
+		if (is_env_variable(arg.start))
+			append_env_value_to_buffer(&arg, buffer);
+		if (ft_strchr(ALL_TERMINATORS, *arg.start))
+			break ;
+		else
+			append_char_to_buffer(&arg, buffer);
 	}
-	else
-		len_to_cpy = file_name_len;
-	ft_strlcpy(&buffer[0], cursor, len_to_cpy);
-	return (file_name_len);
+	return (len_to_replace);
 }
 
 int	get_redirect_id(const char *cursor)
@@ -63,16 +68,16 @@ void	open_in_mode(const char *file, t_files *files, int mode_id)
 */
 int	open_file(char *file_name_ptr, t_files *files, int redirection_id)
 {
-	char	buffer[BUFFER_SIZE];
-	int		i;
+	t_buffer	buffer;
+	int			i;
 
-	ft_bzero(buffer, BUFFER_SIZE);
+	init_buffer(&buffer);
 	if (is_multi_angled_bracket(redirection_id))
 		file_name_ptr += 1;
 	file_name_ptr += 1;
 	i = count_consecutive_spaces(file_name_ptr);
-	i += get_file_name_and_length(&buffer[0], &file_name_ptr[i]);
-	open_in_mode((const char *)buffer, files, redirection_id);
+	i += get_file_name_and_length(&buffer, &file_name_ptr[i]);
+	open_in_mode(&buffer.buf[0], files, redirection_id);
 	return (i);
 }
 
@@ -90,13 +95,15 @@ t_files	get_redirection(char **input, const int string_to_parse_len)
 	fd.in = INVALID_FD;
 	fd.out = INVALID_FD;
 	cursor = *input;
-	index = get_arg_len(&cursor[0], "><");
+	index = get_set_index(&cursor[0], "><");
 	while (index < string_to_parse_len)
 	{
 		redirect_id = get_redirect_id(&cursor[index]);
-		length = open_file(&cursor[index], &fd, redirect_id) + 1;
+		length = open_file(&cursor[index], &fd, redirect_id);
+		if (is_multi_angled_bracket(redirect_id))
+			++length;
 		replace_redirection_w_space(input, length, index);
-		index += get_arg_len(&cursor[index], "><");
+		index += get_set_index(&cursor[index], "><");
 	}
 	return (fd);
 }
