@@ -4,7 +4,7 @@
 t_quotes_position	get_quotes_positions(const char *input)
 {
 	t_quotes_position	quotes_position;
-	char				closing_quote;
+	char				quote_type;
 
 	if (!is_quote(*input))
 	{
@@ -13,10 +13,10 @@ t_quotes_position	get_quotes_positions(const char *input)
 		return (quotes_position);
 	}
 	quotes_position.is_double_quote = is_double_quote(*input);
-	closing_quote = *input;
+	quote_type = *input;
 	++input;
 	quotes_position.start = input;
-	quotes_position.end = ft_strchr(input, closing_quote);
+	quotes_position.end = ft_strchr(input, quote_type);
 	return (quotes_position);
 }
 
