@@ -25,8 +25,9 @@ t_bool	is_redirection_char(const char c)
 
 t_bool	is_valid_file_redirect(const char *input, int id)
 {
-	char	buffer[BUFFER_SIZE];
+	t_buffer	buffer;
 
+	init_buffer(&buffer);
 	if (id == ERROR)
 		return (FALSE);
 	while (is_redirection_char(*input))
@@ -34,8 +35,8 @@ t_bool	is_valid_file_redirect(const char *input, int id)
 	skip_spaces(&input);
 	if (is_redirection_char(*input))
 		return (FALSE);
-	get_file_name_and_length(&buffer[0], (char *)input);
-	if (id == FT_TRUNCATE && file_name_contains_only_digits(buffer, input))
+	get_file_name_and_length(&buffer, (char *)input);
+	if (id == FT_TRUNCATE && file_name_contains_only_digits(&buffer.buf[0], input))
 		return (FALSE);
 	return (TRUE);
 }
