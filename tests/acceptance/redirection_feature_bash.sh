@@ -146,7 +146,7 @@ EXPECTED=$(echo hello >$A apple test |cat -e APPLE)
 assertEqual "Test with variable in filename"
 rm APPLE
 
-echo -e "echo hello >'\$A' apple test |cat -e \$A\nexit" | ./minishell > $MINISHELL_OUTPUT
+echo -e "echo hello >'\$A' apple test |cat -e '\$A'\nexit" | ./minishell > $MINISHELL_OUTPUT
 # removePrompt $MINISHELL_OUTPUT
 cat $MINISHELL_OUTPUT
 # ACTUAL=$(cat $MINISHELL_OUTPUT | grep "test")
