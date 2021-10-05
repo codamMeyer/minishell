@@ -1,5 +1,14 @@
 #include "ctest.h"
 #include <syntax/check_syntax.h>
+#include <syntax/redirection_syntax.h>
+
+CTEST(error_buffer, basics)
+{
+    char buffer[BUFFER_SIZE];
+
+    append_error_token_to_buffer("<<<<<<", buffer);
+    ASSERT_STR("<<", buffer);
+}
 
 CTEST(left_angle, valid_single_syntax)
 {
@@ -47,7 +56,6 @@ CTEST(single_angled_bracket, with_spaces_followed_another_redirect_char)
 {
     ASSERT_EQUAL(FALSE, is_valid_redirection_syntax("echo halla > > out"));
     ASSERT_EQUAL(FALSE, is_valid_redirection_syntax("echo halla > < out"));
-
 }
 
 CTEST(multi_angled_brackets, valid_multi_angled_brackets)

@@ -1,3 +1,4 @@
+#include <libft.h>
 #include <syntax/check_syntax.h>
 #include <commands/commands.h>
 #include <output/write_to_std.h>
@@ -8,17 +9,26 @@
 #include "redirection_syntax.h"
 #include <stdio.h>
 
-void	write_error(int id)
+
+/*
+	receives a pointer to the first faulty char
+	copies up to two angled brackets
+*/
+void	append_error_token_to_buffer(const char *input, char *buffer)
+{
+	int	i;
+
+	i = 0;
+	skip_spaces(&input);
+	while (input && i < 2 && input[i] && is_redirection_char(input[i]))
+		++i;
+	ft_strlcpy(buffer, input, i + 1);
+}
+
+void	write_error(const char *error_token_pointer)
 {
 	write_to_stderr("syntax error near unexpected token `");
-	if (id == FT_TRUNCATE)
-		write_to_stderr(">");
-	else if (id == LEFT_ANGLE)
-		write_to_stderr("<");
-	else if (id == FT_APPEND)
-		write_to_stderr(">>");
-	else if (id == HERE_DOC)
-		write_to_stderr("<<");
+	write_to_stderr(error_token_pointer);
 	write_to_stderr("'\n");
 }
 
@@ -81,10 +91,7 @@ t_bool	is_valid_redirection_syntax(const char *input)
 		else if (redirect_token == PIPE && is_double_pipe(input))
 			return (FALSE);
 		else if (!is_valid_file_redirect(input, redirect_token))
-		{
-			write_error(redirect_token);
 			return (FALSE);
-		}
 		++input;
 	}
 	return (TRUE);

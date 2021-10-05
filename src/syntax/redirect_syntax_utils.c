@@ -37,9 +37,7 @@ t_bool	redirect_is_last_char(const char *str)
 	skip_spaces(&str);
 	if (*str == NULL_TERMINATOR)
 	{
-		write_to_stderr("syntax error near unexpected token `");
-		write_to_stderr(token_buf);
-		write_to_stderr("'\n");
+		write_error("newline");
 		return (TRUE);
 	}
 	return (FALSE);
@@ -66,14 +64,23 @@ t_bool	is_double_pipe(const char *str)
 
 t_bool	is_valid_token(const char *input, int redirect_id)
 {
-	int	i;
+	int		i;
+	char	buffer[BUFFER_SIZE];
 
 	i = 0;
-	while (input && input[i] && is_redirection_char(input[i]))
+	while (input && input[i] && is_redirection_char(input[i]) && i < 3)
 		i++;
 	if (i > 2)
+	{
+		append_error_token_to_buffer(&input[i - 1], buffer);
+		write_error(&buffer[0]);
 		return (FALSE);
+	}
 	else if (i > 1 && !is_multi_angled_bracket(redirect_id))
+	{
+		append_error_token_to_buffer(&input[i], buffer);
+		write_error(&buffer[0]);
 		return (FALSE);
+	}
 	return (TRUE);
 }
