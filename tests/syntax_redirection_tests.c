@@ -48,6 +48,14 @@ CTEST(single_angled_bracket, numbered_outfiles_without_spaces)
     ASSERT_EQUAL(FALSE, is_valid_redirection_syntax("echo halla >1 >2 >3> out"));
 }
 
+CTEST(single_angled_bracket, with_spaces_followed_another_redirect_char)
+{
+    ASSERT_EQUAL(FALSE, is_valid_redirection_syntax("echo halla > > out"));
+    ASSERT_EQUAL(FALSE, is_valid_redirection_syntax("echo halla > < out"));
+
+}
+
+
 CTEST(multi_angled_brackets, valid_multi_angled_brackets)
 {
     ASSERT_EQUAL(TRUE, is_valid_redirection_syntax("echo >> appending"));

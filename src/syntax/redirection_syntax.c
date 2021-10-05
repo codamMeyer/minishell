@@ -18,6 +18,11 @@ int	get_redirect_token(const char *cursor)
 		return (get_redirect_id(cursor));
 }
 
+t_bool	is_redirection_char(const char c)
+{
+	return (c == LEFT_ANGLE || c == RIGHT_ANGLE);
+}
+
 t_bool	is_valid_file_redirect(const char *input, int id)
 {
 	char	buffer[BUFFER_SIZE];
@@ -25,10 +30,10 @@ t_bool	is_valid_file_redirect(const char *input, int id)
 
 	if (id == ERROR)
 		return (FALSE);
-	++input;
+	while (is_redirection_char(*input))
+		++input;
 	skip_spaces(&input);
-	if ((id == FT_TRUNCATE || id == LEFT_ANGLE)
-		&& (*input == LEFT_ANGLE || *input == RIGHT_ANGLE))
+	if (is_redirection_char(*input))
 		return (FALSE);
 	len = get_file_name_and_length(&buffer[0], (char *)input);
 	if (id == FT_TRUNCATE && file_name_contains_only_digits(buffer, input))
