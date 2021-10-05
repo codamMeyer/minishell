@@ -63,17 +63,17 @@ t_bool	is_double_pipe(const char *str)
 	return (FALSE);
 }
 
-t_bool	is_invalid_token(const char *input)
+t_bool	is_invalid_token(const char *input, int redirect_id)
 {
 	// int	i;
 
 	// i = 0;
-	// while (input[i])
+	// while (input && input[i] && is_redirection_char(input[i]))
 	// 	i++;
 	// if (i > 2)
-
-	// else if (i  1 && !is_multi_angled_bracket())
-	// 	retrun ("EERRRRORRRRbitch")
+	// 	return (FALSE);
+	// else if (i > 1 && !is_multi_angled_bracket(redirect_id))
+	// 	return (FALSE);
 	if (ft_strncmp(input, "<<<", 3) == SUCCESS)
 		return (TRUE);
 	else if (ft_strncmp(input, ">>>", 3) == SUCCESS)
