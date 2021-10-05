@@ -23,5 +23,6 @@ t_bool				is_double_quote(char c);
 t_bool				is_single_quote(char c);
 t_bool				is_quote(char c);
 t_arg				parse_str_with_quotes(t_arg arg, t_buffer *buffer);
+t_arg				parse_str_without_quotes(t_arg arg, t_buffer *buffer);
 
 #endif

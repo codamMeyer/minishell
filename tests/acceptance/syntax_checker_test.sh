@@ -1,6 +1,8 @@
 #!/bin/bash
 source ./tests/acceptance/common.sh
 
+printTestName "SYNTAX_CHECKER"
+
 INPUT="| echo hello | cat -e"
 STD=$(echo -e "$INPUT\nexit" | ./minishell 2> $MINISHELL_OUTPUT)
 ACTUAL=$(cat $MINISHELL_OUTPUT)
