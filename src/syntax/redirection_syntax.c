@@ -61,7 +61,11 @@ t_bool	is_valid_file_redirect(const char *input, int id)
 		++input;
 	skip_spaces(&input);
 	if (is_redirection_char(*input))
+	{
+		append_error_token_to_buffer(input, buffer.buf);
+		write_error(buffer.buf);
 		return (FALSE);
+	}
 	get_file_name_and_length(&buffer, (char *)input);
 	if (id == FT_TRUNCATE && file_name_contains_only_digits(&buffer.buf[0], input))
 		return (FALSE);
