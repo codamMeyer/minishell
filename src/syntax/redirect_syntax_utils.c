@@ -19,7 +19,7 @@ t_bool	file_name_contains_only_digits(const char *file, const char *input)
 		i++;
 	if (file_len == i && input[file_len] && input[file_len] != SPACE_CHAR)
 	{
-		printf("\nsyntax error near unexpected token\
+		printf("syntax error near unexpected token\
 					`%c'\n", file[file_len - 1]);
 		return (TRUE);
 	}

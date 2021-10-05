@@ -8,6 +8,20 @@
 #include "redirection_syntax.h"
 #include <stdio.h>
 
+void	write_error(int id)
+{
+	write_to_stderr("syntax error near unexpected token `");
+	if (id == FT_TRUNCATE)
+		write_to_stderr(">");
+	else if (id == LEFT_ANGLE)
+		write_to_stderr("<");
+	else if (id == FT_APPEND)
+		write_to_stderr(">>");
+	else if (id == HERE_DOC)
+		write_to_stderr("<<");
+	write_to_stderr("'\n");
+}
+
 int	get_redirect_token(const char *cursor)
 {
 	int	id;
@@ -16,7 +30,7 @@ int	get_redirect_token(const char *cursor)
 		id = PIPE;
 	else
 		id = get_redirect_id(cursor);
-	if (!is_valid_token(cursor, id))
+	if (id == INVALID || !is_valid_token(cursor, id))
 		return (ERROR);
 	return (id);
 }
@@ -67,7 +81,10 @@ t_bool	is_valid_redirection_syntax(const char *input)
 		else if (redirect_token == PIPE && is_double_pipe(input))
 			return (FALSE);
 		else if (!is_valid_file_redirect(input, redirect_token))
+		{
+			write_error(redirect_token);
 			return (FALSE);
+		}
 		++input;
 	}
 	return (TRUE);
