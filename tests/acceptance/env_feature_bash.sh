@@ -80,7 +80,6 @@ EXPECTED=$(env | grep TEST_5)
 assertEqual "EXPORT more than one variable with single quotes"
 unset TEST_4 TEST_5 TEST_6
 
-
 INPUT="unset SECOND_VAR"
 runMinishell "$INPUT\nenv | grep SECOND_VAR"
 removePrompt $MINISHELL_OUTPUT
@@ -88,6 +87,24 @@ ACTUAL=$(cat $MINISHELL_OUTPUT)
 unset SECOND_VAR
 EXPECTED=$(env | grep SECOND_VAR)
 assertEqual "UNSET"
+
+export KEY_NAME="This_should_stay" KEY="Should_unset_this_var"
+INPUT="unset KEY"
+runMinishell "$INPUT\nenv | grep KEY"
+removePrompt $MINISHELL_OUTPUT
+ACTUAL=$(cat $MINISHELL_OUTPUT)
+unset KEY
+EXPECTED=$(env | grep KEY)
+assertEqual "UNSET test correct len"
+
+export KEY_"$USER"="should_unset_this" 
+INPUT="unset KEY_\"\$USER\""
+runMinishell "$INPUT\nenv | grep KEY_"$USER""
+removePrompt $MINISHELL_OUTPUT
+ACTUAL=$(cat $MINISHELL_OUTPUT)
+unset KEY_"$USER"
+EXPECTED=$(env | grep KEY_"$USER")
+assertEqual "UNSET with key containing quotes"
 
 cleanUp
 

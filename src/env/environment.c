@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <commands/buffer.h>
+#include <commands/quotes.h>
 #include <env/environment.h>
 #include <env/env_utils.h>
 #include <parser/parser.h>
@@ -28,25 +29,35 @@ t_bool	export(t_env *env, const char *key_value_str)
 	return (TRUE);
 }
 
+t_arg	copy_key_to_buffer_and_unset(t_env *env, t_arg str, t_buffer *buffer)
+{
+	t_env *variable;
+	
+	while (*str.start && !isspace(*str.start))
+	{
+		if (is_quote(*str.start))
+			parse_str_with_quotes(str, buffer);
+		if (is_env_variable(str.start))
+			append_env_value_to_buffer(&str, buffer);
+		else
+			append_char_to_buffer(&str, buffer);
+	}
+	variable = find_variable(env, buffer->buf);
+	free_key_value_pair(variable);
+	return (str);
+}
+
 void	unset(t_env *env, const char *key)
 {
-	int	key_len;
-	int	i;
+	t_arg		str;
+	t_buffer	key_buffer;
 
-	if (!env)
-		return ;
-	i = 0;
-	key_len = 0;
-	while (!isspace(key[key_len]))
-		++key_len;
-	while (i < ENV_SIZE)
+	str.start = (char *)key;
+	while (*str.start)
 	{
-		if (env[i].key && ft_strncmp(env[i].key, key, key_len) == 0)
-		{
-			free_key_value_pair(&env[i]);
-			break ;
-		}
-		++i;
+		init_buffer(&key_buffer);
+		str = copy_key_to_buffer_and_unset(env, str, &key_buffer);
+		skip_spaces(&str.start);
 	}
 }
 
