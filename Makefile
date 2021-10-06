@@ -3,7 +3,7 @@ TEST_NAME=$(MINISHELL)_test
 MINISHELL_ASAN=$(MINISHELL)_asan
 CC=clang
 CFLAGS=-ggdb3 -Wall -Wextra -Werror
-CFLAGS_ASAN=$(CFLAGS) -fsanitize=leak
+CFLAGS_ASAN=$(CFLAGS) -fsanitize=leak -fsanitize=address
 INC_PATH=-I./src -I./libft
 LDFLAGS= -lreadline -L./libft -lft
 LIBFT_PATH = libft/
