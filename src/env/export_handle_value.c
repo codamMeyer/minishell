@@ -29,9 +29,11 @@ void	handle_unquoted_value(const char *value, t_buffer *buffer)
 	}
 }
 
-static int get_value_len(const char *value_string)
+static int	get_value_len(const char *value_string)
 {
-	int i = 0;
+	int	i;
+
+	i = 0;
 	while (value_string[i])
 	{
 		if (isspace(value_string[i]) \
@@ -44,7 +46,8 @@ static int get_value_len(const char *value_string)
 
 t_bool	copy_value_to_buffer(const char *key_value_str, t_buffer *buffer)
 {
-	const char	*delimiter_position = get_equal_sign_position(key_value_str) + 1;
+	const char	*delimiter_position = \
+		get_equal_sign_position(key_value_str) + 1;
 	char		cur;
 
 	if (!delimiter_position)
