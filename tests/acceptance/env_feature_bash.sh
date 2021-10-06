@@ -72,6 +72,16 @@ EXPECTED=$(env | grep TEST_6)
 assertEqual "EXPORT more than one variable with quotes"
 unset TEST_4 TEST_5 TEST_6
 
+
+INPUT='export "TEST_4"="$PATH" TEST_5=5 TEST_6=6'
+runMinishell "$INPUT\nenv | grep TEST_6"
+removePrompt $MINISHELL_OUTPUT
+ACTUAL=$(cat $MINISHELL_OUTPUT)
+export "TEST_4"="$PATH" TEST_5=5 TEST_6=6
+EXPECTED=$(env | grep TEST_6)
+assertEqual "EXPORT with quotes"
+unset TEST_4 TEST_5 TEST_6
+
 runMinishell "export key='test with single quotes' TEST_5=5 TEST_6=6\nenv | grep TEST_5"
 removePrompt $MINISHELL_OUTPUT
 ACTUAL=$(cat $MINISHELL_OUTPUT)
