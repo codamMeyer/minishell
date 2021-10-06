@@ -151,12 +151,4 @@ check_file_content 'mini_$A' 'bash_$A'
 assertEqual "Test with variable in filename, but inside single quotes"
 rm 'mini_$A' 'bash_$A'
 
-# STD=$(echo -e "echo hello >'\$A' apple hello test |cat -e \$A\nexit" | ./minishell > $MINISHELL_OUTPUT)
-# removePrompt $MINISHELL_OUTPUT
-# ACTUAL=$(cat $MINISHELL_OUTPUT | grep "test")
-# rm '$A'
-# EXPECTED=$(echo hello >'$A' apple hello test |cat -e '$A')
-# assertEqual "Test with variable in filename, but inside single quotes"
-# rm '$A'
-
 exit $EXIT_CODE
