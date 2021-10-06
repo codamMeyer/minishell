@@ -5,6 +5,7 @@
 #include <commands/quotes.h>
 #include <env/environment.h>
 #include <env/env_utils.h>
+#include <parser/command_table.h>
 
 t_bool	handle_quoted_value(const char *value, t_buffer *buffer)
 {
@@ -33,22 +34,17 @@ t_bool	handle_unquoted_value(const char *value, t_buffer *buffer)
 t_bool	copy_value_to_buffer(const char *key_value_str, t_buffer *buffer)
 {
 	const char	*delimiter_position = get_equal_sign_position(key_value_str) + 1;
-	const t_quotes_position	quotes_pos = get_quotes_positions(delimiter_position);
+	// const t_quotes_position	quotes_pos = get_quotes_positions(delimiter_position);
 	char		cur;
 
 	if (!delimiter_position)
 		return (FALSE);
 	cur = delimiter_position[0];
 	if (is_quote(cur))
-	{
 		handle_quoted_value(delimiter_position, buffer);
-		buffer->index = (quotes_pos.end + 1) - delimiter_position;
-		return (TRUE);
-	}
-	handle_unquoted_value(delimiter_position, buffer);
-	buffer->index = 0;
-	while (delimiter_position[buffer->index] && !isspace(delimiter_position[buffer->index]))
-		++buffer->index;
+	else
+		handle_unquoted_value(delimiter_position, buffer);
+	buffer->index = get_set_index((char *)delimiter_position, " \0");
 	return (TRUE);
 }
 
