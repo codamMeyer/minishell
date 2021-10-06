@@ -295,6 +295,6 @@ CTEST2(environment, string_with_single_quote_as_value)
 {
     char *pair = "key='test with single quotes'";
     
-    ASSERT_TRUE(export(data->env, pair));
+    export(data->env, pair);
     ASSERT_STR(find_variable(data->env, "key")->value, "test with single quotes");
 }
