@@ -32,6 +32,8 @@ static char	*get_trimmed_line(void)
 	line = readline(display_prompt(&buffer[0]));
 	if (!line)
 		exit(0);
+	if (*line)
+		add_history(line);
 	trimmed_line = ft_strtrim(line, WHITESSPACE);
 	free(line);
 	return (trimmed_line);
