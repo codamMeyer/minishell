@@ -1,6 +1,7 @@
 #include "ctest.h"
 #include <syntax/check_syntax.h>
 #include <syntax/redirection_syntax.h>
+#include <syntax/write_errors.h>
 
 CTEST(error_buffer, basics)
 {

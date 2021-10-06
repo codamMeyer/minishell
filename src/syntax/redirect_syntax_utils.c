@@ -1,5 +1,6 @@
 #include <syntax/check_syntax.h>
 #include <syntax/redirection_syntax.h>
+#include <syntax/write_errors.h>
 #include <commands/commands.h>
 #include <output/write_to_std.h>
 #include <parser/command_table.h>

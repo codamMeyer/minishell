@@ -12,6 +12,7 @@ MINISHELL_INCS= 						\
 	src/defines.h						\
 	src/syntax/check_syntax.h			\
 	src/syntax/redirection_syntax.h		\
+	src/syntax/write_errors.h			\
 	src/parser/parser.h					\
 	src/parser/command_table.h			\
 	src/parser/parse_redirection.h		\
@@ -34,6 +35,7 @@ MINISHELL_SRC= 							\
 	src/syntax/check_syntax.c			\
 	src/syntax/redirection_syntax.c		\
 	src/syntax/redirect_syntax_utils.c	\
+	src/syntax/write_errors.c			\
 	src/parser/parser.c					\
 	src/output/prompt.c					\
 	src/output/write_to_std.c			\
