@@ -20,8 +20,9 @@ t_bool	file_name_contains_only_digits(const char *file, const char *input)
 		i++;
 	if (file_len == i && input[file_len] && input[file_len] != SPACE_CHAR)
 	{
-		printf("syntax error near unexpected token\
-					`%c'\n", file[file_len - 1]);
+		ft_putstr_fd("syntax error near unexpected token `", 2);
+		ft_putchar_fd(file[file_len - 1], 2);
+		ft_putstr_fd("'\n", 2);
 		return (TRUE);
 	}
 	return (FALSE);
@@ -29,10 +30,6 @@ t_bool	file_name_contains_only_digits(const char *file, const char *input)
 
 t_bool	redirect_is_last_char(const char *str)
 {
-	char	token_buf[2];
-
-	token_buf[0] = *str;
-	token_buf[1] = '\0';
 	if (*str)
 		++str;
 	skip_spaces(&str);
