@@ -1,16 +1,7 @@
 #include <libft.h>
+#include <stdlib.h>
 #include <parser/command_table.h>
 #include <parser/get_executable_path.h>
-
-int	get_cmd_len(const char *input)
-{
-	int	i;
-
-	i = 0;
-	while (input[i] && input[i] != SPACE_CHAR)
-		i++;
-	return (i);
-}
 
 /*
 	get_executable_path only returns a string if passed command or path,
@@ -43,4 +34,17 @@ char	*get_set_position(const char *set, char *str_to_check)
 		++i;
 	}
 	return (NULL);
+}
+
+void	cleanup_command_table(t_command *command_table, int num_commands)
+{
+	int	i;
+
+	i = 0;
+	while (i < num_commands)
+	{
+		if (command_table[i].code == SYSTEM)
+			free((char *)command_table[i].exe_path);
+		++i;
+	}
 }
