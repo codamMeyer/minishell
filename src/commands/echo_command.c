@@ -30,7 +30,7 @@ static int	handle_empty_str(t_bool has_n_flag, t_output_stdout output)
 
 t_bool	is_empty_buffer(t_buffer *buffer)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < buffer->index)
