@@ -7,28 +7,6 @@
 #include <env/env_utils.h>
 #include <parser/command_table.h>
 
-void	handle_quoted_value(const char *value, t_buffer *buffer)
-{
-	t_arg		arg;
-
-	arg.start = value;
-	append_quoted_string_to_buffer(&arg, buffer);
-}
-
-void	handle_unquoted_value(const char *value, t_buffer *buffer)
-{
-	t_arg	arg;
-
-	arg.start = value;
-	while (*arg.start && !isspace(*arg.start))
-	{
-		if (is_env_variable(arg.start))
-			append_env_value_to_buffer(&arg, buffer);
-		else
-			append_char_to_buffer(&arg, buffer);
-	}
-}
-
 static int	get_value_len(const char *value_string)
 {
 	int	i;
