@@ -2,16 +2,6 @@
 #include <parser/command_table.h>
 #include <parser/get_executable_path.h>
 
-int	get_cmd_len(const char *input)
-{
-	int	i;
-
-	i = 0;
-	while (input[i] && input[i] != SPACE_CHAR)
-		i++;
-	return (i);
-}
-
 /*
 	get_executable_path only returns a string if passed command or path,
 	is executable.
