@@ -29,35 +29,28 @@ t_bool	export(t_env *env, const char *key_value_str)
 	return (TRUE);
 }
 
-t_arg	copy_key_to_buffer_and_unset(t_env *env, t_arg str, t_buffer *buffer)
+t_arg	copy_key_to_buffer_and_unset(t_env *env, t_arg arg, t_buffer *buffer)
 {
 	t_env *variable;
 	
-	while (*str.start && !isspace(*str.start))
-	{
-		if (is_quote(*str.start))
-			str = parse_str_with_quotes(str, buffer);
-		else if (is_env_variable(str.start))
-			append_env_value_to_buffer(&str, buffer);
-		else
-			append_char_to_buffer(&str, buffer);
-	}
+	while (*arg.start && !isspace(*arg.start))
+		append_expanded_input_to_buffer(&arg, buffer);
 	variable = find_variable(env, buffer->buf);
 	free_key_value_pair(variable);
-	return (str);
+	return (arg);
 }
 
 void	unset(t_env *env, const char *key)
 {
-	t_arg		str;
+	t_arg		arg;
 	t_buffer	key_buffer;
 
-	str.start = (char *)key;
-	while (*str.start)
+	arg.start = (char *)key;
+	while (*arg.start)
 	{
 		init_buffer(&key_buffer);
-		str = copy_key_to_buffer_and_unset(env, str, &key_buffer);
-		skip_spaces(&str.start);
+		arg = copy_key_to_buffer_and_unset(env, arg, &key_buffer);
+		skip_spaces(&arg.start);
 	}
 }
 

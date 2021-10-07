@@ -12,20 +12,20 @@ void	handle_quoted_value(const char *value, t_buffer *buffer)
 	t_arg		arg;
 
 	arg.start = value;
-	parse_str_with_quotes(arg, buffer);
+	append_quoted_string_to_buffer(&arg, buffer);
 }
 
 void	handle_unquoted_value(const char *value, t_buffer *buffer)
 {
-	t_arg	str;
+	t_arg	arg;
 
-	str.start = value;
-	while (*str.start && !isspace(*str.start))
+	arg.start = value;
+	while (*arg.start && !isspace(*arg.start))
 	{
-		if (is_env_variable(str.start))
-			append_env_value_to_buffer(&str, buffer);
+		if (is_env_variable(arg.start))
+			append_env_value_to_buffer(&arg, buffer);
 		else
-			append_char_to_buffer(&str, buffer);
+			append_char_to_buffer(&arg, buffer);
 	}
 }
 
@@ -48,20 +48,13 @@ t_bool	copy_value_to_buffer(const char *key_value_str, t_buffer *buffer)
 {
 	const char	*delimiter_position = \
 		get_equal_sign_position(key_value_str) + 1;
-	t_arg	str;
+	t_arg	arg;
 
 	if (!delimiter_position)
 		return (FALSE);
-	str.start = &delimiter_position[0];
-	while (*str.start && !isspace(*str.start))
-	{
-		if (is_quote(*str.start))
-			str = parse_str_with_quotes(str, buffer);
-		else if (is_env_variable(str.start))
-			append_env_value_to_buffer(&str, buffer);
-		else
-			append_char_to_buffer(&str, buffer);
-	}
+	arg.start = &delimiter_position[0];
+	while (*arg.start && !isspace(*arg.start))
+		append_expanded_input_to_buffer(&arg, buffer);
 	buffer->index = get_value_len(delimiter_position);
 	return (TRUE);
 }

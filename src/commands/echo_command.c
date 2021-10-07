@@ -58,7 +58,7 @@ t_exit_code	echo_command(t_command command, t_output_stdout output)
 		return (handle_empty_str(has_n_flag, output));
 	while (command.arg.start < command.arg.end)
 	{
-		command.arg = parse_str_with_quotes(command.arg, &buffer);
+		append_quoted_string_to_buffer(&command.arg, &buffer);
 		handle_spaces(&command.arg, &buffer);
 		command.arg = parse_str_without_quotes(command.arg, &buffer);
 	}
