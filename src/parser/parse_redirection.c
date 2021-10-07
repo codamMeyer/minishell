@@ -21,7 +21,8 @@ int	get_file_name_and_length(t_buffer *buffer, char *input)
 
 	arg.start = input;
 	skip_spaces(&arg.start);
-	while (*arg.start && !isspace(*arg.start) && !ft_strchr(ALL_TERMINATORS, *arg.start))
+	while (*arg.start && !isspace(*arg.start)
+		&& !ft_strchr(ALL_TERMINATORS, *arg.start))
 		append_expanded_input_to_buffer(&arg, buffer);
 	return (len_to_replace);
 }

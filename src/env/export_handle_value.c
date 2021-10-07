@@ -26,7 +26,7 @@ t_bool	copy_value_to_buffer(const char *key_value_str, t_buffer *buffer)
 {
 	const char	*delimiter_position = \
 		get_equal_sign_position(key_value_str) + 1;
-	t_arg	arg;
+	t_arg		arg;
 
 	if (!delimiter_position)
 		return (FALSE);

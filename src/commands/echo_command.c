@@ -28,6 +28,19 @@ static int	handle_empty_str(t_bool has_n_flag, t_output_stdout output)
 	return (SUCCESS);
 }
 
+t_bool	is_empty_buffer(t_buffer *buffer)
+{
+	int i;
+
+	i = 0;
+	while (i < buffer->index)
+	{
+		if (!isspace(buffer->buf[i]))
+			return (FALSE);
+	}
+	return (TRUE);
+}
+
 t_exit_code	echo_command(t_command command, t_output_stdout output)
 {
 	const t_bool	has_n_flag = parse_n_flag((t_arg *)&command.arg);

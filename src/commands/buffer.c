@@ -36,7 +36,6 @@ void	append_env_value_to_buffer(t_arg *arg, t_buffer *buffer)
 	buffer->index += value_len;
 }
 
-
 void	append_quoted_string_to_buffer(t_arg *arg, t_buffer *buffer)
 {
 	const t_quotes_position	quotes = get_quotes_positions(arg->start);

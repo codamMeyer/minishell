@@ -123,6 +123,15 @@ unset KEY_"$USER"
 EXPECTED=$(env | grep KEY_"$USER")
 assertEqual "UNSET with key containing quotes"
 
+export a=1 b=2 c=3 
+INPUT="unset a b c"
+runMinishell "$INPUT\necho \"\$a \$b \$c\" | cat -e"
+removePrompt $MINISHELL_OUTPUT
+ACTUAL=$(cat $MINISHELL_OUTPUT)
+unset a b c
+EXPECTED=$(echo "$a $b $c" | cat -e)
+assertEqual "UNSET more than one variable"
+
 cleanUp
 
 exit $EXIT_CODE
