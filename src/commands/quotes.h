@@ -22,6 +22,5 @@ t_quotes_position	get_quotes_positions(const char *input);
 t_bool				is_double_quote(char c);
 t_bool				is_single_quote(char c);
 t_bool				is_quote(char c);
-t_arg				parse_str_without_quotes(t_arg arg, t_buffer *buffer);
 
 #endif
