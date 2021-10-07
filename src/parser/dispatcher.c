@@ -50,6 +50,7 @@ t_exit_code	dispatch_command(const t_command *command, char *env[])
 															export_command,
 															unset_command,
 															env_command,
+															cd_command,
 															unknown_command,
 															};
 

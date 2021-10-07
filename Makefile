@@ -59,6 +59,7 @@ MINISHELL_SRC= 							\
 	src/commands/buffer.c				\
 	src/commands/pwd_command.c			\
 	src/commands/environment_commands.c	\
+	src/commands/cd_command.c			\
 	src/env/environment.c				\
 	src/env/environment_utils.c			\
 	src/env/export_handle_key.c			\

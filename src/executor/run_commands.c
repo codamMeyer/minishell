@@ -46,7 +46,7 @@ static t_bool	is_env_command(t_command_code code)
 
 t_bool	is_single_command(int num_of_cmds, t_command_code code)
 {
-	return (num_of_cmds == 1 && (code == EXIT || is_env_command(code)));
+	return (num_of_cmds == 1 && (code == EXIT || is_env_command(code) || code == CD));
 }
 
 /*

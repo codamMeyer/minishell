@@ -21,6 +21,7 @@ typedef enum e_command_code
 	EXPORT,
 	UNSET,
 	ENV,
+	CD,
 	INVALID,
 	SYSTEM,
 	LAST,

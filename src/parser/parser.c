@@ -29,6 +29,7 @@ t_command	populate_command(const char **input_ptr)
 	command.files = get_redirection((char **)input_ptr,
 			get_set_index(*input_ptr, "|") - 1);
 	command.code = get_command_code(input_ptr, &command);
+	skip_spaces(input_ptr);
 	command.arg.start = *input_ptr;
 	command.arg.len = get_set_index(command.arg.start, "|");
 	command.arg.end = *input_ptr + command.arg.len;
