@@ -33,9 +33,9 @@ t_bool	copy_key_to_buffer(const char *key_value_str, t_buffer *buffer)
 	{
 		if (is_quote(*str.start))
 			str = parse_str_with_quotes(str, buffer);
-		if (is_env_variable(str.start))
+		else if (is_env_variable(str.start))
 			append_env_value_to_buffer(&str, buffer);
-		else if (str.start < delimiter_position)
+		else
 			append_char_to_buffer(&str, buffer);
 	}
 	if (!is_valid_key(&buffer->buf[0], buffer->index))

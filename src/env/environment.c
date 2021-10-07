@@ -36,8 +36,8 @@ t_arg	copy_key_to_buffer_and_unset(t_env *env, t_arg str, t_buffer *buffer)
 	while (*str.start && !isspace(*str.start))
 	{
 		if (is_quote(*str.start))
-			parse_str_with_quotes(str, buffer);
-		if (is_env_variable(str.start))
+			str = parse_str_with_quotes(str, buffer);
+		else if (is_env_variable(str.start))
 			append_env_value_to_buffer(&str, buffer);
 		else
 			append_char_to_buffer(&str, buffer);

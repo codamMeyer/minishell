@@ -48,15 +48,20 @@ t_bool	copy_value_to_buffer(const char *key_value_str, t_buffer *buffer)
 {
 	const char	*delimiter_position = \
 		get_equal_sign_position(key_value_str) + 1;
-	char		cur;
+	t_arg	str;
 
 	if (!delimiter_position)
 		return (FALSE);
-	cur = delimiter_position[0];
-	if (is_quote(cur))
-		handle_quoted_value(delimiter_position, buffer);
-	else
-		handle_unquoted_value(delimiter_position, buffer);
+	str.start = &delimiter_position[0];
+	while (*str.start && !isspace(*str.start))
+	{
+		if (is_quote(*str.start))
+			str = parse_str_with_quotes(str, buffer);
+		else if (is_env_variable(str.start))
+			append_env_value_to_buffer(&str, buffer);
+		else
+			append_char_to_buffer(&str, buffer);
+	}
 	buffer->index = get_value_len(delimiter_position);
 	return (TRUE);
 }
