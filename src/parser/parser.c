@@ -61,5 +61,6 @@ t_bool	parse_input(const char *input, char *env[])
 
 	num_commands = populate_commands_table(input, commands_table);
 	run_commands(commands_table, num_commands, env);
+	cleanup_command_table(commands_table, num_commands);
 	return (TRUE);
 }
