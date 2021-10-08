@@ -34,7 +34,7 @@ t_command_code	get_command_code(const char **input, t_command *command)
 {
 	static const char	*commands[LAST] = {"", "echo", "exit", "pwd",
 											"export", "unset", "env",
-											"cd" ,"invalid"
+											"cd", "invalid"
 										};
 	t_command_code		command_code;
 

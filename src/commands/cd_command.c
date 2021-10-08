@@ -8,7 +8,7 @@
 
 void	update_env(char *cwd_value)
 {
-	char *current_directory;
+	char	*current_directory;
 
 	current_directory = getcwd(NULL, 0);
 	if (!current_directory)
@@ -18,16 +18,15 @@ void	update_env(char *cwd_value)
 	find_variable(get_environment(), "PWD")->value = current_directory;
 }
 
-t_exit_code cd_command(t_command command, t_output_stdout output)
+t_exit_code	cd_command(t_command command, t_output_stdout output)
 {
-	t_env		*pwd = find_variable(get_environment(), "PWD");
+	const t_env	*pwd = find_variable(get_environment(), "PWD");
 	char		command_buffer[BUFFER_SIZE];
 
+	(void)output;
 	if (!pwd)
 		return (ERROR);
 	ft_strlcpy(command_buffer, command.arg.start, command.arg.len + 1);
-	(void)output;
-	
 	if (chdir(command_buffer) == SYS_ERROR)
 		return (ERROR);
 	update_env(pwd->value);
