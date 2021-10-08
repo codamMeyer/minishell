@@ -6,16 +6,14 @@
 #include <env/environment.h>
 #include <executor/run_commands.h>
 
-static void	update_env(char *cwd_before_cd)
+static void	update_env(char *cwd_bef_cd)
 {
 	char	cwd_after_cd[BUFFER_SIZE];
 
 	getcwd(cwd_after_cd, BUFFER_SIZE);
-	// if (!cwd_after_cd)
-	// 	return ;
 	export(get_environment(), "OLDPWD=");
 	export(get_environment(), "PWD=");
-	find_variable(get_environment(), "OLDPWD")->value = ft_strdup(cwd_before_cd);
+	find_variable(get_environment(), "OLDPWD")->value = ft_strdup(cwd_bef_cd);
 	find_variable(get_environment(), "PWD")->value = ft_strdup(cwd_after_cd);
 }
 
