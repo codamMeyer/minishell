@@ -24,7 +24,7 @@ static void	copy_home_var_to_buffer(char *buffer)
 	int			len;
 
 	if (!home_var)
-		printf("Home var not found!\n");
+		printf("Home var not found, handel accordingly!\n");
 	len = ft_strlen(home_var->value) + 1;
 	ft_strlcpy(buffer, home_var->value, len);
 }
@@ -42,10 +42,7 @@ t_exit_code	cd_command(t_command command, t_output_stdout output)
 	else
 		ft_strlcpy(buffer, command.arg.start, command.arg.len + 1);
 	if (chdir(buffer) == SYS_ERROR)
-	{
-		printf("ERROR\n");
 		return (ERROR);
-	}
 	update_env(pwd->value);
 	return (SUCCESS);
 }
