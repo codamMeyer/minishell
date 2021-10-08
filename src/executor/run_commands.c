@@ -66,6 +66,6 @@ int	run_commands(t_command commands[],
 	{
 		run_multi_processes(env, commands, num_of_commands);
 		wait_for_all_processes(num_of_commands);
-	}
-	return (1);
+	}	
+	return (SUCCESS);
 }

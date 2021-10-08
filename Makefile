@@ -3,7 +3,7 @@ TEST_NAME=$(MINISHELL)_test
 MINISHELL_ASAN=$(MINISHELL)_asan
 CC=clang
 CFLAGS=-ggdb3 -Wall -Wextra -Werror
-CFLAGS_ASAN=$(CFLAGS) -fsanitize=leak
+CFLAGS_ASAN=$(CFLAGS) -fsanitize=leak -fsanitize=address
 INC_PATH=-I./src -I./libft
 LDFLAGS= -lreadline -L./libft -lft
 LIBFT_PATH = libft/
@@ -11,6 +11,7 @@ LIBFT_PATH = libft/
 MINISHELL_INCS= 						\
 	src/defines.h						\
 	src/syntax/check_syntax.h			\
+	src/syntax/check_quotes_syntax.h	\
 	src/syntax/redirection_syntax.h		\
 	src/syntax/write_errors.h			\
 	src/parser/parser.h					\
@@ -33,6 +34,7 @@ MINISHELL_INCS= 						\
 
 MINISHELL_SRC= 							\
 	src/syntax/check_syntax.c			\
+	src/syntax/check_quotes_syntax.c	\
 	src/syntax/redirection_syntax.c		\
 	src/syntax/redirect_syntax_utils.c	\
 	src/syntax/write_errors.c			\
@@ -79,6 +81,7 @@ TEST_FILES=								\
 	tests/env_api_test.c				\
 	tests/redirection_tests.c			\
 	tests/syntax_redirection_tests.c	\
+	tests/syntax_checker_test.c			\
 
 MINISHELL_OBJS=$(MINISHELL_SRC:.c=.o)
 

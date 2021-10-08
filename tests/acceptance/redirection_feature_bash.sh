@@ -151,5 +151,4 @@ check_file_content 'mini_$A' 'bash_$A'
 assertEqual "Test with variable in filename, but inside single quotes"
 rm 'mini_$A' 'bash_$A'
 
-
 exit $EXIT_CODE
