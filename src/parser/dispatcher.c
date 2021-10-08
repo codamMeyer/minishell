@@ -57,6 +57,8 @@ t_exit_code	dispatch_command(t_command *command, char *env[])
 															};
 	t_buffer	buffer;
 	t_arg	str;
+
+	// should expand variables in all commands (cd, grep ..)
 	init_buffer(&buffer);
 	if (command->code == INVALID)
 	{
