@@ -24,7 +24,10 @@ static void	copy_home_var_to_buffer(char *buffer)
 	int			len;
 
 	if (!home_var)
-		printf("Home var not found, handel accordingly!\n");
+	{
+		printf("cd: HOME not set\n");
+		return ;
+	}
 	len = ft_strlen(home_var->value) + 1;
 	ft_strlcpy(buffer, home_var->value, len);
 }
