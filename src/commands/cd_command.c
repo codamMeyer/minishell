@@ -13,6 +13,8 @@ static void	update_env(char *cwd_bef_cd)
 	getcwd(cwd_after_cd, BUFFER_SIZE);
 	export(get_environment(), "OLDPWD=");
 	export(get_environment(), "PWD=");
+	free(find_variable(get_environment(), "OLDPWD")->value);
+	free(find_variable(get_environment(), "PWD")->value);
 	find_variable(get_environment(), "OLDPWD")->value = ft_strdup(cwd_bef_cd);
 	find_variable(get_environment(), "PWD")->value = ft_strdup(cwd_after_cd);
 }
