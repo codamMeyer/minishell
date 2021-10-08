@@ -19,9 +19,6 @@ static void	consume_pipe(const char **input, int index)
 		++(*input);
 }
 
-/* 
-	TODO: Display syntax error when necessary
- */
 t_command	populate_command(const char **input_ptr)
 {
 	t_command	command;

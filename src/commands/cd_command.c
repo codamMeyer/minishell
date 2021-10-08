@@ -6,7 +6,7 @@
 #include <env/environment.h>
 #include <executor/run_commands.h>
 
-void	update_env(char *cwd_value)
+static void	update_env(char *cwd_value)
 {
 	char	*current_directory;
 
@@ -18,17 +18,34 @@ void	update_env(char *cwd_value)
 	find_variable(get_environment(), "PWD")->value = current_directory;
 }
 
+static void	copy_home_var_to_buffer(char *buffer)
+{
+	const t_env	*home_var = find_variable(get_environment(), "HOME");
+	int			len;
+
+	if (!home_var)
+		printf("Home var not found!\n");
+	len = ft_strlen(home_var->value) + 1;
+	ft_strlcpy(buffer, home_var->value, len);
+}
+
 t_exit_code	cd_command(t_command command, t_output_stdout output)
 {
 	const t_env	*pwd = find_variable(get_environment(), "PWD");
-	char		command_buffer[BUFFER_SIZE];
+	char		buffer[BUFFER_SIZE];
 
 	(void)output;
 	if (!pwd)
 		return (ERROR);
-	ft_strlcpy(command_buffer, command.arg.start, command.arg.len + 1);
-	if (chdir(command_buffer) == SYS_ERROR)
+	if (command.arg.len == 0 || *command.arg.start == '~')
+		copy_home_var_to_buffer(buffer);
+	else
+		ft_strlcpy(buffer, command.arg.start, command.arg.len + 1);
+	if (chdir(buffer) == SYS_ERROR)
+	{
+		printf("ERROR\n");
 		return (ERROR);
+	}
 	update_env(pwd->value);
 	return (SUCCESS);
 }
