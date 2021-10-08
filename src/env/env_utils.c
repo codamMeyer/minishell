@@ -1,15 +1,12 @@
 #include <ctype.h>
+#include <libft.h>
 #include <commands/quotes.h>
 #include <commands/commands.h>
 #include <env/env_utils.h>
 
 t_bool	is_valid_key_char(char c)
 {
-	return (c != NULL_TERMINATOR
-		&& !isspace(c)
-		&& !is_quote(c)
-		&& c != VARIABLE_TOKEN
-		&& c != EQUAL_SIGN);
+	return (ft_isalnum(c) || c == '_');
 }
 
 int	get_key_len(const char *key)

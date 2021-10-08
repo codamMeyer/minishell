@@ -35,14 +35,3 @@ t_bool	parse_n_flag(t_arg *input)
 	}
 	return (FALSE);
 }
-
-void	trim_extra_spaces_between_words(t_arg *arg, t_buffer *buffer)
-{
-	if (isspace(*arg->start) && *(arg->start + 1))
-		skip_spaces(&arg->start);
-	if (arg->start != arg->end)
-	{
-		buffer->buf[buffer->index] = SPACE_CHAR;
-		++(buffer->index);
-	}
-}

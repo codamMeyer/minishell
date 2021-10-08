@@ -28,7 +28,7 @@ void	handle_errors(int error_code, const char *description_location)
 /*
 	Done like this to not have confusing typecasting flying around
 */
-int	execute_command(const char *path, char *argv[], char *env[])
+static int	execute_command(const char *path, char *argv[], char *env[])
 {
 	return (execve(path, (char *const *)argv, (char *const *)env));
 }
@@ -36,7 +36,7 @@ int	execute_command(const char *path, char *argv[], char *env[])
 void	execute_system_command(const t_command *command, char *env[])
 {
 	char		**cmd;
-	char		buffer[4096];
+	char		buffer[BUFFER_SIZE];
 
 	ft_strlcpy(&buffer[0], command->arg.start, command->arg.len + 1);
 	cmd = ft_split(&buffer[0], SPACE_CHAR);

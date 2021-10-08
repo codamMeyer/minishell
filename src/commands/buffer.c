@@ -35,3 +35,33 @@ void	append_env_value_to_buffer(t_arg *arg, t_buffer *buffer)
 	arg->start = arg->start + key_len;
 	buffer->index += value_len;
 }
+
+void	append_quoted_string_to_buffer(t_arg *arg, t_buffer *buffer)
+{
+	const t_quotes_position	quotes = get_quotes_positions(arg->start);
+
+	if (quotes.start && quotes.end)
+	{
+		arg->start = quotes.start;
+		while (arg->start < quotes.end)
+		{
+			if (quotes.is_double_quote && is_env_variable(arg->start))
+				append_env_value_to_buffer(arg, buffer);
+			else
+				append_char_to_buffer(arg, buffer);
+		}
+		++arg->start;
+	}
+	else if (quotes.start)
+		++arg->start;
+}
+
+void	append_expanded_input_to_buffer(t_arg *arg, t_buffer *buffer)
+{
+	if (is_quote(*arg->start))
+		append_quoted_string_to_buffer(arg, buffer);
+	else if (is_env_variable(arg->start))
+		append_env_value_to_buffer(arg, buffer);
+	else
+		append_char_to_buffer(arg, buffer);
+}
