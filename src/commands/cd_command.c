@@ -6,17 +6,20 @@
 #include <env/environment.h>
 #include <executor/run_commands.h>
 
+static void	update_env_value(const char *key, const char *new_value)
+{
+	export(get_environment(), key);
+	free(find_variable(get_environment(), key)->value);
+	find_variable(get_environment(), key)->value = ft_strdup(new_value);
+}
+
 static void	update_env(char *cwd_bef_cd)
 {
 	char	cwd_after_cd[BUFFER_SIZE];
 
 	getcwd(cwd_after_cd, BUFFER_SIZE);
-	export(get_environment(), "OLDPWD=");
-	export(get_environment(), "PWD=");
-	free(find_variable(get_environment(), "OLDPWD")->value);
-	free(find_variable(get_environment(), "PWD")->value);
-	find_variable(get_environment(), "OLDPWD")->value = ft_strdup(cwd_bef_cd);
-	find_variable(get_environment(), "PWD")->value = ft_strdup(cwd_after_cd);
+	update_env_value("OLDPWD=", cwd_bef_cd);
+	update_env_value("PWD=", cwd_after_cd);
 }
 
 static void	copy_home_var_to_buffer(char *buffer)
@@ -45,7 +48,10 @@ t_exit_code	cd_command(t_command command, t_output_stdout output)
 	else
 		ft_strlcpy(buffer, command.arg.start, command.arg.len + 1);
 	if (chdir(buffer) == SYS_ERROR)
+	{
+		printf("cd: %s: No such file or directory\n", buffer);
 		return (ERROR);
+	}
 	update_env(cwd_before_cd);
 	return (SUCCESS);
 }
