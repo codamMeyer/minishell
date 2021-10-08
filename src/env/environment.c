@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <commands/buffer.h>
+#include <commands/quotes.h>
 #include <env/environment.h>
 #include <env/env_utils.h>
 #include <parser/parser.h>
@@ -30,23 +31,19 @@ t_bool	export(t_env *env, const char *key_value_str)
 
 void	unset(t_env *env, const char *key)
 {
-	int	key_len;
-	int	i;
+	t_arg		arg;
+	t_buffer	key_buffer;
+	t_env		*variable;
 
-	if (!env)
-		return ;
-	i = 0;
-	key_len = 0;
-	while (key[key_len] && !isspace(key[key_len]))
-		++key_len;
-	while (i < ENV_SIZE)
+	arg.start = (char *)key;
+	while (*arg.start)
 	{
-		if (env[i].key && ft_strncmp(env[i].key, key, key_len) == 0)
-		{
-			free_key_value_pair(&env[i]);
-			break ;
-		}
-		++i;
+		init_buffer(&key_buffer);
+		while (*arg.start && !isspace(*arg.start))
+			append_expanded_input_to_buffer(&arg, &key_buffer);
+		variable = find_variable(env, key_buffer.buf);
+		free_key_value_pair(variable);
+		skip_spaces(&arg.start);
 	}
 }
 

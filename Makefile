@@ -55,7 +55,6 @@ MINISHELL_SRC= 							\
 	src/commands/echo_command.c			\
 	src/commands/echo_utils.c			\
 	src/commands/quotes.c				\
-	src/commands/parse_quotes.c			\
 	src/commands/buffer.c				\
 	src/commands/pwd_command.c			\
 	src/commands/environment_commands.c	\
