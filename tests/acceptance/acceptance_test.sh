@@ -30,4 +30,7 @@ RESULT+=$?
 ./tests/acceptance/syntax_checker_test.sh
 RESULT+=$?
 
+./tests/acceptance/cd_feature_test.sh
+RESULT+=$?
+
 exit $RESULT
