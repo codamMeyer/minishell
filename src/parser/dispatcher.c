@@ -1,11 +1,14 @@
 #include <ctype.h>
 #include <libft.h>
 #include <parser/dispatcher.h>
+#include <commands/buffer.h>
 #include <commands/commands.h>
 #include <commands/echo_utils.h>
 #include <output/write_to_std.h>
+#include <parser/command_table.h>
 #include <parser/parser.h>
 #include <executor/executor_utils.h>
+#include <env/env_utils.h>
 
 static void	copy_unknown_command_to_buffer(const char **input, char buffer[])
 {
@@ -40,7 +43,7 @@ t_exit_code	empty_command(t_command command, t_output_stdout write_to_stdout)
 	return (SUCCESS);
 }
 
-t_exit_code	dispatch_command(const t_command *command, char *env[])
+t_exit_code	dispatch_command(t_command *command, char *env[])
 {
 	static const t_command_function		functions[LAST] = {
 															empty_command,
@@ -52,7 +55,22 @@ t_exit_code	dispatch_command(const t_command *command, char *env[])
 															env_command,
 															unknown_command,
 															};
-
+	t_buffer	buffer;
+	t_arg	str;
+	init_buffer(&buffer);
+	if (command->code == INVALID)
+	{
+		if (is_env_variable(command->arg.start))
+		{
+			while (command->arg.start < command->arg.end)
+				append_expanded_input_to_buffer((t_arg *)(&command->arg), &buffer);	
+			str.start = (char *)buffer.buf;
+			command->code = get_command_code(&str.start, command);
+			command->arg.start = str.start;
+			command->arg.end = command->arg.start + buffer.index;
+			command->arg.len = command->arg.end - command->arg.start;
+		}
+	}
 	if (command->code == SYSTEM)
 		execute_system_command(command, env);
 	else if (command->code == INVALID)
