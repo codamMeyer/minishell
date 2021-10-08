@@ -6,16 +6,17 @@
 #include <env/environment.h>
 #include <executor/run_commands.h>
 
-static void	update_env(char *cwd_value)
+static void	update_env(char *cwd_before_cd)
 {
-	char	*current_directory;
+	char	cwd_after_cd[BUFFER_SIZE];
 
-	current_directory = getcwd(NULL, 0);
-	if (!current_directory)
-		return ;
+	getcwd(cwd_after_cd, BUFFER_SIZE);
+	// if (!cwd_after_cd)
+	// 	return ;
 	export(get_environment(), "OLDPWD=");
-	find_variable(get_environment(), "OLDPWD")->value = cwd_value;
-	find_variable(get_environment(), "PWD")->value = current_directory;
+	export(get_environment(), "PWD=");
+	find_variable(get_environment(), "OLDPWD")->value = ft_strdup(cwd_before_cd);
+	find_variable(get_environment(), "PWD")->value = ft_strdup(cwd_after_cd);
 }
 
 static void	copy_home_var_to_buffer(char *buffer)
@@ -34,18 +35,17 @@ static void	copy_home_var_to_buffer(char *buffer)
 
 t_exit_code	cd_command(t_command command, t_output_stdout output)
 {
-	const t_env	*pwd = find_variable(get_environment(), "PWD");
 	char		buffer[BUFFER_SIZE];
+	char		cwd_before_cd[BUFFER_SIZE];
 
 	(void)output;
-	if (!pwd)
-		return (ERROR);
+	getcwd(cwd_before_cd, BUFFER_SIZE);
 	if (command.arg.len == 0 || *command.arg.start == '~')
 		copy_home_var_to_buffer(buffer);
 	else
 		ft_strlcpy(buffer, command.arg.start, command.arg.len + 1);
 	if (chdir(buffer) == SYS_ERROR)
 		return (ERROR);
-	update_env(pwd->value);
+	update_env(cwd_before_cd);
 	return (SUCCESS);
 }

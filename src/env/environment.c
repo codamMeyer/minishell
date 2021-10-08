@@ -37,7 +37,7 @@ void	unset(t_env *env, const char *key)
 		return ;
 	i = 0;
 	key_len = 0;
-	while (!isspace(key[key_len]))
+	while (key[key_len] && !isspace(key[key_len]))
 		++key_len;
 	while (i < ENV_SIZE)
 	{
