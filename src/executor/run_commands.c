@@ -23,7 +23,7 @@ int	run_multi_processes(char *env[],
 	i = 0;
 	while (num_of_processes > 0 && i < num_of_processes)
 	{
-		process_id = create_new_process(&pipes);
+		process_id = create_new_process(&pipes, i, num_of_processes);
 		if (process_id == CHILD_PROCESS)
 		{
 			redirect_in_and_output(&pipes, i, num_of_processes,
@@ -31,8 +31,8 @@ int	run_multi_processes(char *env[],
 			exit(dispatch_command(&commands[i], env));
 		}
 		if (i != FIRST_PROCESS)
-			close(pipes.previous[READ_FD]);
-		close(pipes.current[WRITE_FD]);
+			close(pipes.previous[WRITE_FD]);
+		close(pipes.previous[READ_FD]);
 		previous_to_current_pipe(&pipes);
 		i++;
 	}
