@@ -119,7 +119,6 @@ check_file_content "$MINI_OUT" "$BASH_OUT"
 assertEqual "Multi_pipes with system and built-in command, in/output with append mode"
 cleanUp
 
-
 # <> is valid only if no spaces are in between
 # >< is invalid
 

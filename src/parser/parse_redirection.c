@@ -21,17 +21,9 @@ int	get_file_name_and_length(t_buffer *buffer, char *input)
 
 	arg.start = input;
 	skip_spaces(&arg.start);
-	while (*arg.start && !isspace(*arg.start))
-	{
-		if (is_quote(*arg.start))
-			arg = parse_str_with_quotes(arg, buffer);
-		if (is_env_variable(arg.start))
-			append_env_value_to_buffer(&arg, buffer);
-		if (ft_strchr(ALL_TERMINATORS, *arg.start))
-			break ;
-		else
-			append_char_to_buffer(&arg, buffer);
-	}
+	while (*arg.start && !isspace(*arg.start)
+		&& !ft_strchr(ALL_TERMINATORS, *arg.start))
+		append_expanded_input_to_buffer(&arg, buffer);
 	return (len_to_replace);
 }
 

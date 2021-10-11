@@ -9,6 +9,5 @@
 int		run_pipes(const char *env[]);
 int		run_commands(t_command commands[],
 			int num_of_commands, char *env[]);
-void	create_table(t_command commands[], char *arg, char *path);
 
 #endif
