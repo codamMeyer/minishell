@@ -97,7 +97,7 @@ CTEST2(command_table, one_command_echo)
     const char *input = "echo Hello you this is a test";
     ASSERT_EQUAL(1, populate_commands_table(input, data->command_table));
     ASSERT_EQUAL(ECHO, data->command_table[0].code);
-    ASSERT_STR(" Hello you this is a test", data->command_table[0].arg.start);
+    ASSERT_STR("Hello you this is a test", data->command_table[0].arg.start);
 }
 
 CTEST2(command_table, one_command_pwd)
@@ -105,7 +105,7 @@ CTEST2(command_table, one_command_pwd)
     const char *input = "pwd arguments are irrelevant for this test";
     ASSERT_EQUAL(1, populate_commands_table(input, data->command_table));
     ASSERT_EQUAL(PWD, data->command_table[0].code);
-    ASSERT_STR(" arguments are irrelevant for this test", data->command_table[0].arg.start);
+    ASSERT_STR("arguments are irrelevant for this test", data->command_table[0].arg.start);
 }
 
 CTEST2(command_table, command_cointaining_pipe_between_quotes)
@@ -113,7 +113,7 @@ CTEST2(command_table, command_cointaining_pipe_between_quotes)
     const char *input = "echo this is a \" | \"";
     ASSERT_EQUAL(1, populate_commands_table(input, data->command_table));
     ASSERT_EQUAL(ECHO, data->command_table[0].code);
-    ASSERT_STR(" this is a \" | \"", data->command_table[0].arg.start);
+    ASSERT_STR("this is a \" | \"", data->command_table[0].arg.start);
 }
 
 CTEST2(command_table, command_separated_by_pipe)
@@ -121,10 +121,10 @@ CTEST2(command_table, command_separated_by_pipe)
     const char *input = "echo this is the end | echo test";
     ASSERT_EQUAL(2, populate_commands_table(input, data->command_table));
     ASSERT_EQUAL(ECHO, data->command_table[0].code);
-    ASSERT_STR(" this is the end | echo test", data->command_table[0].arg.start);
+    ASSERT_STR("this is the end | echo test", data->command_table[0].arg.start);
     ASSERT_STR("| echo test", data->command_table[0].arg.end);
     ASSERT_EQUAL(ECHO, data->command_table[1].code);
-    ASSERT_STR(" test", data->command_table[1].arg.start);
+    ASSERT_STR("test", data->command_table[1].arg.start);
     ASSERT_STR("", data->command_table[1].arg.end);
 }
 
@@ -133,10 +133,10 @@ CTEST2(command_table, separate_by_pipe_and_followed_by_command_containing_quotes
     const char *input = "echo this is the end | pwd with arg";
     ASSERT_EQUAL(2, populate_commands_table(input, data->command_table));
     ASSERT_EQUAL(ECHO, data->command_table[0].code);
-    ASSERT_STR(" this is the end | pwd with arg", data->command_table[0].arg.start);
+    ASSERT_STR("this is the end | pwd with arg", data->command_table[0].arg.start);
     ASSERT_STR("| pwd with arg", data->command_table[0].arg.end);
     ASSERT_EQUAL(PWD, data->command_table[1].code);
-    ASSERT_STR(" with arg", data->command_table[1].arg.start);
+    ASSERT_STR("with arg", data->command_table[1].arg.start);
     ASSERT_STR("", data->command_table[1].arg.end);
 }
 
@@ -145,10 +145,10 @@ CTEST2(command_table, separate_by_pipe_without_quotes)
     const char *input = "echo this is the end|pwd with arg";
     ASSERT_EQUAL(2, populate_commands_table(input, data->command_table));
     ASSERT_EQUAL(ECHO, data->command_table[0].code);
-    ASSERT_STR(" this is the end|pwd with arg", data->command_table[0].arg.start);
+    ASSERT_STR("this is the end|pwd with arg", data->command_table[0].arg.start);
     ASSERT_STR("|pwd with arg", data->command_table[0].arg.end);
     ASSERT_EQUAL(PWD, data->command_table[1].code);
-    ASSERT_STR(" with arg", data->command_table[1].arg.start);
+    ASSERT_STR("with arg", data->command_table[1].arg.start);
     ASSERT_STR("", data->command_table[1].arg.end);
 }
 
