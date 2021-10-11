@@ -3,7 +3,7 @@ TEST_NAME=$(MINISHELL)_test
 MINISHELL_ASAN=$(MINISHELL)_asan
 CC=clang
 CFLAGS=-ggdb3 -Wall -Wextra -Werror
-CFLAGS_ASAN=$(CFLAGS) -fsanitize=leak -fsanitize=address
+CFLAGS_ASAN=$(CFLAGS) -fsanitize=leak
 INC_PATH=-I./src -I./libft
 LDFLAGS= -lreadline -L./libft -lft
 LIBFT_PATH = libft/
@@ -13,6 +13,7 @@ MINISHELL_INCS= 						\
 	src/syntax/check_syntax.h			\
 	src/syntax/check_quotes_syntax.h	\
 	src/syntax/redirection_syntax.h		\
+	src/syntax/write_errors.h			\
 	src/parser/parser.h					\
 	src/parser/command_table.h			\
 	src/parser/parse_redirection.h		\
@@ -35,6 +36,8 @@ MINISHELL_SRC= 							\
 	src/syntax/check_syntax.c			\
 	src/syntax/check_quotes_syntax.c	\
 	src/syntax/redirection_syntax.c		\
+	src/syntax/redirect_syntax_utils.c	\
+	src/syntax/write_errors.c			\
 	src/parser/parser.c					\
 	src/output/prompt.c					\
 	src/output/write_to_std.c			\
@@ -58,6 +61,7 @@ MINISHELL_SRC= 							\
 	src/commands/buffer.c				\
 	src/commands/pwd_command.c			\
 	src/commands/environment_commands.c	\
+	src/commands/cd_command.c			\
 	src/env/environment.c				\
 	src/env/environment_utils.c			\
 	src/env/export_handle_key.c			\
@@ -76,6 +80,7 @@ TEST_FILES=								\
 	tests/pipe_test.c					\
 	tests/env_api_test.c				\
 	tests/redirection_tests.c			\
+	tests/syntax_redirection_tests.c	\
 	tests/syntax_checker_test.c			\
 
 MINISHELL_OBJS=$(MINISHELL_SRC:.c=.o)
@@ -103,7 +108,7 @@ test_asan: $(MINISHELL_SRC) $(TEST_FILES)
 
 $(MINISHELL_ASAN): $(MINISHELL_SRC)
 	make -C $(LIBFT_PATH)
-	$(CC) $(CFLAGS_ASAN) $(INC_PATH) main.c -o $(MINISHELL_ASAN) $^ $(LDFLAGS)
+	$(CC) $(CFLAGS_ASAN) -fsanitize=address $(INC_PATH) main.c -o $(MINISHELL_ASAN) $^ $(LDFLAGS)
 
 acceptance_test: $(MINISHELL)
 	./tests/acceptance/acceptance_test.sh
