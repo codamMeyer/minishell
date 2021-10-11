@@ -46,6 +46,7 @@ t_exit_code	empty_command(t_command command, t_output_stdout write_to_stdout)
 
 t_exit_code	dispatch_command(t_command *command, char *env[])
 {
+	t_buffer							buffer;
 	static const t_command_function		functions[LAST] = {
 															empty_command,
 															echo_command,
@@ -56,8 +57,7 @@ t_exit_code	dispatch_command(t_command *command, char *env[])
 															env_command,
 															unknown_command,
 															};
-	t_buffer	buffer;
-	
+
 	init_buffer(&buffer);
 	if (command->code == INVALID && is_env_variable(command->arg.start))
 		command = expand_arg_content(command, &buffer);
