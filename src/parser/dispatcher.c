@@ -1,11 +1,15 @@
 #include <ctype.h>
 #include <libft.h>
+#include <stdio.h>
 #include <parser/dispatcher.h>
+#include <commands/buffer.h>
 #include <commands/commands.h>
 #include <commands/echo_utils.h>
 #include <output/write_to_std.h>
+#include <parser/command_table.h>
 #include <parser/parser.h>
 #include <executor/executor_utils.h>
+#include <env/env_utils.h>
 
 static void	copy_unknown_command_to_buffer(const char **input, char buffer[])
 {
@@ -40,8 +44,9 @@ t_exit_code	empty_command(t_command command, t_output_stdout write_to_stdout)
 	return (SUCCESS);
 }
 
-t_exit_code	dispatch_command(const t_command *command, char *env[])
+t_exit_code	dispatch_command(t_command *command, char *env[])
 {
+	t_buffer							buffer;
 	static const t_command_function		functions[LAST] = {
 															empty_command,
 															echo_command,
@@ -53,6 +58,9 @@ t_exit_code	dispatch_command(const t_command *command, char *env[])
 															unknown_command,
 															};
 
+	init_buffer(&buffer);
+	if (command->code == INVALID && is_env_variable(command->arg.start))
+		command = expand_arg_content(command, &buffer);
 	if (command->code == SYSTEM)
 		execute_system_command(command, env);
 	else if (command->code == INVALID)
