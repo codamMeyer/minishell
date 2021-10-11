@@ -1,14 +1,17 @@
 #!/bin/bash
 source ./tests/acceptance/common.sh
 RESULT=0
-MINISHELL_PROGRAM=minishell
 
 function compileMinishell ()
 {
     make
+    make minishell_asan
 }
 
-if [ $# ]
+
+if [ $# -ne 1 ]; then
+    MINISHELL_PROGRAM=minishell_asan
+fi
 
 compileMinishell
 
