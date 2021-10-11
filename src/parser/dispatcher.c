@@ -1,5 +1,6 @@
 #include <ctype.h>
 #include <libft.h>
+#include <stdio.h>
 #include <parser/dispatcher.h>
 #include <commands/buffer.h>
 #include <commands/commands.h>
@@ -56,23 +57,10 @@ t_exit_code	dispatch_command(t_command *command, char *env[])
 															unknown_command,
 															};
 	t_buffer	buffer;
-	t_arg	str;
-
-	// should expand variables in all commands (cd, grep ..)
+	
 	init_buffer(&buffer);
-	if (command->code == INVALID)
-	{
-		if (is_env_variable(command->arg.start))
-		{
-			while (command->arg.start < command->arg.end)
-				append_expanded_input_to_buffer((t_arg *)(&command->arg), &buffer);	
-			str.start = (char *)buffer.buf;
-			command->code = get_command_code(&str.start, command);
-			command->arg.start = str.start;
-			command->arg.end = command->arg.start + buffer.index;
-			command->arg.len = command->arg.end - command->arg.start;
-		}
-	}
+	if (command->code == INVALID && is_env_variable(command->arg.start))
+		command = expand_arg_content(command, &buffer);
 	if (command->code == SYSTEM)
 		execute_system_command(command, env);
 	else if (command->code == INVALID)

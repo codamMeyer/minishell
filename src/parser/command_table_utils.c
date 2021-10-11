@@ -3,6 +3,17 @@
 #include <parser/command_table.h>
 #include <parser/get_executable_path.h>
 
+t_command	*expand_arg_content(t_command *command, t_buffer *buffer)
+{
+	while (command->arg.start < command->arg.end)
+		append_expanded_input_to_buffer((t_arg *)(&command->arg), buffer);
+	command->arg.start = (char *)buffer->buf;
+	command->code = get_command_code(&command->arg.start, command);
+	command->arg.len = ft_strlen(command->arg.start);
+	command->arg.end = command->arg.start + command->arg.len;
+	return (command);
+}
+
 /*
 	get_executable_path only returns a string if passed command or path,
 	is executable.
