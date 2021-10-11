@@ -21,6 +21,11 @@ CTEST(pipes, valid_multi_pipes)
     ASSERT_EQUAL(TRUE, is_valid_syntax("echo hallo| cat -e |wc"));
 }
 
+CTEST(pipes, only_pipe)
+{
+    ASSERT_EQUAL(FALSE, is_valid_syntax("|"));
+}
+
 CTEST(pipes, invalid_first_char_pipe)
 {
     ASSERT_EQUAL(FALSE, is_valid_syntax("| echo hallo"));

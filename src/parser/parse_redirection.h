@@ -1,6 +1,10 @@
 #ifndef PARSE_REDIRECTION_H
 # define PARSE_REDIRECTION_H
 
+# include <fcntl.h>
+# include <commands/buffer.h>
+# include <commands/commands.h>
+
 # define INVALID_FD -1
 # define FT_APPEND O_APPEND
 # define FT_TRUNCATE O_TRUNC
@@ -8,9 +12,6 @@
 # define FILE_RIGHTS 0664
 # define TMP_FILE_PATH "/tmp/minishell"
 # define DIAMOND_BRACKETS 777
-
-# include <commands/commands.h>
-# include <commands/buffer.h>
 
 t_files	get_redirection(char **input, const int string_to_parse_len);
 int		count_consecutive_spaces(const char *str);
