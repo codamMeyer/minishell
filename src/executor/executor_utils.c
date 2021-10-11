@@ -38,7 +38,7 @@ void	execute_system_command(const t_command *command, char *env[])
 {
 	char		**cmd;
 	t_buffer	buffer;
-	
+
 	init_buffer(&buffer);
 	while (command->arg.start < command->arg.end)
 		append_expanded_input_to_buffer((t_arg *)&command->arg, &buffer);
