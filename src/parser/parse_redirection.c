@@ -39,8 +39,6 @@ int	get_redirect_id(const char *cursor)
 		return (LEFT_ANGLE);
 	else if (*cursor == RIGHT_ANGLE)
 		return (FT_TRUNCATE);
-	else
-		handle_errors(ERROR, "Invalid redirect id");
 	return (INVALID);
 }
 
@@ -75,6 +73,7 @@ int	open_file(char *file_name_ptr, t_files *files, int redirection_id)
 
 /*
 	return t_files which have an int for the in and out fd's respectively
+	SAFTEYCHECK for redirect ID?
 */
 t_files	get_redirection(char **input, const int string_to_parse_len)
 {

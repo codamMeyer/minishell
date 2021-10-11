@@ -13,6 +13,7 @@ MINISHELL_INCS= 						\
 	src/syntax/check_syntax.h			\
 	src/syntax/check_quotes_syntax.h	\
 	src/syntax/redirection_syntax.h		\
+	src/syntax/write_errors.h			\
 	src/parser/parser.h					\
 	src/parser/command_table.h			\
 	src/parser/parse_redirection.h		\
@@ -35,6 +36,8 @@ MINISHELL_SRC= 							\
 	src/syntax/check_syntax.c			\
 	src/syntax/check_quotes_syntax.c	\
 	src/syntax/redirection_syntax.c		\
+	src/syntax/redirect_syntax_utils.c	\
+	src/syntax/write_errors.c			\
 	src/parser/parser.c					\
 	src/output/prompt.c					\
 	src/output/write_to_std.c			\
@@ -77,6 +80,7 @@ TEST_FILES=								\
 	tests/pipe_test.c					\
 	tests/env_api_test.c				\
 	tests/redirection_tests.c			\
+	tests/syntax_redirection_tests.c	\
 	tests/syntax_checker_test.c			\
 
 MINISHELL_OBJS=$(MINISHELL_SRC:.c=.o)
