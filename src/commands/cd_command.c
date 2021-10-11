@@ -38,19 +38,24 @@ static void	copy_home_var_to_buffer(char *buffer)
 
 t_exit_code	cd_command(t_command command, t_output_stdout output)
 {
-	char		buffer[BUFFER_SIZE];
 	char		cwd_before_cd[BUFFER_SIZE];
+	t_buffer	buffer;
 
 	(void)output;
 	getcwd(cwd_before_cd, BUFFER_SIZE);
+	init_buffer(&buffer);
+
 	if (command.arg.len == 0 || *command.arg.start == '~')
-		copy_home_var_to_buffer(buffer);
+		copy_home_var_to_buffer(buffer.buf);
 	else
-		ft_strlcpy(buffer, command.arg.start, command.arg.len + 1);
-	if (chdir(buffer) == SYS_ERROR)
 	{
-		if (buffer[0])
-			printf("cd: %s: No such file or directory\n", buffer);
+		while (command.arg.start < command.arg.end)
+			append_expanded_input_to_buffer((t_arg *)&command.arg, &buffer);
+	}
+	if (chdir(buffer.buf) == SYS_ERROR)
+	{
+		if (buffer.buf[0])
+			printf("cd: %s: No such file or directory\n", buffer.buf);
 		return (ERROR);
 	}
 	update_env(cwd_before_cd);
