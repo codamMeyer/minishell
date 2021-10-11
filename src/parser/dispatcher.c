@@ -60,7 +60,7 @@ t_exit_code	dispatch_command(t_command *command, char *env[])
 															};
 
 	init_buffer(&buffer);
-	if (command->code == INVALID && is_env_variable(command->arg.start))
+	if (command->code == INVALID)
 		command = expand_arg_content(command, &buffer);
 	if (command->code == SYSTEM)
 		execute_system_command(command, env);
