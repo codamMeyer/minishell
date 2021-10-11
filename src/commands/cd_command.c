@@ -49,7 +49,8 @@ t_exit_code	cd_command(t_command command, t_output_stdout output)
 		ft_strlcpy(buffer, command.arg.start, command.arg.len + 1);
 	if (chdir(buffer) == SYS_ERROR)
 	{
-		printf("cd: %s: No such file or directory\n", buffer);
+		if (buffer[0])
+			printf("cd: %s: No such file or directory\n", buffer);
 		return (ERROR);
 	}
 	update_env(cwd_before_cd);
