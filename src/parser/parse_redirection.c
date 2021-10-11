@@ -14,16 +14,17 @@
 /*
 	Assumes that string has been checked for quotes
 */
-int	get_file_name_and_length(t_buffer *buffer, char *input)
+int	get_file_name_and_length(t_buffer *buffer, char *input, int redirect_id)
 {
 	const int	len_to_replace = get_set_index(input, ALL_TERMINATORS) + 1;
 	t_arg		arg;
 
 	arg.start = input;
 	skip_spaces(&arg.start);
-	while (*arg.start && !isspace(*arg.start)
-		&& !ft_strchr(ALL_TERMINATORS, *arg.start))
-		append_expanded_input_to_buffer(&arg, buffer);
+	if (redirect_id == HERE_DOC)
+		ft_strlcpy(&buffer->buf[0], input, len_to_replace);
+	while (is_valid_filename_char(*arg.start, redirect_id))
+			append_expanded_input_to_buffer(&arg, buffer);
 	return (len_to_replace);
 }
 
@@ -68,7 +69,7 @@ int	open_file(char *file_name_ptr, t_files *files, int redirection_id)
 		file_name_ptr += 1;
 	file_name_ptr += 1;
 	i = count_consecutive_spaces(file_name_ptr);
-	i += get_file_name_and_length(&buffer, &file_name_ptr[i]);
+	i += get_file_name_and_length(&buffer, &file_name_ptr[i], redirection_id);
 	open_in_mode(&buffer.buf[0], files, redirection_id);
 	return (i);
 }

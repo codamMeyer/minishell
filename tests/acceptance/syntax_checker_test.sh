@@ -41,7 +41,6 @@ EXPECTED="Missing closing quote"
 assertEqual "$INPUT"
 cleanUp
 
-
 INPUT="echo -e 'test '   ' ' | cat -e \"   "
 STD=$(echo -e "$INPUT\nexit" | ./minishell 2> $MINISHELL_OUTPUT)
 ACTUAL=$(cat $MINISHELL_OUTPUT)

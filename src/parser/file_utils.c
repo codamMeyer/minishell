@@ -1,10 +1,19 @@
 #include <fcntl.h>
 #include <libft.h>
 #include <stdio.h>
+#include <ctype.h>
 #include <executor/executor_utils.h>
 #include <parser/parse_redirection.h>
 #include <readline/readline.h>
 #include <readline/history.h>
+
+t_bool is_valid_filename_char(char c, int redirect_id)
+{
+	if (redirect_id == HERE_DOC)
+		return (FALSE);
+	return (c && !isspace(c)
+				&& !ft_strchr(ALL_TERMINATORS, c));
+}
 
 void	open_infile(const char *file, int *in_file)
 {
