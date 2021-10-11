@@ -16,9 +16,13 @@ t_bool	file_name_contains_only_digits(const char *file, const char *input)
 	int			i;
 
 	i = 0;
-	while (file[i] && ft_isdigit(file[i]))
+	while (file[i])
+	{
+		if (!ft_isdigit(file[i]))
+			return (FALSE);
 		i++;
-	if (file_len == i && input[file_len] && input[file_len] != SPACE_CHAR)
+	}
+	if (input[file_len] != SPACE_CHAR)
 	{
 		ft_putstr_fd("syntax error near unexpected token `", 2);
 		ft_putchar_fd(file[file_len - 1], 2);
