@@ -3,7 +3,7 @@ TEST_NAME=$(MINISHELL)_test
 MINISHELL_ASAN=$(MINISHELL)_asan
 CC=clang
 CFLAGS=-ggdb3 -Wall -Wextra -Werror
-CFLAGS_ASAN=$(CFLAGS) -fsanitize=leak -fsanitize=address
+CFLAGS_ASAN=$(CFLAGS) -fsanitize=leak
 INC_PATH=-I./src -I./libft
 LDFLAGS= -lreadline -L./libft -lft
 LIBFT_PATH = libft/
@@ -103,7 +103,10 @@ test_asan: $(MINISHELL_SRC) $(TEST_FILES)
 
 $(MINISHELL_ASAN): $(MINISHELL_SRC)
 	make -C $(LIBFT_PATH)
-	$(CC) $(CFLAGS_ASAN) $(INC_PATH) main.c -o $(MINISHELL_ASAN) $^ $(LDFLAGS)
+	$(CC) $(CFLAGS_ASAN) -fsanitize=address $(INC_PATH) main.c -o $(MINISHELL_ASAN) $^ $(LDFLAGS)
+
+acceptance_test_asan: $(MINISHELL_ASAN)
+	./tests/acceptance/acceptance_test.sh asan
 
 acceptance_test: $(MINISHELL)
 	./tests/acceptance/acceptance_test.sh
