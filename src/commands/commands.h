@@ -48,5 +48,6 @@ t_exit_code	pwd_command(t_command command, t_output_stdout output);
 t_exit_code	export_command(t_command command, t_output_stdout output);
 t_exit_code	unset_command(t_command command, t_output_stdout output);
 t_exit_code	env_command(t_command command, t_output_stdout output);
+t_exit_code	cd_command(t_command command, t_output_stdout output);
 
 #endif
