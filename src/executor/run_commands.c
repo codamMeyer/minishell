@@ -17,7 +17,6 @@ static int	run_multi_processes(char *env[],
 	t_command commands[], int num_of_processes, int *pids)
 {
 	t_multi_pipes	pipes;
-	// int				process_id[MAX_CMDS_PER_LINE];
 	int				i;
 
 	i = 0;
