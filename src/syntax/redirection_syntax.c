@@ -17,15 +17,15 @@ t_bool	is_redirection_char(const char c)
 
 int	get_redirect_token(const char *cursor)
 {
-	int	id;
+	int	token;
 
 	if (*cursor == PIPE)
-		id = PIPE;
+		token = PIPE;
 	else
-		id = get_redirect_id(cursor);
-	if (id == INVALID || !is_valid_token(cursor, id))
+		token = get_redirect_id(cursor);
+	if (!is_valid_token(cursor, token))
 		return (ERROR);
-	return (id);
+	return (token);
 }
 
 t_bool	is_valid_file_redirect(const char *input, int id)
@@ -52,7 +52,7 @@ t_bool	is_valid_file_redirect(const char *input, int id)
 }
 
 /* 
-	is_valid_redirection_syntax expects a trimmed string
+	Expects a trimmed string
 */
 t_bool	is_valid_redirection_syntax(const char *input)
 {
