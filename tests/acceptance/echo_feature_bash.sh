@@ -58,13 +58,6 @@ runWithQuotes "Hello      Hello $PWD $USER" "echo \"Hello      Hello \$PWD \$USE
 runWithQuotes "Hello      Hello $PWDs " "echo \"Hello      Hello \$PWDs \"" "Quoted string, shouldn't trim, and variable is invalid"
 runWithQuotes "                Hello      Hello" "echo \"                Hello      Hello\"" "Quoted string, shouldn't trim"
 
-EXPECTED=$(ec"ho" hello | cat -e)
-STD=$(echo -e "ec\"ho\" hello | cat -e\nexit" | ./minishell > $MINISHELL_OUTPUT)
-removePrompt $MINISHELL_OUTPUT
-ACTUAL=$(cat $MINISHELL_OUTPUT)
-assertEqual "With quotes in echo name"
-
-
 runNFlagTest "echo -n Hello" "echo -n Hello" "With valid -n flag"
 
 cleanUp

@@ -36,4 +36,7 @@ RESULT+=$?
 ./tests/acceptance/cd_feature_test.sh
 RESULT+=$?
 
+./tests/acceptance/edge_cases_feature.sh
+RESULT+=$?
+
 exit $RESULT
