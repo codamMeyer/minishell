@@ -4,8 +4,9 @@ MINISHELL_ASAN=$(MINISHELL)_asan
 CC=clang
 CFLAGS=-ggdb3 -Wall -Wextra -Werror
 CFLAGS_ASAN=$(CFLAGS) -fsanitize=leak
-INC_PATH=-I./src -I./libft
-LDFLAGS= -lreadline -L./libft -lft
+INC_PATH=-I./src -I./libft -I ~/.brew/opt/readline/include
+# RL_INC=-I ~/.brew/opt/readline/include
+LDFLAGS= -L ~/.brew/opt/readline/lib -l readline  -L ./libft -lft 
 LIBFT_PATH = libft/
 
 MINISHELL_INCS= 						\
@@ -31,6 +32,7 @@ MINISHELL_INCS= 						\
 	src/commands/buffer.h				\
 	src/env/environment.h				\
 	src/env/env_utils.h					\
+	src/signals/signals.h				\
 
 MINISHELL_SRC= 							\
 	src/syntax/check_syntax.c			\
@@ -67,6 +69,7 @@ MINISHELL_SRC= 							\
 	src/env/export_handle_key.c			\
 	src/env/export_handle_value.c		\
 	src/env/env_utils.c					\
+	src/signals/signals.c
 
 TEST_FILES=								\
 	tests/main.c 						\
@@ -92,7 +95,7 @@ $(MINISHELL): $(MINISHELL_OBJS)
 	$(CC) $(CFLAGS) $(INC_PATH) main.c -o $@ $^ $(LDFLAGS)
 
 %.o: %.c $(MINISHELL_INCS)
-	@$(CC) $(CFLAGS) $(INC_PATH) -c -o $@ $<
+	@$(CC) $(CFLAGS) $(INC_PATH) $(RL_INC) -c -o $@ $< 
 
 test_run: test
 	./$(TEST_NAME)

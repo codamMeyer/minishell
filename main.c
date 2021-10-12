@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <signal.h>
+#include <signals/signals.h>
 #include <readline/readline.h>
 #include <readline/history.h>
 #include <env/environment.h>
@@ -43,6 +43,7 @@ static void	run(char *env[])
 {
 	char	*line;
 
+	set_signals();
 	while (TRUE)
 	{
 		line = get_trimmed_line();
