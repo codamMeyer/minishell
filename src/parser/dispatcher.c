@@ -34,7 +34,7 @@ t_exit_code	unknown_command(t_command command, t_output_stdout output)
 	output(shell_name);
 	output(&unknown_command_str[0]);
 	output(command_not_found);
-	return (SUCCESS);
+	return (UNKNOWN_COMMAND);
 }
 
 t_exit_code	empty_command(t_command command, t_output_stdout write_to_stdout)

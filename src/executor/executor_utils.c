@@ -8,12 +8,18 @@ void	wait_for_all_processes(int num_of_processes, int *pids)
 {
 	int	i;
 	int	status;
+	int	exit_status;
 
 	i = 0;
 	status = 0;
 	while (i < num_of_processes)
 	{
 		waitpid(pids[i], &status, 0);
+    	if (WIFEXITED(status))
+		{
+    	    exit_status = WEXITSTATUS(status);
+    	    printf("Exit status was %d\n", exit_status);
+    	}
 		i++;
 	}
 }

@@ -7,6 +7,14 @@
 #include <executor/executor_utils.h>
 #include <parser/dispatcher.h>
 
+
+static void	clean_executor_pipes(t_multi_pipes *pipes, int current_process)
+{
+	if (current_process != FIRST_PROCESS)
+		close(pipes->previous[READ_FD]);
+	close(pipes->current[WRITE_FD]);
+}
+
 /*
 	Creates a process for each command 
 	Important check that all fd's are closed at the end
@@ -29,9 +37,7 @@ static int	run_multi_processes(char *env[],
 				&commands[i]);
 			exit(dispatch_command(&commands[i], env));
 		}
-		if (i != FIRST_PROCESS)
-			close(pipes.previous[READ_FD]);
-		close(pipes.current[WRITE_FD]);
+		clean_executor_pipes(&pipes, i);
 		previous_to_current_pipe(&pipes);
 		i++;
 	}
@@ -43,7 +49,7 @@ static t_bool	is_env_command(t_command_code code)
 	return (code == EXPORT || code == UNSET || code == ENV || code == CD);
 }
 
-t_bool	is_single_command(int num_of_cmds, t_command_code code)
+static t_bool	is_single_command(int num_of_cmds, t_command_code code)
 {
 	return (num_of_cmds == 1 && (code == EXIT || is_env_command(code)));
 }

@@ -30,7 +30,8 @@ typedef enum e_command_code
 typedef enum e_exit_code
 {
 	SUCCESS = 0,
-	ERROR = 1
+	ERROR = 1,
+	UNKNOWN_COMMAND = 127
 }	t_exit_code;
 
 #endif
