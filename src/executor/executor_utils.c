@@ -4,14 +4,16 @@
 #include <executor/executor_utils.h>
 #include <executor/run_commands.h>
 
-void	wait_for_all_processes(int num_of_processes)
+void	wait_for_all_processes(int num_of_processes, int *pids)
 {
 	int	i;
+	int	status;
 
 	i = 0;
+	status = 0;
 	while (i < num_of_processes)
 	{
-		waitpid(DEFAULT_WAIT_ID, NULL, 0);
+		waitpid(pids[i], &status, 0);
 		i++;
 	}
 }

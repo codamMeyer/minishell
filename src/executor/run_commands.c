@@ -13,18 +13,18 @@
 	Important!!! Check that there are more than one 
 	processes when creating pipes
 */
-int	run_multi_processes(char *env[],
-	t_command commands[], int num_of_processes)
+static int	run_multi_processes(char *env[],
+	t_command commands[], int num_of_processes, int *pids)
 {
 	t_multi_pipes	pipes;
-	int				process_id;
+	// int				process_id[MAX_CMDS_PER_LINE];
 	int				i;
 
 	i = 0;
 	while (num_of_processes > 0 && i < num_of_processes)
 	{
-		process_id = create_new_process(&pipes);
-		if (process_id == CHILD_PROCESS)
+		pids[i] = create_new_process(&pipes);
+		if (pids[i] == CHILD_PROCESS)
 		{
 			redirect_in_and_output(&pipes, i, num_of_processes,
 				&commands[i]);
@@ -57,6 +57,8 @@ t_bool	is_single_command(int num_of_cmds, t_command_code code)
 int	run_commands(t_command commands[],
 				int num_of_commands, char *env[])
 {
+	int	pids[MAX_CMDS_PER_LINE];
+
 	if (is_single_command(num_of_commands, commands[0].code))
 	{
 		redirect_in_and_output(NULL, 0, 0, &commands[0]);
@@ -64,8 +66,8 @@ int	run_commands(t_command commands[],
 	}
 	else
 	{
-		run_multi_processes(env, commands, num_of_commands);
-		wait_for_all_processes(num_of_commands);
+		run_multi_processes(env, commands, num_of_commands, &pids[0]);
+		wait_for_all_processes(num_of_commands, &pids[0]);
 	}	
 	return (SUCCESS);
 }
