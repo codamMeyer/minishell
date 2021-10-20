@@ -12,8 +12,8 @@
 static void	clean_executor_pipes(t_multi_pipes *pipes, int current_process)
 {
 	if (current_process != FIRST_PROCESS)
-		close(pipes->previous[READ_FD]);
-	close(pipes->current[WRITE_FD]);
+		close(pipes->previous[WRITE_FD]);
+	close(pipes->previous[READ_FD]);
 }
 
 /*
@@ -31,7 +31,7 @@ static int	run_multi_processes(char *env[],
 	i = 0;
 	while (num_of_processes > 0 && i < num_of_processes)
 	{
-		pids[i] = create_new_process(&pipes);
+		pids[i] = create_new_process(&pipes, i, num_of_processes);
 		if (pids[i] == CHILD_PROCESS)
 		{
 			redirect_in_and_output(&pipes, i, num_of_processes,

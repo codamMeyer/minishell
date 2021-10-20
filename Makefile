@@ -113,6 +113,9 @@ $(MINISHELL_ASAN): $(MINISHELL_SRC)
 	make -C $(LIBFT_PATH)
 	$(CC) $(CFLAGS_ASAN) -fsanitize=address $(INC_PATH) main.c -o $(MINISHELL_ASAN) $^ $(LDFLAGS)
 
+acceptance_test_asan: $(MINISHELL_ASAN)
+	./tests/acceptance/acceptance_test.sh asan
+
 acceptance_test: $(MINISHELL)
 	./tests/acceptance/acceptance_test.sh
 

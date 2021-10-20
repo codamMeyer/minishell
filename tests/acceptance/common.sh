@@ -10,7 +10,7 @@ EXIT_CODE=0
 MINI_OUT="mini_"
 BASH_OUT="bash_"
 prompt="-►"
-
+MINISHELL_PROGRAM=minishell
 function printTestName ()
 {
     printf "$YELLOW=========================================================\n"
@@ -20,7 +20,7 @@ function printTestName ()
 
 function runMinishell ()
 {
-    echo -e "$1\nexit" | ./minishell > $MINISHELL_OUTPUT
+    echo -e "$1\nexit" | ./$MINISHELL_PROGRAM > $MINISHELL_OUTPUT
 }
 
 function runBashWithoutQuotes ()
