@@ -4,7 +4,7 @@
 #include <executor/executor_utils.h>
 #include <executor/run_commands.h>
 
-void	wait_for_all_processes(int num_of_processes, int *pids)
+int	wait_for_all_processes(int num_of_processes, int *pids)
 {
 	int	i;
 	int	status;
@@ -16,12 +16,10 @@ void	wait_for_all_processes(int num_of_processes, int *pids)
 	{
 		waitpid(pids[i], &status, 0);
     	if (WIFEXITED(status))
-		{
     	    exit_status = WEXITSTATUS(status);
-    	    printf("Exit status was %d\n", exit_status);
-    	}
 		i++;
 	}
+	return (exit_status);
 }
 
 /*

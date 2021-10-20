@@ -10,6 +10,7 @@
 #include <parser/dispatcher.h>
 #include <parser/parser.h>
 #include <parser/parse_redirection.h>
+#include <signals/signals.h>
 
 static void	consume_pipe(const char **input, int index)
 {

@@ -6,7 +6,7 @@
 # include <commands/commands.h>
 # include <executor/redirection.h>
 
-int		run_commands(t_command commands[],
+t_exit_code	run_commands(t_command commands[],
 			int num_of_commands, char *env[]);
 
 #endif

@@ -43,9 +43,9 @@ static void	run(char *env[])
 {
 	char	*line;
 
-	set_signals();
 	while (TRUE)
 	{
+		set_signals_before_processes();
 		line = get_trimmed_line();
 		if (!line)
 			printf("Allocation error\n");

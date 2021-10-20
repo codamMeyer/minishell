@@ -1,4 +1,5 @@
 #include <libft.h>
+#include <signals/signals.h>
 #include <string.h>
 #include <stdio.h>
 #include <unistd.h>
@@ -59,20 +60,21 @@ static t_bool	is_single_command(int num_of_cmds, t_command_code code)
 	if file doesn't exist, exit command immediately
 	IMPORTANT! check when dispatching only one command
 */
-int	run_commands(t_command commands[],
+t_exit_code	run_commands(t_command commands[],
 				int num_of_commands, char *env[])
 {
-	int	pids[MAX_CMDS_PER_LINE];
-
+	int			pids[MAX_CMDS_PER_LINE];
+	t_exit_code	exit_status;
+	set_signals_during_processes();
 	if (is_single_command(num_of_commands, commands[0].code))
 	{
 		redirect_in_and_output(NULL, 0, 0, &commands[0]);
-		dispatch_command(&commands[0], env);
+		exit_status = dispatch_command(&commands[0], env);
 	}
 	else
 	{
 		run_multi_processes(env, commands, num_of_commands, &pids[0]);
-		wait_for_all_processes(num_of_commands, &pids[0]);
+		exit_status = wait_for_all_processes(num_of_commands, &pids[0]);
 	}	
-	return (SUCCESS);
+	return (exit_status);
 }
