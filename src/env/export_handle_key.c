@@ -12,6 +12,8 @@ static t_bool	is_valid_key(char *key, int key_len)
 	int	i;
 
 	i = 0;
+	if (ft_isdigit(key[i]))
+		return (FALSE);
 	while (i < key_len)
 	{
 		if (!is_valid_key_char(key[i]))
