@@ -130,21 +130,21 @@ assertEqual "Diamond brackets <>"
 cleanUp
 
 export A="APPLE"
-STD=$(echo -e "echo hello >mini_\"\$A\"_test apple test\nexit" | ./minishell > $MINISHELL_OUTPUT)
+STD=$(echo -e "echo hello >mini_\"\$A\"_test apple test\nexit" | ./$MINISHELL_PROGRAM > $MINISHELL_OUTPUT)
 echo hello >bash_"$A"_test apple test
 check_file_content "mini_APPLE_test" "bash_APPLE_test"
 assertEqual "Test with variable in filename double quotes"
 rm mini_APPLE_test bash_APPLE_test
 
 export A="APPLE"
-STD=$(echo -e "echo hello >mini_\$A hello apple test\nexit" | ./minishell > $MINISHELL_OUTPUT)
+STD=$(echo -e "echo hello >mini_\$A hello apple test\nexit" | ./$MINISHELL_PROGRAM > $MINISHELL_OUTPUT)
 echo hello >bash_$A hello apple test
 check_file_content "mini_APPLE" "bash_APPLE"
 assertEqual "Test with variable in filename no quotes"
 rm mini_APPLE bash_APPLE
 
 export A="APPLE"
-STD=$(echo -e "echo hello >mini_'\$A' apple hello test\nexit" | ./minishell > $MINISHELL_OUTPUT)
+STD=$(echo -e "echo hello >mini_'\$A' apple hello test\nexit" | ./$MINISHELL_PROGRAM > $MINISHELL_OUTPUT)
 echo hello >bash_'$A' apple hello test
 check_file_content 'mini_$A' 'bash_$A'
 assertEqual "Test with variable in filename, but inside single quotes"
