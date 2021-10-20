@@ -11,7 +11,9 @@
         "get_executable_path.h": "c",
         "ios": "c",
         "readline.h": "c",
-        "history.h": "c"
+        "history.h": "c",
+        "commands.h": "c",
+        "check_quotes_syntax.h": "c"
     },
     "python.linting.flake8Args": [
         "--max-line-length=120",

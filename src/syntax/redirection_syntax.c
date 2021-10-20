@@ -1,62 +1,63 @@
+#include <libft.h>
 #include <syntax/check_syntax.h>
+#include <syntax/write_errors.h>
 #include <commands/commands.h>
 #include <output/write_to_std.h>
 #include <parser/command_table.h>
 #include <executor/executor_utils.h>
 #include <parser/parser.h>
-#include <libft.h>
+#include <parser/parse_redirection.h>
+#include "redirection_syntax.h"
+#include <stdio.h>
 
-t_bool	is_valid_angled_brackets_syntax(const char *input)
+t_bool	is_redirection_char(const char c)
 {
-	(void)input;
+	return (c == LEFT_ANGLE || c == RIGHT_ANGLE);
+}
+
+int	get_redirect_token(const char *cursor)
+{
+	int	token;
+
+	if (*cursor == PIPE)
+		token = PIPE;
+	else
+		token = get_redirect_id(cursor);
+	if (!is_valid_token(cursor, token))
+		return (ERROR);
+	return (token);
+}
+
+t_bool	is_valid_file_redirect(const char *input, int id)
+{
+	t_buffer	buffer;
+
+	init_buffer(&buffer);
+	if (id == ERROR)
+		return (FALSE);
+	while (is_redirection_char(*input))
+		++input;
+	skip_spaces(&input);
+	if (is_redirection_char(*input))
+	{
+		append_error_token_to_buffer(input, buffer.buf);
+		write_error(buffer.buf);
+		return (FALSE);
+	}
+	get_file_name_and_length(&buffer, (char *)input);
+	if (id == FT_TRUNCATE
+		&& file_name_contains_only_digits(&buffer.buf[0], input))
+		return (FALSE);
 	return (TRUE);
 }
 
-t_bool	redirect_is_last_char(const char *str)
-{
-	if (*str)
-		++str;
-	skip_spaces(&str);
-	if (*str == NULL_TERMINATOR)
-	{
-		write_to_stderr("syntax error near unexpected token `|'\n");
-		return (TRUE);
-	}
-	return (FALSE);
-}
-
-t_bool	is_valid_eol(char last_char)
-{
-	return (last_char == NULL_TERMINATOR
-		|| !ft_strchr(REDIRECTION_CHARS, last_char));
-}
-
-t_bool	is_double_pipe(const char *str)
-{
-	if (*str == PIPE)
-		++str;
-	skip_spaces(&str);
-	if (*str == PIPE)
-	{
-		write_to_stderr("syntax error near unexpected token `|'\n");
-		return (TRUE);
-	}
-	return (FALSE);
-}
-
-/*
-	Some checks are the same, like if a redirect char
-	is followed by only spaces it's invalid
-	Thinking of doing get_set_index up to the first redirect char
-	and then that as an index for calling a function
-	in an array of function pointers 
-	Might be over complex but hey!?
-	REMEMBER TO REMOVE UNNECESARY SKIP SPACES
+/* 
+	Expects a trimmed string
 */
-
-/* is_valid_redirection_syntax input will always be a trimmed string */
 t_bool	is_valid_redirection_syntax(const char *input)
 {
+	int	redirect_token;
+
 	if (*input == PIPE)
 	{
 		write_to_stderr("syntax error near unexpected token `|'\n");
@@ -64,10 +65,15 @@ t_bool	is_valid_redirection_syntax(const char *input)
 	}
 	while (input && *input)
 	{
-		input += get_set_index(input, "|");
+		input += get_set_index(input, REDIRECTION_CHARS);
+		redirect_token = get_redirect_token(input);
 		if (*input == NULL_TERMINATOR)
 			break ;
-		if (redirect_is_last_char(input) || is_double_pipe(input))
+		if (redirect_is_last_char(input))
+			return (FALSE);
+		else if (redirect_token == PIPE && is_double_pipe(input))
+			return (FALSE);
+		else if (!is_valid_file_redirect(input, redirect_token))
 			return (FALSE);
 		++input;
 	}

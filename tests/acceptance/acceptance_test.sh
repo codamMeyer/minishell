@@ -33,7 +33,13 @@ RESULT+=$?
 ./tests/acceptance/redirection_feature_bash.sh
 RESULT+=$?
 
+./tests/acceptance/variable_feature_bash.sh
+RESULT+=$?
+
 ./tests/acceptance/syntax_checker_test.sh
+RESULT+=$?
+
+./tests/acceptance/cd_feature_test.sh
 RESULT+=$?
 
 exit $RESULT

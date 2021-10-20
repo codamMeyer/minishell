@@ -1,7 +1,7 @@
 #include <libft.h>
 #include <unistd.h>
 #include <output/prompt.h>
-#define COLOR "\e[1;36m "
+#define COLOR "\e[1;36m"
 #define RESET_COLOR " -► \e[0m "
 
 char	*display_prompt(char *buffer)
