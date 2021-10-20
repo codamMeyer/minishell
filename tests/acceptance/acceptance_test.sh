@@ -36,4 +36,7 @@ RESULT+=$?
 ./tests/acceptance/heredoc_feature_bash.sh
 RESULT+=$?
 
+./tests/acceptance/cd_feature_test.sh
+RESULT+=$?
+
 exit $RESULT
