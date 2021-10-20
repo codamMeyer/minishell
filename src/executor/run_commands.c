@@ -6,6 +6,7 @@
 #include <executor/run_commands.h>
 #include <executor/executor_utils.h>
 #include <parser/dispatcher.h>
+#include <signals/signals.h>
 
 
 static void	clean_executor_pipes(t_multi_pipes *pipes, int current_process)
@@ -64,6 +65,7 @@ int	run_commands(t_command commands[],
 {
 	int	pids[MAX_CMDS_PER_LINE];
 
+	set_signals_inprocess();
 	if (is_single_command(num_of_commands, commands[0].code))
 	{
 		redirect_in_and_output(NULL, 0, 0, &commands[0]);

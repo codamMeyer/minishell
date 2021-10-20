@@ -21,3 +21,18 @@ void	set_signals(void)
 	// signal(SIGQUIT, void);
 }
 
+static void	reprompt2(int signal_code)
+{
+	(void)signal_code;
+	ft_putendl_fd("", STDOUT_FILENO);
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_set_prompt("");
+	rl_redisplay();
+}
+
+void	set_signals_inprocess(void)
+{
+	signal(SIGINT, reprompt2);
+	// signal(SIGQUIT, void);
+}
