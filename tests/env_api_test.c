@@ -298,3 +298,10 @@ CTEST2(environment, string_with_single_quote_as_value)
     ASSERT_TRUE(export(data->env, pair));
     ASSERT_STR(find_variable(data->env, "key")->value, "test with single quotes");
 }
+
+CTEST2(environment, key_starting_with_number)
+{
+    char *pair = "1key=hello";
+    
+    ASSERT_FALSE(export(data->env, pair));
+}
