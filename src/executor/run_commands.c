@@ -72,7 +72,7 @@ int	run_commands(t_command commands[],
 		set_parent_signals();
 		run_multi_processes(env, commands, num_of_commands);
 		wait_for_all_processes(num_of_commands);
-	}
+	}	
 	restore_std_fds(fds);
 	return (SUCCESS);
 }
