@@ -11,7 +11,8 @@ void	handle_stdin(int in_file, t_multi_pipes *pipes, int current_process)
 		set_stdin(in_file);
 		close(in_file);
 	}
-	else if (current_process != FIRST_PROCESS && in_file == INVALID_FD)
+	else if (pipes && \
+	(current_process != FIRST_PROCESS && in_file == INVALID_FD))
 		set_stdin(pipes->previous[READ_FD]);
 }
 
