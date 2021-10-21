@@ -29,7 +29,7 @@ void	set_program_signals(void)
 	signal(SIGQUIT, SIG_IGN);
 }
 
-void handle_quit(int signal_code)
+void	handle_quit(int signal_code)
 {
 	(void)signal_code;
 	ft_putstr_fd("Quit: 3\n", 2);
@@ -39,10 +39,4 @@ void	set_child_signals(void)
 {
 	signal(SIGINT, reprompt2);
 	signal(SIGQUIT, handle_quit);
-}
-
-void	set_parent_signals(void)
-{
-	signal(SIGINT, reprompt2);
-	signal(SIGQUIT, SIG_IGN);
 }
