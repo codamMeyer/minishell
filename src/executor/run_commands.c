@@ -7,6 +7,7 @@
 #include <executor/executor_utils.h>
 #include <parser/dispatcher.h>
 #include <parser/parse_redirection.h>
+#include <signals/signals.h>
 
 /*
 	Creates a process for each command 
@@ -27,6 +28,7 @@ int	run_multi_processes(char *env[],
 		process_id = create_new_process(&pipes, i, num_of_processes);
 		if (process_id == CHILD_PROCESS)
 		{
+			set_child_signals();
 			redirect_in_and_output(&pipes, i, num_of_processes,
 				&commands[i]);
 			exit(dispatch_command(&commands[i], env));
@@ -67,9 +69,10 @@ int	run_commands(t_command commands[],
 	}
 	else
 	{
+		set_parent_signals();
 		run_multi_processes(env, commands, num_of_commands);
 		wait_for_all_processes(num_of_commands);
-	}	
-	restore_std_fds(fds); 
+	}
+	restore_std_fds(fds);
 	return (SUCCESS);
 }
