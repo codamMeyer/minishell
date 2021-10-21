@@ -6,6 +6,7 @@
 #include <executor/run_commands.h>
 #include <executor/executor_utils.h>
 #include <parser/dispatcher.h>
+#include <parser/parse_redirection.h>
 
 /*
 	Creates a process for each command 
@@ -39,14 +40,14 @@ int	run_multi_processes(char *env[],
 	return (SUCCESS);
 }
 
-static t_bool	is_env_command(t_command_code code)
+static t_bool	is_builtin_command(t_command_code code)
 {
-	return (code == EXPORT || code == UNSET || code == ENV || code == CD);
+	return (code >= EMPTY_LINE && code <= INVALID);
 }
 
 t_bool	is_single_command(int num_of_cmds, t_command_code code)
 {
-	return (num_of_cmds == 1 && (code == EXIT || is_env_command(code)));
+	return (num_of_cmds == 1 && is_builtin_command(code));
 }
 
 /*
@@ -57,6 +58,8 @@ t_bool	is_single_command(int num_of_cmds, t_command_code code)
 int	run_commands(t_command commands[],
 				int num_of_commands, char *env[])
 {
+	const t_std_fd	fds = save_std_fds();
+
 	if (is_single_command(num_of_commands, commands[0].code))
 	{
 		redirect_in_and_output(NULL, 0, 0, &commands[0]);
@@ -67,5 +70,6 @@ int	run_commands(t_command commands[],
 		run_multi_processes(env, commands, num_of_commands);
 		wait_for_all_processes(num_of_commands);
 	}	
+	restore_std_fds(fds);
 	return (SUCCESS);
 }

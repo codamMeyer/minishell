@@ -2,27 +2,30 @@
 #include <executor/run_commands.h>
 #include <executor/executor_utils.h>
 #include <parser/command_table.h>
+#include <parser/parse_redirection.h>
 
 void	handle_stdin(int in_file, t_multi_pipes *pipes, int current_process)
 {
-	if (in_file != -1)
+	if (in_file != INVALID_FD)
 	{
 		set_stdin(in_file);
 		close(in_file);
 	}
-	else if (current_process != FIRST_PROCESS && in_file == -1)
+	else if (pipes && \
+	(current_process != FIRST_PROCESS && in_file == INVALID_FD))
 		set_stdin(pipes->previous[READ_FD]);
 }
 
 void	handle_stdout(int out_file, t_multi_pipes *pipes, int current_process,
 	int last_process)
 {
-	if (out_file != -1)
+	if (out_file != INVALID_FD)
 	{
 		set_stdout(out_file);
 		close(out_file);
 	}
-	else if (current_process != last_process - 1 && out_file == -1)
+	else if (pipes && \
+	(current_process != last_process - 1 && out_file == INVALID_FD))
 		set_stdout(pipes->current[WRITE_FD]);
 }
 
