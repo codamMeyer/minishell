@@ -42,7 +42,10 @@ static char	*get_trimmed_line(void)
 
 	line = readline(display_prompt(&buffer[0]));
 	if (!line)
+	{
+		ft_putstr_fd("exit", STDERR_FILENO);
 		exit(0);
+	}
 	if (*line)
 		add_history(line);
 	trimmed_line = ft_strtrim(line, WHITESSPACE);
