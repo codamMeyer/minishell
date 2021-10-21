@@ -1,7 +1,6 @@
 #!/bin/bash
 source ./tests/acceptance/common.sh
 
-
 function assertNotEqual ()
 {
     displayTitle "$1"

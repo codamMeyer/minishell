@@ -8,6 +8,8 @@
 #include <parser/dispatcher.h>
 #include <parser/command_table.h>
 #include <ctype.h>
+#include <parser/parse_redirection.h>
+
 /*
 	Creates a process for each command 
 	Important check that all fd's are closed at the end
@@ -24,7 +26,7 @@ int	run_multi_processes(char *env[],
 	i = 0;
 	while (num_of_processes > 0 && i < num_of_processes)
 	{
-		process_id = create_new_process(&pipes);
+		process_id = create_new_process(&pipes, i, num_of_processes);
 		if (process_id == CHILD_PROCESS)
 		{
 			redirect_in_and_output(&pipes, i, num_of_processes,
@@ -32,17 +34,17 @@ int	run_multi_processes(char *env[],
 			exit(dispatch_command(&commands[i], env));
 		}
 		if (i != FIRST_PROCESS)
-			close(pipes.previous[READ_FD]);
-		close(pipes.current[WRITE_FD]);
+			close(pipes.previous[WRITE_FD]);
+		close(pipes.previous[READ_FD]);
 		previous_to_current_pipe(&pipes);
 		i++;
 	}
 	return (SUCCESS);
 }
 
-static t_bool	is_env_command(t_command_code code)
+static t_bool	is_builtin_command(t_command_code code)
 {
-	return (code == EXPORT || code == UNSET || code == ENV || code == CD);
+	return (code >= EMPTY_LINE && code <= INVALID);
 }
 
 t_bool	is_single_command(int num_of_cmds, t_command *command)
@@ -59,9 +61,9 @@ t_bool	is_single_command(int num_of_cmds, t_command *command)
 		while (*arg.start && !isspace(*arg.start))
 			append_expanded_input_to_buffer(&arg, &buffer); 
 		code = get_command_code((const char **)&inp, command);
-		return (num_of_cmds == 1 && (code == EXIT || is_env_command(code)));
+		return (num_of_cmds == 1 && is_builtin_command(code));
 	}
-	return (num_of_cmds == 1 && (command->code == EXIT || is_env_command(command->code)));
+	return (num_of_cmds == 1 && is_builtin_command(command->code));
 }
 
 /*
@@ -72,6 +74,8 @@ t_bool	is_single_command(int num_of_cmds, t_command *command)
 int	run_commands(t_command commands[],
 				int num_of_commands, char *env[])
 {
+	const t_std_fd	fds = save_std_fds();
+
 	if (is_single_command(num_of_commands, &commands[0]))
 	{
 		redirect_in_and_output(NULL, 0, 0, &commands[0]);
@@ -82,5 +86,6 @@ int	run_commands(t_command commands[],
 		run_multi_processes(env, commands, num_of_commands);
 		wait_for_all_processes(num_of_commands);
 	}	
+	restore_std_fds(fds);
 	return (SUCCESS);
 }

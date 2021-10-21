@@ -44,7 +44,7 @@ t_bool	is_valid_file_redirect(const char *input, int id)
 		write_error(buffer.buf);
 		return (FALSE);
 	}
-	get_file_name_and_length(&buffer, (char *)input);
+	get_file_name_and_length(&buffer, (char *)input, id);
 	if (id == FT_TRUNCATE
 		&& file_name_contains_only_digits(&buffer.buf[0], input))
 		return (FALSE);

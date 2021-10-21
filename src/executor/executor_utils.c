@@ -53,11 +53,13 @@ void	execute_system_command(const t_command *command, char *env[])
 	Calls pipe() first so that the pipe fds are accesible in
 	the main as well as in the child process
 */
-int	create_new_process(t_multi_pipes *pipes)
+int	create_new_process(t_multi_pipes *pipes,
+		int current_process, int num_of_process)
 {
-	int	process_id;
+	const int	process_limit = num_of_process - 1;
+	int			process_id;
 
-	if (pipe(pipes->current) == SYS_ERROR)
+	if (current_process != process_limit && pipe(pipes->current) == SYS_ERROR)
 		handle_errors(7, "pipe current main");
 	process_id = fork();
 	if (process_id == SYS_ERROR)
