@@ -18,11 +18,7 @@ t_bool	export(t_env *env, const char *key_value_str)
 		init_buffer(&key_buffer);
 		init_buffer(&value_buffer);
 		if (!copy_key_to_buffer(key_value_str, &key_buffer))
-		{
-			copy_value_to_buffer(key_value_str, &value_buffer);
-			printf("%s=%s\n", key_buffer.buf, value_buffer.buf);
-			return (FALSE);
-		}
+			return (FALSE); // should print error
 		copy_value_to_buffer(key_value_str, &value_buffer);
 		if (!set_key(env, &key_buffer.buf[0])
 			|| !set_value(env, &key_buffer.buf[0], &value_buffer.buf[0]))
