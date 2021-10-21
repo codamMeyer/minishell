@@ -8,10 +8,9 @@
 
 static void	reprompt(int signal_code)
 {
-	(void)signal_code;
 	if (signal_code == SIGINT)
 	{
-		ft_putendl_fd("", STDERR_FILENO);
+		ft_putendl_fd("", STDOUT_FILENO);
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
@@ -21,7 +20,7 @@ static void	reprompt(int signal_code)
 static void	reprompt2(int signal_code)
 {
 	(void)signal_code;
-	ft_putstr_fd("\n", STDERR_FILENO);
+	ft_putstr_fd("\n", STDOUT_FILENO);
 }
 
 void	set_program_signals(void)
@@ -30,13 +29,20 @@ void	set_program_signals(void)
 	signal(SIGQUIT, SIG_IGN);
 }
 
+void handle_quit(int signal_code)
+{
+	(void)signal_code;
+	ft_putstr_fd("Quit: 3\n", 2);
+}
+
 void	set_child_signals(void)
 {
 	signal(SIGINT, reprompt2);
-	signal(SIGQUIT, SIG_DFL);
+	signal(SIGQUIT, handle_quit);
 }
 
 void	set_parent_signals(void)
 {
 	signal(SIGINT, reprompt2);
+	signal(SIGQUIT, SIG_IGN);
 }

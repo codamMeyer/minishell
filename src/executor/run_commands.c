@@ -26,13 +26,14 @@ int	run_multi_processes(char *env[],
 	while (num_of_processes > 0 && i < num_of_processes)
 	{
 		process_id = create_new_process(&pipes, i, num_of_processes);
+		set_child_signals();
 		if (process_id == CHILD_PROCESS)
 		{
-			set_child_signals();
 			redirect_in_and_output(&pipes, i, num_of_processes,
 				&commands[i]);
 			exit(dispatch_command(&commands[i], env));
 		}
+		// set_parent_signals();
 		if (i != FIRST_PROCESS)
 			close(pipes.previous[WRITE_FD]);
 		close(pipes.previous[READ_FD]);
@@ -69,7 +70,7 @@ int	run_commands(t_command commands[],
 	}
 	else
 	{
-		set_parent_signals();
+		
 		run_multi_processes(env, commands, num_of_commands);
 		wait_for_all_processes(num_of_commands);
 	}	
