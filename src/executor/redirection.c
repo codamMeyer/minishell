@@ -16,9 +16,10 @@ void	restore_std_fds(t_std_fd fds)
 	close(fds.out);
 }
 
-t_std_fd save_std_fds() 
+t_std_fd	save_std_fds(void)
 {
 	t_std_fd	fds;
+
 	fds.in = dup(STDIN_FILENO);
 	fds.out = dup(STDOUT_FILENO);
 	return (fds);
@@ -29,7 +30,6 @@ void	redirect_in_and_output(t_multi_pipes *pipes, int process,
 {
 	handle_stdin(command->files.in, pipes, process);
 	handle_stdout(command->files.out, pipes, process, last_process);
-
 	if (!pipes)
 		return ;
 	if (process != FIRST_PROCESS)

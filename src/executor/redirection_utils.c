@@ -23,7 +23,8 @@ void	handle_stdout(int out_file, t_multi_pipes *pipes, int current_process,
 		set_stdout(out_file);
 		close(out_file);
 	}
-	else if (pipes && (current_process != last_process - 1 && out_file == INVALID_FD))
+	else if (pipes && \
+	(current_process != last_process - 1 && out_file == INVALID_FD))
 		set_stdout(pipes->current[WRITE_FD]);
 }
 

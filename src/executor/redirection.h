@@ -17,12 +17,12 @@ typedef struct s_multi_pipes
 
 typedef struct s_std_fd
 {
-	int in;
-	int out;
+	int	in;
+	int	out;
 }	t_std_fd;
 
 void		restore_std_fds(t_std_fd fds);
-t_std_fd	save_std_fds();
+t_std_fd	save_std_fds(void);
 void		handle_stdin(int in_file, t_multi_pipes *pipes, int process);
 void		handle_stdout(int out_file, t_multi_pipes *pipes, int process,
 				int last_process);
