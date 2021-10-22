@@ -11,7 +11,8 @@ t_command	*expand_arg_content(t_command *command, t_buffer *buffer)
 	command->code = get_command_code(&command->arg.start, command);
 	command->arg.len = ft_strlen(command->arg.start);
 	command->arg.end = command->arg.start + command->arg.len;
-	if (command->code == SYSTEM && !is_system_command(command->arg.start, command))
+	if (command->code == SYSTEM && \
+		!is_system_command(command->arg.start, command))
 		command->code = INVALID;
 	return (command);
 }
