@@ -10,12 +10,12 @@ typedef struct s_buffer
 }	t_buffer;
 
 void	init_buffer(t_buffer *buffer);
-void	append_char_to_buffer(t_arg *arg, t_buffer *buffer);
-void	append_env_value_to_buffer(t_arg *arg, \
+void	append_char_to_buffer(const char **start, t_buffer *buffer);
+void	append_env_value_to_buffer(const char **start, \
 									 t_buffer \
 									 *buffer, \
 									 t_bool trimmed);
-void	append_quoted_string_to_buffer(t_arg *arg, t_buffer *buffer);
+void	append_quoted_string_to_buffer(const char **start, t_buffer *buffer);
 void	append_expanded_input_to_buffer(t_arg *arg, t_buffer *buffer);
 
 #endif
