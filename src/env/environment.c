@@ -13,7 +13,7 @@ t_bool	export(t_env *env, const char *key_value_str)
 {
 	t_buffer	key_buffer;
 	t_buffer	value_buffer;
-	
+
 	if (!*key_value_str)
 		display_sorted_env();
 	while (*key_value_str)
