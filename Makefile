@@ -31,6 +31,7 @@ MINISHELL_INCS= 						\
 	src/commands/buffer.h				\
 	src/env/environment.h				\
 	src/env/env_utils.h					\
+	src/env/sort_env.h					\
 
 MINISHELL_SRC= 							\
 	src/syntax/check_syntax.c			\
@@ -67,6 +68,7 @@ MINISHELL_SRC= 							\
 	src/env/export_handle_key.c			\
 	src/env/export_handle_value.c		\
 	src/env/env_utils.c					\
+	src/env/sort_env.c					\
 
 TEST_FILES=								\
 	tests/main.c 						\
@@ -79,6 +81,7 @@ TEST_FILES=								\
 	tests/redirection_tests.c			\
 	tests/pipe_test.c					\
 	tests/env_api_test.c				\
+	tests/sort_env_test.c				\
 	tests/redirection_tests.c			\
 	tests/syntax_redirection_tests.c	\
 	tests/syntax_checker_test.c			\
