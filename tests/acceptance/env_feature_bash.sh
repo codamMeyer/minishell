@@ -132,7 +132,7 @@ unset a b c
 EXPECTED=$(echo "$a $b $c" | cat -e)
 assertEqual "UNSET more than one variable"
 
-export a=" $USER "
+export a=" TEST "
 INPUT="echo \$a \"\$a\""
 runMinishell "$INPUT | cat -e"
 removePrompt $MINISHELL_OUTPUT
