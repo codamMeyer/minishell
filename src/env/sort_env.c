@@ -1,6 +1,7 @@
 #include <env/sort_env.h>
 #include <env/environment.h>
 #include <string.h>
+#include <libft.h>
 #include <stdio.h>
 
 int	populate_env_index_buffer(int buffer[])
@@ -24,49 +25,49 @@ int	populate_env_index_buffer(int buffer[])
 	return (j);
 }
 
-int	sort_env(int buffer[])
+int	sort_env(const t_env *env, int buffer[])
 {
-	t_env	*env;
-	int		j;
-	int		i;
-	int		tmp;
-	int		max;
+	const int	num_vars = populate_env_index_buffer(buffer);
+	t_bool		swapped;
+	int			tmp;
+	int			i;
 
-	i = 0;
-	env = get_environment();
-	max = populate_env_index_buffer(buffer);
-	while (i < max)
+	swapped = TRUE;
+	while (swapped)
 	{
-		j = 0;
-		while (j < max - i - 1)
+		i = 0;
+		swapped = FALSE;
+		while (i < num_vars - 1)
 		{
-			if (strcmp(env[buffer[j]].key, env[buffer[j + 1]].key) > 0)
+			if (ft_strcmp(env[buffer[i]].key, env[buffer[i + 1]].key) > 0)
 			{
-				tmp = buffer[j];
-				buffer[j] = buffer[j + 1];
-				buffer[j + 1] = tmp;
+				tmp = buffer[i];
+				buffer[i] = buffer[i + 1];
+				buffer[i + 1] = tmp;
+				swapped = TRUE;
 			}
-			++j;
+			++i;
 		}
-		++i;
 	}
-	return (max);
+	return (num_vars);
 }
 
 void	display_sorted_env(void)
 {
-	int		buffer[ENV_SIZE];
-	int		num_elements;
-	int		i;
-	t_env	*env;
+	const t_env	*env = get_environment();
+	int			buffer[ENV_SIZE];
+	int			num_elements;
+	int			i;
 
-	env = get_environment();
-	num_elements = sort_env(buffer);
+	num_elements = sort_env(env, buffer);
 	i = 0;
-	printf("\n");
 	while (i < num_elements)
 	{
-		printf("--> %s=%s\n", env[buffer[i]].key, env[buffer[i]].value);
+		if (ft_strncmp(env[buffer[i]].key, "_", 2) != 0)
+		{
+			printf("declare -x ");
+			printf("%s=\"%s\"\n", env[buffer[i]].key, env[buffer[i]].value);
+		}
 		++i;
 	}
 }

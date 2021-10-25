@@ -71,7 +71,7 @@ CTEST2(sort_environment, sort_env)
     int sorted[BUFFER_SIZE] = {0};
     int expected[BUFFER_SIZE] = {4, 2, 0, 3};
 
-    sort_env(sorted);
+    sort_env(data->env, sorted);
     ASSERT_EQUAL(expected[0], sorted[0]);
     ASSERT_EQUAL(expected[1], sorted[1]);
     ASSERT_EQUAL(expected[2], sorted[2]);

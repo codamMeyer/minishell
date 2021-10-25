@@ -4,12 +4,13 @@ source ./tests/acceptance/common.sh
 
 printTestName "ENV"
 
-export FIRST_VAR=Hello
-INPUT="env | grep FIRST_VAR"
-runMinishell "$INPUT"
-readMinishellOutput
-EXPECTED=$(env | grep FIRST_VAR)
-assertEqual "ENV"
+# runMinishell "export"
+# removePrompt $MINISHELL_OUTPUT
+# ACTUAL=$(cat $MINISHELL_OUTPUT)
+# EXPECTED=$(export)
+# assertEqual "ENV empty"
+# cleanUp
+# OLDPWD is always printed on export, but not on env
 
 INPUT="export SECOND_VAR=Testing"
 runMinishell "$INPUT\nenv | grep SECOND_VAR"

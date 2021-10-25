@@ -35,6 +35,7 @@ BASIC_OBJ_FILES = 	ft_toupper.o\
 					ft_strchr.o\
 					ft_strrchr.o\
 					ft_strncmp.o\
+					ft_strcmp.o\
 					ft_strnstr.o\
 					ft_atoi.o\
 					ft_atof.o\
