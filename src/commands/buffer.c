@@ -1,8 +1,10 @@
+#include <ctype.h>
 #include <libft.h>
 #include <commands/buffer.h>
 #include <commands/quotes.h>
 #include <env/environment.h>
 #include <env/env_utils.h>
+#include <parser/parser.h>
 
 void	init_buffer(t_buffer *buffer)
 {
@@ -10,58 +12,70 @@ void	init_buffer(t_buffer *buffer)
 	buffer->index = 0;
 }
 
-void	append_char_to_buffer(t_arg *arg, t_buffer *buffer)
+void	append_char_to_buffer(const char **start, t_buffer *buffer)
 {
-	buffer->buf[buffer->index] = *arg->start;
+	buffer->buf[buffer->index] = **start;
 	++(buffer->index);
-	++(arg->start);
+	++(*start);
 }
 
-void	append_env_value_to_buffer(t_arg *arg, t_buffer *buffer)
+void	append_env_value_to_buffer(const char **start, \
+									t_buffer *buffer, \
+									t_bool should_trim)
 {
-	t_env			*var;
-	int				key_len;
-	int				value_len;
+	t_env	*var;
+	int		key_len;
+	char	*value;
 
-	++(arg->start);
-	value_len = 0;
-	key_len = get_key_len(arg->start);
-	var = find_variable(get_environment(), arg->start);
+	++(*start);
+	key_len = get_key_len(*start);
+	var = find_variable(get_environment(), *start);
 	if (var)
 	{
-		value_len = ft_strlen(var->value);
-		ft_strlcpy(&buffer->buf[buffer->index], var->value, value_len + 1);
+		value = var->value;
+		if (should_trim)
+			skip_spaces((const char **)&value);
+		while (*value)
+		{
+			if (isspace(buffer->buf[buffer->index]) && should_trim)
+				skip_spaces((const char **)&value);
+			append_char_to_buffer((const char **)&value, buffer);
+		}
+		if (should_trim && isspace(buffer->buf[buffer->index - 1]))
+		{
+			--(buffer->index);
+			buffer->buf[buffer->index] = NULL_TERMINATOR;
+		}
 	}
-	arg->start = arg->start + key_len;
-	buffer->index += value_len;
+	*start = *start + key_len;
 }
 
-void	append_quoted_string_to_buffer(t_arg *arg, t_buffer *buffer)
+void	append_quoted_string_to_buffer(const char **start, t_buffer *buffer)
 {
-	const t_quotes_position	quotes = get_quotes_positions(arg->start);
+	const t_quotes_position	quotes = get_quotes_positions(*start);
 
 	if (quotes.start && quotes.end)
 	{
-		arg->start = quotes.start;
-		while (arg->start < quotes.end)
+		*start = quotes.start;
+		while (*start < quotes.end)
 		{
-			if (quotes.is_double_quote && is_env_variable(arg->start))
-				append_env_value_to_buffer(arg, buffer);
+			if (quotes.is_double_quote && is_env_variable(*start))
+				append_env_value_to_buffer(start, buffer, FALSE);
 			else
-				append_char_to_buffer(arg, buffer);
+				append_char_to_buffer(start, buffer);
 		}
-		++arg->start;
+		++(*start);
 	}
 	else if (quotes.start)
-		++arg->start;
+		++(*start);
 }
 
 void	append_expanded_input_to_buffer(t_arg *arg, t_buffer *buffer)
 {
 	if (is_quote(*arg->start))
-		append_quoted_string_to_buffer(arg, buffer);
+		append_quoted_string_to_buffer(&arg->start, buffer);
 	else if (is_env_variable(arg->start))
-		append_env_value_to_buffer(arg, buffer);
+		append_env_value_to_buffer(&arg->start, buffer, TRUE);
 	else
-		append_char_to_buffer(arg, buffer);
+		append_char_to_buffer(&arg->start, buffer);
 }

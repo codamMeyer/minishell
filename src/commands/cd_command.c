@@ -49,7 +49,7 @@ t_exit_code	cd_command(t_command command, t_output_stdout output)
 	else
 	{
 		while (command.arg.start < command.arg.end)
-			append_expanded_input_to_buffer((t_arg *)&command.arg, &buffer);
+			append_expanded_input_to_buffer(&command.arg, &buffer);
 	}
 	if (chdir(buffer.buf) == SYS_ERROR)
 	{
