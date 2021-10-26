@@ -32,7 +32,7 @@ t_exit_code	unknown_command(t_command command, t_output_stdout output)
 
 	skip_spaces(&command.arg.start);
 	copy_unknown_command_to_buffer(&command.arg.start, &unknown_command_str[0]);
-	if (command.files.in != -2)
+	if (command.files.in != FILE_ERROR)
 	{
 		output(shell_name);
 		output(&unknown_command_str[0]);
