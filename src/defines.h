@@ -29,6 +29,7 @@ typedef enum e_command_code
 
 typedef enum e_exit_code
 {
+	SYS_ERROR = -1,
 	SUCCESS = 0,
 	ERROR = 1
 }	t_exit_code;

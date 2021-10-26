@@ -8,6 +8,7 @@
 #include <output/write_to_std.h>
 #include <parser/command_table.h>
 #include <parser/parser.h>
+#include <parser/parse_redirection.h>
 #include <executor/executor_utils.h>
 #include <env/env_utils.h>
 
@@ -31,9 +32,12 @@ t_exit_code	unknown_command(t_command command, t_output_stdout output)
 
 	skip_spaces(&command.arg.start);
 	copy_unknown_command_to_buffer(&command.arg.start, &unknown_command_str[0]);
-	output(shell_name);
-	output(&unknown_command_str[0]);
-	output(command_not_found);
+	if (command.files.in != -2)
+	{
+		output(shell_name);
+		output(&unknown_command_str[0]);
+		output(command_not_found);
+	}
 	return (SUCCESS);
 }
 
@@ -60,6 +64,8 @@ t_exit_code	dispatch_command(t_command *command, char *env[])
 															};
 
 	init_buffer(&buffer);
+	if (command->files.in == FILE_ERROR)
+		return (1);
 	if (command->code == INVALID)
 		command = expand_arg_content(command, &buffer);
 	if (command->code == SYSTEM)
