@@ -39,7 +39,8 @@ int	sort_env(const t_env *env, int index_buffer[])
 		swapped = FALSE;
 		while (i < num_vars - 1)
 		{
-			if (ft_strcmp(env[index_buffer[i]].key, env[index_buffer[i + 1]].key) > 0)
+			if (ft_strcmp(env[index_buffer[i]].key, \
+				env[index_buffer[i + 1]].key) > 0)
 			{
 				tmp = index_buffer[i];
 				index_buffer[i] = index_buffer[i + 1];
@@ -66,7 +67,8 @@ void	display_sorted_env(void)
 		if (ft_strncmp(env[index_buffer[i]].key, "_", 2) != 0)
 		{
 			printf("declare -x ");
-			printf("%s=\"%s\"\n", env[index_buffer[i]].key, env[index_buffer[i]].value);
+			printf("%s=", env[index_buffer[i]].key);
+			printf("\"%s\"\n", env[index_buffer[i]].value);
 		}
 		++i;
 	}
