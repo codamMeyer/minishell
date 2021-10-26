@@ -6,6 +6,8 @@
 #include <executor/run_commands.h>
 #include <executor/executor_utils.h>
 #include <parser/dispatcher.h>
+#include <parser/command_table.h>
+#include <ctype.h>
 #include <parser/parse_redirection.h>
 
 /*
@@ -45,9 +47,23 @@ static t_bool	is_builtin_command(t_command_code code)
 	return (code >= EMPTY_LINE && code <= INVALID);
 }
 
-t_bool	is_single_command(int num_of_cmds, t_command_code code)
+t_bool	is_single_command(int num_of_cmds, t_command *command)
 {
-	return (num_of_cmds == 1 && is_builtin_command(code));
+	t_buffer		buffer;
+	t_arg			arg;
+	t_command_code	code;
+	const char		*inp = &buffer.buf[0];
+
+	if (command->code == INVALID)
+	{
+		init_buffer(&buffer);
+		arg = command->arg;
+		while (*arg.start && !isspace(*arg.start))
+			append_expanded_input_to_buffer(&arg, &buffer);
+		code = get_command_code((const char **)&inp, command);
+		return (num_of_cmds == 1 && is_builtin_command(code));
+	}
+	return (num_of_cmds == 1 && is_builtin_command(command->code));
 }
 
 /*
@@ -60,7 +76,7 @@ int	run_commands(t_command commands[],
 {
 	const t_std_fd	fds = save_std_fds();
 
-	if (is_single_command(num_of_commands, commands[0].code))
+	if (is_single_command(num_of_commands, &commands[0]))
 	{
 		redirect_in_and_output(NULL, 0, 0, &commands[0]);
 		dispatch_command(&commands[0], env);
