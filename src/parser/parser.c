@@ -58,7 +58,7 @@ t_bool	parse_input(const char *input, char *env[])
 	int			num_commands;
 
 	num_commands = populate_commands_table(input, commands_table);
-	run_commands(commands_table, num_commands, env);
+	run_commands(commands_table, num_commands, env); // ERROR_CODE FROM PID OR SINGLE COMMAND
 	cleanup_command_table(commands_table, num_commands);
 	return (TRUE);
 }

@@ -41,7 +41,7 @@ static t_exit_code	append_line_to_heredoc(char *line,
 
 static void	cleanup_here_doc(char *line, int fd)
 {
-	close(fd);
+	close(fd);  // CLOSE_FD_ERROR ?
 	free(line);
 }
 

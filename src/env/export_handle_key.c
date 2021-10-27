@@ -25,6 +25,7 @@ static t_bool	is_valid_key(char *key, int key_len)
 
 t_bool	copy_key_to_buffer(const char *key_value_str, t_buffer *buffer)
 {
+	// should check if there is a space before the equal sign (outside quotes)
 	const char	*delimiter_position = get_equal_sign_position(key_value_str);
 	t_arg		arg;
 
@@ -34,7 +35,7 @@ t_bool	copy_key_to_buffer(const char *key_value_str, t_buffer *buffer)
 	while (arg.start < delimiter_position)
 		append_expanded_input_to_buffer(&arg, buffer);
 	if (!is_valid_key(&buffer->buf[0], buffer->index))
-		return (FALSE);
+		return (FALSE); // INVALID_IDENTIFIER 1
 	buffer->index = delimiter_position - key_value_str;
 	return (TRUE);
 }
@@ -51,7 +52,8 @@ t_bool	set_key(t_env *env, char *key)
 	{
 		env[i].key = ft_strdup(key);
 		if (!env[i].key)
-			return (FALSE);
+			return (FALSE); // SYS_ERROR MALLOC_ERROR
 	}
+	// else we are out of space hehe
 	return (TRUE);
 }

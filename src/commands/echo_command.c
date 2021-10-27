@@ -57,5 +57,5 @@ t_exit_code	echo_command(t_command command, t_output_stdout output)
 	if (!has_n_flag)
 		buffer.buf[buffer.index] = '\n';
 	output(&buffer.buf[0]);
-	return (SUCCESS);
+	return (SUCCESS); 
 }

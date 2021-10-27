@@ -6,7 +6,7 @@ t_exit_code	export_command(t_command command, t_output_stdout output)
 {
 	(void)output;
 	skip_spaces(&command.arg.start);
-	export(get_environment(), command.arg.start);
+	export(get_environment(), command.arg.start); // SYNTAX_ERROR 1
 	return (SUCCESS);
 }
 

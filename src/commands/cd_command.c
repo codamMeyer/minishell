@@ -8,16 +8,16 @@
 
 static void	update_env_value(const char *key, const char *new_value)
 {
-	export(get_environment(), key);
+	export(get_environment(), key); // CHECK FOR MALLOC ERROR ?
 	free(find_variable(get_environment(), key)->value);
-	find_variable(get_environment(), key)->value = ft_strdup(new_value);
+	find_variable(get_environment(), key)->value = ft_strdup(new_value); // CHECK FOR MALLOC ERROR ?
 }
 
 static void	update_env(char *cwd_bef_cd)
 {
 	char	cwd_after_cd[BUFFER_SIZE];
 
-	getcwd(cwd_after_cd, BUFFER_SIZE);
+	getcwd(cwd_after_cd, BUFFER_SIZE); // SYS_ERROR
 	update_env_value("OLDPWD=", cwd_bef_cd);
 	update_env_value("PWD=", cwd_after_cd);
 }
@@ -29,7 +29,7 @@ static void	copy_home_var_to_buffer(char *buffer)
 
 	if (!home_var)
 	{
-		printf("cd: HOME not set\n");
+		printf("cd: HOME not set\n"); // HOME_NOT_SET 1
 		return ;
 	}
 	len = ft_strlen(home_var->value) + 1;
@@ -42,7 +42,7 @@ t_exit_code	cd_command(t_command command, t_output_stdout output)
 	t_buffer	buffer;
 
 	(void)output;
-	getcwd(cwd_before_cd, BUFFER_SIZE);
+	getcwd(cwd_before_cd, BUFFER_SIZE); // SYS_ERROR
 	init_buffer(&buffer);
 	if (command.arg.len == 0 || *command.arg.start == '~')
 		copy_home_var_to_buffer(buffer.buf);
@@ -54,7 +54,7 @@ t_exit_code	cd_command(t_command command, t_output_stdout output)
 	if (chdir(buffer.buf) == SYS_ERROR)
 	{
 		if (buffer.buf[0])
-			printf("cd: %s: No such file or directory\n", buffer.buf);
+			printf("cd: %s: No such file or directory\n", buffer.buf); // use strerror()
 		return (ERROR);
 	}
 	update_env(cwd_before_cd);

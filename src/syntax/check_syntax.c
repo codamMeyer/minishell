@@ -10,8 +10,8 @@
 t_bool	is_valid_syntax(const char *input)
 {
 	if (!is_valid_redirection_syntax(input))
-		return (FALSE);
+		return (FALSE); // SYNTAX_ERROR 258
 	else if (has_missing_quotes(input, write_to_stderr))
-		return (FALSE);
+		return (FALSE); // SYNTAX_ERROR 258
 	return (TRUE);
 }

@@ -57,7 +57,7 @@ static void	run(char *env[])
 	{
 		line = get_trimmed_line();
 		if (!line)
-			printf("Allocation error\n");
+			printf("Allocation error\n"); // MALLOC_ERROR (exit)
 		if (is_valid_syntax(line))
 			parse_input(line, env);
 		free(line);

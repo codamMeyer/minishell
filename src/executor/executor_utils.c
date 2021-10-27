@@ -5,16 +5,18 @@
 #include <executor/executor_utils.h>
 #include <executor/run_commands.h>
 
-void	wait_for_all_processes(int num_of_processes)
+t_exit_code	wait_for_all_processes(int num_of_processes)
 {
+	int exit_code;
 	int	i;
 
 	i = 0;
 	while (i < num_of_processes)
 	{
-		waitpid(DEFAULT_WAIT_ID, NULL, 0);
+		waitpid(DEFAULT_WAIT_ID, &exit_code, 0);
 		i++;
 	}
+	return ((t_exit_code)exit_code);
 }
 
 /*

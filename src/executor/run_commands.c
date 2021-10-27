@@ -34,8 +34,8 @@ int	run_multi_processes(char *env[],
 			exit(dispatch_command(&commands[i], env));
 		}
 		if (i != FIRST_PROCESS)
-			close(pipes.previous[WRITE_FD]);
-		close(pipes.previous[READ_FD]);
+			close(pipes.previous[WRITE_FD]); // CLOSE_FD_ERROR ?
+		close(pipes.previous[READ_FD]); // CLOSE_FD_ERROR ?
 		previous_to_current_pipe(&pipes);
 		i++;
 	}
@@ -75,17 +75,18 @@ int	run_commands(t_command commands[],
 				int num_of_commands, char *env[])
 {
 	const t_std_fd	fds = save_std_fds();
+	t_exit_code		exit_code;
 
 	if (is_single_command(num_of_commands, &commands[0]))
 	{
 		redirect_in_and_output(NULL, 0, 0, &commands[0]);
-		dispatch_command(&commands[0], env);
+		exit_code = dispatch_command(&commands[0], env); // return exit code
 	}
 	else
 	{
 		run_multi_processes(env, commands, num_of_commands);
-		wait_for_all_processes(num_of_commands);
+		exit_code = wait_for_all_processes(num_of_commands); // return exit code
 	}	
 	restore_std_fds(fds);
-	return (SUCCESS);
+	return (exit_code);
 }

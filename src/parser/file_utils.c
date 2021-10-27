@@ -6,35 +6,35 @@
 #include <parser/parse_redirection.h>
 #include <readline/readline.h>
 #include <readline/history.h>
+#include <errno.h>
 
 t_bool	is_valid_filename_char(char c, int redirect_id)
 {
 	if (redirect_id == HERE_DOC)
 		return (FALSE);
-	return (c && !isspace(c)
-		&& !ft_strchr(ALL_TERMINATORS, c));
+	return (!ft_strchr(ALL_TERMINATORS, c));
 }
 
 void	open_infile(const char *file, int *in_file)
 {
 	if (*in_file != INVALID_FD)
-		close(*in_file);
+		close(*in_file); // CLOSE_FD_ERROR ?
 	*in_file = open(file, O_RDONLY, 0644);
 	if (*in_file == INVALID_FD)
 	{
-		printf("Couldn't open in file: %s\n", file);
-		exit(1);
+		printf("Minishell: %s: %s\n", file, strerror(errno)); // FILE_ERROR 1 (shouldn't exit)
+		exit(1); // <--------- what is this ?
 	}
 }
 
 void	open_outfile(const char *file, int *out_file, int out_mode)
 {
 	if (*out_file != INVALID_FD)
-		close(*out_file);
+		close(*out_file); // CLOSE_FD_ERROR ?
 	*out_file = open(file, O_RDWR | O_CREAT | out_mode, FILE_RIGHTS);
 	if (*out_file == INVALID_FD)
 	{
-		printf("Couldn't open in file: %s\n", file);
-		exit(1);
+		printf("Minishell: %s: %s\n", file, strerror(errno)); // FILE_ERROR 1 (shouldn't exit)
+		exit(1); // <--------- what is this ?
 	}
 }
