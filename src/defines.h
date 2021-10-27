@@ -32,7 +32,8 @@ typedef enum e_exit_code
 	SYS_ERROR = -1,
 	SUCCESS = 0,
 	ERROR = 1,
-	UNKNOWN_COMMAND = 127,
+	UNKNOWN_COMMAND_ERROR = 127,
+	SYNTAX_ERROR = 258,
 }	t_exit_code;
 
 #endif
