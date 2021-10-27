@@ -84,7 +84,5 @@ function cleanUp ()
 
 function removePrompt ()
 {
-    if [[ "$OSTYPE" == "linux-gnu"* ]]; then
-        sed -i "/-►/d" $1
-    fi
+    sed -i "/-►/d" $1
 }
