@@ -35,12 +35,8 @@ function readOutputFile ()
 
 function readMinishellOutput ()
 {
-    if [[ "$OSTYPE" == "linux-gnu"* ]]; then
-        OS_TYPE=2
-    elif [[ "$OSTYPE" == "darwin"* ]]; then
-        OS_TYPE=1
-    fi
-    ACTUAL=$(readOutputFile $OS_TYPE $MINISHELL_OUTPUT)
+    removePrompt $MINISHELL_OUTPUT
+    ACTUAL=$(readOutputFile 1 $MINISHELL_OUTPUT)
 }
 
 function displayTitle ()
@@ -86,5 +82,7 @@ function removePrompt ()
 {
     if [[ "$OSTYPE" == "linux-gnu"* ]]; then
         sed -i "/-►/d" $1
+    elif [[ "$OSTYPE" == "darwin"* ]]; then
+        sed -i "" "/-►/d" $1
     fi
 }

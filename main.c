@@ -8,6 +8,7 @@
 #include <parser/parser.h>
 #include <output/prompt.h>
 #include <syntax/check_syntax.h>
+#include <signals/signals.h>
 
 static void	add_key_and_value_from_env(char *env_str_pair)
 {
@@ -41,7 +42,10 @@ static char	*get_trimmed_line(void)
 
 	line = readline(display_prompt(&buffer[0]));
 	if (!line)
+	{
+		ft_putstr_fd("exit", STDERR_FILENO);
 		exit(0);
+	}
 	if (*line)
 		add_history(line);
 	trimmed_line = ft_strtrim(line, WHITESSPACE);
@@ -55,6 +59,7 @@ static void	run(char *env[])
 
 	while (TRUE)
 	{
+		set_program_signals();
 		line = get_trimmed_line();
 		if (!line)
 			printf("Allocation error\n");
