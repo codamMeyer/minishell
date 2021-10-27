@@ -28,7 +28,7 @@ int	run_multi_processes(char *env[],
 	while (num_of_processes > 0 && i < num_of_processes)
 	{
 		process_id = create_new_process(&pipes, i, num_of_processes);
-		set_child_signals();
+		// set_child_signals();
 		if (process_id == CHILD_PROCESS)
 		{
 			redirect_in_and_output(&pipes, i, num_of_processes,

@@ -10,7 +10,7 @@ Today date is $(date +%F)
 My home directory = ${HOME}
 EOF" | ./minishell > $MINISHELL_OUTPUT
 removePrompt $MINISHELL_OUTPUT
-sed -i /">"/d $MINISHELL_OUTPUT
+sed -i "" /">"/d $MINISHELL_OUTPUT
 ACTUAL=$(cat $MINISHELL_OUTPUT)
 
 EXPECTED="$(cat -e << EOF

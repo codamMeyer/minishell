@@ -59,7 +59,7 @@ static void	run(char *env[])
 
 	while (TRUE)
 	{
-		set_program_signals();
+		// set_program_signals();
 		line = get_trimmed_line();
 		if (!line)
 			printf("Allocation error\n");
