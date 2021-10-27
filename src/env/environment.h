@@ -3,7 +3,7 @@
 # include <commands/commands.h>
 # include <commands/buffer.h>
 # include <defines.h>
-# define ENV_SIZE 2049
+# define ENV_SIZE 4096
 
 typedef struct s_env
 {
