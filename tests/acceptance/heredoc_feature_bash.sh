@@ -10,7 +10,11 @@ Today date is $(date +%F)
 My home directory = ${HOME}
 EOF" | ./minishell > $MINISHELL_OUTPUT
 removePrompt $MINISHELL_OUTPUT
-sed -i /">"/d $MINISHELL_OUTPUT
+if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+    sed -i /">"/d $MINISHELL_OUTPUT
+else
+    sed -i "" /">"/d $MINISHELL_OUTPUT
+fi
 ACTUAL=$(cat $MINISHELL_OUTPUT)
 
 EXPECTED="$(cat -e << EOF

@@ -32,6 +32,7 @@ MINISHELL_INCS= 						\
 	src/env/environment.h				\
 	src/env/env_utils.h					\
 	src/env/sort_env.h					\
+	src/errors/errors.h					\
 
 MINISHELL_SRC= 							\
 	src/syntax/check_syntax.c			\
@@ -69,6 +70,7 @@ MINISHELL_SRC= 							\
 	src/env/export_handle_value.c		\
 	src/env/env_utils.c					\
 	src/env/sort_env.c					\
+	src/errors/errors.c					\
 
 TEST_FILES=								\
 	tests/main.c 						\

@@ -5,6 +5,7 @@
 #include <commands/quotes.h>
 #include <env/env_utils.h>
 #include <parser/parser.h>
+#include <errors/errors.h>
 
 static void	handle_spaces(t_arg *arg, t_buffer *buffer)
 {
@@ -25,7 +26,7 @@ static int	handle_empty_str(t_bool has_n_flag, t_output_stdout output)
 		output("");
 	else
 		output("\n");
-	return (SUCCESS);
+	return (-32);
 }
 
 t_bool	is_empty_buffer(t_buffer *buffer)
@@ -48,7 +49,7 @@ t_exit_code	echo_command(t_command command, t_output_stdout output)
 
 	init_buffer(&buffer);
 	if (command.arg.len == 0)
-		return (handle_empty_str(has_n_flag, output));
+		return (set_return_code(handle_empty_str(has_n_flag, output)));
 	while (command.arg.start < command.arg.end)
 	{
 		append_expanded_input_to_buffer(&command.arg, &buffer);
@@ -57,5 +58,5 @@ t_exit_code	echo_command(t_command command, t_output_stdout output)
 	if (!has_n_flag)
 		buffer.buf[buffer.index] = '\n';
 	output(&buffer.buf[0]);
-	return (SUCCESS); 
+	return (set_return_code(-42));
 }

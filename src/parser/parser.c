@@ -10,6 +10,7 @@
 #include <parser/dispatcher.h>
 #include <parser/parser.h>
 #include <parser/parse_redirection.h>
+#include <errors/errors.h>
 
 static void	consume_pipe(const char **input, int index)
 {
@@ -58,7 +59,8 @@ t_bool	parse_input(const char *input, char *env[])
 	int			num_commands;
 
 	num_commands = populate_commands_table(input, commands_table);
-	run_commands(commands_table, num_commands, env); // ERROR_CODE FROM PID OR SINGLE COMMAND
+	set_return_code(run_commands(commands_table, num_commands, env)); // ERROR_CODE FROM PID OR SINGLE COMMAND
+	printf("----> %d\n", *get_return_code());
 	cleanup_command_table(commands_table, num_commands);
 	return (TRUE);
 }
