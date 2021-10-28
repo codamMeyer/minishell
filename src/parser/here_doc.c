@@ -51,13 +51,13 @@ static int	cleanup_here_doc(char *line, int fd, char *file_name)
 	if (*signal)
 	{
 		*signal = 0;
-			reopen_fd = FILE_ERROR;
+		reopen_fd = FILE_ERROR;
 	}
 	else
-			reopen_fd = open(file_name, O_RDONLY, FILE_RIGHTS);
-	if (	reopen_fd == INVALID_FD)
+		reopen_fd = open(file_name, O_RDONLY, FILE_RIGHTS);
+	if (reopen_fd == INVALID_FD)
 		handle_errors(19, "here_doc");
-	return (	reopen_fd);
+	return (reopen_fd);
 }
 
 /*

@@ -5,7 +5,6 @@
 #include <env/environment.h>
 #include <output/prompt.h>
 
-
 #define COLOR "\e[1;36m"
 #define RED "\e[0;31m"
 #define RESET_COLOR " -► \e[0m "
@@ -22,7 +21,7 @@ char	*display_prompt(char *buffer)
 	if (!get_pwd(path.buf))
 	{
 		ft_strlcpy(buffer, RED, color_len);
-		ft_strlcpy(&buffer[ft_strlen(buffer)], "WHY THOUGH???", 14);
+		ft_strlcpy(&buffer[ft_strlen(buffer)], "WHAT ARE YOU DOING???", 14);
 		return (buffer);
 	}
 	path_len = ft_strlen(path.buf) + 1;
