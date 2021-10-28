@@ -1,5 +1,7 @@
 #include <defines.h>
 #include <libft.h>
+#include <errno.h>
+#include <string.h>
 #include <unistd.h>
 #include <stdio.h>
 #include <commands/commands.h>
@@ -59,7 +61,7 @@ t_exit_code	cd_command(t_command command, t_output_stdout output)
 	if (chdir(buffer.buf) == SYS_ERROR)
 	{
 		if (buffer.buf[0])
-			printf("cd: %s: No such file or directory\n", buffer.buf); // use strerror()
+			printf("Minishell: cd: %s\n", strerror(errno));
 		return (ERROR);
 	}
 	update_env(cwd_before_cd);
