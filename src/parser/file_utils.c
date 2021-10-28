@@ -20,10 +20,10 @@ void	open_infile(const char *file, int *in_file)
 	if (*in_file != INVALID_FD)
 		close(*in_file);
 	*in_file = open(file, O_RDONLY, 0644);
-	if (*in_file == INVALID_FD)
+	if (*in_file == SYS_ERROR)
 	{
-		printf("Couldn't open in file: %s\n", file);
-		exit(1);
+		*in_file = FILE_ERROR;
+		printf("minishell: %s: No such file or directory\n", file);
 	}
 }
 
@@ -34,7 +34,7 @@ void	open_outfile(const char *file, int *out_file, int out_mode)
 	*out_file = open(file, O_RDWR | O_CREAT | out_mode, FILE_RIGHTS);
 	if (*out_file == INVALID_FD)
 	{
-		printf("Couldn't open in file: %s\n", file);
+		printf("Couldn't open in outfile: %s\n", file);
 		exit(1);
 	}
 }
