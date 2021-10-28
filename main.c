@@ -68,8 +68,7 @@ static void	run(char *env[])
 		if (is_valid_syntax(line))
 			parse_input(line, env);
 		free(line);
-		int *exit_code = get_return_code();
-		printf("code %d\n", *exit_code);
+		
 	}
 }
 

@@ -49,7 +49,7 @@ t_exit_code	echo_command(t_command command, t_output_stdout output)
 
 	init_buffer(&buffer);
 	if (command.arg.len == 0)
-		return (set_return_code(handle_empty_str(has_n_flag, output)));
+		return (handle_empty_str(has_n_flag, output));
 	while (command.arg.start < command.arg.end)
 	{
 		append_expanded_input_to_buffer(&command.arg, &buffer);
@@ -58,5 +58,5 @@ t_exit_code	echo_command(t_command command, t_output_stdout output)
 	if (!has_n_flag)
 		buffer.buf[buffer.index] = '\n';
 	output(&buffer.buf[0]);
-	return (set_return_code(-42));
+	return (SUCCESS);
 }

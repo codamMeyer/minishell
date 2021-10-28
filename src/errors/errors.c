@@ -1,18 +1,30 @@
 #include <errors/errors.h>
 #include <stdio.h>
 
-int	*get_return_code(void)
+t_exit_code	*get_return_code(void)
 {
-	static int code = 0;
+	static t_exit_code code = 0;
 
 	return (&code);
 }
 
-int    set_return_code(int new_code)
+t_exit_code    set_return_code(t_exit_code new_code)
 {
-	int *code;
-    
+	t_exit_code *code;
+
     code = get_return_code();
     *code = new_code;
 	return (*code);
 }
+
+// t_bool	should_exit(t_exit_code code)
+// {
+
+// }
+
+// int    handle_error(t_exit_code code)
+// {
+// 	set_return_code(code);
+// 	if (should_exit(code))
+// 		exit(code);
+// }
