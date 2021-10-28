@@ -52,7 +52,7 @@ void	execute_system_command(const t_command *command, char *env[])
 		append_expanded_input_to_buffer((t_arg *)&command->arg, &buffer);
 	cmd = ft_split(&buffer.buf[0], SPACE_CHAR);
 	if (!cmd)
-		handle_errors(3, "child, invalid command");
+		handle_error(MALLOC_ERROR);
 	if (execute_command(command->exe_path, cmd, env) == SYS_ERROR)
 		handle_errors(5, "child_process execute command");
 }

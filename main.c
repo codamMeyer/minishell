@@ -10,6 +10,7 @@
 #include <syntax/check_syntax.h>
 #include <errors/errors.h>
 #include <signals/signals.h>
+#include <errors/errors.h>
 
 static void	add_key_and_value_from_env(char *env_str_pair)
 {
@@ -64,7 +65,7 @@ static void	run(char *env[])
 		line = get_trimmed_line();
 		set_return_code(0);
 		if (!line)
-			printf("Allocation error\n"); // MALLOC_ERROR (exit)
+			handle_error(MALLOC_ERROR);
 		if (is_valid_syntax(line))
 			parse_input(line, env);
 		free(line);

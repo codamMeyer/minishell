@@ -1,5 +1,8 @@
 #include <errors/errors.h>
 #include <stdio.h>
+#include <defines.h>
+#include <stdlib.h>
+#include <output/write_to_std.h>
 
 t_exit_code	*get_return_code(void)
 {
@@ -17,14 +20,21 @@ t_exit_code    set_return_code(t_exit_code new_code)
 	return (*code);
 }
 
-// t_bool	should_exit(t_exit_code code)
-// {
+static t_bool	should_exit(t_exit_code code)
+{
+	return (code == MALLOC_ERROR);
+}
 
-// }
-
-// int    handle_error(t_exit_code code)
-// {
-// 	set_return_code(code);
-// 	if (should_exit(code))
-// 		exit(code);
-// }
+void    handle_error(t_exit_code code)
+{
+	const static char *error_string[] = {
+										"",
+										"",
+										"Malloc Error\n"
+										};
+	set_return_code(code);
+	write_to_stderr("Minishell: ");
+	write_to_stderr(error_string[code]);
+	if (should_exit(code))
+		exit(code);
+}

@@ -60,8 +60,6 @@ t_bool	parse_input(const char *input, char *env[])
 
 	num_commands = populate_commands_table(input, commands_table);
 	set_return_code(run_commands(commands_table, num_commands, env)); // ERROR_CODE FROM PID OR SINGLE COMMAND
-	t_exit_code *exit_code = get_return_code();
-	printf("Code: %d\n", *exit_code);
 	cleanup_command_table(commands_table, num_commands);
 	return (TRUE);
 }

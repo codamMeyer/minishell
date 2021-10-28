@@ -8,9 +8,14 @@
 
 static void	update_env_value(const char *key, const char *new_value)
 {
-	export(get_environment(), key); // CHECK FOR MALLOC ERROR ?
-	free(find_variable(get_environment(), key)->value);
-	find_variable(get_environment(), key)->value = ft_strdup(new_value); // CHECK FOR MALLOC ERROR ?
+	t_env *var;
+
+	export(get_environment(), key);
+	var = find_variable(get_environment(), key);
+	free(var->value);
+	var->value = ft_strdup(new_value);
+	if (!var->value)
+		handle_error(MALLOC_ERROR);
 }
 
 static void	update_env(char *cwd_bef_cd)

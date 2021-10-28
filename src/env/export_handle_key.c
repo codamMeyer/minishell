@@ -52,8 +52,7 @@ t_bool	set_key(t_env *env, char *key)
 	{
 		env[i].key = ft_strdup(key);
 		if (!env[i].key)
-			return (FALSE); // SYS_ERROR MALLOC_ERROR
+			handle_error(MALLOC_ERROR);
 	}
-	// else we are out of space hehe
 	return (TRUE);
 }

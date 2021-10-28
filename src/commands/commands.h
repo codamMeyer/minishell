@@ -7,6 +7,7 @@
 # define ALL_TERMINATORS "<>| \0" 
 
 # include <defines.h>
+# include <errors/errors.h>
 
 typedef enum e_special_chars
 {
