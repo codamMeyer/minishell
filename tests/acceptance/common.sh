@@ -82,7 +82,7 @@ function removePrompt ()
 {
     if [[ "$OSTYPE" == "linux-gnu"* ]]; then
         sed -i "/-►/d" $1
-    else
+    elif [[ "$OSTYPE" == "darwin"* ]]; then
         sed -i "" "/-►/d" $1
     fi
 }

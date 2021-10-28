@@ -7,16 +7,22 @@
 
 t_exit_code	wait_for_all_processes(int num_of_processes)
 {
-	int exit_code;
+	t_exit_code exit_code;
 	int	i;
+	int	status;
 
 	i = 0;
+	exit_code = 0;
 	while (i < num_of_processes)
 	{
-		waitpid(DEFAULT_WAIT_ID, &exit_code, 0);
+		waitpid(DEFAULT_WAIT_ID, &status, 0);
+		if (WIFEXITED(status))
+			exit_code = WEXITSTATUS(status);
+		if (WIFSIGNALED(status))
+			exit_code = WTERMSIG(status);
 		i++;
 	}
-	return ((t_exit_code)exit_code);
+	return (exit_code);
 }
 
 /*
