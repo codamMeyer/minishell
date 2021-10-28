@@ -47,7 +47,7 @@ static void	cleanup_here_doc(char *line, int fd)
 
 /*
 	syntax checker responsible for assuring that this is only entered
-	when ere is a valid here_doc token
+	when there is a valid here_doc token
 */
 int	handle_here_doc(const char *delimeter)
 {
@@ -62,7 +62,7 @@ int	handle_here_doc(const char *delimeter)
 	while (TRUE)
 	{
 		line = readline("> ");
-		if (append_line_to_heredoc(line, delimeter, fd) == ERROR)
+		if (!line || append_line_to_heredoc(line, delimeter, fd) == ERROR)
 			break ;
 		free(line);
 	}

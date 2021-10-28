@@ -42,7 +42,9 @@ t_exit_code	cd_command(t_command command, t_output_stdout output)
 	t_buffer	buffer;
 
 	(void)output;
-	getcwd(cwd_before_cd, BUFFER_SIZE);
+	if (!getcwd(cwd_before_cd, BUFFER_SIZE))
+		printf("FAILLLED: %s\n", cwd_before_cd);
+	
 	init_buffer(&buffer);
 	if (command.arg.len == 0 || *command.arg.start == '~')
 		copy_home_var_to_buffer(buffer.buf);
