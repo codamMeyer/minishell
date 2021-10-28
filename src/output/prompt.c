@@ -5,7 +5,6 @@
 #include <env/environment.h>
 #include <output/prompt.h>
 
-
 #define COLOR "\e[1;36m"
 #define RED "\e[0;31m"
 #define RESET_COLOR " -► \e[0m "
