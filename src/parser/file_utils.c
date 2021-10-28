@@ -21,10 +21,7 @@ void	open_infile(const char *file, int *in_file)
 		close(*in_file); // CLOSE_FD_ERROR ?
 	*in_file = open(file, O_RDONLY, 0644);
 	if (*in_file == INVALID_FD)
-	{
-		printf("Minishell: %s: %s\n", file, strerror(errno)); // FILE_ERROR 1 (shouldn't exit)
-		exit(1); // <--------- what is this ?
-	}
+		handle_error(SYS_ERROR, file);
 }
 
 void	open_outfile(const char *file, int *out_file, int out_mode)
@@ -33,8 +30,5 @@ void	open_outfile(const char *file, int *out_file, int out_mode)
 		close(*out_file); // CLOSE_FD_ERROR ?
 	*out_file = open(file, O_RDWR | O_CREAT | out_mode, FILE_RIGHTS);
 	if (*out_file == INVALID_FD)
-	{
-		printf("Minishell: %s: %s\n", file, strerror(errno)); // FILE_ERROR 1 (shouldn't exit)
-		exit(1); // <--------- what is this ?
-	}
+		handle_error(SYS_ERROR, file);
 }

@@ -17,51 +17,53 @@ static void	update_env_value(const char *key, const char *new_value)
 	free(var->value);
 	var->value = ft_strdup(new_value);
 	if (!var->value)
-		handle_error(MALLOC_ERROR);
+		handle_error(MALLOC_ERROR, NULL);
 }
 
 static void	update_env(char *cwd_bef_cd)
 {
 	char	cwd_after_cd[BUFFER_SIZE];
 
-	getcwd(cwd_after_cd, BUFFER_SIZE); // SYS_ERROR
+	getcwd(cwd_after_cd, BUFFER_SIZE); // SYS_ERROR I guess not, because it works
 	update_env_value("OLDPWD=", cwd_bef_cd);
 	update_env_value("PWD=", cwd_after_cd);
 }
 
-static void	copy_home_var_to_buffer(char *buffer)
+static t_exit_code	copy_home_var_to_buffer(char *buffer)
 {
 	const t_env	*home_var = find_variable(get_environment(), "HOME");
 	int			len;
 
 	if (!home_var)
 	{
-		printf("cd: HOME not set\n"); // HOME_NOT_SET 1
-		return ;
+		handle_error(HOME_NOT_SET_ERROR,"cd: ");
+		return (ERROR);
 	}
 	len = ft_strlen(home_var->value) + 1;
 	ft_strlcpy(buffer, home_var->value, len);
+	return (SUCCESS);
 }
 
 t_exit_code	cd_command(t_command command, t_output_stdout output)
 {
 	char		cwd_before_cd[BUFFER_SIZE];
 	t_buffer	buffer;
+	t_exit_code	ret;
 
 	(void)output;
-	getcwd(cwd_before_cd, BUFFER_SIZE); // SYS_ERROR
+	ret = SUCCESS;
+	getcwd(cwd_before_cd, BUFFER_SIZE); // SYS_ERROR I guess not, because it works
 	init_buffer(&buffer);
 	if (command.arg.len == 0 || *command.arg.start == '~')
-		copy_home_var_to_buffer(buffer.buf);
+		ret = copy_home_var_to_buffer(buffer.buf);
 	else
 	{
 		while (command.arg.start < command.arg.end)
 			append_expanded_input_to_buffer(&command.arg, &buffer);
 	}
-	if (chdir(buffer.buf) == SYS_ERROR)
+	if (chdir(buffer.buf) == SYS_ERROR && !ret)
 	{
-		if (buffer.buf[0])
-			printf("Minishell: cd: %s\n", strerror(errno));
+		handle_error(SYS_ERROR, "cd");
 		return (ERROR);
 	}
 	update_env(cwd_before_cd);

@@ -29,7 +29,7 @@ EXPECTED=$(cd ../../ && pwd)
 assertEqual "cd ../../"
 cleanUp
 
-STD=$(echo -e "cd invalid_path"| ./minishell > $MINISHELL_OUTPUT)
+STD=$(echo -e "cd invalid_path\nexit"| ./minishell >> $MINISHELL_OUTPUT 2>&1)
 removePrompt $MINISHELL_OUTPUT
 ACTUAL=$(cat $MINISHELL_OUTPUT)
 EXPECTED="cd: invalid_path: No such file or directory"
@@ -39,7 +39,7 @@ cleanUp
 
 TMP_HOME=$(echo $HOME)
 unset HOME
-STD=$(echo -e "cd"| ./minishell > $MINISHELL_OUTPUT)
+STD=$(echo -e "cd\nexit"| ./minishell  >> $MINISHELL_OUTPUT 2>&1)
 removePrompt $MINISHELL_OUTPUT
 ACTUAL=$(cat $MINISHELL_OUTPUT)
 EXPECTED="cd: HOME not set"

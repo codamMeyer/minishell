@@ -22,6 +22,8 @@ t_std_fd	save_std_fds(void)
 
 	fds.in = dup(STDIN_FILENO); // SYS_ERROR -1 (exit) DUP
 	fds.out = dup(STDOUT_FILENO); // SYS_ERROR -1 (exit) DUP
+	if (!fds.in || !fds.out)
+		handle_error(SYS_ERROR, NULL);
 	return (fds);
 }
 

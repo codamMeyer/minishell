@@ -52,9 +52,9 @@ void	execute_system_command(const t_command *command, char *env[])
 		append_expanded_input_to_buffer((t_arg *)&command->arg, &buffer);
 	cmd = ft_split(&buffer.buf[0], SPACE_CHAR);
 	if (!cmd)
-		handle_error(MALLOC_ERROR);
+		handle_error(MALLOC_ERROR, NULL);
 	if (execute_command(command->exe_path, cmd, env) == SYS_ERROR)
-		handle_errors(5, "child_process execute command");
+		handle_error(SYS_ERROR, "child_process");
 }
 
 /*
@@ -71,6 +71,6 @@ int	create_new_process(t_multi_pipes *pipes,
 		handle_errors(7, "pipe current main");
 	process_id = fork();
 	if (process_id == SYS_ERROR)
-		handle_errors(SYS_ERROR, "forking main");
+		handle_error(SYS_ERROR, NULL);
 	return (process_id);
 }

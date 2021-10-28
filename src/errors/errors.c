@@ -2,7 +2,10 @@
 #include <stdio.h>
 #include <defines.h>
 #include <stdlib.h>
+#include <string.h>
+#include <errno.h>
 #include <output/write_to_std.h>
+#include <executor/run_commands.h>
 
 t_exit_code	*get_return_code(void)
 {
@@ -25,16 +28,28 @@ static t_bool	should_exit(t_exit_code code)
 	return (code == MALLOC_ERROR);
 }
 
-void    handle_error(t_exit_code code)
+void    handle_error(t_exit_code code, const char *location)
 {
 	const static char *error_string[] = {
 										"",
 										"",
-										"Malloc Error\n"
+										"Malloc Error\n",
+										"HOME not set\n"
 										};
 	set_return_code(code);
 	write_to_stderr("Minishell: ");
-	write_to_stderr(error_string[code]);
+	if (code == SYS_ERROR)
+	{
+		write_to_stderr(location);
+		write_to_stderr(": ");
+		write_to_stderr(strerror(errno));
+		write_to_stderr("\n");
+	}
+	else
+	{
+		write_to_stderr(location);
+		write_to_stderr(error_string[code]);
+	}
 	if (should_exit(code))
 		exit(code);
 }
