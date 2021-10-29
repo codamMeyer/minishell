@@ -71,6 +71,6 @@ int	create_new_process(t_multi_pipes *pipes,
 		handle_errors(7, "pipe current main");
 	process_id = fork();
 	if (process_id == SYS_ERROR)
-		handle_error(SYS_ERROR, NULL, NULL);
+		handle_error(FORK_ERROR, "fork(): ", NULL);
 	return (process_id);
 }

@@ -10,8 +10,9 @@
 
 void	restore_std_fds(t_std_fd fds)
 {
-	dup2(fds.in, STDIN_FILENO);
-	dup2(fds.out, STDOUT_FILENO);
+	if (dup2(fds.in, STDIN_FILENO) == SYS_ERROR || \
+		dup2(fds.out, STDOUT_FILENO) == SYS_ERROR)
+		handle_error(DUP_ERROR, "dup2(): ", NULL);
 	close(fds.in); // CLOSE_FD_ERROR ?
 	close(fds.out); // CLOSE_FD_ERROR ?
 }
@@ -20,10 +21,10 @@ t_std_fd	save_std_fds(void)
 {
 	t_std_fd	fds;
 
-	fds.in = dup(STDIN_FILENO); // SYS_ERROR -1 (exit) DUP
-	fds.out = dup(STDOUT_FILENO); // SYS_ERROR -1 (exit) DUP
+	fds.in = dup(STDIN_FILENO);
+	fds.out = dup(STDOUT_FILENO);
 	if (!fds.in || !fds.out)
-		handle_error(SYS_ERROR, NULL, NULL);
+		handle_error(DUP_ERROR, "dup(): ", NULL);
 	return (fds);
 }
 

@@ -1,6 +1,7 @@
 #include <syntax/check_quotes_syntax.h>
 #include <commands/quotes.h>
 #include <parser/command_table.h>
+#include <stdio.h>
 
 static char	*find_quote(const char *input)
 {
@@ -29,6 +30,7 @@ t_exit_code	has_missing_quotes(const char *input, t_output_stdout output)
 	}
 	if (quotes.start)
 	{
+		handle_error(SYNTAX_ERROR, NULL, NULL);
 		output("Missing closing quote\n");
 		return (ERROR);
 	}

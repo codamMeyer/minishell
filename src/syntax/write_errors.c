@@ -20,7 +20,6 @@ void	append_error_token_to_buffer(const char *input, char *buffer)
 
 void	write_error(const char *error_token_pointer)
 {
-	write_to_stderr("syntax error near unexpected token `");
-	write_to_stderr(error_token_pointer);
+	handle_error(SYNTAX_ERROR, "syntax error near unexpected token `", error_token_pointer);
 	write_to_stderr("'\n");
 }

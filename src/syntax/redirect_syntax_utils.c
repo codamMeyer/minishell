@@ -58,7 +58,7 @@ t_bool	is_double_pipe(const char *str)
 	skip_spaces(&str);
 	if (*str == PIPE)
 	{
-		write_to_stderr("syntax error near unexpected token `|'\n");
+		handle_error(SYNTAX_ERROR, "syntax error near unexpected token `|'\n", NULL);
 		return (TRUE);
 	}
 	return (FALSE);

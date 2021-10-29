@@ -3,6 +3,7 @@
 #include <executor/executor_utils.h>
 #include <parser/command_table.h>
 #include <parser/parse_redirection.h>
+#include <errno.h>
 
 void	handle_stdin(int in_file, t_multi_pipes *pipes, int current_process)
 {
@@ -37,12 +38,12 @@ void	previous_to_current_pipe(t_multi_pipes *pipes)
 
 void	set_stdout(int new_std_out)
 {
-	if (dup2(new_std_out, STDOUT_FILENO) == SYS_ERROR) // SYS_ERROR (exit ONLY PROCESS ?) DUP2
-		handle_error(SYS_ERROR, NULL, NULL);
+	if (dup2(new_std_out, STDOUT_FILENO) == SYS_ERROR && errno != EBADF)
+		handle_error(DUP_ERROR, "dup2(): ", NULL);
 }
 
 void	set_stdin(int new_std_in)
 {
-	if (dup2(new_std_in, STDIN_FILENO) == SYS_ERROR) // SYS_ERROR (exit ONLY PROCESS ?) DUP2
-		handle_error(SYS_ERROR, NULL, NULL);
+	if (dup2(new_std_in, STDIN_FILENO) == SYS_ERROR && errno != EBADF)
+		handle_error(DUP_ERROR, "dup2(): ", NULL);
 }

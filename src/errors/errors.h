@@ -9,7 +9,10 @@ typedef enum e_exit_code
 	ERROR = 1,
 	MALLOC_ERROR = 2,
 	HOME_NOT_SET_ERROR = 3,
+	DUP_ERROR = 4,
+	FORK_ERROR = 5,
 	UNKNOWN_COMMAND_ERROR = 127,
+	SYNTAX_ERROR = 258,
 }	t_exit_code;
 
 t_exit_code	*get_return_code(void);
