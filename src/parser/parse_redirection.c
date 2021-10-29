@@ -69,8 +69,8 @@ int	open_file(char *file_name_ptr, t_files *files, int redirection_id)
 	file_name_ptr += 1;
 	i = count_consecutive_spaces(file_name_ptr);
 	i += get_file_name_and_length(&buffer, &file_name_ptr[i], redirection_id);
-	if (open_in_mode(&buffer.buf[0], files, redirection_id) != SUCCESS)
-		return (-1);
+	if (open_in_mode(&buffer.buf[0], files, redirection_id) < SUCCESS)
+		return (INVALID_FD);
 	return (i);
 }
 
@@ -95,7 +95,7 @@ t_files	get_redirection(char **input, const int string_to_parse_len)
 		redirect_id = get_redirect_id(&cursor[index]);
 		length = open_file(&cursor[index], &fd, redirect_id);
 		if (length < 0)
-			return (fd);
+			break ;
 		if (is_multi_angled_bracket(redirect_id))
 			++length;
 		replace_redirection_w_space(input, length, index);
