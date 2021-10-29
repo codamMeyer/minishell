@@ -24,9 +24,8 @@ t_bool	file_name_contains_only_digits(const char *file, const char *input)
 	}
 	if (input[file_len] != SPACE_CHAR)
 	{
-		ft_putstr_fd("syntax error near unexpected token `", 2);
-		ft_putchar_fd(file[file_len - 1], 2);
-		ft_putstr_fd("'\n", 2);
+		handle_error(SYNTAX_ERROR, "syntax error near unexpected token `", &file[file_len - 1]);
+		write_to_stderr("'\n");
 		return (TRUE);
 	}
 	return (FALSE);
