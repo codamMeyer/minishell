@@ -16,7 +16,7 @@ t_bool	is_valid_filename_char(char c, int redirect_id)
 	return (!ft_strchr(ALL_TERMINATORS, c));
 }
 
-void	open_infile(const char *file, int *in_file)
+t_exit_code	open_infile(const char *file, int *in_file)
 {
 	if (*in_file != INVALID_FD)
 		close(*in_file); // CLOSE_FD_ERROR ?
@@ -25,14 +25,20 @@ void	open_infile(const char *file, int *in_file)
 	{
 		*in_file = FILE_ERROR;
 		handle_error(FILE_ERROR, "BestShellEver", file);
+		return (FILE_ERROR);
 	}
+	return (SUCCESS);
 }
 
-void	open_outfile(const char *file, int *out_file, int out_mode)
+t_exit_code	open_outfile(const char *file, int *out_file, int out_mode)
 {
 	if (*out_file != INVALID_FD)
 		close(*out_file); // CLOSE_FD_ERROR ?
 	*out_file = open(file, O_RDWR | O_CREAT | out_mode, FILE_RIGHTS);
 	if (*out_file == INVALID_FD)
+	{	
 		handle_error(SYS_ERROR, NULL, file);
+		return (SYS_ERROR);
+	}
+	return (SUCCESS);
 }
