@@ -5,6 +5,7 @@
 #include <env/environment.h>
 #include <env/env_utils.h>
 #include <parser/parser.h>
+#include <errors/errors.h>
 
 void	init_buffer(t_buffer *buffer)
 {
@@ -70,12 +71,25 @@ void	append_quoted_string_to_buffer(const char **start, t_buffer *buffer)
 		++(*start);
 }
 
+void	append_exit_code_to_buffer(const char **start, t_buffer *buffer)
+{
+	const char *exit_code_string = ft_itoa((int)*get_return_code());
+	const char *ptr = exit_code_string;
+
+	while (*exit_code_string)
+		append_char_to_buffer(&exit_code_string, buffer);
+	*start += 2;
+	free((void *)ptr);
+}
+
 void	append_expanded_input_to_buffer(t_arg *arg, t_buffer *buffer)
 {
 	if (is_quote(*arg->start))
 		append_quoted_string_to_buffer(&arg->start, buffer);
 	else if (is_env_variable(arg->start))
 		append_env_value_to_buffer(&arg->start, buffer, TRUE);
+	else if (ft_strncmp(arg->start, "$?", 2) == 0)
+		append_exit_code_to_buffer(&arg->start, buffer);
 	else
 		append_char_to_buffer(&arg->start, buffer);
 }
