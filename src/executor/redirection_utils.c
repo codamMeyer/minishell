@@ -6,7 +6,7 @@
 
 void	handle_stdin(int in_file, t_multi_pipes *pipes, int current_process)
 {
-	if (in_file != INVALID_FD)
+	if (in_file != FILE_ERROR && in_file != INVALID_FD)
 	{
 		set_stdin(in_file);
 		close(in_file); // CLOSE_FD_ERROR ?

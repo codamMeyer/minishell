@@ -6,6 +6,7 @@
 #include <parser/parse_redirection.h>
 #include <readline/readline.h>
 #include <readline/history.h>
+#include <errors/errors.h>
 #include <errno.h>
 
 t_bool	is_valid_filename_char(char c, int redirect_id)
@@ -21,7 +22,7 @@ void	open_infile(const char *file, int *in_file)
 		close(*in_file); // CLOSE_FD_ERROR ?
 	*in_file = open(file, O_RDONLY, 0644);
 	if (*in_file == INVALID_FD)
-		handle_error(SYS_ERROR, NULL, file);
+		handle_error(FILE_ERROR, NULL, file);
 }
 
 void	open_outfile(const char *file, int *out_file, int out_mode)
