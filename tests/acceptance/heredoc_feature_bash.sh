@@ -18,7 +18,7 @@ echo -e "cat -e << EOF
 Hello world
 Today date is $(date +%F)
 My home directory = ${HOME}
-EOF" | ./minishell > $MINISHELL_OUTPUT
+EOF\nexit" | ./minishell > $MINISHELL_OUTPUT
 removePrompt $MINISHELL_OUTPUT
 removeHeredocPrompt
 ACTUAL=$(cat $MINISHELL_OUTPUT)
