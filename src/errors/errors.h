@@ -3,11 +3,13 @@
 
 typedef enum e_exit_code
 {
+	FILE_ERROR = -2,
 	SYS_ERROR = -1,
 	SUCCESS = 0,
 	ERROR = 1,
 	MALLOC_ERROR = 2,
 	HOME_NOT_SET_ERROR = 3,
+	UNKNOWN_COMMAND_ERROR = 127,
 }	t_exit_code;
 
 t_exit_code	*get_return_code(void);

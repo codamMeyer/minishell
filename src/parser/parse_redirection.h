@@ -6,7 +6,6 @@
 # include <commands/commands.h>
 
 # define INVALID_FD -1
-# define FILE_ERROR -2
 # define FT_APPEND O_APPEND
 # define FT_TRUNCATE O_TRUNC
 # define HERE_DOC 666

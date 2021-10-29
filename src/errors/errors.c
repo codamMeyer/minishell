@@ -37,7 +37,7 @@ void    handle_error(t_exit_code code, const char *location, const char *filenam
 										"HOME not set\n"
 										};
 	set_return_code(code);
-	if (code == SYS_ERROR)
+	if (code == SYS_ERROR || code == FILE_ERROR)
 	{
 		write_to_stderr(location);
 		write_to_stderr(": ");
@@ -57,7 +57,7 @@ void    handle_error(t_exit_code code, const char *location, const char *filenam
 	}
 	else
 	{
-		write_to_stderr("Minishell: ");
+		write_to_stderr("BestShellEver: ");
 		write_to_stderr(location);
 		write_to_stderr(error_string[code]);
 	}

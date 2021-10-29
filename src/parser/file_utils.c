@@ -22,7 +22,10 @@ void	open_infile(const char *file, int *in_file)
 		close(*in_file); // CLOSE_FD_ERROR ?
 	*in_file = open(file, O_RDONLY, 0644);
 	if (*in_file == INVALID_FD)
-		handle_error(FILE_ERROR, NULL, file);
+	{
+		*in_file = FILE_ERROR;
+		handle_error(FILE_ERROR, "BestShellEver", file);
+	}
 }
 
 void	open_outfile(const char *file, int *out_file, int out_mode)

@@ -64,8 +64,13 @@ t_exit_code	dispatch_command(t_command *command, char *env[])
 															};
 
 	init_buffer(&buffer);
+	printf("in file %d\n", command->files.in);
+	printf("out file %d\n", command->files.out);
 	if (command->files.in == FILE_ERROR)
+	{
+		printf("returned %d\n", command->files.in);
 		return (1);
+	}
 	if (command->code == INVALID)
 		command = expand_arg_content(command, &buffer);
 	if (command->code == SYSTEM)
