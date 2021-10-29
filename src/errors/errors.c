@@ -28,7 +28,7 @@ static t_bool	should_exit(t_exit_code code)
 	return (code == MALLOC_ERROR);
 }
 
-void    handle_error(t_exit_code code, const char *location)
+void    handle_error(t_exit_code code, const char *location, const char *filename)
 {
 	const static char *error_string[] = {
 										"",
@@ -37,16 +37,27 @@ void    handle_error(t_exit_code code, const char *location)
 										"HOME not set\n"
 										};
 	set_return_code(code);
-	write_to_stderr("Minishell: ");
 	if (code == SYS_ERROR)
 	{
 		write_to_stderr(location);
 		write_to_stderr(": ");
+		if (filename)
+		{	
+			write_to_stderr(filename);
+			write_to_stderr(": ");
+		}
 		write_to_stderr(strerror(errno));
 		write_to_stderr("\n");
 	}
+	else if (code == HOME_NOT_SET_ERROR)
+	{
+		write_to_stderr(location);
+		write_to_stderr(": ");
+		write_to_stderr(error_string[code]);
+	}
 	else
 	{
+		write_to_stderr("Minishell: ");
 		write_to_stderr(location);
 		write_to_stderr(error_string[code]);
 	}

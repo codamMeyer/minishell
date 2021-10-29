@@ -65,7 +65,7 @@ static void	run(char *env[])
 		line = get_trimmed_line();
 		set_return_code(0);
 		if (!line)
-			handle_error(MALLOC_ERROR, NULL);
+			handle_error(MALLOC_ERROR, NULL, NULL);
 		if (is_valid_syntax(line))
 			parse_input(line, env);
 		free(line);

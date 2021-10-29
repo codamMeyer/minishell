@@ -17,7 +17,7 @@ static void	update_env_value(const char *key, const char *new_value)
 	free(var->value);
 	var->value = ft_strdup(new_value);
 	if (!var->value)
-		handle_error(MALLOC_ERROR, NULL);
+		handle_error(MALLOC_ERROR, NULL, NULL);
 }
 
 static void	update_env(char *cwd_bef_cd)
@@ -36,7 +36,7 @@ static t_exit_code	copy_home_var_to_buffer(char *buffer)
 
 	if (!home_var)
 	{
-		handle_error(HOME_NOT_SET_ERROR,"cd: ");
+		handle_error(HOME_NOT_SET_ERROR,"cd", NULL);
 		return (ERROR);
 	}
 	len = ft_strlen(home_var->value) + 1;
@@ -63,7 +63,7 @@ t_exit_code	cd_command(t_command command, t_output_stdout output)
 	}
 	if (chdir(buffer.buf) == SYS_ERROR && !ret)
 	{
-		handle_error(SYS_ERROR, "cd");
+		handle_error(SYS_ERROR, "cd", buffer.buf);
 		return (ERROR);
 	}
 	update_env(cwd_before_cd);

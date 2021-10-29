@@ -47,7 +47,7 @@ t_bool	set_value(t_env *env, char *key, char *value)
 	if (!key_pair->value)
 	{
 		free(key_pair->key);
-		handle_error(MALLOC_ERROR, NULL);
+		handle_error(MALLOC_ERROR, NULL, NULL);
 	}
 	return (TRUE);
 }
