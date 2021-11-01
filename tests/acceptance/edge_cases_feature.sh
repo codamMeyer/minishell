@@ -16,9 +16,6 @@ EXPECTED=$(l$LS"a" | grep d | wc)
 assertEqual "Weird LS | grep d | wc"
 unset LS
 
-# env var outside quotes should trim spaces
-# export var+=lol
-
 cleanUp
 
 exit $EXIT_CODE

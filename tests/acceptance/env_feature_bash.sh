@@ -97,6 +97,31 @@ EXPECTED=$(env | grep test_mixed)
 assertEqual "EXPORT value with and without quotes"
 unset test_mixed_str
 
+runMinishell "export DUMMY test1=hello DUMMY2 test2=you\necho \$DUMMY\$test1\$DUMMY2\$test2"
+removePrompt $MINISHELL_OUTPUT
+ACTUAL=$(cat $MINISHELL_OUTPUT)
+export DUMMY test1=hello DUMMY2 test2=you
+EXPECTED=$(echo $DUMMY$test1$DUMMY2$test2)
+assertEqual "EXPORT with loose words in between"
+unset test1 test2
+
+# runMinishell "export \"DUMMY \"test1=hello \"DUMMY2 \"test2=you\necho \$DUMMY\$test1\$DUMMY2\$test2"
+# removePrompt $MINISHELL_OUTPUT
+# ACTUAL=$(cat $MINISHELL_OUTPUT)
+# export "DUMMY "test1=hello "DUMMY2 "test2=you
+# EXPECTED=$(echo $DUMMY$test1$DUMMY2$test2)
+# assertEqual "EXPORT with space between quotes (should be part of key)"
+# unset test1 test2
+
+# export TEST="$USER "
+# runMinishell "export \"$TEST\"test1=hello \"DUMMY2 \"test2=you\necho \$DUMMY\$test1\$DUMMY2\$test2"
+# removePrompt $MINISHELL_OUTPUT
+# ACTUAL=$(cat $MINISHELL_OUTPUT)
+# export "$TEST"test1=hello "DUMMY2 "test2=you
+# EXPECTED=$(echo $DUMMY$test1$DUMMY2$test2)
+# assertEqual "EXPORT with variable containing space between quotes (should be part of key)"
+# unset test1 test2
+
 INPUT="unset SECOND_VAR"
 runMinishell "$INPUT\nenv | grep SECOND_VAR"
 removePrompt $MINISHELL_OUTPUT
@@ -105,14 +130,12 @@ unset SECOND_VAR
 EXPECTED=$(env | grep SECOND_VAR)
 assertEqual "UNSET"
 
-
 INPUT="unset"
 runMinishell "$INPUT"
 removePrompt $MINISHELL_OUTPUT
 ACTUAL=$(cat $MINISHELL_OUTPUT)
 EXPECTED=""
 assertEqual "UNSET without arg"
-
 
 export KEY_NAME="This_should_stay" KEY="Should_unset_this_var"
 INPUT="unset KEY"

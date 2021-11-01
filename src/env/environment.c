@@ -44,6 +44,7 @@ t_bool	export(t_env *env, const char *key_value_str)
 		init_buffer(&key_buffer);
 		init_buffer(&value_buffer);
 		int start = 0;
+		skip_spaces(&key_value_str);
 		while (key_value_str[start] && !isspace(key_value_str[start]) && key_value_str[start] != EQUAL_SIGN)
 			++start;
 		if (isspace(key_value_str[start]))
