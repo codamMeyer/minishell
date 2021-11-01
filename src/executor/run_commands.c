@@ -77,7 +77,10 @@ int	run_commands(t_command commands[],
 				int num_of_commands, char *env[])
 {
 	const t_std_fd	fds = save_std_fds();
+	const int		*signal = heredoc_sigint();
 
+	if (*signal)
+		return (1);
 	if (is_single_command(num_of_commands, &commands[0]))
 	{
 		redirect_in_and_output(NULL, 0, 0, &commands[0]);

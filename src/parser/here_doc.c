@@ -49,10 +49,7 @@ static int	cleanup_here_doc(char *line, int fd, char *file_name)
 	close(fd);
 	free(line);
 	if (*signal)
-	{
-		*signal = 0;
 		reopen_fd = FILE_ERROR;
-	}
 	else
 		reopen_fd = open(file_name, O_RDONLY, FILE_RIGHTS);
 	if (reopen_fd == INVALID_FD)

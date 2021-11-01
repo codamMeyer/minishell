@@ -5,6 +5,7 @@
 #include <libft.h>
 #include <defines.h>
 #include <output/prompt.h>
+#include <signals/signals.h>
 
 int	*heredoc_sigint(void)
 {
