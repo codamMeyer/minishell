@@ -9,25 +9,77 @@
 #include <env/sort_env.h>
 #include <parser/parser.h>
 
+static t_bool	is_valid_key(char *key, int key_len)
+{
+	int	i;
+
+	i = 0;
+	if (ft_isdigit(key[i]))
+		return (FALSE);
+	while (i < key_len)
+	{
+		if (!is_valid_key_char(key[i]))
+			return (FALSE);
+		++i;
+	}
+	return (TRUE);
+}
+
 t_bool	export(t_env *env, const char *key_value_str)
 {
 	t_buffer	key_buffer;
 	t_buffer	value_buffer;
+	t_env		variables_to_export[BUFFER_SIZE];
+	int			variables_count;
+	t_exit_code	exit_code;
 
+	(void)env;
 	if (!*key_value_str)
 		display_sorted_env();
+	exit_code = SUCCESS;
+	variables_count = 0;
 	while (*key_value_str)
 	{
 		init_buffer(&key_buffer);
 		init_buffer(&value_buffer);
-		if (!copy_key_to_buffer(key_value_str, &key_buffer))
-			return (FALSE);
-		copy_value_to_buffer(key_value_str, &value_buffer);
-		if (!set_key(env, &key_buffer.buf[0])
-			|| !set_value(env, &key_buffer.buf[0], &value_buffer.buf[0]))
-			return (FALSE);
-		key_value_str += key_buffer.index + value_buffer.index + 1;
+		int start = 0;
+		while (key_value_str[start] && !isspace(key_value_str[start]) && key_value_str[start] != EQUAL_SIGN)
+			++start;
+		if (isspace(key_value_str[start]))
+		{
+			key_value_str += start;
+			skip_spaces(&key_value_str);
+		}
+		if (copy_key_to_buffer(key_value_str, &key_buffer))
+		{
+			copy_value_to_buffer(key_value_str, &value_buffer);
+			variables_to_export[variables_count].key = ft_strdup(key_buffer.buf);
+			variables_to_export[variables_count].value = ft_strdup(value_buffer.buf);
+			++variables_count;
+			key_value_str += key_buffer.index + value_buffer.index + 1;
+		}
+		else
+			key_value_str += key_buffer.index;
+
 		skip_spaces(&key_value_str);
+	}
+	int i;
+	i = 0;
+	while (i < variables_count)
+	{
+		if (!is_valid_key(variables_to_export[i].key, ft_strlen(variables_to_export[i].key)))
+		{
+			printf("invalid: %s=%s\n", variables_to_export[i].key, variables_to_export[i].value);
+			exit_code &= FALSE;
+		}
+		else
+		{
+			set_key(env, variables_to_export[i].key);
+			set_value(env, variables_to_export[i].key, variables_to_export[i].value);
+		}
+		free(variables_to_export[i].key);
+		free(variables_to_export[i].value);
+		++i;
 	}
 	return (TRUE);
 }

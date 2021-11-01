@@ -37,7 +37,7 @@ t_bool	copy_value_to_buffer(const char *key_value_str, t_buffer *buffer)
 	return (TRUE);
 }
 
-t_bool	set_value(t_env *env, char *key, char *value)
+void	set_value(t_env *env, char *key, char *value)
 {
 	t_env		*key_pair;
 
@@ -45,9 +45,5 @@ t_bool	set_value(t_env *env, char *key, char *value)
 	free(key_pair->value);
 	key_pair->value = ft_strdup(value);
 	if (!key_pair->value)
-	{
 		free(key_pair->key);
-		return (FALSE);
-	}
-	return (TRUE);
 }
