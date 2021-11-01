@@ -42,39 +42,70 @@ static void	move_to_key_start(const char **kv_str)
 	}
 }
 
-static	int add_variables_to_tmp_env(t_env *tmp_env, const char *key_value_str)
+static t_bool add_variable_to_tmp_env(t_env* tmp_env, const char** key_value_str)
 {
 	t_buffer	key_buffer;
 	t_buffer	value_buffer;
+
+	init_buffer(&key_buffer);
+	init_buffer(&value_buffer);
+
+	if (copy_key_to_buffer(*key_value_str, &key_buffer))
+	{
+		//TODO check if the line below returned true
+		copy_value_to_buffer(*key_value_str, &value_buffer);
+		tmp_env->key = ft_strdup(key_buffer.buf);
+		tmp_env->value = ft_strdup(value_buffer.buf);
+		(*key_value_str) += key_buffer.index + value_buffer.index + 1;
+		return TRUE;
+	}
+	else
+		(*key_value_str) += key_buffer.index;
+
+	return FALSE;
+}
+
+static	int add_variables_to_tmp_env(t_env *tmp_env, const char *key_value_str)
+{
 	int			variables_count;
 
 	variables_count = 0;
 	while (*key_value_str)
-	{
-		init_buffer(&key_buffer);
-		init_buffer(&value_buffer);
-		
+	{	
 		move_to_key_start(&key_value_str);
-		
-		if (copy_key_to_buffer(key_value_str, &key_buffer))
-		{
-			copy_value_to_buffer(key_value_str, &value_buffer);
-			tmp_env[variables_count].key = ft_strdup(key_buffer.buf);
-			tmp_env[variables_count].value = ft_strdup(value_buffer.buf);
-			++variables_count;
-			key_value_str += key_buffer.index + value_buffer.index + 1;
-		}
-		else
-			key_value_str += key_buffer.index;
+		variables_count += add_variable_to_tmp_env(&tmp_env[variables_count], &key_value_str);
 	}
 	return (variables_count);
+}
+
+static t_bool add_variables_to_env(t_env* env, t_env* tmp_env, int variables_count)
+{
+	t_bool	exit_code; // TODO SHOULD RETURN t_bool
+	int i;
+
+	exit_code = TRUE;
+	i = 0;
+	while (i < variables_count)
+	{
+		if (!is_valid_key(tmp_env[i].key, ft_strlen(tmp_env[i].key)))
+		{
+			printf("invalid: %s=%s\n", tmp_env[i].key, tmp_env[i].value);
+			exit_code = FALSE;
+		}
+		else
+		{
+			set_key(env, tmp_env[i].key);
+			set_value(env, tmp_env[i].key, tmp_env[i].value);
+		}
+		free_key_value_pair(&tmp_env[i]);
+		++i;
+	}
+	return exit_code;
 }
 
 t_bool	export(t_env *env, const char *key_value_str)
 {
 	t_env		tmp_env[BUFFER_SIZE];
-	t_exit_code	exit_code;
-	int			i;
 	int variables_count;
 
 	if (!(*key_value_str))
@@ -82,26 +113,10 @@ t_bool	export(t_env *env, const char *key_value_str)
 		display_sorted_env();
 		return (0); // return exit code ?
 	}
-	exit_code = SUCCESS;
+	if (!get_equal_sign_position(key_value_str))
+		return (0);
 	variables_count = add_variables_to_tmp_env(&tmp_env[0], key_value_str);
-	i = 0;
-	while (i < variables_count)
-	{
-		if (!is_valid_key(tmp_env[i].key, ft_strlen(tmp_env[i].key)))
-		{
-			printf("invalid: %s=%s\n", tmp_env[i].key, tmp_env[i].value);
-			exit_code &= FALSE;
-		}
-		else
-		{
-			set_key(env, tmp_env[i].key);
-			set_value(env, tmp_env[i].key, tmp_env[i].value);
-		}
-		free(tmp_env[i].key);
-		free(tmp_env[i].value);
-		++i;
-	}
-	return (exit_code);
+	return (add_variables_to_env(env, tmp_env, variables_count));
 }
 
 void	unset(t_env *env, const char *key)
