@@ -102,8 +102,16 @@ removePrompt $MINISHELL_OUTPUT
 ACTUAL=$(cat $MINISHELL_OUTPUT)
 export DUMMY test1=hello DUMMY2 test2=you
 EXPECTED=$(echo $DUMMY$test1$DUMMY2$test2)
-assertEqual "EXPORT with loose words in between"
+assertEqual "EXPORT with loose word in between"
 unset test1 test2
+
+# runMinishell "export DUMMY DUMMY1 test1=hello DUMMY2 test2=you\necho \$DUMMY\$DUMMY1\$test1\$DUMMY2\$test2"
+# removePrompt $MINISHELL_OUTPUT
+# ACTUAL=$(cat $MINISHELL_OUTPUT)
+# export DUMMY DUMMY1 test1=hello DUMMY2 test2=you
+# EXPECTED=$(echo $DUMMY$DUMMY1$test1$DUMMY2$test2)
+# assertEqual "EXPORT with two consecutive loose words in between"
+# unset test1 test2
 
 # runMinishell "export \"DUMMY \"test1=hello \"DUMMY2 \"test2=you\necho \$DUMMY\$test1\$DUMMY2\$test2"
 # removePrompt $MINISHELL_OUTPUT
@@ -121,6 +129,13 @@ unset test1 test2
 # EXPECTED=$(echo $DUMMY$test1$DUMMY2$test2)
 # assertEqual "EXPORT with variable containing space between quotes (should be part of key)"
 # unset test1 test2
+
+# echo -e "export =test\nexit" | ./$MINISHELL_PROGRAM >> $MINISHELL_OUTPUT 2>&1
+# removePrompt $MINISHELL_OUTPUT
+# ACTUAL=$(cat $MINISHELL_OUTPUT)
+# EXPECTED="export: \`=test': not a valid identifier"
+# assertEqual "EXPORT missing key"
+# rm bash_error
 
 INPUT="unset SECOND_VAR"
 runMinishell "$INPUT\nenv | grep SECOND_VAR"

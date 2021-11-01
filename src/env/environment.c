@@ -25,19 +25,12 @@ static t_bool	is_valid_key(char *key, int key_len)
 	return (TRUE);
 }
 
-t_bool	export(t_env *env, const char *key_value_str)
+static	int add_variables_to_tmp_env(t_env *tmp_env, const char *key_value_str)
 {
 	t_buffer	key_buffer;
 	t_buffer	value_buffer;
-	t_env		variables_to_export[BUFFER_SIZE];
 	int			variables_count;
-	t_exit_code	exit_code;
-	int			i;
 
-	(void)env;
-	if (!*key_value_str)
-		display_sorted_env();
-	exit_code = SUCCESS;
 	variables_count = 0;
 	while (*key_value_str)
 	{
@@ -55,29 +48,46 @@ t_bool	export(t_env *env, const char *key_value_str)
 		if (copy_key_to_buffer(key_value_str, &key_buffer))
 		{
 			copy_value_to_buffer(key_value_str, &value_buffer);
-			variables_to_export[variables_count].key = ft_strdup(key_buffer.buf);
-			variables_to_export[variables_count].value = ft_strdup(value_buffer.buf);
+			tmp_env[variables_count].key = ft_strdup(key_buffer.buf);
+			tmp_env[variables_count].value = ft_strdup(value_buffer.buf);
 			++variables_count;
 			key_value_str += key_buffer.index + value_buffer.index + 1;
 		}
 		else
 			key_value_str += key_buffer.index;
 	}
+	return (variables_count);
+}
+
+t_bool	export(t_env *env, const char *key_value_str)
+{
+	t_env		tmp_env[BUFFER_SIZE];
+	t_exit_code	exit_code;
+	int			i;
+	int variables_count;
+
+	if (!(*key_value_str))
+	{
+		display_sorted_env();
+		return (0); // return exit code ?
+	}
+	exit_code = SUCCESS;
+	variables_count = add_variables_to_tmp_env(&tmp_env[0], key_value_str);
 	i = 0;
 	while (i < variables_count)
 	{
-		if (!is_valid_key(variables_to_export[i].key, ft_strlen(variables_to_export[i].key)))
+		if (!is_valid_key(tmp_env[i].key, ft_strlen(tmp_env[i].key)))
 		{
-			printf("invalid: %s=%s\n", variables_to_export[i].key, variables_to_export[i].value);
+			printf("invalid: %s=%s\n", tmp_env[i].key, tmp_env[i].value);
 			exit_code &= FALSE;
 		}
 		else
 		{
-			set_key(env, variables_to_export[i].key);
-			set_value(env, variables_to_export[i].key, variables_to_export[i].value);
+			set_key(env, tmp_env[i].key);
+			set_value(env, tmp_env[i].key, tmp_env[i].value);
 		}
-		free(variables_to_export[i].key);
-		free(variables_to_export[i].value);
+		free(tmp_env[i].key);
+		free(tmp_env[i].value);
 		++i;
 	}
 	return (exit_code);
