@@ -19,7 +19,7 @@ static void	heredoc_signals(int code)
 
 	(void)code;
 	signal = heredoc_sigint();
-	*signal = 666;
+	*signal = 667;
 	rl_done = 1;
 }
 
