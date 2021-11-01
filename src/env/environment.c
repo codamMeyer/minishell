@@ -32,6 +32,7 @@ t_bool	export(t_env *env, const char *key_value_str)
 	t_env		variables_to_export[BUFFER_SIZE];
 	int			variables_count;
 	t_exit_code	exit_code;
+	int			i;
 
 	(void)env;
 	if (!*key_value_str)
@@ -60,10 +61,7 @@ t_bool	export(t_env *env, const char *key_value_str)
 		}
 		else
 			key_value_str += key_buffer.index;
-
-		skip_spaces(&key_value_str);
 	}
-	int i;
 	i = 0;
 	while (i < variables_count)
 	{
@@ -81,7 +79,7 @@ t_bool	export(t_env *env, const char *key_value_str)
 		free(variables_to_export[i].value);
 		++i;
 	}
-	return (TRUE);
+	return (exit_code);
 }
 
 void	unset(t_env *env, const char *key)
