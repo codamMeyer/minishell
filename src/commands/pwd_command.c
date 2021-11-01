@@ -7,10 +7,10 @@ char	*get_pwd(char *buffer)
 	const t_env	*pwd = find_variable(get_environment(), "PWD");
 
 	getcwd(buffer, BUFFER_SIZE);
-	if (!buffer && !pwd)
+	if (!*buffer && !pwd)
 		return (NULL);
-	else if (!buffer && pwd && pwd->value)
-		buffer = pwd->value;
+	else if (!*buffer && pwd && pwd->value)
+		ft_strlcpy(buffer, pwd->value, ft_strlen(pwd->value) + 1);
 	return (buffer);
 }
 
