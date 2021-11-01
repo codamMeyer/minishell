@@ -130,7 +130,7 @@ unset test1 test2
 # assertEqual "EXPORT with variable containing space between quotes (should be part of key)"
 # unset test1 test2
 
-# echo -e "export =test\nexit" | ./$MINISHELL_PROGRAM >> $MINISHELL_OUTPUT 2>&1
+# echo -e "export =test\nexit" | ./$MINISHELL_PROGRAM > $MINISHELL_OUTPUT
 # removePrompt $MINISHELL_OUTPUT
 # ACTUAL=$(cat $MINISHELL_OUTPUT)
 # EXPECTED="export: \`=test': not a valid identifier"

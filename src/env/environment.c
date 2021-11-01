@@ -14,6 +14,8 @@ static t_bool	is_valid_key(char *key, int key_len)
 	int	i;
 
 	i = 0;
+	if (ft_strlen(key) == 0)
+		return (FALSE);
 	if (ft_isdigit(key[i]))
 		return (FALSE);
 	while (i < key_len)
@@ -23,6 +25,21 @@ static t_bool	is_valid_key(char *key, int key_len)
 		++i;
 	}
 	return (TRUE);
+}
+
+static void	move_to_key_start(const char **kv_str)
+{
+	int start = 0;
+	skip_spaces(kv_str);
+	while ((*kv_str)[start] \
+			&& !isspace((*kv_str)[start]) \
+			&& (*kv_str)[start] != EQUAL_SIGN)
+		++start;
+	if (isspace((*kv_str)[start]))
+	{
+		(*kv_str) += start;
+		skip_spaces(kv_str);
+	}
 }
 
 static	int add_variables_to_tmp_env(t_env *tmp_env, const char *key_value_str)
@@ -36,15 +53,9 @@ static	int add_variables_to_tmp_env(t_env *tmp_env, const char *key_value_str)
 	{
 		init_buffer(&key_buffer);
 		init_buffer(&value_buffer);
-		int start = 0;
-		skip_spaces(&key_value_str);
-		while (key_value_str[start] && !isspace(key_value_str[start]) && key_value_str[start] != EQUAL_SIGN)
-			++start;
-		if (isspace(key_value_str[start]))
-		{
-			key_value_str += start;
-			skip_spaces(&key_value_str);
-		}
+		
+		move_to_key_start(&key_value_str);
+		
 		if (copy_key_to_buffer(key_value_str, &key_buffer))
 		{
 			copy_value_to_buffer(key_value_str, &value_buffer);
