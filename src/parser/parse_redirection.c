@@ -45,6 +45,8 @@ int	get_redirect_id(const char *cursor)
 
 void	open_in_mode(const char *file, t_files *files, int mode_id)
 {
+	if (files->in == FILE_ERROR)
+		return ;
 	if (mode_id == LEFT_ANGLE || mode_id == DIAMOND_BRACKETS)
 		open_infile(file, &files->in);
 	else if (mode_id == FT_TRUNCATE || mode_id == FT_APPEND)
