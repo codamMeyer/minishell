@@ -6,7 +6,7 @@
 #    By: rmeiboom <marvin@codam.nl>                   +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/10/27 21:14:05 by rmeiboom      #+#    #+#                  #
-#    Updated: 2021/05/30 21:13:03 by rmeiboom      ########   odam.nl          #
+#    Updated: 2021/11/02 15:46:32 by rmeiboom      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,7 @@ BASIC_OBJ_FILES = 	ft_toupper.o\
 					ft_isalnum.o\
 					ft_isascii.o\
 					ft_isprint.o\
+					ft_isspace.o\
 					ft_memset.o\
 					ft_memcpy.o\
 					ft_memccpy.o\

@@ -18,7 +18,7 @@ static void	copy_unknown_command_to_buffer(const char **input, char buffer[])
 	int			i;
 
 	i = 0;
-	while (cur[i] && !isspace(cur[i]))
+	while (cur[i] && !ft_isspace(cur[i]))
 		++i;
 	ft_memcpy(buffer, cur, i);
 	buffer[i] = '\0';

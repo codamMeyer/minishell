@@ -1,4 +1,5 @@
 #include <ctype.h>
+#include <libft.h>
 #include <commands/buffer.h>
 #include <commands/commands.h>
 #include <commands/echo_utils.h>
@@ -8,7 +9,7 @@
 
 static void	handle_spaces(t_arg *arg, t_buffer *buffer)
 {
-	if (isspace(*arg->start) && buffer->index)
+	if (ft_isspace(*arg->start) && buffer->index)
 	{
 		skip_spaces(&arg->start);
 		if (arg->start != arg->end)
@@ -35,7 +36,7 @@ t_bool	is_empty_buffer(t_buffer *buffer)
 	i = 0;
 	while (i < buffer->index)
 	{
-		if (!isspace(buffer->buf[i]))
+		if (!ft_isspace(buffer->buf[i]))
 			return (FALSE);
 	}
 	return (TRUE);
