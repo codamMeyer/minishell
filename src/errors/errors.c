@@ -55,6 +55,7 @@ void    handle_error(t_exit_code code, const char *location, const char *filenam
 		}
 		write_to_stderr(strerror(errno));
 		write_to_stderr("\n");
+		set_return_code(SYS_ERROR);
 	}
 	else if (code == HOME_NOT_SET_ERROR)
 	{
