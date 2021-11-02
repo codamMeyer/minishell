@@ -70,6 +70,7 @@ MINISHELL_SRC= 							\
 	src/env/export_handle_value.c		\
 	src/env/env_utils.c					\
 	src/signals/signals.c				\
+	src/signals/heredoc_signal.c		\
 	src/env/sort_env.c					\
 
 TEST_FILES=								\
