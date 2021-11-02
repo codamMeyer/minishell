@@ -3,7 +3,6 @@
 #include <executor/executor_utils.h>
 #include <parser/command_table.h>
 #include <parser/parse_redirection.h>
-#include <stdio.h>
 
 void	handle_stdin(int in_file, t_multi_pipes *pipes, int current_process)
 {
