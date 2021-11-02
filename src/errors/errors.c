@@ -9,17 +9,17 @@
 
 t_exit_code	*get_return_code(void)
 {
-	static t_exit_code code = 0;
+	static t_exit_code	code = 0;
 
 	return (&code);
 }
 
-t_exit_code    set_return_code(t_exit_code new_code)
+t_exit_code	set_return_code(t_exit_code new_code)
 {
-	t_exit_code *code;
+	t_exit_code	*code;
 
-    code = get_return_code();
-    *code = new_code;
+	code = get_return_code();
+	*code = new_code;
 	return (*code);
 }
 
@@ -28,7 +28,7 @@ static t_bool	should_exit(t_exit_code code)
 	if (code == MALLOC_ERROR || \
 		code == DUP_ERROR || \
 		code == FORK_ERROR || \
-		code ==  PIPE_ERROR)
+		code == PIPE_ERROR)
 	{
 		set_return_code(SYS_ERROR);
 		return (TRUE);
@@ -36,7 +36,9 @@ static t_bool	should_exit(t_exit_code code)
 	return (FALSE);
 }
 
-static void	write_system_error(t_exit_code code, const char *location, const char *filename)
+static void	write_system_error(t_exit_code code, \
+								const char *location, \
+								const char *filename)
 {
 	if (code == FILE_ERROR || \
 		code == SYS_ERROR || \
@@ -58,7 +60,9 @@ static void	write_system_error(t_exit_code code, const char *location, const cha
 	}
 }
 
-void    handle_error(t_exit_code code, const char *location, const char *filename)
+void	handle_error(t_exit_code code, \
+					const char *location, \
+					const char *filename)
 {
 	if (code == SUCCESS)
 		return ;

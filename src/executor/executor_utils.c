@@ -7,9 +7,9 @@
 
 t_exit_code	wait_for_all_processes(int num_of_processes)
 {
-	t_exit_code exit_code;
-	int	i;
-	int	status;
+	t_exit_code	exit_code;
+	int			i;
+	int			status;
 
 	i = 0;
 	exit_code = 0;
@@ -59,7 +59,7 @@ int	create_new_process(t_multi_pipes *pipes,
 	int			process_id;
 
 	if (current_process != process_limit && pipe(pipes->current) == SYS_ERROR)
-		handle_error(PIPE_ERROR, NULL, "pipe()"); // PIPE ERROR
+		handle_error(PIPE_ERROR, NULL, "pipe()");
 	process_id = fork();
 	if (process_id == SYS_ERROR)
 		handle_error(FORK_ERROR, NULL, "fork()");

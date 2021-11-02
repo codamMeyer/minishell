@@ -90,12 +90,12 @@ int	run_commands(t_command commands[],
 	if (is_single_command(num_of_commands, &commands[0]))
 	{
 		redirect_in_and_output(NULL, 0, 0, &commands[0]);
-		exit_code = dispatch_command(&commands[0], env); // return exit code
+		exit_code = dispatch_command(&commands[0], env);
 	}
 	else
 	{
 		run_multi_processes(env, commands, num_of_commands);
-		exit_code = wait_for_all_processes(num_of_commands); // return exit code
+		exit_code = wait_for_all_processes(num_of_commands);
 	}	
 	restore_std_fds(fds);
 	return (exit_code);
