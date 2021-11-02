@@ -26,15 +26,6 @@ t_exit_code	wait_for_all_processes(int num_of_processes)
 }
 
 /*
-	Basic error handeling fucntion to make troubleshooting easier for system calls
-*/
-void	handle_errors(int error_code, const char *description_location)
-{
-	perror(description_location);
-	exit(error_code);
-}
-
-/*
 	Done like this to not have confusing typecasting flying around
 */
 static int	execute_command(const char *path, char *argv[], char *env[])
@@ -52,9 +43,9 @@ void	execute_system_command(const t_command *command, char *env[])
 		append_expanded_input_to_buffer((t_arg *)&command->arg, &buffer);
 	cmd = ft_split(&buffer.buf[0], SPACE_CHAR);
 	if (!cmd)
-		handle_error(MALLOC_ERROR, NULL, NULL);
+		handle_error(MALLOC_ERROR, NULL, "malloc()");
 	if (execute_command(command->exe_path, cmd, env) == SYS_ERROR)
-		handle_error(SYS_ERROR, "child_process", NULL);
+		handle_error(SYS_ERROR, NULL, NULL);
 }
 
 /*
@@ -68,9 +59,9 @@ int	create_new_process(t_multi_pipes *pipes,
 	int			process_id;
 
 	if (current_process != process_limit && pipe(pipes->current) == SYS_ERROR)
-		handle_errors(7, "pipe current main");
+		handle_error(PIPE_ERROR, NULL, "pipe()"); // PIPE ERROR
 	process_id = fork();
 	if (process_id == SYS_ERROR)
-		handle_error(FORK_ERROR, "fork(): ", NULL);
+		handle_error(FORK_ERROR, NULL, "fork()");
 	return (process_id);
 }

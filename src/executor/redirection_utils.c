@@ -39,11 +39,11 @@ void	previous_to_current_pipe(t_multi_pipes *pipes)
 void	set_stdout(int new_std_out)
 {
 	if (dup2(new_std_out, STDOUT_FILENO) == SYS_ERROR && errno != EBADF)
-		handle_error(DUP_ERROR, "dup2(): ", NULL);
+		handle_error(DUP_ERROR, NULL, "dup2()");
 }
 
 void	set_stdin(int new_std_in)
 {
 	if (dup2(new_std_in, STDIN_FILENO) == SYS_ERROR && errno != EBADF)
-		handle_error(DUP_ERROR, "dup2(): ", NULL);
+		handle_error(DUP_ERROR, NULL, "dup2()");
 }

@@ -11,6 +11,7 @@ typedef enum e_exit_code
 	HOME_NOT_SET_ERROR = 3,
 	DUP_ERROR = 4,
 	FORK_ERROR = 5,
+	PIPE_ERROR = 6,
 	UNKNOWN_COMMAND_ERROR = 127,
 	SYNTAX_ERROR = 258,
 }	t_exit_code;

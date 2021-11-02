@@ -52,7 +52,7 @@ t_bool	set_key(t_env *env, char *key)
 	{
 		env[i].key = ft_strdup(key);
 		if (!env[i].key)
-			handle_error(MALLOC_ERROR, NULL, NULL);
+			handle_error(MALLOC_ERROR, NULL, "malloc()");
 	}
 	return (TRUE);
 }
