@@ -20,8 +20,8 @@ static void	heredoc_signals(int code)
 
 	(void)code;
 	signal = heredoc_sigint();
-	*signal = 667;
-	rl_done = 1;
+	*signal = TRUE;
+	rl_done = TRUE;
 }
 
 void	set_heredoc_signals(void)

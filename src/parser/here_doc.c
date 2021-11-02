@@ -77,7 +77,7 @@ int	handle_here_doc(const char *delimeter)
 		set_heredoc_signals();
 		line = readline("> ");
 		signal = heredoc_sigint();
-		if (*signal == HERE_DOC_INTERRUPT)
+		if (*signal)
 			break ;
 		if (!line || append_line_to_heredoc(line, delimeter, fd) == ERROR)
 			break ;
