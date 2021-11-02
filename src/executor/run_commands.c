@@ -96,7 +96,7 @@ int	run_commands(t_command commands[],
 	{
 		run_multi_processes(env, commands, num_of_commands);
 		exit_code = wait_for_all_processes(num_of_commands);
-	}	
+	}
 	restore_std_fds(fds);
 	return (exit_code);
 }
