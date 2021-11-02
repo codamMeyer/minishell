@@ -14,10 +14,7 @@ void	handle_stdin(int in_file, t_multi_pipes *pipes, int current_process)
 	}
 	else if (pipes && \
 	(current_process != FIRST_PROCESS && in_file == INVALID_FD))
-	{
-		printf("SETTING FD: %d\n", pipes->previous[READ_FD]);
 		set_stdin(pipes->previous[READ_FD]);
-	}
 }
 
 void	handle_stdout(int out_file, t_multi_pipes *pipes, int current_process,
