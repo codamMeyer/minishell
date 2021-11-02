@@ -11,6 +11,12 @@
 #include <parser/parse_redirection.h>
 #include <signals/signals.h>
 
+static void	close_pipes(int *pipes_to_close)
+{
+	close(pipes_to_close[READ_FD]);
+	close(pipes_to_close[WRITE_FD]);
+}
+
 /*
 	Creates a process for each command 
 	Important check that all fd's are closed at the end
@@ -36,8 +42,7 @@ int	run_multi_processes(char *env[],
 			exit(dispatch_command(&commands[i], env));
 		}
 		if (i != FIRST_PROCESS)
-			close(pipes.previous[WRITE_FD]);
-		close(pipes.previous[READ_FD]);
+			close_pipes(pipes.previous);
 		previous_to_current_pipe(&pipes);
 		i++;
 	}
