@@ -34,7 +34,7 @@ cleanUp
 STD=$(echo -e "cd invalid_path\nexit"| ./minishell >> $MINISHELL_OUTPUT 2>&1)
 removePrompt $MINISHELL_OUTPUT
 ACTUAL=$(cat $MINISHELL_OUTPUT)
-EXPECTED="cd: invalid_path: No such file or directory"
+EXPECTED="BestShellEver: cd: invalid_path: No such file or directory"
 assertEqual "Invalid path"
 cleanUp
 
@@ -44,7 +44,7 @@ unset HOME
 STD=$(echo -e "cd\nexit"| ./minishell  >> $MINISHELL_OUTPUT 2>&1)
 removePrompt $MINISHELL_OUTPUT
 ACTUAL=$(cat $MINISHELL_OUTPUT)
-EXPECTED="cd: HOME not set"
+EXPECTED="BestShellEver: cd: HOME not set"
 assertEqual "HOME UNSET"
 cleanUp
 export HOME=$TMP_HOME

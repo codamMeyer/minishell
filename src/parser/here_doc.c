@@ -46,7 +46,7 @@ static int	cleanup_here_doc(char *line, int fd, char *file_name)
 	int	reopen_fd;
 
 	signal = heredoc_sigint();
-	close(fd);
+	handle_error(close(fd), "close()", NULL);
 	free(line);
 	if (*signal)
 		reopen_fd = FILE_ERROR;

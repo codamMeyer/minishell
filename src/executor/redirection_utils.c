@@ -10,7 +10,7 @@ void	handle_stdin(int in_file, t_multi_pipes *pipes, int current_process)
 	if (in_file != FILE_ERROR && in_file != INVALID_FD)
 	{
 		set_stdin(in_file);
-		close(in_file); // CLOSE_FD_ERROR ?
+		handle_error(close(in_file), "close()", NULL);
 	}
 	else if (pipes && \
 	(current_process != FIRST_PROCESS && in_file == INVALID_FD))
@@ -20,10 +20,10 @@ void	handle_stdin(int in_file, t_multi_pipes *pipes, int current_process)
 void	handle_stdout(int out_file, t_multi_pipes *pipes, int current_process,
 	int last_process)
 {
-	if (out_file != INVALID_FD)
+	if (out_file != FILE_ERROR && out_file != INVALID_FD)
 	{
 		set_stdout(out_file);
-		close(out_file); // CLOSE_FD_ERROR ?
+		handle_error(close(out_file), "close()", NULL);
 	}
 	else if (pipes && \
 	(current_process != last_process - 1 && out_file == INVALID_FD))

@@ -19,7 +19,7 @@ t_bool	is_valid_filename_char(char c, int redirect_id)
 t_exit_code	open_infile(const char *file, int *in_file)
 {
 	if (*in_file != INVALID_FD)
-		close(*in_file); // CLOSE_FD_ERROR ?
+		handle_error(close(*in_file),"close()", NULL); // CLOSE_FD_ERROR ?
 	*in_file = open(file, O_RDONLY, 0644);
 	if (*in_file == INVALID_FD)
 	{
@@ -33,7 +33,7 @@ t_exit_code	open_infile(const char *file, int *in_file)
 t_exit_code	open_outfile(const char *file, int *out_file, int out_mode)
 {
 	if (*out_file != INVALID_FD)
-		close(*out_file); // CLOSE_FD_ERROR ?
+		handle_error(close(*out_file), "close()", NULL);
 	*out_file = open(file, O_RDWR | O_CREAT | out_mode, FILE_RIGHTS);
 	if (*out_file == INVALID_FD)
 	{	

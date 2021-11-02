@@ -36,7 +36,7 @@ static t_exit_code	copy_home_var_to_buffer(char *buffer)
 
 	if (!home_var)
 	{
-		handle_error(HOME_NOT_SET_ERROR,"cd", NULL);
+		handle_error(HOME_NOT_SET_ERROR, "cd: ", NULL);
 		return (ERROR);
 	}
 	len = ft_strlen(home_var->value) + 1;

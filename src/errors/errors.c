@@ -36,18 +36,19 @@ static t_bool	should_exit(t_exit_code code)
 	return (FALSE);
 }
 
-void    handle_error(t_exit_code code, const char *location, const char *filename)
+static void	write_system_error(t_exit_code code, const char *location, const char *filename)
 {
-	set_return_code(code);
-	if (code == SYS_ERROR || code ==  PIPE_ERROR || code == FILE_ERROR || code == MALLOC_ERROR || code == DUP_ERROR || code == FORK_ERROR) 
+	if (code == FILE_ERROR || \
+		code == SYS_ERROR || \
+		(code >= MALLOC_ERROR && code <= PIPE_ERROR))
 	{
-		if (!location)
-			write_to_stderr("BestShellEver");
-		else
+		if (location)
+		{
 			write_to_stderr(location);
-		write_to_stderr(": ");
+			write_to_stderr(": ");
+		}
 		if (filename)
-		{	
+		{
 			write_to_stderr(filename);
 			write_to_stderr(": ");
 		}
@@ -55,18 +56,26 @@ void    handle_error(t_exit_code code, const char *location, const char *filenam
 		write_to_stderr("\n");
 		set_return_code(SYS_ERROR);
 	}
-	else if (code == HOME_NOT_SET_ERROR)
+}
+
+void    handle_error(t_exit_code code, const char *location, const char *filename)
+{
+	if (code == SUCCESS)
+		return ;
+	set_return_code(code);
+	write_to_stderr("BestShellEver: ");
+	if (code == HOME_NOT_SET_ERROR)
 	{
 		write_to_stderr(location);
-		write_to_stderr(": ");
 		write_to_stderr("HOME not set\n");
 	}
 	else if (code == SYNTAX_ERROR)
 	{
-		write_to_stderr("BestShellEver: ");
 		write_to_stderr(location);
 		write_to_stderr(filename);
 	}
+	else
+		write_system_error(code, location, filename);
 	if (should_exit(code))
 		exit(*get_return_code());
 }

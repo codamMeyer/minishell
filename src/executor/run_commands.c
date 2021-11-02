@@ -13,8 +13,8 @@
 
 static void	close_pipes(int *pipes_to_close)
 {
-	close(pipes_to_close[READ_FD]);
-	close(pipes_to_close[WRITE_FD]);
+	handle_error(close(pipes_to_close[READ_FD]), "close()", NULL);
+	handle_error(close(pipes_to_close[WRITE_FD]), "close()", NULL);
 }
 
 /*

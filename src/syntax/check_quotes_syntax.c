@@ -30,7 +30,7 @@ t_exit_code	has_missing_quotes(const char *input)
 	}
 	if (quotes.start)
 	{
-		handle_error(SYNTAX_ERROR, NULL,"Missing closing quote\n");
+		handle_error(SYNTAX_ERROR, "Missing closing quote\n", NULL);
 		return (ERROR);
 	}
 	return (SUCCESS);

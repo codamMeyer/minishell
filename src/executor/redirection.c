@@ -13,8 +13,8 @@ void	restore_std_fds(t_std_fd fds)
 	if (dup2(fds.in, STDIN_FILENO) == SYS_ERROR || \
 		dup2(fds.out, STDOUT_FILENO) == SYS_ERROR)
 		handle_error(DUP_ERROR, NULL, "dup2()");
-	close(fds.in); // CLOSE_FD_ERROR ?
-	close(fds.out); // CLOSE_FD_ERROR ?
+	handle_error(close(fds.in), "close()", NULL);
+	handle_error(close(fds.out), "close()", NULL);
 }
 
 t_std_fd	save_std_fds(void)
@@ -36,7 +36,7 @@ void	redirect_in_and_output(t_multi_pipes *pipes, int process,
 	if (!pipes)
 		return ;
 	if (process != FIRST_PROCESS)
-		close(pipes->previous[WRITE_FD]); // CLOSE_FD_ERROR ?
+		handle_error(close(pipes->previous[WRITE_FD]), "close()", NULL);
 	if (process != last_process - 1)
-		close(pipes->current[READ_FD]); // CLOSE_FD_ERROR ?
+		handle_error(close(pipes->current[READ_FD]), "close()", NULL);
 }
