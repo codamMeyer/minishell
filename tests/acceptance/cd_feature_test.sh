@@ -1,6 +1,8 @@
 #!/bin/bash
 source ./tests/acceptance/common.sh
 
+printTestName "CD"
+
 STD=$(echo -e "cd\npwd\nexit" | ./minishell > $MINISHELL_OUTPUT)
 removePrompt $MINISHELL_OUTPUT
 ACTUAL=$(cat $MINISHELL_OUTPUT)

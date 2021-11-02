@@ -14,7 +14,15 @@ printTestName "PWD"
 
 run "pwd" "Just pwd"
 run "pwd blah blah echo" "pwd followed by random things"
-
 cleanUp
+
+
+STD=$(echo -e "mkdir test\ncd test\nrm -r ../test\npwd\nexit" | ./minishell > $MINISHELL_OUTPUT)
+removePrompt $MINISHELL_OUTPUT
+ACTUAL=$(cat $MINISHELL_OUTPUT)
+EXPECTED=$(mkdir test && cd test && rm -r ../test && pwd)
+assertEqual "pwd within a removed file"
+cleanUp
+
 
 exit $EXIT_CODE
