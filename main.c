@@ -64,11 +64,10 @@ static void	run(char *env[])
 		set_program_signals();
 		line = get_trimmed_line();
 		if (!line)
-			handle_error(MALLOC_ERROR, NULL, NULL);
+			handle_error(MALLOC_ERROR, NULL, "malloc()");
 		if (is_valid_syntax(line))
 			parse_input(line, env);
 		free(line);
-		
 	}
 }
 

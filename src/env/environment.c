@@ -25,7 +25,7 @@ t_bool	export(t_env *env, const char *key_value_str)
 		copy_value_to_buffer(key_value_str, &value_buffer);
 		if (!set_key(env, &key_buffer.buf[0])
 			|| !set_value(env, &key_buffer.buf[0], &value_buffer.buf[0]))
-			return (FALSE); // PRINT INVALID_IDENTIFIER and exit code will be 1 (shouldnt exit)
+			return (FALSE);
 		key_value_str += key_buffer.index + value_buffer.index + 1;
 		skip_spaces(&key_value_str);
 	}

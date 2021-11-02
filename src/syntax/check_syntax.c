@@ -11,7 +11,7 @@ t_bool	is_valid_syntax(const char *input)
 {
 	if (!is_valid_redirection_syntax(input))
 		return (FALSE);
-	else if (has_missing_quotes(input, write_to_stderr))
+	else if (has_missing_quotes(input))
 		return (FALSE);
 	return (TRUE);
 }

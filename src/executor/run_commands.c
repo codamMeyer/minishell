@@ -11,6 +11,12 @@
 #include <parser/parse_redirection.h>
 #include <signals/signals.h>
 
+static void	close_pipes(int *pipes_to_close)
+{
+	handle_error(close(pipes_to_close[READ_FD]), "close()", NULL);
+	handle_error(close(pipes_to_close[WRITE_FD]), "close()", NULL);
+}
+
 /*
 	Creates a process for each command 
 	Important check that all fd's are closed at the end
@@ -36,8 +42,7 @@ int	run_multi_processes(char *env[],
 			exit(dispatch_command(&commands[i], env));
 		}
 		if (i != FIRST_PROCESS)
-			close(pipes.previous[WRITE_FD]); // CLOSE_FD_ERROR ?
-		close(pipes.previous[READ_FD]); // CLOSE_FD_ERROR ?
+			close_pipes(pipes.previous);
 		previous_to_current_pipe(&pipes);
 		i++;
 	}
@@ -78,17 +83,20 @@ int	run_commands(t_command commands[],
 {
 	const t_std_fd	fds = save_std_fds();
 	t_exit_code		exit_code;
+	const int		*signal = heredoc_sigint();
 
+	if (*signal)
+		return (1);
 	if (is_single_command(num_of_commands, &commands[0]))
 	{
 		redirect_in_and_output(NULL, 0, 0, &commands[0]);
-		exit_code = dispatch_command(&commands[0], env); // return exit code
+		exit_code = dispatch_command(&commands[0], env);
 	}
 	else
 	{
 		run_multi_processes(env, commands, num_of_commands);
-		exit_code = wait_for_all_processes(num_of_commands); // return exit code
-	}	
+		exit_code = wait_for_all_processes(num_of_commands);
+	}
 	restore_std_fds(fds);
 	return (exit_code);
 }

@@ -6,6 +6,7 @@
 #include <parser/parse_redirection.h>
 #include <readline/readline.h>
 #include <readline/history.h>
+#include <signals/signals.h>
 
 static void	get_file_name(char *buffer, const char *delimeter)
 {
@@ -32,44 +33,57 @@ static t_exit_code	append_line_to_heredoc(char *line,
 		const char *delimeter, int fd)
 {
 	if (!line)
-		handle_errors(20, "heredoc line read");
+		handle_error(MALLOC_ERROR, NULL, "malloc()");
 	if (is_valid_delimeter(delimeter, line))
 		return (ERROR);
 	ft_putendl_fd(line, fd);
 	return (SUCCESS);
 }
 
-static void	cleanup_here_doc(char *line, int fd)
+static int	cleanup_here_doc(char *line, int fd, char *file_name)
 {
-	close(fd);  // CLOSE_FD_ERROR ?
+	int	*signal;
+	int	reopen_fd;
+
+	signal = heredoc_sigint();
+	handle_error(close(fd), "close()", NULL);
 	free(line);
+	if (*signal)
+		reopen_fd = FILE_ERROR;
+	else
+		reopen_fd = open(file_name, O_RDONLY, FILE_RIGHTS);
+	if (reopen_fd == INVALID_FD)
+		handle_error(SYS_ERROR, NULL, file_name);
+	return (reopen_fd);
 }
 
 /*
 	syntax checker responsible for assuring that this is only entered
-	when ere is a valid here_doc token
+	when there is a valid here_doc token
 */
 int	handle_here_doc(const char *delimeter)
 {
 	char		file_name[BUFFER_SIZE];
 	int			fd;
 	char		*line;
+	int			*signal;
 
 	get_file_name(&file_name[0], delimeter);
 	fd = open(file_name, O_RDWR | O_CREAT | O_APPEND, FILE_RIGHTS);
 	if (fd == INVALID_FD)
-		handle_errors(19, "here_doc");
+		handle_error(SYS_ERROR, NULL, file_name);
 	while (TRUE)
 	{
+		set_heredoc_signals();
 		line = readline("> ");
-		if (append_line_to_heredoc(line, delimeter, fd) == ERROR)
+		signal = heredoc_sigint();
+		if (*signal)
+			break ;
+		if (!line || append_line_to_heredoc(line, delimeter, fd) == ERROR)
 			break ;
 		free(line);
 	}
-	cleanup_here_doc(line, fd);
-	fd = open(file_name, O_RDONLY, FILE_RIGHTS);
-	if (fd == INVALID_FD)
-		handle_errors(19, "here_doc");
+	fd = cleanup_here_doc(line, fd, file_name);
 	unlink(file_name);
 	return (fd);
 }
