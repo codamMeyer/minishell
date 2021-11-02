@@ -1,4 +1,3 @@
-#include <ctype.h>
 #include <libft.h>
 #include <commands/buffer.h>
 #include <commands/commands.h>

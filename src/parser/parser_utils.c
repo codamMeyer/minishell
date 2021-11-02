@@ -1,4 +1,3 @@
-#include <ctype.h>
 #include <string.h>
 #include <libft.h>
 #include <parser/parser.h>
