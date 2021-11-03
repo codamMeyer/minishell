@@ -33,6 +33,7 @@ MINISHELL_INCS= 						\
 	src/env/env_utils.h					\
 	src/signals/signals.h				\
 	src/env/sort_env.h					\
+	src/env/env_for_exec.h				\
 
 MINISHELL_SRC= 							\
 	src/syntax/check_syntax.c			\
@@ -72,6 +73,7 @@ MINISHELL_SRC= 							\
 	src/signals/signals.c				\
 	src/signals/heredoc_signal.c		\
 	src/env/sort_env.c					\
+	src/env/env_for_exec.c				\
 
 TEST_FILES=								\
 	tests/main.c 						\
@@ -84,6 +86,7 @@ TEST_FILES=								\
 	tests/redirection_tests.c			\
 	tests/pipe_test.c					\
 	tests/env_api_test.c				\
+	tests/env_for_execve_test.c			\
 	tests/sort_env_test.c				\
 	tests/redirection_tests.c			\
 	tests/syntax_redirection_tests.c	\
