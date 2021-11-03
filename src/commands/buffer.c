@@ -5,14 +5,7 @@
 #include <env/environment.h>
 #include <env/env_utils.h>
 #include <parser/parser.h>
-#include <errors/errors.h>
-
-static void	append_char_to_buffer(const char **start, t_buffer *buffer)
-{
-	buffer->buf[buffer->index] = **start;
-	++(buffer->index);
-	++(*start);
-}
+#include <errors/exit_code.h>
 
 static void	append_env_value_to_buffer(const char **start, \
 									t_buffer *buffer, \
@@ -69,6 +62,13 @@ void	init_buffer(t_buffer *buffer)
 {
 	ft_bzero(&buffer->buf[0], BUFFER_SIZE);
 	buffer->index = 0;
+}
+
+void	append_char_to_buffer(const char **start, t_buffer *buffer)
+{
+	buffer->buf[buffer->index] = **start;
+	++(buffer->index);
+	++(*start);
 }
 
 void	append_expanded_input_to_buffer(t_arg *arg, t_buffer *buffer)

@@ -1,4 +1,7 @@
 #include <errors/exit_code.h>
+#include <commands/buffer.h>
+#include <stdlib.h>
+#include <libft.h>
 
 t_exit_code	*get_exit_code(void)
 {

@@ -20,13 +20,6 @@ typedef enum e_special_chars
 	EQUAL_SIGN = '=',
 }	t_special_chars;
 
-typedef struct s_arg
-{
-	const char	*start;
-	const char	*end;
-	int			len;
-}	t_arg;
-
 typedef struct s_files
 {
 	int	out;

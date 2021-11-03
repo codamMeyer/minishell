@@ -1,4 +1,4 @@
-#include "redirection_syntax.h"
+#include <syntax/redirection_syntax.h>
 #include <syntax/check_quotes_syntax.h>
 #include <output/write_to_std.h>
 

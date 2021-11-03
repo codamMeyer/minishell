@@ -10,7 +10,6 @@
 #include <syntax/check_syntax.h>
 #include <errors/errors.h>
 #include <signals/signals.h>
-#include <errors/errors.h>
 
 static void	add_key_and_value_from_env(char *env_str_pair)
 {

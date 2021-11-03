@@ -27,4 +27,11 @@ typedef enum e_command_code
 	LAST,
 }			t_command_code;
 
+typedef struct s_arg
+{
+	const char	*start;
+	const char	*end;
+	int			len;
+}	t_arg;
+
 #endif
