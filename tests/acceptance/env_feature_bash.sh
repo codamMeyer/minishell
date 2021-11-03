@@ -121,6 +121,13 @@ export: \`DUMMY2 test2=you': not a valid identifier"
 assertEqual "EXPORT with space between quotes (should be part of key)"
 unset test1 test2
 
+runMinishell "export test = test"
+removePrompt $MINISHELL_OUTPUT
+ACTUAL=$(cat $MINISHELL_OUTPUT)
+EXPECTED="export: \`=': not a valid identifier"
+assertEqual "EXPORT = with spaces in both sides"
+unset test1 test2
+
 export TEST="$USER "
 runMinishell "export \"$TEST\"test1=hello \"DUMMY2 \"test2=you\necho \$DUMMY\$test1\$DUMMY2\$test2"
 removePrompt $MINISHELL_OUTPUT

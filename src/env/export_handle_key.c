@@ -15,6 +15,8 @@ t_bool	copy_key_to_buffer(const char *key_value_str, t_buffer *buffer)
 	if (!delimiter_position)
 		return (FALSE);
 	arg.start = key_value_str;
+	if (delimiter_position == key_value_str)
+		return (TRUE);
 	while (arg.start < delimiter_position)
 		append_expanded_input_to_buffer(&arg, buffer);
 	buffer->index = delimiter_position - key_value_str;

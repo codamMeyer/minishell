@@ -71,6 +71,8 @@ int	add_variables_to_tmp_env(t_env *tmp_env, const char *key_value_str)
 		move_to_key_start(&key_value_str);
 		variables_count += \
 		add_variable_to_tmp_env(&tmp_env[variables_count], &key_value_str);
+		if (!get_equal_sign_position(key_value_str))
+			break ;
 	}
 	return (variables_count);
 }
