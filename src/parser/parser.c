@@ -10,6 +10,7 @@
 #include <parser/dispatcher.h>
 #include <parser/parser.h>
 #include <parser/parse_redirection.h>
+#include <signals/signals.h>
 
 static void	consume_pipe(const char **input, int index)
 {
@@ -56,9 +57,13 @@ t_bool	parse_input(const char *input, char *env[])
 {
 	t_command	commands_table[MAX_CMDS_PER_LINE];
 	int			num_commands;
+	int			*heredoc_sig;
 
 	num_commands = populate_commands_table(input, commands_table);
 	run_commands(commands_table, num_commands, env);
+	heredoc_sig = heredoc_sigint();
+	if (*heredoc_sigint)
+		*heredoc_sig = 0;
 	cleanup_command_table(commands_table, num_commands);
 	return (TRUE);
 }
