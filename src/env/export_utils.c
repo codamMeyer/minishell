@@ -53,7 +53,9 @@ t_bool	add_variable_to_tmp_env(t_env *tmp_env, \
 		copy_value_to_buffer(*key_value_str, &value_buffer);
 		tmp_env->key = ft_strdup(key_buffer.buf);
 		tmp_env->value = ft_strdup(value_buffer.buf);
+		tmp_env->set = NULL;
 		(*key_value_str) += key_buffer.index + value_buffer.index + 1;
+
 		return (TRUE);
 	}
 	else
