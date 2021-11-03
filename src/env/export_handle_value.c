@@ -37,6 +37,20 @@ t_bool	copy_value_to_buffer(const char *key_value_str, t_buffer *buffer)
 	return (TRUE);
 }
 
+void	set_kv_string(t_env *env, char *key, char *value)
+{
+	const int	key_len = ft_strlen(key);
+	const int	value_len = ft_strlen(value);
+	const int	len = key_len + value_len + 2;
+
+	env->set = malloc(len);
+	if (!env->set)
+		return ;
+	ft_strlcpy(env->set, key, key_len + 1);
+	ft_strlcpy(&env->set[key_len], "=", 2);
+	ft_strlcpy(&env->set[key_len + 1], value, value_len + 1);
+}
+
 void	set_value(t_env *env, char *key, char *value)
 {
 	t_env		*key_pair;
@@ -46,4 +60,5 @@ void	set_value(t_env *env, char *key, char *value)
 	key_pair->value = ft_strdup(value);
 	if (!key_pair->value)
 		free(key_pair->key);
+	set_kv_string(key_pair, key_pair->key, key_pair->value);
 }

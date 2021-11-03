@@ -21,6 +21,7 @@ t_bool	copy_key_to_buffer(const char *key_value_str, t_buffer *buffer);
 t_bool	copy_value_to_buffer(const char *key_value_str, t_buffer *buffer);
 void	set_key(t_env *env, char *key);
 void	set_value(t_env *env, char *key, char *value);
+void	set_kv_string(t_env *env, char *key, char *value);
 int		get_next_available_index(t_env *env);
 char	*get_equal_sign_position(const char *key_value_str);
 void	free_key_value_pair(t_env *env);
