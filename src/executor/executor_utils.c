@@ -5,11 +5,12 @@
 #include <executor/executor_utils.h>
 #include <executor/run_commands.h>
 
-int	wait_for_all_processes(int num_of_processes, int *pids)
+/* exit_codes caused by signals are incremented with 128 */
+t_exit_code	wait_for_all_processes(int num_of_processes, int *pids)
 {
-	int	i;
-	int	exit_code;
-	int	status;
+	int			i;
+	t_exit_code	exit_code;
+	int			status;
 
 	i = 0;
 	exit_code = 0;
@@ -19,7 +20,7 @@ int	wait_for_all_processes(int num_of_processes, int *pids)
 		if (WIFEXITED(status))
 			exit_code = WEXITSTATUS(status);
 		if (WIFSIGNALED(status))
-			exit_code = WTERMSIG(status);
+			exit_code = WTERMSIG(status) + 128;
 		i++;
 	}
 	return (exit_code);
