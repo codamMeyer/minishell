@@ -6,7 +6,7 @@
 /*   By: rmeiboom <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/28 13:42:48 by rmeiboom      #+#    #+#                 */
-/*   Updated: 2021/07/19 20:53:37 by rmeiboom      ########   odam.nl         */
+/*   Updated: 2021/11/02 15:36:03 by rmeiboom      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ int				ft_isdigit(int c);
 int				ft_isalnum(int c);
 int				ft_isascii(int c);
 int				ft_isprint(int c);
+int				ft_isspace(int c);
 
 void			*ft_memset(void *str, int c, size_t n);
 void			*ft_memcpy(void *dst, const void *src, size_t n);

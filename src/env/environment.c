@@ -36,7 +36,7 @@ void	unset(t_env *env, const char *key)
 	while (*arg.start)
 	{
 		init_buffer(&key_buffer);
-		while (*arg.start && !isspace(*arg.start))
+		while (*arg.start && !ft_isspace(*arg.start))
 			append_expanded_input_to_buffer(&arg, &key_buffer);
 		variable = find_variable(env, key_buffer.buf);
 		free_key_value_pair(variable);
