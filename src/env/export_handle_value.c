@@ -43,6 +43,8 @@ void	set_kv_string(t_env *env, char *key, char *value)
 	const int	value_len = ft_strlen(value);
 	const int	len = key_len + value_len + 2;
 
+	if (env->set)
+		free(env->set);
 	env->set = malloc(len);
 	if (!env->set)
 		return ;
