@@ -82,6 +82,7 @@ int	run_commands(t_command commands[],
 {
 	const t_std_fd	fds = save_std_fds();
 	const int		*signal = heredoc_sigint();
+	t_exit_code		exit_code;
 	int				pids[MAX_CMDS_PER_LINE];
 
 	if (*signal)
@@ -89,13 +90,13 @@ int	run_commands(t_command commands[],
 	if (is_single_command(num_of_commands, &commands[0]))
 	{
 		redirect_in_and_output(NULL, 0, 0, &commands[0]);
-		dispatch_command(&commands[0], env);
+		exit_code = dispatch_command(&commands[0], env);
 	}
 	else
 	{
 		run_multi_processes(env, commands, num_of_commands, pids);
-		wait_for_all_processes(num_of_commands, pids);
+		exit_code = wait_for_all_processes(num_of_commands, pids);
 	}	
 	restore_std_fds(fds);
-	return (SUCCESS);
+	return (exit_code);
 }
