@@ -61,7 +61,7 @@ t_bool	parse_input(const char *input, char *env[])
 	int			*heredoc_sig;
 
 	num_commands = populate_commands_table(input, commands_table);
-	set_return_code(run_commands(commands_table, num_commands, env));
+	set_exit_code(run_commands(commands_table, num_commands, env));
 	heredoc_sig = heredoc_sigint();
 	if (*heredoc_sigint)
 		*heredoc_sig = 0;

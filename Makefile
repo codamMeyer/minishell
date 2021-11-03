@@ -34,6 +34,7 @@ MINISHELL_INCS= 						\
 	src/signals/signals.h				\
 	src/env/sort_env.h					\
 	src/errors/errors.h					\
+	src/errors/exit_code.h				\
 
 MINISHELL_SRC= 							\
 	src/syntax/check_syntax.c			\
@@ -74,6 +75,7 @@ MINISHELL_SRC= 							\
 	src/signals/heredoc_signal.c		\
 	src/env/sort_env.c					\
 	src/errors/errors.c					\
+	src/errors/exit_code.c				\
 
 TEST_FILES=								\
 	tests/main.c 						\
