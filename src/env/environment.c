@@ -8,6 +8,7 @@
 #include <env/env_utils.h>
 #include <env/sort_env.h>
 #include <parser/parser.h>
+#include <parser/command_table.h>
 
 static t_bool	is_valid_key(char *key, int key_len)
 {
@@ -29,17 +30,29 @@ static t_bool	is_valid_key(char *key, int key_len)
 
 static void	move_to_key_start(const char **kv_str)
 {
-	int start = 0;
-	skip_spaces(kv_str);
-	while ((*kv_str)[start] \
-			&& !isspace((*kv_str)[start]) \
-			&& (*kv_str)[start] != EQUAL_SIGN)
-		++start;
-	if (isspace((*kv_str)[start]))
+	int space_index = get_set_index((char *)*kv_str, WHITESSPACE);
+	char *equalsign_position = get_equal_sign_position(*kv_str);
+	char *space_position = (char *)(*kv_str) + space_index; 
+
+	while (space_position && space_position < equalsign_position)
 	{
-		(*kv_str) += start;
+		(*kv_str) += &space_position[0] - (*kv_str);
 		skip_spaces(kv_str);
+		space_index = get_set_index((char *)*kv_str, WHITESSPACE);
+		space_position = (char *)(*kv_str) + space_index; 
 	}
+	skip_spaces(kv_str);
+	// int start = 0;
+	// skip_spaces(kv_str);
+	// while ((*kv_str)[start] \
+	// 		&& !isspace((*kv_str)[start]) \
+	// 		&& (*kv_str)[start] != EQUAL_SIGN)
+	// 	++start;
+	// if (isspace((*kv_str)[start]))
+	// {
+	// 	(*kv_str) += start;
+	// 	skip_spaces(kv_str);
+	// }
 }
 
 static t_bool add_variable_to_tmp_env(t_env* tmp_env, const char** key_value_str)
@@ -89,7 +102,7 @@ static t_bool add_variables_to_env(t_env* env, t_env* tmp_env, int variables_cou
 	{
 		if (!is_valid_key(tmp_env[i].key, ft_strlen(tmp_env[i].key)))
 		{
-			printf("invalid: %s=%s\n", tmp_env[i].key, tmp_env[i].value);
+			printf("export: `%s=%s': not a valid identifier\n", tmp_env[i].key, tmp_env[i].value);
 			exit_code = FALSE;
 		}
 		else
