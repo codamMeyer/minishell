@@ -6,7 +6,7 @@
 /*   By: rmeiboom <rmeiboom@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/11/14 14:06:09 by rmeiboom      #+#    #+#                 */
-/*   Updated: 2021/05/15 12:16:07 by rmeiboom      ########   odam.nl         */
+/*   Updated: 2021/11/04 11:31:41 by rmeiboom      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	ft_atoi(const char *str)
 	{
 		digit = (digit * 10) + (str[i] - '0');
 		if ((digit * negative) < LONG_MIN)
-			return (0);
+			return (-1);
 		else if ((digit * negative) > LONG_MAX)
 			return (-1);
 		i++;
