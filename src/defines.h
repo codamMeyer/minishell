@@ -27,13 +27,11 @@ typedef enum e_command_code
 	LAST,
 }			t_command_code;
 
-typedef enum e_exit_code
+typedef struct s_arg
 {
-	SYS_ERROR = -1,
-	SUCCESS = 0,
-	ERROR = 1,
-	UNKNOWN_COMMAND_ERROR = 127,
-	SYNTAX_ERROR = 258,
-}	t_exit_code;
+	const char	*start;
+	const char	*end;
+	int			len;
+}	t_arg;
 
 #endif

@@ -7,6 +7,7 @@
 # define ALL_TERMINATORS "<>| \0" 
 
 # include <defines.h>
+# include <errors/errors.h>
 
 typedef enum e_special_chars
 {
@@ -18,13 +19,6 @@ typedef enum e_special_chars
 	VARIABLE_TOKEN = '$',
 	EQUAL_SIGN = '=',
 }	t_special_chars;
-
-typedef struct s_arg
-{
-	const char	*start;
-	const char	*end;
-	int			len;
-}	t_arg;
 
 typedef struct s_files
 {

@@ -61,6 +61,9 @@ void	set_value(t_env *env, char *key, char *value)
 	free(key_pair->value);
 	key_pair->value = ft_strdup(value);
 	if (!key_pair->value)
+	{
 		free(key_pair->key);
+		handle_error(MALLOC_ERROR, NULL, "malloc()");
+	}
 	set_kv_string(key_pair, key_pair->key, key_pair->value);
 }

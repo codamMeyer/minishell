@@ -34,6 +34,8 @@ MINISHELL_INCS= 						\
 	src/env/export_utils.h				\
 	src/signals/signals.h				\
 	src/env/sort_env.h					\
+	src/errors/errors.h					\
+	src/errors/exit_code.h				\
 
 MINISHELL_SRC= 							\
 	src/syntax/check_syntax.c			\
@@ -74,6 +76,8 @@ MINISHELL_SRC= 							\
 	src/signals/signals.c				\
 	src/signals/heredoc_signal.c		\
 	src/env/sort_env.c					\
+	src/errors/errors.c					\
+	src/errors/exit_code.c				\
 
 TEST_FILES=								\
 	tests/main.c 						\
@@ -95,9 +99,9 @@ MINISHELL_OBJS=$(MINISHELL_SRC:.c=.o)
 
 all: $(MINISHELL)
 
-$(MINISHELL): $(MINISHELL_OBJS)
+$(MINISHELL): $(MINISHELL_OBJS) main.c
 	make -C $(LIBFT_PATH)
-	$(CC) $(CFLAGS) $(INC_PATH) main.c -o $@ $^ $(LDFLAGS)
+	$(CC) $(CFLAGS) $(INC_PATH) -o $@ $^ $(LDFLAGS)
 
 %.o: %.c $(MINISHELL_INCS)
 	@$(CC) $(CFLAGS) $(INC_PATH) -c -o $@ $<

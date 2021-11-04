@@ -35,6 +35,6 @@ void	set_key(t_env *env, char *key)
 	{
 		env[i].key = ft_strdup(key);
 		if (!env[i].key)
-			return ;// MALLOC_ERROR
+			handle_error(MALLOC_ERROR, NULL, "malloc()");
 	}
 }

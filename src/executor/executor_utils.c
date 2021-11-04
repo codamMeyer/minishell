@@ -5,33 +5,26 @@
 #include <executor/executor_utils.h>
 #include <executor/run_commands.h>
 
-int	wait_for_all_processes(int num_of_processes)
+/* exit_codes caused by signals are incremented with 128 */
+t_exit_code	wait_for_all_processes(int num_of_processes, int *pids)
 {
-	int	i;
-	int	exit_code;
-	int	status;
+	const int	signal_increment = 128;
+	int			i;
+	t_exit_code	exit_code;
+	int			status;
 
 	i = 0;
 	exit_code = 0;
 	while (i < num_of_processes)
 	{
-		waitpid(DEFAULT_WAIT_ID, &status, 0);
+		waitpid(pids[i], &status, 0);
 		if (WIFEXITED(status))
 			exit_code = WEXITSTATUS(status);
 		if (WIFSIGNALED(status))
-			exit_code = WTERMSIG(status);
+			exit_code = WTERMSIG(status) + signal_increment;
 		i++;
 	}
 	return (exit_code);
-}
-
-/*
-	Basic error handeling fucntion to make troubleshooting easier for system calls
-*/
-void	handle_errors(int error_code, const char *description_location)
-{
-	perror(description_location);
-	exit(error_code);
 }
 
 /*
@@ -52,9 +45,9 @@ void	execute_system_command(const t_command *command, char *env[])
 		append_expanded_input_to_buffer((t_arg *)&command->arg, &buffer);
 	cmd = ft_split(&buffer.buf[0], SPACE_CHAR);
 	if (!cmd)
-		handle_errors(3, "child, invalid command");
+		handle_error(MALLOC_ERROR, NULL, "malloc()");
 	if (execute_command(command->exe_path, cmd, env) == SYS_ERROR)
-		handle_errors(5, "child_process execute command");
+		handle_error(SYS_ERROR, NULL, NULL);
 }
 
 /*
@@ -68,9 +61,9 @@ int	create_new_process(t_multi_pipes *pipes,
 	int			process_id;
 
 	if (current_process != process_limit && pipe(pipes->current) == SYS_ERROR)
-		handle_errors(7, "pipe current main");
+		handle_error(PIPE_ERROR, NULL, "pipe()");
 	process_id = fork();
 	if (process_id == SYS_ERROR)
-		handle_errors(SYS_ERROR, "forking main");
+		handle_error(FORK_ERROR, NULL, "fork()");
 	return (process_id);
 }

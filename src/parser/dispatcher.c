@@ -64,7 +64,7 @@ t_exit_code	dispatch_command(t_command *command, char *env[])
 															};
 
 	init_buffer(&buffer);
-	if (command->files.in == FILE_ERROR)
+	if (command->files.in == FILE_ERROR || command->files.out == FILE_ERROR)
 		return (1);
 	if (command->code == INVALID)
 		command = expand_arg_content(command, &buffer);
