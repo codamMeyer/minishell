@@ -24,20 +24,28 @@ static t_bool	is_invalid_exit_code(int exit_code, t_command *command)
 		|| (exit_code == -1 && command->arg.len >= 19));
 }
 
+static t_exit_code	get_exit_value(t_command *command)
+{
+	t_exit_code	exit_code;
+
+	exit_code = ft_atoi(command->arg.start);
+	if (is_invalid_exit_code(exit_code, command))
+		printf("BestShellEver: exit: %.*s: numeric argument required\n",
+			command->arg.len, command->arg.start);
+	else if (exit_code == -1)
+		exit_code = 255;
+	else if (exit_code == -2 && command->arg.len > 2)
+		exit_code = 0;
+	return (exit_code);
+}
+
 t_exit_code	exit_command(t_command command, t_output_stdout write_to_stdout)
 {
 	t_exit_code	exit_code;
 
 	(void)write_to_stdout;
 	skip_spaces(&command.arg.start);
-	exit_code = ft_atoi(command.arg.start);
-	if (is_invalid_exit_code(exit_code, &command))
-		printf("BestShellEver: exit: %.*s: numeric argument required\n",
-			command.arg.len, command.arg.start);
-	else if (exit_code == -1)
-		exit_code = 255;
-	else if (exit_code == -2 && command.arg.len > 2)
-		exit_code = 0;
+	exit_code = get_exit_value(&command);
 	exit(exit_code);
 	return (exit_code);
 }

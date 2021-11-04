@@ -93,4 +93,11 @@ EXPECTED="0"
 assertEqual "Exit with long min"
 cleanUp
 
+INPUT="exit -92233720369760"
+STD=$(echo -e "$INPUT" | ./$MINISHELL_PROGRAM)
+ACTUAL=$(echo $?)
+EXPECTED="160"
+assertEqual "Exit with minus overflow"
+cleanUp
+
 exit $EXIT_CODE
