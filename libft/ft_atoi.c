@@ -6,7 +6,7 @@
 /*   By: mmeyer <mmeyer@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/27 14:42:05 by mmeyer        #+#    #+#                 */
-/*   Updated: 2021/11/04 15:18:37 by rmeiboom      ########   odam.nl         */
+/*   Updated: 2021/11/04 17:00:02 by rmeiboom      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include <stdio.h>
 
 #define FT_LONG_MAX  9223372036854775807
+#define FT_LONG_MIN  -9223372036854775808
 
 static int	is_space(char a)
 {
@@ -43,6 +44,7 @@ static int	find_first_number(const char *nptr, int *sign)
 
 int	ft_atoi(const char *nptr)
 {
+	const long		long_limits = FT_LONG_MAX / 10;
 	int				sign;
 	int				index;
 	long long int	result;
@@ -52,9 +54,10 @@ int	ft_atoi(const char *nptr)
 	index = find_first_number(nptr, &sign);
 	while (ft_isdigit(nptr[index]))
 	{
-		if (result == FT_LONG_MAX / 10 && nptr[index] == '7')
-			return (255);
-		if (result > (FT_LONG_MAX / 10) - 1)
+		if (result >= long_limits && nptr[index] == '8' && sign == -1)
+			return (-2);
+		if (result >= long_limits
+			&& (nptr[index] >= '7' || nptr[index + 1]))
 			return (-1);
 		result = (nptr[index] - '0') + (result * 10);
 		++index;

@@ -36,6 +36,8 @@ t_exit_code	exit_command(t_command command, t_output_stdout write_to_stdout)
 			command.arg.len, command.arg.start);
 	else if (exit_code == -1)
 		exit_code = 255;
+	else if (exit_code == -2 && command.arg.len > 2)
+		exit_code = 0;
 	exit(exit_code);
 	return (exit_code);
 }

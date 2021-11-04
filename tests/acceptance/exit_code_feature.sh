@@ -58,6 +58,39 @@ STD=$(echo -e "$INPUT" | ./$MINISHELL_PROGRAM > $MINISHELL_OUTPUT)
 removePrompt $MINISHELL_OUTPUT
 ACTUAL=$(cat $MINISHELL_OUTPUT)
 EXPECTED="BestShellEver: exit: 9223372036854775808: numeric argument required"
-assertEqual "Exit with overflow"
+assertEqual "Exit with long max + 1"
 cleanUp
+
+# long max
+INPUT="exit 9223372036854775807"
+STD=$(echo -e "$INPUT" | ./$MINISHELL_PROGRAM > $MINISHELL_OUTPUT)
+removePrompt $MINISHELL_OUTPUT
+ACTUAL=$(cat $MINISHELL_OUTPUT)
+EXPECTED="BestShellEver: exit: 9223372036854775807: numeric argument required"
+assertEqual "Exit with long max"
+cleanUp
+
+INPUT="exit 9223372036854775800000"
+STD=$(echo -e "$INPUT" | ./$MINISHELL_PROGRAM > $MINISHELL_OUTPUT)
+removePrompt $MINISHELL_OUTPUT
+ACTUAL=$(cat $MINISHELL_OUTPUT)
+EXPECTED="BestShellEver: exit: 9223372036854775800000: numeric argument required"
+assertEqual "Exit with big zero ending overflow"
+cleanUp
+
+INPUT="exit -9223372036854775809"
+STD=$(echo -e "$INPUT" | ./$MINISHELL_PROGRAM > $MINISHELL_OUTPUT)
+removePrompt $MINISHELL_OUTPUT
+ACTUAL=$(cat $MINISHELL_OUTPUT)
+EXPECTED="BestShellEver: exit: -9223372036854775809: numeric argument required"
+assertEqual "Long min - 1"
+cleanUp
+
+INPUT="exit -9223372036854775808"
+STD=$(echo -e "$INPUT" | ./$MINISHELL_PROGRAM)
+ACTUAL=$(echo $?)
+EXPECTED="0"
+assertEqual "Exit with long min"
+cleanUp
+
 exit $EXIT_CODE
