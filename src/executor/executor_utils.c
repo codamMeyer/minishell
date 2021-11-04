@@ -20,7 +20,7 @@ t_exit_code	wait_for_all_processes(int num_of_processes, int *pids)
 		if (WIFEXITED(status))
 			exit_code = WEXITSTATUS(status);
 		if (WIFSIGNALED(status))
-			exit_code = WTERMSIG(status) + 128;
+			exit_code = WTERMSIG(status) + SIGNAL_INCREMENT;
 		i++;
 	}
 	return (exit_code);
