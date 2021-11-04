@@ -25,4 +25,12 @@ assertEqual "Weird random test"
 unset LS
 cleanUp
 
+echo -e "export MINISHELL_LEVEL_1=1\n./minishell\nenv | grep MINISHELL_LEVEL_1\nexit\nexit" | ./minishell > $MINISHELL_OUTPUT
+removePrompt $MINISHELL_OUTPUT
+ACTUAL=$(cat $MINISHELL_OUTPUT)
+EXPECTED="MINISHELL_LEVEL_1=1"
+assertEqual "Passing updated env"
+unset LS
+cleanUp
+
 exit $EXIT_CODE
