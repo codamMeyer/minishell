@@ -31,9 +31,12 @@ MINISHELL_INCS= 						\
 	src/commands/buffer.h				\
 	src/env/environment.h				\
 	src/env/env_utils.h					\
+	src/env/export_utils.h				\
 	src/signals/signals.h				\
 	src/env/sort_env.h					\
 	src/env/env_for_exec.h				\
+	src/errors/errors.h					\
+	src/errors/exit_code.h				\
 
 MINISHELL_SRC= 							\
 	src/syntax/check_syntax.c			\
@@ -69,11 +72,17 @@ MINISHELL_SRC= 							\
 	src/env/environment_utils.c			\
 	src/env/export_handle_key.c			\
 	src/env/export_handle_value.c		\
+	src/env/export_utils.c				\
 	src/env/env_utils.c					\
 	src/signals/signals.c				\
 	src/signals/heredoc_signal.c		\
 	src/env/sort_env.c					\
+<<<<<<< HEAD
 	src/env/env_for_exec.c				\
+=======
+	src/errors/errors.c					\
+	src/errors/exit_code.c				\
+>>>>>>> f490a9df11823063d1fb5950fd1303c704ec3772
 
 TEST_FILES=								\
 	tests/main.c 						\
@@ -96,9 +105,9 @@ MINISHELL_OBJS=$(MINISHELL_SRC:.c=.o)
 
 all: $(MINISHELL)
 
-$(MINISHELL): $(MINISHELL_OBJS)
+$(MINISHELL): $(MINISHELL_OBJS) main.c
 	make -C $(LIBFT_PATH)
-	$(CC) $(CFLAGS) $(INC_PATH) main.c -o $@ $^ $(LDFLAGS)
+	$(CC) $(CFLAGS) $(INC_PATH) -o $@ $^ $(LDFLAGS)
 
 %.o: %.c $(MINISHELL_INCS)
 	@$(CC) $(CFLAGS) $(INC_PATH) -c -o $@ $<

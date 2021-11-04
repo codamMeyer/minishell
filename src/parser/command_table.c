@@ -14,7 +14,7 @@ static t_bool	is_valid_last_char(const char *input, int command_len)
 	if (input_len >= command_len)
 	{
 		last_char = input[command_len];
-		return (isspace(last_char) || last_char == NULL_TERMINATOR);
+		return (ft_isspace(last_char) || last_char == NULL_TERMINATOR);
 	}
 	return (FALSE);
 }

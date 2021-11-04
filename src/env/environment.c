@@ -8,28 +8,22 @@
 #include <env/env_utils.h>
 #include <env/sort_env.h>
 #include <parser/parser.h>
+#include <env/export_utils.h>
 
-t_bool	export(t_env *env, const char *key_value_str)
+t_exit_code	export(t_env *env, const char *key_value_str)
 {
-	t_buffer	key_buffer;
-	t_buffer	value_buffer;
+	t_env	tmp_env[BUFFER_SIZE];
+	int		variables_count;
 
-	if (!*key_value_str)
-		display_sorted_env();
-	while (*key_value_str)
+	if (!(*key_value_str))
 	{
-		init_buffer(&key_buffer);
-		init_buffer(&value_buffer);
-		if (!copy_key_to_buffer(key_value_str, &key_buffer))
-			return (FALSE);
-		copy_value_to_buffer(key_value_str, &value_buffer);
-		if (!set_key(env, &key_buffer.buf[0])
-			|| !set_value(env, &key_buffer.buf[0], &value_buffer.buf[0]))
-			return (FALSE);
-		key_value_str += key_buffer.index + value_buffer.index + 1;
-		skip_spaces(&key_value_str);
+		display_sorted_env();
+		return (SUCCESS);
 	}
-	return (TRUE);
+	if (!get_equal_sign_position(key_value_str))
+		return (SUCCESS);
+	variables_count = add_variables_to_tmp_env(&tmp_env[0], key_value_str);
+	return (add_variables_to_env(env, tmp_env, variables_count));
 }
 
 void	unset(t_env *env, const char *key)
@@ -42,7 +36,7 @@ void	unset(t_env *env, const char *key)
 	while (*arg.start)
 	{
 		init_buffer(&key_buffer);
-		while (*arg.start && !isspace(*arg.start))
+		while (*arg.start && !ft_isspace(*arg.start))
 			append_expanded_input_to_buffer(&arg, &key_buffer);
 		variable = find_variable(env, key_buffer.buf);
 		free_key_value_pair(variable);
@@ -61,9 +55,7 @@ void	display_env(t_env *env, t_output_stdout output)
 	{
 		if (env[i].key)
 		{
-			output(env[i].key);
-			output("=");
-			output(env[i].value);
+			output(env[i].set);
 			output("\n");
 		}
 		++i;

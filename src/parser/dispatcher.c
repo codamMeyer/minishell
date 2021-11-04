@@ -18,7 +18,7 @@ static void	copy_unknown_command_to_buffer(const char **input, char buffer[])
 	int			i;
 
 	i = 0;
-	while (cur[i] && !isspace(cur[i]))
+	while (cur[i] && !ft_isspace(cur[i]))
 		++i;
 	ft_memcpy(buffer, cur, i);
 	buffer[i] = '\0';
@@ -64,7 +64,7 @@ t_exit_code	dispatch_command(t_command *command, char *env[])
 															};
 
 	init_buffer(&buffer);
-	if (command->files.in == FILE_ERROR)
+	if (command->files.in == FILE_ERROR || command->files.out == FILE_ERROR)
 		return (1);
 	if (command->code == INVALID)
 		command = expand_arg_content(command, &buffer);

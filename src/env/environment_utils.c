@@ -24,8 +24,11 @@ void	free_key_value_pair(t_env *env)
 		free(env->key);
 	if (env->value)
 		free(env->value);
+	if (env->set)
+		free(env->set);
 	env->key = NULL;
 	env->value = NULL;
+	env->set = NULL;
 }
 
 t_env	*get_environment(void)

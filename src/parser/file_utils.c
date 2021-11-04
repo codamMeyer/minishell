@@ -6,35 +6,41 @@
 #include <parser/parse_redirection.h>
 #include <readline/readline.h>
 #include <readline/history.h>
+#include <errors/errors.h>
+#include <errno.h>
 
 t_bool	is_valid_filename_char(char c, int redirect_id)
 {
 	if (redirect_id == HERE_DOC)
 		return (FALSE);
-	return (c && !isspace(c)
+	return (c && !ft_isspace(c)
 		&& !ft_strchr(ALL_TERMINATORS, c));
 }
 
-void	open_infile(const char *file, int *in_file)
+t_exit_code	open_infile(const char *file, int *in_file)
 {
 	if (*in_file != INVALID_FD)
-		close(*in_file);
+		handle_error(close(*in_file), "close()", NULL);
 	*in_file = open(file, O_RDONLY, 0644);
-	if (*in_file == SYS_ERROR)
+	if (*in_file == INVALID_FD)
 	{
 		*in_file = FILE_ERROR;
-		printf("minishell: %s: No such file or directory\n", file);
+		handle_error(FILE_ERROR, NULL, file);
+		return (FILE_ERROR);
 	}
+	return (SUCCESS);
 }
 
-void	open_outfile(const char *file, int *out_file, int out_mode)
+t_exit_code	open_outfile(const char *file, int *out_file, int out_mode)
 {
 	if (*out_file != INVALID_FD)
-		close(*out_file);
+		handle_error(close(*out_file), "close()", NULL);
 	*out_file = open(file, O_RDWR | O_CREAT | out_mode, FILE_RIGHTS);
 	if (*out_file == INVALID_FD)
-	{
-		printf("Couldn't open in outfile: %s\n", file);
-		exit(1);
+	{	
+		*out_file = FILE_ERROR;
+		handle_error(SYS_ERROR, NULL, file);
+		return (FILE_ERROR);
 	}
+	return (SUCCESS);
 }
