@@ -14,7 +14,6 @@ static t_bool	should_exit(t_exit_code code)
 		code == FORK_ERROR || \
 		code == PIPE_ERROR)
 	{
-		set_exit_code(SYS_ERROR);
 		return (TRUE);
 	}
 	return (FALSE);
@@ -54,7 +53,6 @@ void	handle_error(t_exit_code code, \
 	{
 		write_to_stderr(location);
 		write_to_stderr("HOME not set\n");
-		set_exit_code(1);
 	}
 	else if (code == SYNTAX_ERROR)
 	{

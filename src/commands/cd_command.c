@@ -64,8 +64,8 @@ t_exit_code	cd_command(t_command command, t_output_stdout output)
 	if (chdir(buffer.buf) == SYS_ERROR && !ret)
 	{
 		handle_error(SYS_ERROR, "cd", buffer.buf);
-		return (ERROR);
+		ret = ERROR;
 	}
 	update_env(cwd_before_cd);
-	return (SUCCESS);
+	return (ret);
 }
