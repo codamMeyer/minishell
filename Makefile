@@ -31,6 +31,7 @@ MINISHELL_INCS= 						\
 	src/commands/buffer.h				\
 	src/env/environment.h				\
 	src/env/env_utils.h					\
+	src/env/export_utils.h				\
 	src/signals/signals.h				\
 	src/env/sort_env.h					\
 	src/errors/errors.h					\
@@ -70,6 +71,7 @@ MINISHELL_SRC= 							\
 	src/env/environment_utils.c			\
 	src/env/export_handle_key.c			\
 	src/env/export_handle_value.c		\
+	src/env/export_utils.c				\
 	src/env/env_utils.c					\
 	src/signals/signals.c				\
 	src/signals/heredoc_signal.c		\

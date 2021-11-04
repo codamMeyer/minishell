@@ -25,6 +25,7 @@ CTEST2(environment, ensure_env_is_set_to_null)
     {
         ASSERT_NULL(get_environment()[i].key);
         ASSERT_NULL(get_environment()[i].value);
+        ASSERT_NULL(get_environment()[i].set);
     }
 }
 
@@ -38,14 +39,15 @@ CTEST2(environment, export_set)
     char *key = "TEST";
     char *value = "ENV";
     
-    ASSERT_TRUE(export(data->env, "TEST=ENV"));
+    ASSERT_EQUAL(SUCCESS, export(data->env, "TEST=ENV"));
     ASSERT_STR(data->env[0].key, key);
     ASSERT_STR(value, data->env[0].value);
+    ASSERT_STR("TEST=ENV", data->env[0].set);
 }
 
 CTEST2(environment, export_many_sets)
 {
-    char *pairs[8] = {
+    char *pairs[4] = {
         "TEST_1=ENV_1",
         "TEST_2=ENV_2",
         "TEST_3=ENV_3",
@@ -53,16 +55,21 @@ CTEST2(environment, export_many_sets)
     };
     
     for (int i = 0; i < 4; ++i)
-        ASSERT_TRUE(export(data->env, pairs[i]));
+        ASSERT_EQUAL(SUCCESS, export(data->env, pairs[i]));
   
     ASSERT_STR(data->env[0].key, "TEST_1");
     ASSERT_STR(data->env[0].value, "ENV_1");
+    ASSERT_STR(data->env[0].set, pairs[0]);
     ASSERT_STR(data->env[1].key, "TEST_2");
     ASSERT_STR(data->env[1].value, "ENV_2");
+    ASSERT_STR(data->env[1].set, pairs[1]);
     ASSERT_STR(data->env[2].key, "TEST_3");
     ASSERT_STR(data->env[2].value, "ENV_3");
+    ASSERT_STR(data->env[2].set, pairs[2]);
     ASSERT_STR(data->env[3].key, "TEST_4");
     ASSERT_STR(data->env[3].value, "ENV_4");
+    ASSERT_STR(data->env[3].set, pairs[3]);
+
 }
 
 CTEST2(environment, unset_pair)
@@ -75,7 +82,7 @@ CTEST2(environment, unset_pair)
     };
     
     for (int i = 0; i < 4; ++i)
-        ASSERT_TRUE(export(data->env, pairs[i]));
+        ASSERT_EQUAL(SUCCESS, export(data->env, pairs[i]));
 
     ASSERT_STR(data->env[0].key, "TEST_1");
     ASSERT_STR(data->env[0].value, "ENV_1");
@@ -89,6 +96,7 @@ CTEST2(environment, unset_pair)
     unset(data->env, "TEST_2");
     ASSERT_NULL(data->env[1].key);
     ASSERT_NULL(data->env[1].value);
+    ASSERT_NULL(data->env[1].set);
 }
 
 CTEST2(environment, unset_pair_does_not_exist)
@@ -101,7 +109,7 @@ CTEST2(environment, unset_pair_does_not_exist)
     };
     
     for (int i = 0; i < 4; ++i)
-        ASSERT_TRUE(export(data->env, pairs[i]));
+        ASSERT_EQUAL(SUCCESS, export(data->env, pairs[i]));
 
     ASSERT_STR(data->env[0].key, "TEST_1");
     ASSERT_STR(data->env[0].value, "ENV_1");
@@ -130,7 +138,7 @@ CTEST2(environment, display)
     };
     
     for (int i = 0; i < 4; ++i)
-        ASSERT_TRUE(export(data->env, pairs[i]));
+        ASSERT_EQUAL(SUCCESS, export(data->env, pairs[i]));
 
     unset(data->env, "TEST_2");
     printf("\n");
@@ -147,7 +155,7 @@ CTEST2(environment, find_non_existent_name)
     };
     
     for (int i = 0; i < 4; ++i)
-        ASSERT_TRUE(export(data->env, pairs[i]));
+        ASSERT_EQUAL(SUCCESS, export(data->env, pairs[i]));
 
     unset(data->env, "TEST_2");
     ASSERT_NULL(find_variable(data->env, "TEST_2"));
@@ -163,7 +171,7 @@ CTEST2(environment, find_value)
     };
     
     for (int i = 0; i < 4; ++i)
-        ASSERT_TRUE(export(data->env, pairs[i]));
+        ASSERT_EQUAL(SUCCESS, export(data->env, pairs[i]));
 
     unset(data->env, "TEST_2");
     ASSERT_STR(find_variable(data->env, "TEST_1")->value, "ENV_1");
@@ -179,7 +187,7 @@ CTEST2(environment, find_value_with_name_almost_equal)
     };
     
     for (int i = 0; i < 4; ++i)
-        ASSERT_TRUE(export(data->env, pairs[i]));
+        ASSERT_EQUAL(SUCCESS, export(data->env, pairs[i]));
     ASSERT_NULL(find_variable(data->env, "TEST"));
 }
 
@@ -194,9 +202,9 @@ CTEST2(environment, export_new_value_for_existent_key)
     };
     
     for (int i = 0; i < 4; ++i)
-        ASSERT_TRUE(export(data->env, pairs[i]));
+        ASSERT_EQUAL(SUCCESS, export(data->env, pairs[i]));
 
-    ASSERT_TRUE(export(data->env, pairs[4]));
+    ASSERT_EQUAL(SUCCESS, export(data->env, pairs[4]));
     ASSERT_STR(find_variable(data->env, "TEST_2")->value, "ENV_2_NEW_VALUE");
 }
 
@@ -209,7 +217,7 @@ CTEST2(environment, export_two_variables_together)
     };
     
     for (int i = 0; i < 3; ++i)
-        ASSERT_TRUE(export(data->env, pairs[i]));
+        ASSERT_EQUAL(SUCCESS, export(data->env, pairs[i]));
 
     ASSERT_STR(find_variable(data->env, "TEST_3")->value, "ENV_3");
 }
@@ -218,7 +226,7 @@ CTEST2(environment, export_all_in_the_same_line)
 {
     char *pairs[1] = {"TEST_1=ENV_1 TEST_2=\"ENV_2        test\"  TEST_3=ENV_3                   TEST_4=ENV_4    "};
     
-    ASSERT_TRUE(export(data->env, pairs[0]));
+    ASSERT_EQUAL(SUCCESS, export(data->env, pairs[0]));
 
     ASSERT_STR(find_variable(data->env, "TEST_1")->value, "ENV_1");
     ASSERT_STR(find_variable(data->env, "TEST_2")->value, "ENV_2        test");
@@ -279,7 +287,7 @@ CTEST2(environment, export_with_single_quotes)
     };
     
     for (int i = 0; i < 4; ++i)
-        ASSERT_TRUE(export(data->env, pairs[i]));
+        ASSERT_EQUAL(SUCCESS, export(data->env, pairs[i]));
     ASSERT_STR(find_variable(data->env, "TEST_2")->value, "ENV_2    $TEST_1");
 }
 
@@ -287,7 +295,7 @@ CTEST2(environment, empty_value)
 {
     char *pair = "key=";
     
-    ASSERT_TRUE(export(data->env, pair));
+    ASSERT_EQUAL(SUCCESS, export(data->env, pair));
     ASSERT_STR(find_variable(data->env, "key")->value, "");
 }
 
@@ -295,7 +303,7 @@ CTEST2(environment, string_with_single_quote_as_value)
 {
     char *pair = "key='test with single quotes'";
     
-    ASSERT_TRUE(export(data->env, pair));
+    ASSERT_EQUAL(SUCCESS, export(data->env, pair));
     ASSERT_STR(find_variable(data->env, "key")->value, "test with single quotes");
 }
 
@@ -303,5 +311,13 @@ CTEST2(environment, key_starting_with_number)
 {
     char *pair = "1key=hello";
     
-    ASSERT_FALSE(export(data->env, pair));
+    ASSERT_EQUAL(ERROR, export(data->env, pair));
+}
+
+CTEST2(environment, more_than_one_pair_one_being_invalid)
+{
+    char *pair = "1key=hello hello=test";
+    
+    ASSERT_EQUAL(ERROR, export(data->env, pair));
+    ASSERT_STR(find_variable(data->env, "hello")->value, "test");
 }
