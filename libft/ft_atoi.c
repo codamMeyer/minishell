@@ -6,7 +6,7 @@
 /*   By: rmeiboom <rmeiboom@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/11/14 14:06:09 by rmeiboom      #+#    #+#                 */
-/*   Updated: 2021/11/04 11:31:41 by rmeiboom      ########   odam.nl         */
+/*   Updated: 2021/11/04 14:09:51 by rmeiboom      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 int	ft_atoi(const char *str)
 {
-	int			i;
-	int			negative;
-	long int	digit;
+	int				i;
+	int				negative;
+	long long int	digit;
 
 	i = 0;
 	digit = 0;
