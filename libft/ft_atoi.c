@@ -3,40 +3,64 @@
 /*                                                        ::::::::            */
 /*   ft_atoi.c                                          :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: rmeiboom <rmeiboom@student.codam.nl>         +#+                     */
+/*   By: mmeyer <mmeyer@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2020/11/14 14:06:09 by rmeiboom      #+#    #+#                 */
-/*   Updated: 2021/11/04 14:09:51 by rmeiboom      ########   odam.nl         */
+/*   Created: 2020/10/27 14:42:05 by mmeyer        #+#    #+#                 */
+/*   Updated: 2021/11/04 14:43:24 by rmeiboom      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_atoi(const char *str)
+static int		is_space(char a)
 {
-	int				i;
-	int				negative;
-	long long int	digit;
+	if (a == ' ' || a == '\f' || a == '\n')
+		return (1);
+	if (a == '\r' || a == '\t' || a == '\v')
+		return (1);
+	return (0);
+}
+
+static int		find_first_number(const char *nptr, int *sign)
+{
+	int i;
 
 	i = 0;
-	digit = 0;
-	negative = 1;
-	while ((str[i] >= 9 && str[i] <= 13) || str[i] == 32)
-		i++;
-	if (str[i] == '+' || str[i] == '-')
+	while (is_space(nptr[i]))
+		++i;
+	if (nptr[i] == '-')
 	{
-		if (str[i] == '-')
-			negative *= -1;
-		i++;
+		*sign *= -1;
+		++i;
 	}
-	while (str[i] >= '0' && str[i] <= '9')
+	else if (nptr[i] == '+')
+		++i;
+	return (i);
+}
+
+static int		get_overflowed_result(int sign)
+{
+	if (sign == 1)
+		return (-1);
+	else
+		return (0);
+}
+
+int				ft_atoi(const char *nptr)
+{
+	int			sign;
+	int			index;
+	long int	result;
+
+	result = 0;
+	sign = 1;
+	index = find_first_number(nptr, &sign);
+	while (ft_isdigit(nptr[index]))
 	{
-		digit = (digit * 10) + (str[i] - '0');
-		if ((digit * negative) < LONG_MIN)
-			return (-1);
-		else if ((digit * negative) > LONG_MAX)
-			return (-1);
-		i++;
+		if (result > (LONG_MAX / 10))
+			return (get_overflowed_result(sign));
+		result = (nptr[index] - '0') + (result * 10);
+		++index;
 	}
-	return (digit * negative);
+	return (int)(result * sign);
 }
