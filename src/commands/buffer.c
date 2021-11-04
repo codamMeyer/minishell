@@ -5,21 +5,9 @@
 #include <env/environment.h>
 #include <env/env_utils.h>
 #include <parser/parser.h>
+#include <errors/exit_code.h>
 
-void	init_buffer(t_buffer *buffer)
-{
-	ft_bzero(&buffer->buf[0], BUFFER_SIZE);
-	buffer->index = 0;
-}
-
-void	append_char_to_buffer(const char **start, t_buffer *buffer)
-{
-	buffer->buf[buffer->index] = **start;
-	++(buffer->index);
-	++(*start);
-}
-
-void	append_env_value_to_buffer(const char **start, \
+static void	append_env_value_to_buffer(const char **start, \
 									t_buffer *buffer, \
 									t_bool should_trim)
 {
@@ -50,7 +38,7 @@ void	append_env_value_to_buffer(const char **start, \
 	*start = *start + key_len;
 }
 
-void	append_quoted_string_to_buffer(const char **start, t_buffer *buffer)
+static void	append_quoted_string_to_buffer(const char **start, t_buffer *buffer)
 {
 	const t_quotes_position	quotes = get_quotes_positions(*start);
 
@@ -70,12 +58,27 @@ void	append_quoted_string_to_buffer(const char **start, t_buffer *buffer)
 		++(*start);
 }
 
+void	init_buffer(t_buffer *buffer)
+{
+	ft_bzero(&buffer->buf[0], BUFFER_SIZE);
+	buffer->index = 0;
+}
+
+void	append_char_to_buffer(const char **start, t_buffer *buffer)
+{
+	buffer->buf[buffer->index] = **start;
+	++(buffer->index);
+	++(*start);
+}
+
 void	append_expanded_input_to_buffer(t_arg *arg, t_buffer *buffer)
 {
 	if (is_quote(*arg->start))
 		append_quoted_string_to_buffer(&arg->start, buffer);
 	else if (is_env_variable(arg->start))
 		append_env_value_to_buffer(&arg->start, buffer, TRUE);
+	else if (ft_strncmp(arg->start, "$?", 2) == 0)
+		append_exit_code_to_buffer(&arg->start, buffer);
 	else
 		append_char_to_buffer(&arg->start, buffer);
 }

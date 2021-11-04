@@ -43,14 +43,15 @@ int	get_redirect_id(const char *cursor)
 	return (INVALID);
 }
 
-void	open_in_mode(const char *file, t_files *files, int mode_id)
+t_exit_code	open_in_mode(const char *file, t_files *files, int mode_id)
 {
 	if (mode_id == LEFT_ANGLE || mode_id == DIAMOND_BRACKETS)
-		open_infile(file, &files->in);
+		return (open_infile(file, &files->in));
 	else if (mode_id == FT_TRUNCATE || mode_id == FT_APPEND)
-		open_outfile(file, &files->out, mode_id);
+		return (open_outfile(file, &files->out, mode_id));
 	else if (mode_id == HERE_DOC)
 		files->in = handle_here_doc(file);
+	return (SUCCESS);
 }
 
 /*
@@ -68,7 +69,8 @@ int	open_file(char *file_name_ptr, t_files *files, int redirection_id)
 	file_name_ptr += 1;
 	i = count_consecutive_spaces(file_name_ptr);
 	i += get_file_name_and_length(&buffer, &file_name_ptr[i], redirection_id);
-	open_in_mode(&buffer.buf[0], files, redirection_id);
+	if (open_in_mode(&buffer.buf[0], files, redirection_id) < SUCCESS)
+		return (INVALID_FD);
 	return (i);
 }
 
@@ -92,6 +94,8 @@ t_files	get_redirection(char **input, const int string_to_parse_len)
 	{
 		redirect_id = get_redirect_id(&cursor[index]);
 		length = open_file(&cursor[index], &fd, redirect_id);
+		if (length < 0)
+			break ;
 		if (is_multi_angled_bracket(redirect_id))
 			++length;
 		replace_redirection_w_space(input, length, index);
