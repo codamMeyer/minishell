@@ -17,7 +17,7 @@ t_bool	is_valid_n_flag_extras(const char **input)
 		counter++;
 		cursor = (*(*input + counter));
 	}
-	if (!isspace(cursor) && cursor != NULL_TERMINATOR)
+	if (!ft_isspace(cursor) && cursor != NULL_TERMINATOR)
 		return (FALSE);
 	*input += counter;
 	return (TRUE);

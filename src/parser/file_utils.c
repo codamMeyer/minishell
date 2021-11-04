@@ -13,7 +13,8 @@ t_bool	is_valid_filename_char(char c, int redirect_id)
 {
 	if (redirect_id == HERE_DOC)
 		return (FALSE);
-	return (!ft_strchr(ALL_TERMINATORS, c));
+	return (c && !ft_isspace(c)
+		&& !ft_strchr(ALL_TERMINATORS, c));
 }
 
 t_exit_code	open_infile(const char *file, int *in_file)

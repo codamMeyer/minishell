@@ -14,7 +14,7 @@ static int	get_value_len(const char *value_string)
 	i = 0;
 	while (value_string[i])
 	{
-		if (isspace(value_string[i]) \
+		if (ft_isspace(value_string[i]) \
 		&& !is_between_quotes(value_string, i))
 			return (i);
 		++i;
@@ -31,7 +31,7 @@ t_bool	copy_value_to_buffer(const char *key_value_str, t_buffer *buffer)
 	if (!delimiter_position)
 		return (FALSE);
 	arg.start = &delimiter_position[0];
-	while (*arg.start && !isspace(*arg.start))
+	while (*arg.start && !ft_isspace(*arg.start))
 		append_expanded_input_to_buffer(&arg, buffer);
 	buffer->index = get_value_len(delimiter_position);
 	return (TRUE);

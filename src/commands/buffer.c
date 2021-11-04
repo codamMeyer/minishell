@@ -25,11 +25,11 @@ static void	append_env_value_to_buffer(const char **start, \
 			skip_spaces((const char **)&value);
 		while (*value)
 		{
-			if (isspace(buffer->buf[buffer->index]) && should_trim)
+			if (ft_isspace(buffer->buf[buffer->index]) && should_trim)
 				skip_spaces((const char **)&value);
 			append_char_to_buffer((const char **)&value, buffer);
 		}
-		if (should_trim && isspace(buffer->buf[buffer->index - 1]))
+		if (should_trim && ft_isspace(buffer->buf[buffer->index - 1]))
 		{
 			--(buffer->index);
 			buffer->buf[buffer->index] = NULL_TERMINATOR;

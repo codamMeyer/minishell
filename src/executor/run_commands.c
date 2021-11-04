@@ -65,7 +65,7 @@ t_bool	is_single_command(int num_of_cmds, t_command *command)
 	{
 		init_buffer(&buffer);
 		arg = command->arg;
-		while (*arg.start && !isspace(*arg.start))
+		while (*arg.start && !ft_isspace(*arg.start))
 			append_expanded_input_to_buffer(&arg, &buffer);
 		code = get_command_code((const char **)&inp, command);
 		return (num_of_cmds == 1 && is_builtin_command(code));
