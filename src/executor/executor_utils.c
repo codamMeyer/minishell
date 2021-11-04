@@ -28,12 +28,9 @@ t_exit_code	wait_for_all_processes(int num_of_processes, int *pids)
 	return (exit_code);
 }
 
-/*
-	Done like this to not have confusing typecasting flying around
-*/
 static int	execute_command(const char *path, char *argv[])
 {
-	char *updated_env[BUFFER_SIZE];
+	char	*updated_env[BUFFER_SIZE];
 
 	env_to_char_pointer_array(updated_env);
 	return (execve(path, (char *const *)argv, (char *const *)updated_env));

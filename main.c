@@ -54,7 +54,7 @@ static char	*get_trimmed_line(void)
 	return (trimmed_line);
 }
 
-static void	run()
+static void	run(void)
 {
 	char	*line;
 
