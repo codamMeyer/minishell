@@ -47,6 +47,12 @@ RESULT+=$?
 ./tests/acceptance/edge_cases_feature.sh
 RESULT+=$?
 
+./tests/acceptance/error_handling.sh
+RESULT+=$?
+
+./tests/acceptance/exit_code_feature.sh
+RESULT+=$?
+
 if [[ "$OSTYPE" == "linux-gnu"* ]]; then
     printTestName "Prompt_Display"
     echo -e "\necho hello\npwd\nexport TEST=test\nunset TEST\nenv\ncd falseDir\nls\nexit\n" | ./minishell > $MINISHELL_OUTPUT

@@ -13,8 +13,8 @@
 
 static void	close_pipes(int *pipes_to_close)
 {
-	close(pipes_to_close[READ_FD]);
-	close(pipes_to_close[WRITE_FD]);
+	handle_error(close(pipes_to_close[READ_FD]), "close()", NULL);
+	handle_error(close(pipes_to_close[WRITE_FD]), "close()", NULL);
 }
 
 /*
@@ -23,19 +23,18 @@ static void	close_pipes(int *pipes_to_close)
 	Important!!! Check that there are more than one 
 	processes when creating pipes
 */
-int	run_multi_processes(char *env[],
-	t_command commands[], int num_of_processes)
+int	run_multi_processes(char *env[], t_command commands[],
+		int num_of_processes, int *pids)
 {
 	t_multi_pipes	pipes;
-	int				process_id;
 	int				i;
 
 	i = 0;
 	while (num_of_processes > 0 && i < num_of_processes)
 	{
-		process_id = create_new_process(&pipes, i, num_of_processes);
+		pids[i] = create_new_process(&pipes, i, num_of_processes);
 		set_child_signals();
-		if (process_id == CHILD_PROCESS)
+		if (pids[i] == CHILD_PROCESS)
 		{
 			redirect_in_and_output(&pipes, i, num_of_processes,
 				&commands[i]);
@@ -83,19 +82,21 @@ int	run_commands(t_command commands[],
 {
 	const t_std_fd	fds = save_std_fds();
 	const int		*signal = heredoc_sigint();
+	t_exit_code		exit_code;
+	int				pids[MAX_CMDS_PER_LINE];
 
 	if (*signal)
 		return (1);
 	if (is_single_command(num_of_commands, &commands[0]))
 	{
 		redirect_in_and_output(NULL, 0, 0, &commands[0]);
-		dispatch_command(&commands[0], env);
+		exit_code = dispatch_command(&commands[0], env);
 	}
 	else
 	{
-		run_multi_processes(env, commands, num_of_commands);
-		wait_for_all_processes(num_of_commands);
+		run_multi_processes(env, commands, num_of_commands, pids);
+		exit_code = wait_for_all_processes(num_of_commands, pids);
 	}	
 	restore_std_fds(fds);
-	return (SUCCESS);
+	return (exit_code);
 }

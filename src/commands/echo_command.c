@@ -5,6 +5,7 @@
 #include <commands/quotes.h>
 #include <env/env_utils.h>
 #include <parser/parser.h>
+#include <errors/errors.h>
 
 static void	handle_spaces(t_arg *arg, t_buffer *buffer)
 {

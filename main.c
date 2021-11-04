@@ -8,6 +8,7 @@
 #include <parser/parser.h>
 #include <output/prompt.h>
 #include <syntax/check_syntax.h>
+#include <errors/errors.h>
 #include <signals/signals.h>
 
 static void	add_key_and_value_from_env(char *env_str_pair)
@@ -62,7 +63,7 @@ static void	run(char *env[])
 		set_program_signals();
 		line = get_trimmed_line();
 		if (!line)
-			printf("Allocation error\n");
+			handle_error(MALLOC_ERROR, NULL, "malloc()");
 		if (is_valid_syntax(line))
 			parse_input(line, env);
 		free(line);
