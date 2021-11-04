@@ -9,8 +9,8 @@
 #define RED "\e[1;31m"
 #define GREEN "\e[1;32m"
 
-#define RED_ARROW RED" -► \e[0m "
-#define GREEN_ARROW GREEN" -► \e[0m "
+#define RED_ARROW "\e[1;31m -► \e[0m "
+#define GREEN_ARROW "\e[1;32m -► \e[0m "
 
 char	*display_prompt(char *buffer)
 {
