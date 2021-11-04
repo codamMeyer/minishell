@@ -8,6 +8,7 @@
 /* exit_codes caused by signals are incremented with 128 */
 t_exit_code	wait_for_all_processes(int num_of_processes, int *pids)
 {
+	const int	signal_increment = 128;
 	int			i;
 	t_exit_code	exit_code;
 	int			status;
@@ -20,7 +21,7 @@ t_exit_code	wait_for_all_processes(int num_of_processes, int *pids)
 		if (WIFEXITED(status))
 			exit_code = WEXITSTATUS(status);
 		if (WIFSIGNALED(status))
-			exit_code = WTERMSIG(status) + SIGNAL_INCREMENT;
+			exit_code = WTERMSIG(status) + signal_increment;
 		i++;
 	}
 	return (exit_code);
