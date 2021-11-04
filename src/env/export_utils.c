@@ -2,8 +2,10 @@
 #include <env/env_utils.h>
 #include <parser/command_table.h>
 #include <parser/parser.h>
+#include <output/write_to_std.h>
 #include <libft.h>
 #include <stdio.h>
+
 t_bool	is_valid_key(char *key, int key_len)
 {
 	int	i;
@@ -55,7 +57,6 @@ t_bool	add_variable_to_tmp_env(t_env *tmp_env, \
 		tmp_env->value = ft_strdup(value_buffer.buf);
 		tmp_env->set = NULL;
 		(*key_value_str) += key_buffer.index + value_buffer.index + 1;
-
 		return (TRUE);
 	}
 	else
@@ -92,7 +93,11 @@ t_exit_code	add_variables_to_env(t_env *env, \
 	{
 		if (!is_valid_key(tmp_env[i].key, ft_strlen(tmp_env[i].key)))
 		{
-			printf("export: `%s=%s': not a valid identifier\n", tmp_env[i].key, tmp_env[i].value);
+			write_to_stderr("BestShellEver: export: `");
+			write_to_stderr(tmp_env[i].key);
+			write_to_stderr("=");
+			write_to_stderr(tmp_env[i].value);
+			write_to_stderr("': not a valid identifier\n");
 			exit_code = ERROR;
 		}
 		else
