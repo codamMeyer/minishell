@@ -7,6 +7,6 @@
 
 int		run_pipes(const char *env[]);
 int		run_commands(t_command commands[],
-			int num_of_commands, char *env[]);
+			int num_of_commands);
 
 #endif

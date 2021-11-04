@@ -54,7 +54,7 @@ static char	*get_trimmed_line(void)
 	return (trimmed_line);
 }
 
-static void	run(char *env[])
+static void	run()
 {
 	char	*line;
 
@@ -65,7 +65,7 @@ static void	run(char *env[])
 		if (!line)
 			handle_error(MALLOC_ERROR, NULL, "malloc()");
 		if (is_valid_syntax(line))
-			parse_input(line, env);
+			parse_input(line);
 		free(line);
 	}
 }
@@ -75,6 +75,6 @@ int	main(int argc, char *argv[], char *envp[])
 	(void)argv;
 	(void)argc;
 	setup_env(envp);
-	run(envp);
+	run();
 	return (0);
 }

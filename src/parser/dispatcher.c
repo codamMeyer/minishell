@@ -48,7 +48,7 @@ t_exit_code	empty_command(t_command command, t_output_stdout write_to_stdout)
 	return (SUCCESS);
 }
 
-t_exit_code	dispatch_command(t_command *command, char *env[])
+t_exit_code	dispatch_command(t_command *command)
 {
 	t_buffer							buffer;
 	static const t_command_function		functions[LAST] = {
@@ -69,7 +69,7 @@ t_exit_code	dispatch_command(t_command *command, char *env[])
 	if (command->code == INVALID)
 		command = expand_arg_content(command, &buffer);
 	if (command->code == SYSTEM)
-		execute_system_command(command, env);
+		execute_system_command(command);
 	else if (command->code == INVALID)
 		return (functions[command->code](*command, write_to_stderr));
 	return (functions[command->code](*command, write_to_stdout));

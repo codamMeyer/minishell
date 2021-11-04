@@ -30,7 +30,7 @@ CTEST2(env_to_execve, env_to_execve)
     unset(get_environment(), "cheese");
     
     char *key_ptr[BUFFER_SIZE] = {};
-    char *expected[BUFFER_SIZE] = {"banana", "apple", "pear", "a"};
+    char *expected[BUFFER_SIZE] = {"banana=0", "apple=2", "pear=3", "a=4"};
 
     env_to_char_pointer_array(key_ptr);
 

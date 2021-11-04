@@ -77,12 +77,9 @@ MINISHELL_SRC= 							\
 	src/signals/signals.c				\
 	src/signals/heredoc_signal.c		\
 	src/env/sort_env.c					\
-<<<<<<< HEAD
 	src/env/env_for_exec.c				\
-=======
 	src/errors/errors.c					\
 	src/errors/exit_code.c				\
->>>>>>> f490a9df11823063d1fb5950fd1303c704ec3772
 
 TEST_FILES=								\
 	tests/main.c 						\

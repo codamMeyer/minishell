@@ -10,9 +10,9 @@ t_bool	env_to_char_pointer_array(char **our_env)
 	j = 0;
 	while (i < ENV_SIZE)
 	{
-		if (env[i].key)
+		if (env[i].set)
 		{
-			our_env[j] = env[i].key;
+			our_env[j] = env[i].set;
 			j++;
 		}
 		i++;

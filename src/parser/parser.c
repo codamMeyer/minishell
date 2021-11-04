@@ -54,14 +54,14 @@ int	populate_commands_table(const char *input, t_command commands_table[])
 	return (i);
 }
 
-t_bool	parse_input(const char *input, char *env[])
+t_bool	parse_input(const char *input)
 {
 	t_command	commands_table[MAX_CMDS_PER_LINE];
 	int			num_commands;
 	int			*heredoc_sig;
 
 	num_commands = populate_commands_table(input, commands_table);
-	set_exit_code(run_commands(commands_table, num_commands, env));
+	set_exit_code(run_commands(commands_table, num_commands));
 	heredoc_sig = heredoc_sigint();
 	if (*heredoc_sigint)
 		*heredoc_sig = 0;

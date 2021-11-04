@@ -4,6 +4,7 @@
 #include <commands/buffer.h>
 #include <executor/executor_utils.h>
 #include <executor/run_commands.h>
+#include <env/env_for_exec.h>
 
 /* exit_codes caused by signals are incremented with 128 */
 t_exit_code	wait_for_all_processes(int num_of_processes, int *pids)
@@ -30,12 +31,15 @@ t_exit_code	wait_for_all_processes(int num_of_processes, int *pids)
 /*
 	Done like this to not have confusing typecasting flying around
 */
-static int	execute_command(const char *path, char *argv[], char *env[])
+static int	execute_command(const char *path, char *argv[])
 {
-	return (execve(path, (char *const *)argv, (char *const *)env));
+	char *updated_env[BUFFER_SIZE];
+
+	env_to_char_pointer_array(updated_env);
+	return (execve(path, (char *const *)argv, (char *const *)updated_env));
 }
 
-void	execute_system_command(const t_command *command, char *env[])
+void	execute_system_command(const t_command *command)
 {
 	char		**cmd;
 	t_buffer	buffer;
@@ -46,7 +50,7 @@ void	execute_system_command(const t_command *command, char *env[])
 	cmd = ft_split(&buffer.buf[0], SPACE_CHAR);
 	if (!cmd)
 		handle_error(MALLOC_ERROR, NULL, "malloc()");
-	if (execute_command(command->exe_path, cmd, env) == SYS_ERROR)
+	if (execute_command(command->exe_path, cmd) == SYS_ERROR)
 		handle_error(SYS_ERROR, NULL, NULL);
 }
 
