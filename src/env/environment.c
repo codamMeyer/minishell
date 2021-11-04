@@ -10,7 +10,7 @@
 #include <parser/parser.h>
 #include <env/export_utils.h>
 
-t_bool	export(t_env *env, const char *key_value_str)
+t_exit_code	export(t_env *env, const char *key_value_str)
 {
 	t_env	tmp_env[BUFFER_SIZE];
 	int		variables_count;
@@ -18,10 +18,10 @@ t_bool	export(t_env *env, const char *key_value_str)
 	if (!(*key_value_str))
 	{
 		display_sorted_env();
-		return (0);
+		return (SUCCESS);
 	}
 	if (!get_equal_sign_position(key_value_str))
-		return (0);
+		return (SUCCESS);
 	variables_count = add_variables_to_tmp_env(&tmp_env[0], key_value_str);
 	return (add_variables_to_env(env, tmp_env, variables_count));
 }

@@ -79,21 +79,21 @@ int	add_variables_to_tmp_env(t_env *tmp_env, const char *key_value_str)
 	return (variables_count);
 }
 
-t_bool	add_variables_to_env(t_env *env, \
+t_exit_code	add_variables_to_env(t_env *env, \
 									t_env *tmp_env, \
 									int variables_count)
 {
-	t_bool	exit_code;
-	int		i;
+	t_exit_code	exit_code;
+	int			i;
 
 	i = 0;
-	exit_code = TRUE;
+	exit_code = SUCCESS;
 	while (i < variables_count)
 	{
 		if (!is_valid_key(tmp_env[i].key, ft_strlen(tmp_env[i].key)))
 		{
 			printf("export: `%s=%s': not a valid identifier\n", tmp_env[i].key, tmp_env[i].value);
-			exit_code = FALSE;
+			exit_code = ERROR;
 		}
 		else
 		{
