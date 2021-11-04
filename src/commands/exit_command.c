@@ -18,9 +18,10 @@ static	t_bool	has_only_nums(const char *str, int size)
 	return (TRUE);
 }
 
-static t_bool is_invalid_exit_code(int exit_code, t_command *command)
+static t_bool	is_invalid_exit_code(int exit_code, t_command *command)
 {
-	return (!has_only_nums(command->arg.start, command->arg.len) || (exit_code == -1 && command->arg.len > 20));
+	return (!has_only_nums(command->arg.start, command->arg.len)
+		|| (exit_code == -1 && command->arg.len >= 19));
 }
 
 t_exit_code	exit_command(t_command command, t_output_stdout write_to_stdout)

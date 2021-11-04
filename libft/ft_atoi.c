@@ -6,13 +6,16 @@
 /*   By: mmeyer <mmeyer@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/27 14:42:05 by mmeyer        #+#    #+#                 */
-/*   Updated: 2021/11/04 14:43:24 by rmeiboom      ########   odam.nl         */
+/*   Updated: 2021/11/04 15:18:37 by rmeiboom      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include <stdio.h>
 
-static int		is_space(char a)
+#define FT_LONG_MAX  9223372036854775807
+
+static int	is_space(char a)
 {
 	if (a == ' ' || a == '\f' || a == '\n')
 		return (1);
@@ -21,9 +24,9 @@ static int		is_space(char a)
 	return (0);
 }
 
-static int		find_first_number(const char *nptr, int *sign)
+static int	find_first_number(const char *nptr, int *sign)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (is_space(nptr[i]))
@@ -38,29 +41,23 @@ static int		find_first_number(const char *nptr, int *sign)
 	return (i);
 }
 
-static int		get_overflowed_result(int sign)
+int	ft_atoi(const char *nptr)
 {
-	if (sign == 1)
-		return (-1);
-	else
-		return (0);
-}
-
-int				ft_atoi(const char *nptr)
-{
-	int			sign;
-	int			index;
-	long int	result;
+	int				sign;
+	int				index;
+	long long int	result;
 
 	result = 0;
 	sign = 1;
 	index = find_first_number(nptr, &sign);
 	while (ft_isdigit(nptr[index]))
 	{
-		if (result > (LONG_MAX / 10))
-			return (get_overflowed_result(sign));
+		if (result == FT_LONG_MAX / 10 && nptr[index] == '7')
+			return (255);
+		if (result > (FT_LONG_MAX / 10) - 1)
+			return (-1);
 		result = (nptr[index] - '0') + (result * 10);
 		++index;
 	}
-	return (int)(result * sign);
+	return ((int)(result * sign));
 }
