@@ -49,7 +49,6 @@ void	handle_error(t_exit_code code, \
 {
 	if (code == SUCCESS)
 		return ;
-	set_exit_code(code);
 	write_to_stderr("BestShellEver: ");
 	if (code == HOME_NOT_SET_ERROR)
 	{
@@ -61,6 +60,7 @@ void	handle_error(t_exit_code code, \
 	{
 		write_to_stderr(location);
 		write_to_stderr(filename);
+		set_exit_code(code);
 	}
 	else
 		write_system_error(code, location, filename);
