@@ -17,7 +17,7 @@ static void	copy_prompt_to_buffer(t_buffer path, char *prompt_buffer)
 {
 	const int	path_len = ft_strlen(path.buf) + 1;
 	const int	color_len = ft_strlen(BLUE) + 1;
-	
+
 	ft_strlcpy(prompt_buffer, BLUE, color_len);
 	ft_strlcpy(&prompt_buffer[ft_strlen(prompt_buffer)], path.buf, path_len);
 }
@@ -30,9 +30,11 @@ static void	copy_symbol_to_buffer(char *prompt_buffer)
 	const int		reset_len = ft_strlen(RESET);
 
 	if (is_success)
-		ft_strlcpy(&prompt_buffer[ft_strlen(prompt_buffer)], GREEN_ARROW, green_len);
+		ft_strlcpy(&prompt_buffer[ft_strlen(prompt_buffer)], \
+											GREEN_ARROW, green_len);
 	else
-		ft_strlcpy(&prompt_buffer[ft_strlen(prompt_buffer)], RED_ARROW, red_len);
+		ft_strlcpy(&prompt_buffer[ft_strlen(prompt_buffer)], \
+											RED_ARROW, red_len);
 	ft_strlcpy(&prompt_buffer[ft_strlen(prompt_buffer)], RESET, reset_len);
 }
 
