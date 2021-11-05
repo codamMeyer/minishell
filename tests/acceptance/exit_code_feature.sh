@@ -100,4 +100,34 @@ EXPECTED="160"
 assertEqual "Exit with minus overflow"
 cleanUp
 
+INPUT="exit 1"
+STD=$(echo -e "$INPUT" | ./$MINISHELL_PROGRAM)
+ACTUAL=$(echo $?)
+EXPECTED="1"
+assertEqual "Base test 1"
+cleanUp
+
+INPUT="exit 0"
+STD=$(echo -e "$INPUT" | ./$MINISHELL_PROGRAM)
+ACTUAL=$(echo $?)
+EXPECTED="0"
+assertEqual "Base test 0"
+cleanUp
+
+INPUT="exit 123         456\nexit"
+STD=$(echo -e "$INPUT" | ./$MINISHELL_PROGRAM >> $MINISHELL_OUTPUT 2>&1)
+removePrompt $MINISHELL_OUTPUT
+ACTUAL=$(cat $MINISHELL_OUTPUT)
+EXPECTED="BestShellEver: exit: too many arguments"
+assertEqual "exit with too many arguments"
+cleanUp
+
+INPUT="export test=69\nexit \$test"
+STD=$(echo -e "$INPUT" | ./$MINISHELL_PROGRAM)
+ACTUAL=$(echo $?)
+EXPECTED="69"
+assertEqual "Exit with env var"
+cleanUp
+
+
 exit $EXIT_CODE
