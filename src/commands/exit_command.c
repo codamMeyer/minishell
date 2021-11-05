@@ -56,7 +56,7 @@ t_exit_code	exit_command(t_command command, t_output_stdout write_to_stdout)
 	if (ft_isalnum(*command.arg.start))
 	{
 		handle_error(EXIT_ARGS_ERROR, "exit:", " too many arguments\n");
-		return (1);
+		return (ERROR);
 	}
 	exit_code = get_exit_value(&buffer, command.arg.len);
 	exit(exit_code);
