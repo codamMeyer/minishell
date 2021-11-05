@@ -25,7 +25,8 @@ static void	append_env_value_to_buffer(const char **start, \
 			if (buffer->index && ft_isspace(buffer->buf[buffer->index - 1]) \
 				&& should_trim)
 				skip_spaces((const char **)&value);
-			append_char_to_buffer((const char **)&value, buffer);
+			if (*value)
+				append_char_to_buffer((const char **)&value, buffer);
 		}
 		if (should_trim && ft_isspace(buffer->buf[buffer->index - 1]))
 		{

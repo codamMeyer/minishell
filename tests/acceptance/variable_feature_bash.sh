@@ -55,5 +55,4 @@ EXPECTED="should display 0"
 assertEqual "return value for invalid file"
 cleanUp
 
-
 exit $EXIT_CODE

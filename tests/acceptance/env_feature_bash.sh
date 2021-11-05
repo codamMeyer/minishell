@@ -238,12 +238,12 @@ EXPECTED=$(echo "$a $b $c" | cat -e)
 assertEqual "UNSET more than one variable"
 cleanUp
 
-export a=" TEST       test"
-INPUT="echo \$a \"\$a\""
+export a=" TEST       test     "
+INPUT="echo \$a \"\$a\" \$a"
 runMinishell "$INPUT | cat -e"
 removePrompt $MINISHELL_OUTPUT
 ACTUAL=$(cat $MINISHELL_OUTPUT)
-EXPECTED=$(echo $a "$a" | cat -e)
+EXPECTED=$(echo $a "$a" $a | cat -e)
 assertEqual "Variable expansion trimmed"
 cleanUp
 unset a
