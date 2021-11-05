@@ -11,13 +11,10 @@ static void	append_env_value_to_buffer(const char **start, \
 									t_buffer *buffer, \
 									t_bool should_trim)
 {
-	t_env	*var;
-	int		key_len;
-	char	*value;
+	const t_env	*var = find_variable(get_environment(), *start);
+	const int	key_len = get_key_len(*start);
+	char		*value;
 
-	++(*start);
-	key_len = get_key_len(*start);
-	var = find_variable(get_environment(), *start);
 	if (var)
 	{
 		value = var->value;
@@ -25,7 +22,8 @@ static void	append_env_value_to_buffer(const char **start, \
 			skip_spaces((const char **)&value);
 		while (*value)
 		{
-			if (buffer->index && ft_isspace(buffer->buf[buffer->index - 1]) && should_trim)
+			if (buffer->index && ft_isspace(buffer->buf[buffer->index - 1]) \
+				&& should_trim)
 				skip_spaces((const char **)&value);
 			append_char_to_buffer((const char **)&value, buffer);
 		}
@@ -48,7 +46,10 @@ static void	append_quoted_string_to_buffer(const char **start, t_buffer *buffer)
 		while (*start < quotes.end)
 		{
 			if (quotes.is_double_quote && is_env_variable(*start))
+			{
+				++(*start);
 				append_env_value_to_buffer(start, buffer, FALSE);
+			}
 			else
 				append_char_to_buffer(start, buffer);
 		}
@@ -76,7 +77,10 @@ void	append_expanded_input_to_buffer(t_arg *arg, t_buffer *buffer)
 	if (is_quote(*arg->start))
 		append_quoted_string_to_buffer(&arg->start, buffer);
 	else if (is_env_variable(arg->start))
+	{
+		++(arg->start);
 		append_env_value_to_buffer(&arg->start, buffer, TRUE);
+	}
 	else if (ft_strncmp(arg->start, "$?", 2) == 0)
 		append_exit_code_to_buffer(&arg->start, buffer);
 	else if (ft_isspace(*arg->start))

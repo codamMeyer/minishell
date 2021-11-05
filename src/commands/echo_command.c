@@ -7,19 +7,6 @@
 #include <parser/parser.h>
 #include <errors/errors.h>
 
-static void	handle_spaces(t_arg *arg, t_buffer *buffer)
-{
-	if (ft_isspace(*arg->start) && buffer->index)
-	{
-		skip_spaces(&arg->start);
-		if (arg->start != arg->end)
-		{	
-			buffer->buf[buffer->index] = SPACE_CHAR;
-			++(buffer->index);
-		}
-	}
-}
-
 static int	handle_empty_str(t_bool has_n_flag, t_output_stdout output)
 {
 	if (has_n_flag)
@@ -51,10 +38,7 @@ t_exit_code	echo_command(t_command command, t_output_stdout output)
 	if (command.arg.len == 0)
 		return (handle_empty_str(has_n_flag, output));
 	while (command.arg.start < command.arg.end)
-	{
 		append_expanded_input_to_buffer(&command.arg, &buffer);
-		handle_spaces(&command.arg, &buffer);
-	}
 	if (!has_n_flag)
 		buffer.buf[buffer.index] = '\n';
 	output(&buffer.buf[0]);
