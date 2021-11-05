@@ -40,23 +40,18 @@ static void	append_quoted_string_to_buffer(const char **start, t_buffer *buffer)
 {
 	const t_quotes_position	quotes = get_quotes_positions(*start);
 
-	if (quotes.start && quotes.end)
+	*start = quotes.start;
+	while (*start < quotes.end)
 	{
-		*start = quotes.start;
-		while (*start < quotes.end)
+		if (quotes.is_double_quote && is_env_variable(*start))
 		{
-			if (quotes.is_double_quote && is_env_variable(*start))
-			{
-				++(*start);
-				append_env_value_to_buffer(start, buffer, FALSE);
-			}
-			else
-				append_char_to_buffer(start, buffer);
+			++(*start);
+			append_env_value_to_buffer(start, buffer, FALSE);
 		}
-		++(*start);
+		else
+			append_char_to_buffer(start, buffer);
 	}
-	else if (quotes.start)
-		++(*start);
+	++(*start);
 }
 
 void	init_buffer(t_buffer *buffer)
@@ -81,6 +76,8 @@ void	append_expanded_input_to_buffer(t_arg *arg, t_buffer *buffer)
 		++(arg->start);
 		append_env_value_to_buffer(&arg->start, buffer, TRUE);
 	}
+	else if (*arg->start == '$' && is_quote(*(arg->start + 1)))
+		++(arg->start);
 	else if (ft_strncmp(arg->start, "$?", 2) == 0)
 		append_exit_code_to_buffer(&arg->start, buffer);
 	else if (ft_isspace(*arg->start))
