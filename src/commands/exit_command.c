@@ -34,8 +34,9 @@ static t_exit_code	get_exit_value(t_buffer *exit, int arg_len)
 	{
 		handle_error(EXIT_ARGS_ERROR, "exit: ", exit->buf);
 		ft_putstr_fd(": numeric argument required\n", STDERR_FILENO);
+		return (255);
 	}
-	else if (exit_code == -1)
+	else if (exit_code == -1 && arg_len > 2)
 		exit_code = 255;
 	else if (exit_code == -2 && arg_len > 2)
 		exit_code = 0;
@@ -53,7 +54,7 @@ t_exit_code	exit_command(t_command command, t_output_stdout write_to_stdout)
 		&& *command.arg.start != SPACE_CHAR)
 		append_expanded_input_to_buffer(&command.arg, &buffer);
 	skip_spaces(&command.arg.start);
-	if (ft_isalnum(*command.arg.start))
+	if (command.arg.start != command.arg.end)
 	{
 		handle_error(EXIT_ARGS_ERROR, "exit:", " too many arguments\n");
 		return (ERROR);

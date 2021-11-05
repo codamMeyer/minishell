@@ -136,5 +136,27 @@ EXPECTED="0"
 assertEqual "Exit with env var without value"
 cleanUp
 
+INPUT="exit 123 *\nexit"
+STD=$(echo -e "$INPUT" | ./$MINISHELL_PROGRAM >> $MINISHELL_OUTPUT 2>&1)
+removePrompt $MINISHELL_OUTPUT
+ACTUAL=$(cat $MINISHELL_OUTPUT)
+EXPECTED="BestShellEver: exit: too many arguments"
+assertEqual "@ args, one non alphanum"
+cleanUp
+
+INPUT="exit *\nexit"
+STD=$(echo -e "$INPUT" | ./$MINISHELL_PROGRAM >> $MINISHELL_OUTPUT 2>&1)
+removePrompt $MINISHELL_OUTPUT
+ACTUAL=$(cat $MINISHELL_OUTPUT)
+EXPECTED="BestShellEver: exit: *: numeric argument required"
+assertEqual "2 args, one non alphanum"
+cleanUp
+
+INPUT="exit *"
+STD=$(echo -e "$INPUT" | ./$MINISHELL_PROGRAM)
+ACTUAL=$(echo $?)
+EXPECTED="255"
+assertEqual "Non alphanum arg"
+cleanUp
 
 exit $EXIT_CODE
