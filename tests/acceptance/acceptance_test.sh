@@ -15,43 +15,69 @@ fi
 compileMinishell
 
 ./tests/acceptance/echo_feature_bash.sh
-RESULT+=$?
+if [ $? -ne 0 ]; then
+    RESULT=1
+fi
 
 ./tests/acceptance/exit_feature_bash.sh
-RESULT+=$?
+if [ $? -ne 0 ]; then
+    RESULT=1
+fi
 
 ./tests/acceptance/pwd_feature_bash.sh
-RESULT+=$?
+if [ $? -ne 0 ]; then
+    RESULT=1
+fi
 
 ./tests/acceptance/pipes_feature_bash.sh
-RESULT+=$?
+if [ $? -ne 0 ]; then
+    RESULT=1
+fi
 
 ./tests/acceptance/env_feature_bash.sh
-RESULT+=$?
+if [ $? -ne 0 ]; then
+    RESULT=1
+fi
 
 ./tests/acceptance/redirection_feature_bash.sh
-RESULT+=$?
+if [ $? -ne 0 ]; then
+    RESULT=1
+fi
 
 ./tests/acceptance/variable_feature_bash.sh
-RESULT+=$?
+if [ $? -ne 0 ]; then
+    RESULT=1
+fi
 
 ./tests/acceptance/syntax_checker_test.sh
-RESULT+=$?
+if [ $? -ne 0 ]; then
+    RESULT=1
+fi
 
 ./tests/acceptance/heredoc_feature_bash.sh
-RESULT+=$?
+if [ $? -ne 0 ]; then
+    RESULT=1
+fi
 
 ./tests/acceptance/cd_feature_test.sh
-RESULT+=$?
+if [ $? -ne 0 ]; then
+    RESULT=1
+fi
 
 ./tests/acceptance/edge_cases_feature.sh
-RESULT+=$?
+if [ $? -ne 0 ]; then
+    RESULT=1
+fi
 
 ./tests/acceptance/error_handling.sh
-RESULT+=$?
+if [ $? -ne 0 ]; then
+    RESULT=1
+fi
 
 ./tests/acceptance/exit_code_feature.sh
-RESULT+=$?
+if [ $? -ne 0 ]; then
+    RESULT=1
+fi
 
 if [[ "$OSTYPE" == "linux-gnu"* ]]; then
     printTestName "Prompt_Display"

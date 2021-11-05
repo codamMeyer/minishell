@@ -58,7 +58,8 @@ t_exit_code	cd_command(t_command command, t_output_stdout output)
 		ret = copy_home_var_to_buffer(buffer.buf);
 	else
 	{
-		while (command.arg.start < command.arg.end)
+		while (command.arg.start < command.arg.end && \
+				!ft_isspace(*command.arg.start))
 			append_expanded_input_to_buffer(&command.arg, &buffer);
 	}
 	if (chdir(buffer.buf) == SYS_ERROR && !ret)

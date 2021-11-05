@@ -9,5 +9,8 @@ void			advance_pointer(const char **input, const char *parsed_str);
 void			skip_spaces(const char **input);
 int				populate_commands_table(const char *input, \
 									t_command commands_table[]);
+void			trim_extra_spaces(const char **start, \
+								const char *end, \
+								t_buffer *buffer);
 
 #endif

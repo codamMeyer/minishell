@@ -25,7 +25,7 @@ static void	append_env_value_to_buffer(const char **start, \
 			skip_spaces((const char **)&value);
 		while (*value)
 		{
-			if (ft_isspace(buffer->buf[buffer->index]) && should_trim)
+			if (buffer->index && ft_isspace(buffer->buf[buffer->index - 1]) && should_trim)
 				skip_spaces((const char **)&value);
 			append_char_to_buffer((const char **)&value, buffer);
 		}
@@ -79,6 +79,8 @@ void	append_expanded_input_to_buffer(t_arg *arg, t_buffer *buffer)
 		append_env_value_to_buffer(&arg->start, buffer, TRUE);
 	else if (ft_strncmp(arg->start, "$?", 2) == 0)
 		append_exit_code_to_buffer(&arg->start, buffer);
+	else if (ft_isspace(*arg->start))
+		trim_extra_spaces(&arg->start, arg->end, buffer);
 	else
 		append_char_to_buffer(&arg->start, buffer);
 }
