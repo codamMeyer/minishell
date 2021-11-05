@@ -18,19 +18,23 @@ static	t_bool	has_only_nums(const char *str)
 	return (TRUE);
 }
 
-static t_bool	is_invalid_exit_code(int exit_code, const char *str, int arg_len)
+static t_bool	is_invalid_exit_code(int exit_code,
+						const char *str, int arg_len)
 {
 	return (!has_only_nums(str)
 		|| (exit_code == -1 && arg_len >= 19));
 }
 
-static t_exit_code	get_exit_value(t_buffer *exit_arg, int arg_len)
+static t_exit_code	get_exit_value(t_buffer *exit, int arg_len)
 {
 	t_exit_code	exit_code;
 
-	exit_code = ft_atoi(exit_arg->buf);
-	if (is_invalid_exit_code(exit_code, exit_arg->buf, arg_len))
-		printf("BestShellEver: exit: %s: numeric argument required\n", exit_arg->buf);
+	exit_code = ft_atoi(exit->buf);
+	if (is_invalid_exit_code(exit_code, exit->buf, arg_len))
+	{
+		handle_error(EXIT_ARGS_ERROR, "exit: ", exit->buf);
+		ft_putstr_fd(": numeric argument required\n", STDERR_FILENO);
+	}
 	else if (exit_code == -1)
 		exit_code = 255;
 	else if (exit_code == -2 && arg_len > 2)
@@ -46,7 +50,7 @@ t_exit_code	exit_command(t_command command, t_output_stdout write_to_stdout)
 	(void)write_to_stdout;
 	init_buffer(&buffer);
 	while (command.arg.start < command.arg.end
-			&& *command.arg.start != SPACE_CHAR)
+		&& *command.arg.start != SPACE_CHAR)
 		append_expanded_input_to_buffer(&command.arg, &buffer);
 	skip_spaces(&command.arg.start);
 	if (ft_isalnum(*command.arg.start))

@@ -58,10 +58,7 @@ void	handle_error(t_exit_code code, \
 	{
 		write_to_stderr(location);
 		write_to_stderr(filename);
-		if (code == EXIT_ARGS_ERROR)
-			set_exit_code(1);
-		else
-			set_exit_code(code);
+		set_exit_code(code);
 	}
 	else
 		write_system_error(code, location, filename);
