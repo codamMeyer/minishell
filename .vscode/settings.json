@@ -19,7 +19,8 @@
         "istream": "c",
         "memory": "c",
         "tuple": "c",
-        "utility": "c"
+        "utility": "c",
+        "stdlib.h": "c"
     },
     "python.linting.flake8Args": [
         "--max-line-length=120",

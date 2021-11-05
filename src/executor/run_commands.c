@@ -23,7 +23,7 @@ static void	close_pipes(int *pipes_to_close)
 	Important!!! Check that there are more than one 
 	processes when creating pipes
 */
-int	run_multi_processes(char *env[], t_command commands[],
+int	run_multi_processes(t_command commands[],
 		int num_of_processes, int *pids)
 {
 	t_multi_pipes	pipes;
@@ -38,7 +38,7 @@ int	run_multi_processes(char *env[], t_command commands[],
 		{
 			redirect_in_and_output(&pipes, i, num_of_processes,
 				&commands[i]);
-			exit(dispatch_command(&commands[i], env));
+			exit(dispatch_command(&commands[i]));
 		}
 		if (i != FIRST_PROCESS)
 			close_pipes(pipes.previous);
@@ -78,7 +78,7 @@ t_bool	is_single_command(int num_of_cmds, t_command *command)
 	IMPORTANT! check when dispatching only one command
 */
 int	run_commands(t_command commands[],
-				int num_of_commands, char *env[])
+				int num_of_commands)
 {
 	const t_std_fd	fds = save_std_fds();
 	const int		*signal = heredoc_sigint();
@@ -90,11 +90,11 @@ int	run_commands(t_command commands[],
 	if (is_single_command(num_of_commands, &commands[0]))
 	{
 		redirect_in_and_output(NULL, 0, 0, &commands[0]);
-		exit_code = dispatch_command(&commands[0], env);
+		exit_code = dispatch_command(&commands[0]);
 	}
 	else
 	{
-		run_multi_processes(env, commands, num_of_commands, pids);
+		run_multi_processes(commands, num_of_commands, pids);
 		exit_code = wait_for_all_processes(num_of_commands, pids);
 	}	
 	restore_std_fds(fds);
