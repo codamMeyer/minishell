@@ -1,7 +1,7 @@
 #ifndef COMMANDS_H
 # define COMMANDS_H
 # define WHITESSPACE_AND_QUOTES " 	\""
-# define WHITESSPACE " \t"
+# define WHITESSPACE " \t\v"
 # define N_FLAG "-n"
 # define REDIRECTION_CHARS "<>|" 
 # define ALL_TERMINATORS "<>| \0" 

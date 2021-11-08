@@ -37,6 +37,7 @@ MINISHELL_INCS= 						\
 	src/env/env_for_exec.h				\
 	src/errors/errors.h					\
 	src/errors/exit_code.h				\
+	src/arguments.h						\
 
 MINISHELL_SRC= 							\
 	src/syntax/check_syntax.c			\
@@ -80,6 +81,7 @@ MINISHELL_SRC= 							\
 	src/env/env_for_exec.c				\
 	src/errors/errors.c					\
 	src/errors/exit_code.c				\
+	src/arguments.c						\
 
 TEST_FILES=								\
 	tests/main.c 						\
@@ -97,6 +99,7 @@ TEST_FILES=								\
 	tests/redirection_tests.c			\
 	tests/syntax_redirection_tests.c	\
 	tests/syntax_checker_test.c			\
+	tests/split_arg_test.c				\
 
 MINISHELL_OBJS=$(MINISHELL_SRC:.c=.o)
 

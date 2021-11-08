@@ -81,8 +81,6 @@ void	append_expanded_input_to_buffer(t_arg *arg, t_buffer *buffer)
 		++(arg->start);
 	else if (ft_strncmp(arg->start, "$?", 2) == 0)
 		append_exit_code_to_buffer(&arg->start, buffer);
-	else if (ft_isspace(*arg->start))
-		trim_extra_spaces(&arg->start, arg->end, buffer);
 	else
 		append_char_to_buffer(&arg->start, buffer);
 }
