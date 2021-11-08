@@ -17,7 +17,7 @@ static void	append_env_value_to_buffer(const char **start, t_buffer *buffer)
 	if (var)
 	{
 		ft_strlcpy(&buffer->buf[buffer->index], var->value, ft_strlen(var->value) + 1);
-	buffer->index += ft_strlen(var->value);
+		buffer->index += ft_strlen(var->value);
 	}
 	*start = *start + key_len;
 }
@@ -58,48 +58,62 @@ static void    populate_buffer_with_expanded_value(t_arg *arg, t_buffer *buffer)
 	}
 }
 
-static int	get_string_len(const char *str)
+static void	copy_string_to_buffer(const char **str, t_buffer *buffer)
 {
-	int str_len;
+	t_quotes_index	quotes;
+	int				quotes_len;
 
-	str_len = 0;
-	while (str[str_len])
+	while (*str && *(*str))
 	{
-		if (is_quote(str[str_len]))
+		if (is_quote(*(*str)))
 		{
-			t_quotes_index quotes = get_quotes_indexes(&str[str_len]);
-			str_len += (quotes.end + 1) - quotes.start;
+			quotes = get_quotes_indexes(*str);
+			quotes_len = quotes.end - quotes.start;
+			++(*str);
+			ft_strlcpy(&buffer->buf[buffer->index], *str, quotes_len);
+			buffer->index += quotes_len - 1;
+			(*str) += quotes_len;
 		}
-		if (ft_isspace(str[str_len]))
+		if (ft_isspace(*(*str)))
 			break ;
-		++str_len;
+		buffer->buf[buffer->index] = *(*str);
+		++buffer->index;
+		++(*str);
 	}
-	return (str_len);
 }
+
+static char	*get_substring(const char **str)
+{
+	t_buffer buffer;
+	char *split;
+
+	init_buffer(&buffer);
+	copy_string_to_buffer(str, &buffer);
+	split = ft_strdup(&buffer.buf[0]);
+	if (split == NULL)
+		return (NULL);
+	return (split);
+}
+
 
 static char     **split(char **splits, const char *str, int n_splits)
 {
-		int i;
-		int str_len;
-	
-		i = 0;
-		while (i < n_splits)
+	int i;
+
+	i = 0;
+	while (i < n_splits)
+	{
+		skip_spaces(&str);
+		splits[i] = get_substring(&str);
+		if (splits[i] == NULL)
 		{
-			skip_spaces(&str);
-			str_len = get_string_len(str);
-			splits[i] = (char*)malloc(str_len + 1 * sizeof(char));
-			if (splits[i] == NULL)
-			{
-				destroy_splited_arg(splits);
-				return (NULL);
-			}
-			ft_memcpy(splits[i], str, str_len);
-			splits[i][str_len] = '\0';
-			str = &str[str_len];
-			i++;
+			destroy_splited_arg(splits);
+			return (NULL);
 		}
-		splits[i] = NULL;
-		return (splits);
+		i++;
+	}
+	splits[i] = NULL;
+	return (splits);
 }
 
 static int	count_num_of_splits(char const *str)
@@ -127,17 +141,16 @@ static int	count_num_of_splits(char const *str)
 
 char            **split_args_on_spaces(char const *str)
 {
-		char	**split_strs;
-		int		n_of_splits;
+	char	**split_strs;
+	int		n_of_splits;
 
-		if (str == NULL)
+	if (str == NULL)
+		return (NULL);
+	n_of_splits = count_num_of_splits(str);
+	split_strs = (char**)malloc((n_of_splits + 1) * sizeof(char*));
+	if (split_strs == NULL)
 			return (NULL);
-		n_of_splits = count_num_of_splits(str);
-		split_strs = (char**)malloc((n_of_splits + 1) * sizeof(char*));
-		if (split_strs == NULL)
-				return (NULL);
-		split_strs = split(split_strs, str, n_of_splits);
-		return (split_strs);
+	return (split(split_strs, str, n_of_splits));
 }
 
 char **split_command_args(t_arg arg)
@@ -157,5 +170,5 @@ void    destroy_splited_arg(char **args)
 		i++;
 	}
 	if (args)
-	free(args);
+		free(args);
 }
