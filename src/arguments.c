@@ -75,8 +75,17 @@ static char     **split(char **splits, const char *str, int n_splits)
 			}
 			else
 			{
-				while (!ft_isspace(str[cur_len]))
+				while (str[cur_len])
+				{
+					if (is_quote(str[cur_len]))
+					{
+						t_quotes_index quotes = get_quotes_indexes(&str[cur_len]);
+						cur_len += (quotes.end + 1) - quotes.start;
+					}
+					if (ft_isspace(str[cur_len]))
+						break ;
 					++cur_len;
+				}
 			}
 			splits[i] = (char*)malloc(cur_len + 1 * sizeof(char));
 			if (splits[i] == NULL)
