@@ -26,7 +26,6 @@ MINISHELL_INCS= 						\
 	src/parser/dispatcher.h				\
 	src/parser/get_executable_path.h	\
 	src/commands/commands.h				\
-	src/commands/echo_utils.h			\
 	src/commands/quotes.h				\
 	src/commands/buffer.h				\
 	src/env/environment.h				\
@@ -63,7 +62,6 @@ MINISHELL_SRC= 							\
 	src/parser/file_utils.c				\
 	src/commands/exit_command.c			\
 	src/commands/echo_command.c			\
-	src/commands/echo_utils.c			\
 	src/commands/quotes.c				\
 	src/commands/buffer.c				\
 	src/commands/pwd_command.c			\

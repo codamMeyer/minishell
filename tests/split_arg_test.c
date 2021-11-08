@@ -218,3 +218,33 @@ CTEST2(split_command_arg, double_quotes_inside_single_quotes)
     ASSERT_STR("\"$TEST2\"", data->args[0]);
     ASSERT_NULL(data->args[1]);
 }
+
+
+CTEST2(split_command_arg, double_quotes_inside_single_quotes_inside_str)
+{
+    t_arg command_arg;
+    const char *inp = "helloThisIsATest'\"$TEST2\"'";
+    const int   inp_len = strlen(inp);
+    command_arg.start = inp;
+    command_arg.end = inp + inp_len;
+    command_arg.len = inp_len;
+
+    data->args = split_command_args(command_arg);
+    ASSERT_STR("helloThisIsATest\"$TEST2\"", data->args[0]);
+    ASSERT_NULL(data->args[1]);
+}
+
+
+CTEST2(split_command_arg, export_blah)
+{
+    t_arg command_arg;
+    const char *inp = "\" $TEST1 \"=\"$TEST2\"";
+    const int   inp_len = strlen(inp);
+    command_arg.start = inp;
+    command_arg.end = inp + inp_len;
+    command_arg.len = inp_len;
+
+    data->args = split_command_args(command_arg);
+    ASSERT_STR(" hello =this     is     a       string", data->args[0]);
+    ASSERT_NULL(data->args[1]);
+}
