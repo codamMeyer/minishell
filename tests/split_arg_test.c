@@ -126,8 +126,6 @@ CTEST2(split_command_arg, export_example)
     ASSERT_NULL(data->args[4]);
 }
 
-//
-
 
 CTEST2(split_command_arg, one_word_arg_between_single_quotes)
 {
