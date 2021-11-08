@@ -41,9 +41,9 @@ static void	append_quoted_string_to_buffer(const char **start, t_buffer *buffer)
 
 static void    populate_buffer_with_expanded_value(t_arg *arg, t_buffer *buffer)
 {
-    init_buffer(buffer);    
-    while (arg->start < arg->end)
-    {
+	init_buffer(buffer);    
+	while (arg->start < arg->end)
+	{
 		if (is_quote(*arg->start))
 			append_quoted_string_to_buffer(&arg->start, buffer);
 		else if (is_env_variable(arg->start))
@@ -55,58 +55,57 @@ static void    populate_buffer_with_expanded_value(t_arg *arg, t_buffer *buffer)
 			append_exit_code_to_buffer(&arg->start, buffer);
 		else
 			append_char_to_buffer(&arg->start, buffer);
-    }
+	}
+}
+
+static int	get_string_len(const char *str)
+{
+	int str_len;
+
+	str_len = 0;
+	while (str[str_len])
+	{
+		if (is_quote(str[str_len]))
+		{
+			t_quotes_index quotes = get_quotes_indexes(&str[str_len]);
+			str_len += (quotes.end + 1) - quotes.start;
+		}
+		if (ft_isspace(str[str_len]))
+			break ;
+		++str_len;
+	}
+	return (str_len);
 }
 
 static char     **split(char **splits, const char *str, int n_splits)
 {
-        int i;
-        int cur_len;
+		int i;
+		int str_len;
 	
-        i = 0;
-        while (i < n_splits)
-        {
-			cur_len = 0;
+		i = 0;
+		while (i < n_splits)
+		{
 			skip_spaces(&str);
-			if (is_quote(*str))
-			{
-				t_quotes_index quotes = get_quotes_indexes(str);
-				cur_len = (quotes.end + 1) - quotes.start;
-			}
-			else
-			{
-				while (str[cur_len])
-				{
-					if (is_quote(str[cur_len]))
-					{
-						t_quotes_index quotes = get_quotes_indexes(&str[cur_len]);
-						cur_len += (quotes.end + 1) - quotes.start;
-					}
-					if (ft_isspace(str[cur_len]))
-						break ;
-					++cur_len;
-				}
-			}
-			splits[i] = (char*)malloc(cur_len + 1 * sizeof(char));
+			str_len = get_string_len(str);
+			splits[i] = (char*)malloc(str_len + 1 * sizeof(char));
 			if (splits[i] == NULL)
 			{
-					destroy_splited_arg(splits);
-					return (NULL);
+				destroy_splited_arg(splits);
+				return (NULL);
 			}
-			ft_memcpy(splits[i], str, cur_len);
-			splits[i][cur_len] = '\0';
-			str = &str[cur_len];
+			ft_memcpy(splits[i], str, str_len);
+			splits[i][str_len] = '\0';
+			str = &str[str_len];
 			i++;
-        }
-        if (n_splits != 0)
-                splits[i] = NULL;
-        return (splits);
+		}
+		splits[i] = NULL;
+		return (splits);
 }
 
-static int	num_of_splits(char const *str)
+static int	count_num_of_splits(char const *str)
 {
-	int i;
 	int num_of_splits;
+	int i;
 	
 	i = 0;
 	num_of_splits = 0;
@@ -126,44 +125,37 @@ static int	num_of_splits(char const *str)
 	return (num_of_splits);
 }
 
-char            **ft_split_on_space(char const *s)
+char            **split_args_on_spaces(char const *str)
 {
-        char    **split_strs;
-        int             n_of_splits;
+		char	**split_strs;
+		int		n_of_splits;
 
-        if (s == NULL)
-                return (NULL);
-        n_of_splits = num_of_splits(s);
-        split_strs = (char**)malloc((n_of_splits + 1) * sizeof(char*));
-        if (split_strs == NULL)
-                return (NULL);
-        if (n_of_splits == 0 || s[0] == '\0')
-        {
-                split_strs[0] = NULL;
-                return (split_strs);
-        }
-        split_strs = split(split_strs, s, n_of_splits);
-        return (split_strs);
+		if (str == NULL)
+			return (NULL);
+		n_of_splits = count_num_of_splits(str);
+		split_strs = (char**)malloc((n_of_splits + 1) * sizeof(char*));
+		if (split_strs == NULL)
+				return (NULL);
+		split_strs = split(split_strs, str, n_of_splits);
+		return (split_strs);
 }
 
 char **split_command_args(t_arg arg)
 {
-    t_buffer buffer;
+	t_buffer buffer;
 
-    populate_buffer_with_expanded_value(&arg, &buffer);
-
-    char **args = ft_split_on_space(&buffer.buf[0]);
-    return (args);
+	populate_buffer_with_expanded_value(&arg, &buffer);
+	return (split_args_on_spaces(&buffer.buf[0]));
 }
 
 void    destroy_splited_arg(char **args)
 {
-    int i = 0;
-    while (args && args[i] != NULL)
-    {
-	    free(args[i]);
-	    i++;
-    }
-    if (args)
+	int i = 0;
+	while (args && args[i] != NULL)
+	{
+		free(args[i]);
+		i++;
+	}
+	if (args)
 	free(args);
 }
