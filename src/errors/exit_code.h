@@ -13,6 +13,7 @@ typedef enum e_exit_code
 	FORK_ERROR = 4,
 	PIPE_ERROR = 5,
 	HOME_NOT_SET_ERROR = 6,
+	EXIT_ARGS_ERROR = 7,
 	UNKNOWN_COMMAND_ERROR = 127,
 	SYNTAX_ERROR = 258,
 }	t_exit_code;
