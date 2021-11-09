@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <libft.h>
 #include <errno.h>
+#include <sys/stat.h>
 #include <sys/wait.h>
 #include <string.h>
 #include <commands/buffer.h>
@@ -42,12 +43,15 @@ static	void	handle_execve_error(const char *cmd)
 {
 	const char	*no_file_or_dir = "No such file or directory";
 	const char	*is_dir = "is a directory";
+	struct stat	status;
+	const int	stat_ret = stat(cmd, &status);
 
 	if (errno == 2)
 		write_execve_error(127, cmd, no_file_or_dir);
-	else if (errno == 13
-		&& (ft_strncmp(cmd, "./", 2) == SUCCESS || (cmd && cmd[0] == '/')))
+	else if (errno == 13 && stat_ret == F_OK && S_ISDIR(status.st_mode))
 		write_execve_error(126, cmd, is_dir);
+	else if (errno == 13)
+		write_execve_error(126, cmd, "Permission denied");
 	else
 		handle_error(SYS_ERROR, NULL, cmd);
 	exit(*get_exit_code());

@@ -34,7 +34,6 @@ int	is_executable(char *full_path_executable)
 {
 	struct stat	status;
 	
-
 	return (stat(full_path_executable, &status));
 }
 
