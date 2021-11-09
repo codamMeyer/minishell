@@ -11,30 +11,15 @@
 #include <executor/executor_utils.h>
 #include <env/env_utils.h>
 
-static void	copy_unknown_command_to_buffer(const char **input, char buffer[])
-{
-	const char	*cur = *input;
-	int			i;
-
-	i = 0;
-	while (cur[i] && !ft_isspace(cur[i]))
-		++i;
-	ft_memcpy(buffer, cur, i);
-	buffer[i] = '\0';
-}
-
 t_exit_code	unknown_command(t_command command, t_output_stdout output)
 {
 	const char	*shell_name = "BestShellEver: ";
 	const char	*command_not_found = ": command not found\n";
-	char		unknown_command_str[4096];
 
-	skip_spaces(&command.arg.start);
-	copy_unknown_command_to_buffer(&command.arg.start, &unknown_command_str[0]);
 	if (command.files.in != FILE_ERROR)
 	{
 		output(shell_name);
-		output(&unknown_command_str[0]);
+		output(command.arguments[0]);
 		output(command_not_found);
 	}
 	return (UNKNOWN_COMMAND_ERROR);

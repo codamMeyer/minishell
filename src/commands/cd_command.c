@@ -13,10 +13,8 @@ static void	update_env_value(const char *key, const char *new_value)
 	t_env	*var;
 	char	*args[3];
 
-	args[0] = NULL;
 	args[1] = (char *)key;
 	args[2] = NULL;
-
 	export(get_environment(), args);
 	var = find_variable(get_environment(), key);
 	free(var->value);
