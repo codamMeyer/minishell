@@ -7,18 +7,25 @@ CTEST_DATA(split_command_arg)
 {
     t_env   *env;
     char    **args;
+    char    *args_export[5];
 };
 
 CTEST_SETUP(split_command_arg)
 {
     data->env = get_environment();
-    export(data->env, "TEST1=hello TEST2=\"this     is     a       string\" TEST3=\"=\"");
+    data->args_export[0] = "export";
+    data->args_export[1] = "TEST1=hello";
+    data->args_export[2] = "TEST2=this     is     a       string";
+    data->args_export[3] = "TEST3==";
+    data->args_export[4] = NULL;
+
+    export(data->env, data->args_export);
 };
 
 CTEST_TEARDOWN(split_command_arg)
 {
     destroy_env(data->env, ENV_SIZE);
-    destroy_splited_arg(data->args);
+    destroy_split_arg(data->args);
 };
 
 CTEST2(split_command_arg, empty_arg)

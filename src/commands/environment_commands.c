@@ -26,7 +26,7 @@ t_exit_code	unset_command(t_command command, t_output_stdout output)
 
 t_exit_code	env_command(t_command command, t_output_stdout output)
 {
-	skip_spaces(&command.arg.start);
+	(void)command;
 	display_env(get_environment(), output);
 	return (SUCCESS);
 }

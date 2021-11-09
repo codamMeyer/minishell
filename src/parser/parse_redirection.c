@@ -10,6 +10,7 @@
 #include <parser/here_doc.h>
 #include <parser/parser.h>
 #include <parser/parse_redirection.h>
+#include <arguments.h>
 
 /*
 	Assumes that string has been checked for quotes
@@ -17,14 +18,18 @@
 int	get_file_name_and_length(t_buffer *buffer, char *input, int redirect_id)
 {
 	const int	len_to_replace = get_set_index(input, ALL_TERMINATORS) + 1;
+	char		**split;
 	t_arg		arg;
 
 	arg.start = input;
+	arg.end = input + (len_to_replace - 1);
 	skip_spaces(&arg.start);
 	if (redirect_id == HERE_DOC)
 		ft_strlcpy(&buffer->buf[0], input, len_to_replace);
-	while (is_valid_filename_char(*arg.start, redirect_id))
-		append_expanded_input_to_buffer(&arg, buffer);
+	// while (is_valid_filename_char(*arg.start, redirect_id))
+	split = split_command_args(arg);
+	ft_strlcpy(&buffer->buf[0], split[0], ft_strlen(split[0]) + 1);
+	destroy_split_arg(split);
 	return (len_to_replace);
 }
 

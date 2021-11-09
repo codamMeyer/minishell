@@ -39,7 +39,7 @@ static void	append_quoted_string_to_buffer(const char **start, t_buffer *buffer)
 	}
 }
 
-static void    populate_buffer_with_expanded_value(t_arg *arg, t_buffer *buffer)
+void    populate_buffer_with_expanded_value(t_arg *arg, t_buffer *buffer)
 {
 	init_buffer(buffer);    
 	while (arg->start < arg->end)
@@ -109,7 +109,7 @@ static char     **split(char **splits, const char *str, int n_splits)
 		splits[i] = get_substring(&str);
 		if (splits[i] == NULL)
 		{
-			destroy_splited_arg(splits);
+			destroy_split_arg(splits);
 			return (NULL);
 		}
 		i++;
@@ -163,7 +163,7 @@ char **split_command_args(t_arg arg)
 	return (split_args_on_spaces(&buffer.buf[0]));
 }
 
-void    destroy_splited_arg(char **args)
+void    destroy_split_arg(char **args)
 {
 	int i = 0;
 	while (args && args[i] != NULL)

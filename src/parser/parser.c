@@ -49,7 +49,6 @@ int	populate_commands_table(const char *input, t_command commands_table[])
 	{
 		consume_pipe(&input_line, i);
 		commands_table[i] = populate_command(&input_line);
-		input_line += commands_table[i].arg.len;
 		skip_spaces(&input_line);
 		++i;
 	}
