@@ -31,7 +31,7 @@ removePrompt $MINISHELL_OUTPUT
 ACTUAL=$(cat $MINISHELL_OUTPUT)
 EXPECTED="BestShellEver: /: is a directory
 126"
-assertEqual "Slash as function wih return"
+assertEqual "Single Slash as arg wih return"
 cleanUp
 
 STD=$(echo -e "/ls\n echo \$?\nexit"| ./minishell >> $MINISHELL_OUTPUT 2>&1)
@@ -48,6 +48,14 @@ ACTUAL=$(cat $MINISHELL_OUTPUT)
 EXPECTED="BestShellEver: asdfjkasvdf: command not found
 127"
 assertEqual "unknown command with return"
+cleanUp
+
+STD=$(echo -e "/////////\n echo \$?\nexit"| ./minishell >> $MINISHELL_OUTPUT 2>&1)
+removePrompt $MINISHELL_OUTPUT
+ACTUAL=$(cat $MINISHELL_OUTPUT)
+EXPECTED="BestShellEver: /////////: is a directory
+126"
+assertEqual "multi forward slashes with return"
 cleanUp
 
 exit $EXIT_CODE
