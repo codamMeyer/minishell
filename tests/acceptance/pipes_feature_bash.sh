@@ -59,6 +59,12 @@ ACTUAL=$(cat $MINISHELL_OUTPUT)
 EXPECTED=$(< tests/acceptance/bigfile grep int | cat -e > $TMP_FILE)
 assertEqual "$INPUT"
 
+INPUT=$(echo -e "unset PATH\n/bin/ls\nexit" | ./minishell > $MINISHELL_OUTPUT)
+removePrompt $MINISHELL_OUTPUT
+ACTUAL=$(cat $MINISHELL_OUTPUT)
+EXPECTED=$(ls)
+assertEqual "Execute on absolute path with PATH unset"
+
 cleanUp
 
 exit $EXIT_CODE

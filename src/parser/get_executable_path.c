@@ -40,15 +40,17 @@ int	is_executable(char *full_path_executable)
 char	*get_executable_path(const char *command)
 {
 	const t_env	*env_paths = find_variable(get_environment(), "PATH");
+	const char	*has_forward_slash = ft_strchr(command, FORWARD_SLASH);
 	char		*all_paths;
 	char		buffer[BUFFER_SIZE];
 	int			single_path_len;
 
-	if (!command || !env_paths)
+	if (!command || (!env_paths && !ft_strchr(command, FORWARD_SLASH)))
 		return (NULL);
-	else if (ft_strchr(command, FORWARD_SLASH)
-		&& is_executable((char *) command) == F_OK)
+	else if (has_forward_slash && is_executable((char *) command) == F_OK)
 		return (ft_strdup(command));
+	else if (has_forward_slash)
+		return (NULL);
 	all_paths = env_paths->value;
 	while (all_paths && *all_paths)
 	{

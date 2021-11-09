@@ -6,7 +6,7 @@
 /*   By: rmeiboom <rmeiboom@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/11/14 14:07:44 by rmeiboom      #+#    #+#                 */
-/*   Updated: 2021/10/04 17:16:29 by rmeiboom      ########   odam.nl         */
+/*   Updated: 2021/11/09 11:15:48 by rmeiboom      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ char	*ft_strchr(const char *s, int c)
 	size_t		i;
 	size_t		len;
 
+	if (!s)
+		return (NULL);
 	str = (char *)s;
 	len = ft_strlen(str);
 	i = 0;

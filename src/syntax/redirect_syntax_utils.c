@@ -22,7 +22,7 @@ t_bool	file_name_contains_only_digits(const char *file, const char *input)
 			return (FALSE);
 		i++;
 	}
-	if (input[file_len] != SPACE_CHAR)
+	if (input[file_len] != SPACE_CHAR && input[file_len] != NULL_TERMINATOR)
 	{
 		handle_error(SYNTAX_ERROR, "syntax error near unexpected token `", \
 					&file[file_len - 1]);
