@@ -48,7 +48,10 @@ void	execute_system_command(const t_command *command)
 	if (!cmd)
 		handle_error(MALLOC_ERROR, NULL, "malloc()");
 	if (execute_command(command->exe_path, cmd) == SYS_ERROR)
+	{
+		free(command->exe_path);
 		handle_error(SYS_ERROR, NULL, NULL);
+	}
 }
 
 /*
