@@ -4,7 +4,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <commands/quotes.h>
-#include <commands/echo_utils.h>
 #include <executor/run_commands.h>
 #include <parser/command_table.h>
 #include <parser/dispatcher.h>

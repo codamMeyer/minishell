@@ -4,7 +4,6 @@
 #include <parser/dispatcher.h>
 #include <commands/buffer.h>
 #include <commands/commands.h>
-#include <commands/echo_utils.h>
 #include <output/write_to_std.h>
 #include <parser/command_table.h>
 #include <parser/parser.h>

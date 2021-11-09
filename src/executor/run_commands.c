@@ -2,7 +2,6 @@
 #include <string.h>
 #include <stdio.h>
 #include <unistd.h>
-#include <commands/echo_utils.h>
 #include <executor/run_commands.h>
 #include <executor/executor_utils.h>
 #include <parser/dispatcher.h>

@@ -29,7 +29,7 @@ static void	append_quoted_string_to_buffer(const char **start, t_buffer *buffer)
 	*start = quotes.start - 1;
 	while (*start <= quotes.end)
 	{
-		if (quotes.is_double_quote && is_env_variable(*start))
+		if (quotes.is_double_quote && (is_env_variable(*start)))
 		{
 			++(*start);
 			append_env_value_to_buffer(start, buffer);
@@ -53,6 +53,8 @@ static void    populate_buffer_with_expanded_value(t_arg *arg, t_buffer *buffer)
 		}
 		else if (ft_strncmp(arg->start, "$?", 2) == 0)
 			append_exit_code_to_buffer(&arg->start, buffer);
+		else if (*arg->start == VARIABLE_TOKEN && (arg->start + 1) != arg->end && !ft_isspace(*(arg->start + 1)))
+			++(arg->start);
 		else
 			append_char_to_buffer(&arg->start, buffer);
 	}
