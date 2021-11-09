@@ -3,40 +3,64 @@
 /*                                                        ::::::::            */
 /*   ft_atoi.c                                          :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: rmeiboom <rmeiboom@student.codam.nl>         +#+                     */
+/*   By: mmeyer <mmeyer@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2020/11/14 14:06:09 by rmeiboom      #+#    #+#                 */
-/*   Updated: 2021/05/15 12:16:07 by rmeiboom      ########   odam.nl         */
+/*   Created: 2020/10/27 14:42:05 by mmeyer        #+#    #+#                 */
+/*   Updated: 2021/11/04 17:15:17 by rmeiboom      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include <stdio.h>
 
-int	ft_atoi(const char *str)
+#define FT_LONG_MAX  9223372036854775807
+#define FT_LONG_MIN  -9223372036854775808
+
+static int	is_space(char a)
 {
-	int			i;
-	int			negative;
-	long int	digit;
+	if (a == ' ' || a == '\f' || a == '\n')
+		return (1);
+	if (a == '\r' || a == '\t' || a == '\v')
+		return (1);
+	return (0);
+}
+
+static int	find_first_number(const char *nptr, int *sign)
+{
+	int	i;
 
 	i = 0;
-	digit = 0;
-	negative = 1;
-	while ((str[i] >= 9 && str[i] <= 13) || str[i] == 32)
-		i++;
-	if (str[i] == '+' || str[i] == '-')
+	while (is_space(nptr[i]))
+		++i;
+	if (nptr[i] == '-')
 	{
-		if (str[i] == '-')
-			negative *= -1;
-		i++;
+		*sign *= -1;
+		++i;
 	}
-	while (str[i] >= '0' && str[i] <= '9')
+	else if (nptr[i] == '+')
+		++i;
+	return (i);
+}
+
+int	ft_atoi(const char *nptr)
+{
+	const long		long_limits = FT_LONG_MAX / 10;
+	int				sign;
+	int				index;
+	long long int	result;
+
+	result = 0;
+	sign = 1;
+	index = find_first_number(nptr, &sign);
+	while (ft_isdigit(nptr[index]))
 	{
-		digit = (digit * 10) + (str[i] - '0');
-		if ((digit * negative) < LONG_MIN)
-			return (0);
-		else if ((digit * negative) > LONG_MAX)
+		if (result >= long_limits && nptr[index] == '8' && sign == -1)
+			return (-2);
+		if (result >= long_limits
+			&& (nptr[index] >= '7' || nptr[index + 1]))
 			return (-1);
-		i++;
+		result = (nptr[index] - '0') + (result * 10);
+		++index;
 	}
-	return (digit * negative);
+	return ((int)(result * sign));
 }
