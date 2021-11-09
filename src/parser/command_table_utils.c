@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <parser/command_table.h>
 #include <parser/get_executable_path.h>
+#include <arguments.h>
 
 t_command	*expand_arg_content(t_command *command, t_buffer *buffer)
 {
@@ -59,6 +60,7 @@ void	cleanup_command_table(t_command *command_table, int num_commands)
 	{
 		if (command_table[i].code == SYSTEM)
 			free((char *)command_table[i].exe_path);
+		destroy_splited_arg(command_table[i].arguments);
 		++i;
 	}
 }

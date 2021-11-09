@@ -31,6 +31,7 @@ typedef struct s_command
 	t_command_code	code;
 	t_arg			arg;
 	t_files			files;
+	char			**arguments;
 	const char		*exe_path;
 }	t_command;
 

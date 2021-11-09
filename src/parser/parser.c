@@ -11,6 +11,7 @@
 #include <parser/parse_redirection.h>
 #include <errors/errors.h>
 #include <signals/signals.h>
+#include <arguments.h>
 
 static void	consume_pipe(const char **input, int index)
 {
@@ -31,6 +32,7 @@ t_command	populate_command(const char **input_ptr)
 	command.arg.start = *input_ptr;
 	command.arg.len = get_set_index(command.arg.start, "|");
 	command.arg.end = *input_ptr + command.arg.len;
+	command.arguments = split_command_args(command.arg);
 	return (command);
 }
 
