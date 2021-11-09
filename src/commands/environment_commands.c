@@ -18,8 +18,9 @@ t_exit_code	export_command(t_command command, t_output_stdout output)
 t_exit_code	unset_command(t_command command, t_output_stdout output)
 {
 	(void)output;
-	skip_spaces(&command.arg.start);
-	unset(get_environment(), command.arg.start);
+	if (!command.arguments[1])
+		return (SUCCESS);
+	unset(get_environment(), command.arguments);
 	return (SUCCESS);
 }
 

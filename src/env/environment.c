@@ -19,21 +19,17 @@ t_exit_code	export(t_env *env, char **arguments)
 	return (add_variables_to_env(env, tmp_env, variables_count));
 }
 
-void	unset(t_env *env, const char *key)
+void	unset(t_env *env, char **arguments)
 {
-	t_arg		arg;
-	t_buffer	key_buffer;
-	t_env		*variable;
+	t_env	*variable;
+	int		i;
 
-	arg.start = (char *)key;
-	while (*arg.start)
+	i = 1;
+	while (arguments[i])
 	{
-		init_buffer(&key_buffer);
-		while (*arg.start && !ft_isspace(*arg.start))
-			append_expanded_input_to_buffer(&arg, &key_buffer);
-		variable = find_variable(env, key_buffer.buf);
+		variable = find_variable(env, arguments[i]);
 		free_key_value_pair(variable);
-		skip_spaces(&arg.start);
+		++i;
 	}
 }
 

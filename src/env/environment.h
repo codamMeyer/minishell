@@ -13,7 +13,7 @@ typedef struct s_env
 }	t_env;
 
 t_exit_code	export(t_env *env, char **arguments);
-void		unset(t_env *env, const char *key);
+void		unset(t_env *env, char **arguments);
 void		display_env(t_env *env, t_output_stdout output);
 t_env		*find_variable(t_env *env, const char *key);
 void		destroy_env(t_env *env, int size);
