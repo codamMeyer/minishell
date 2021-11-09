@@ -12,7 +12,7 @@ static void	update_env_value(const char *key, const char *new_value)
 {
 	t_env	*var;
 
-	export(get_environment(), key);
+	// export(get_environment(), key);
 	var = find_variable(get_environment(), key);
 	free(var->value);
 	var->value = ft_strdup(new_value);

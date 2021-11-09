@@ -24,26 +24,7 @@ t_bool	is_valid_key(char *key, int key_len)
 	return (TRUE);
 }
 
-void	move_to_key_start(const char **kv_str)
-{
-	const char	*equalsign_position = get_equal_sign_position(*kv_str);
-	int			space_index;
-	char		*space_position;
-
-	space_index = get_set_index((char *)*kv_str, WHITESSPACE);
-	space_position = (char *)(*kv_str) + space_index;
-	while (space_position && space_position < equalsign_position)
-	{
-		(*kv_str) += &space_position[0] - (*kv_str);
-		skip_spaces(kv_str);
-		space_index = get_set_index((char *)*kv_str, WHITESSPACE);
-		space_position = (char *)(*kv_str) + space_index;
-	}
-	skip_spaces(kv_str);
-}
-
-t_bool	add_variable_to_tmp_env(t_env *tmp_env, \
-										const char **key_value_str)
+t_bool	add_variable_to_tmp_env(t_env *tmp_env, char **key_value_str)
 {
 	t_buffer	key_buffer;
 	t_buffer	value_buffer;
@@ -56,7 +37,6 @@ t_bool	add_variable_to_tmp_env(t_env *tmp_env, \
 		tmp_env->key = ft_strdup(key_buffer.buf);
 		tmp_env->value = ft_strdup(value_buffer.buf);
 		tmp_env->set = NULL;
-		(*key_value_str) += key_buffer.index + value_buffer.index + 1;
 		return (TRUE);
 	}
 	else
@@ -64,18 +44,18 @@ t_bool	add_variable_to_tmp_env(t_env *tmp_env, \
 	return (FALSE);
 }
 
-int	add_variables_to_tmp_env(t_env *tmp_env, const char *key_value_str)
+int	add_variables_to_tmp_env(t_env *tmp_env, char **arguments)
 {
 	int	variables_count;
+	int i;
 
+	i = 1;
 	variables_count = 0;
-	while (*key_value_str)
+	while (arguments[i])
 	{	
-		move_to_key_start(&key_value_str);
 		variables_count += \
-		add_variable_to_tmp_env(&tmp_env[variables_count], &key_value_str);
-		if (!get_equal_sign_position(key_value_str))
-			break ;
+		add_variable_to_tmp_env(&tmp_env[variables_count], &arguments[i]);
+		++i;
 	}
 	return (variables_count);
 }
