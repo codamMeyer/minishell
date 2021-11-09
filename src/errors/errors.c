@@ -54,7 +54,7 @@ void	handle_error(t_exit_code code, \
 		write_to_stderr(location);
 		write_to_stderr("HOME not set\n");
 	}
-	else if (code == SYNTAX_ERROR)
+	else if (code == SYNTAX_ERROR || code == EXIT_ARGS_ERROR)
 	{
 		write_to_stderr(location);
 		write_to_stderr(filename);
