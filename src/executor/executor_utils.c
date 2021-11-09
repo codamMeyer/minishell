@@ -38,16 +38,7 @@ static int	execute_command(const char *path, char *argv[])
 
 void	execute_system_command(const t_command *command)
 {
-	char		**cmd;
-	t_buffer	buffer;
-
-	init_buffer(&buffer);
-	while (command->arg.start < command->arg.end)
-		append_expanded_input_to_buffer((t_arg *)&command->arg, &buffer);
-	cmd = ft_split(&buffer.buf[0], SPACE_CHAR);
-	if (!cmd)
-		handle_error(MALLOC_ERROR, NULL, "malloc()");
-	if (execute_command(command->exe_path, cmd) == SYS_ERROR)
+	if (execute_command(command->exe_path, command->arguments) == SYS_ERROR)
 	{
 		free((char *)command->exe_path);
 		handle_error(SYS_ERROR, NULL, NULL);
