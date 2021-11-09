@@ -37,7 +37,7 @@ static void	write_system_error(t_exit_code code, \
 								const char *location, \
 								const char *filename)
 {
-	if (code == FILE_ERROR || code == SYS_ERROR || code == -5 ||\
+	if (code == FILE_ERROR || code == SYS_ERROR || \
 		(code >= MALLOC_ERROR && code <= PIPE_ERROR))
 	{
 		if (location)
@@ -52,8 +52,7 @@ static void	write_system_error(t_exit_code code, \
 		}
 		write_to_stderr(strerror(errno));
 		write_to_stderr("\n");
-		if (code == -5)
-			set_exit_code(1);
+		set_exit_code(1);
 	}
 }
 

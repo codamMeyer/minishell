@@ -33,7 +33,7 @@ static void	copy_possible_path_to_buffer(const char *all_paths,
 int	is_executable(char *full_path_executable)
 {
 	struct stat	status;
-	
+
 	return (stat(full_path_executable, &status));
 }
 
