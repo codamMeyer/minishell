@@ -24,15 +24,16 @@ static void	consume_pipe(const char **input, int index)
 t_command	populate_command(const char **input_ptr)
 {
 	t_command	command;
+	t_arg		arg;
 
-	command.files = get_redirection((char **)input_ptr,
-			get_set_index(*input_ptr, "|") - 1);
-	command.code = get_command_code(input_ptr, &command);
-	skip_spaces(input_ptr);
-	command.arg.start = *input_ptr;
-	command.arg.len = get_set_index(command.arg.start, "|");
-	command.arg.end = *input_ptr + command.arg.len;
-	command.arguments = split_command_args(command.arg);
+	arg.start = *input_ptr;
+	arg.len = get_set_index(arg.start, "|");
+	arg.end = *input_ptr + arg.len;
+	command.files = get_redirection((char **)input_ptr, get_set_index(*input_ptr, "|") - 1);
+	command.arguments = split_command_args(arg);
+	if (command.arguments)
+		command.code = get_command_code(command.arguments[0], &command);
+	(*input_ptr) += arg.len;
 	return (command);
 }
 

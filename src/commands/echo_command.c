@@ -44,14 +44,14 @@ t_exit_code	echo_command(t_command command, t_output_stdout output)
 	t_bool	has_n_flag;
 	int		i;
 
-	i = 0;
+	i = 1;
 	if (!command.arguments)
 	{
 		handle_error(MALLOC_ERROR, NULL, "malloc()");
 		return (MALLOC_ERROR);
 	}
 	has_n_flag = parse_n_flag(command.arguments[i]);
-	while (has_n_flag && parse_n_flag(command.arguments[i]))
+	while (has_n_flag && command.arguments[i] && parse_n_flag(command.arguments[i]))
 		++i;
 	while (command.arguments[i])
 	{

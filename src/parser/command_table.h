@@ -4,7 +4,7 @@
 # include <commands/commands.h>
 # include <defines.h>
 
-t_command_code	get_command_code(const char **input, t_command *command);
+t_command_code	get_command_code(char *input, t_command *command);
 t_bool			is_between_quotes(const char *input, int reserved_char_index);
 int				get_set_index(const char *start, const char *set);
 t_command		*expand_arg_content(t_command *command, t_buffer *buffer);
