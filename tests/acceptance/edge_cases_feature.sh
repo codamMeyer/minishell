@@ -33,7 +33,7 @@ assertEqual "Passing updated env"
 unset LS
 cleanUp
 
-STD=$(echo -e "cat /dev/urandom | base64 | head -c 100 | wc -c\nexit" | ./minishell > 1)
+STD=$(echo -e "cat /dev/urandom | base64 | head -c 100 | wc -c  > 1\nexit" | ./minishell)
 removePrompt 1
 ACTUAL=$(cat 1)
 export LS="s -l"
