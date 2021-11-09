@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <libft.h>
+#include <errno.h>
 #include <sys/wait.h>
+#include <string.h>
 #include <commands/buffer.h>
 #include <executor/executor_utils.h>
 #include <executor/run_commands.h>
@@ -36,6 +38,21 @@ static int	execute_command(const char *path, char *argv[])
 	return (execve(path, (char *const *)argv, (char *const *)updated_env));
 }
 
+static	void	handle_execve_error(const char *cmd)
+{
+	const char	*no_file_or_dir = "No such file or directory";
+	const char	*is_dir = "is a directory";
+
+	if (errno == 2)
+		write_execve_error(127, cmd, no_file_or_dir);
+	else if (errno == 13
+		&& (ft_strncmp(cmd, "./", 2) == SUCCESS || (cmd && cmd[0] == '/')))
+		write_execve_error(126, cmd, is_dir);
+	else
+		handle_error(SYS_ERROR, NULL, cmd);
+	exit(*get_exit_code());
+}
+
 void	execute_system_command(const t_command *command)
 {
 	char		**cmd;
@@ -49,8 +66,8 @@ void	execute_system_command(const t_command *command)
 		handle_error(MALLOC_ERROR, NULL, "malloc()");
 	if (execute_command(command->exe_path, cmd) == SYS_ERROR)
 	{
+		handle_execve_error(*cmd);
 		free((char *)command->exe_path);
-		handle_error(SYS_ERROR, NULL, NULL);
 	}
 }
 
