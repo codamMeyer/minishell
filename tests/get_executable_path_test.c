@@ -57,15 +57,22 @@ CTEST(tests_exe_path_return, null_input)
 
 CTEST(tests_exe_path_return,incomplete_command)
 {
+	char *ls = get_executable_path("/ls");
+	char *pwd = get_executable_path("/pwd");
 	ASSERT_NULL(get_executable_path("l"));
-	ASSERT_NULL(get_executable_path("      /ls"));
-	ASSERT_NULL(get_executable_path("     /pwd"));
+	ASSERT_STR("/ls", ls);
+	ASSERT_STR("/pwd", pwd);
+	free(ls);
+	free(pwd);
 }
 
 CTEST(tests_exe_path_return, invalid_command)
 {
+	char *ls = get_executable_path("ls/");
+
 	ASSERT_NULL(get_executable_path("ltp"));
 	ASSERT_NULL(get_executable_path("###"));
-	ASSERT_NULL(get_executable_path("ls/"));
+	ASSERT_STR("ls/", ls);
 	ASSERT_NULL(get_executable_path("      "));
+	free(ls);
 }
