@@ -54,3 +54,4 @@ Mkfile.old
 dkms.conf
 tests/bash_tests/bigfile
 *.code-workspace
+minishell.code-workspace
