@@ -255,3 +255,45 @@ CTEST2(split_command_arg, export_blah)
     ASSERT_STR(" hello =this     is     a       string", data->args[0]);
     ASSERT_NULL(data->args[1]);
 }
+
+CTEST2(split_command_arg, export_with_many_single_quotes)
+{
+    t_arg command_arg;
+    const char *inp = "''' test X'=' 3 '";
+    const int   inp_len = strlen(inp);
+    command_arg.start = inp;
+    command_arg.end = inp + inp_len;
+    command_arg.len = inp_len;
+
+    data->args = split_command_args(command_arg);
+    ASSERT_STR(" test X= 3 ", data->args[0]);
+    ASSERT_NULL(data->args[1]);
+}
+
+CTEST2(split_command_arg, export_with_many_double_quotes)
+{
+    t_arg command_arg;
+    const char *inp = "\"\"\" test X\"=\" 3 \"";
+    const int   inp_len = strlen(inp);
+    command_arg.start = inp;
+    command_arg.end = inp + inp_len;
+    command_arg.len = inp_len;
+
+    data->args = split_command_args(command_arg);
+    ASSERT_STR(" test X= 3 ", data->args[0]);
+    ASSERT_NULL(data->args[1]);
+}
+
+CTEST2(split_command_arg, quotes_inside_quotes)
+{
+    t_arg command_arg;
+    const char *inp = "\"'test'\"=hello";
+    const int   inp_len = strlen(inp);
+    command_arg.start = inp;
+    command_arg.end = inp + inp_len;
+    command_arg.len = inp_len;
+
+    data->args = split_command_args(command_arg);
+    ASSERT_STR("'test'=hello", data->args[0]);
+    ASSERT_NULL(data->args[1]);
+}

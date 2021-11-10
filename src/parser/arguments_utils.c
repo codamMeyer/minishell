@@ -35,7 +35,7 @@ void	copy_string_to_buffer(const char **str, t_buffer *buffer)
 
 	while (*str && *(*str))
 	{
-		if (is_quote(*(*str)))
+		while (is_quote(*(*str)))
 		{
 			quotes = get_quotes_indexes(*str);
 			quotes_len = quotes.end - quotes.start;
