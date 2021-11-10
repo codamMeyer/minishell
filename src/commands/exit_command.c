@@ -50,12 +50,12 @@ t_exit_code	exit_command(t_command command, t_output_stdout write_to_stdout)
 	(void)write_to_stdout;
 	if (!command.arguments[1])
 		exit(SUCCESS);
-	if (command.arguments[2])
+	exit_code = get_exit_value(command.arguments[1]);
+	if (command.arguments[2] && has_only_nums(command.arguments[1]))
 	{
 		handle_error(EXIT_ARGS_ERROR, "exit:", " too many arguments\n");
 		return (ERROR);
 	}
-	exit_code = get_exit_value(command.arguments[1]);
 	exit(exit_code);
 	return (exit_code);
 }
