@@ -2,7 +2,7 @@
 #include "../src/parser/command_table.h"
 #include "../src/parser/parser.h"
 #include <stdlib.h>
-#include "arguments.h"
+#include "parser/arguments.h"
 
 CTEST(parse_input, success_return)
 {
