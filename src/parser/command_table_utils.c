@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <parser/command_table.h>
 #include <parser/get_executable_path.h>
-#include <arguments.h>
+#include <parser/arguments.h>
 
 /*
 	get_executable_path only returns a string if passed command or path,

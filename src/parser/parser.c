@@ -11,7 +11,7 @@
 #include <parser/parse_redirection.h>
 #include <errors/errors.h>
 #include <signals/signals.h>
-#include <arguments.h>
+#include <parser/arguments.h>
 
 static void	consume_pipe(const char **input, int index)
 {

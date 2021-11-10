@@ -10,7 +10,7 @@
 #include <parser/here_doc.h>
 #include <parser/parser.h>
 #include <parser/parse_redirection.h>
-#include <arguments.h>
+#include <parser/arguments.h>
 
 /*
 	Assumes that string has been checked for quotes

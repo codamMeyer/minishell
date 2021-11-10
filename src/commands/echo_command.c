@@ -5,7 +5,7 @@
 #include <env/env_utils.h>
 #include <parser/parser.h>
 #include <errors/errors.h>
-#include <arguments.h>
+#include <parser/arguments.h>
 
 static t_bool	is_valid_n_flag_extras(const char **input)
 {
