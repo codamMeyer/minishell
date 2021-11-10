@@ -63,7 +63,7 @@ void	execute_system_command(const t_command *command)
 	if (execute_command(command->exe_path, command->arguments) == SYS_ERROR)
 	{
 		free((char *)command->exe_path);
-		handle_execve_error(*cmd);
+		handle_execve_error(command->arguments[0]);
 	}
 }
 
