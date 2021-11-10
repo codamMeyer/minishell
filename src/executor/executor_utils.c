@@ -43,15 +43,16 @@ static	void	handle_execve_error(const char *cmd)
 {
 	const char	*no_file_or_dir = "No such file or directory";
 	const char	*is_dir = "is a directory";
+	const char	*no_permission = "Permission denied";
 	struct stat	status;
 	const int	stat_ret = stat(cmd, &status);
 
-	if (errno == 2)
-		write_execve_error(127, cmd, no_file_or_dir);
-	else if (errno == 13 && stat_ret == F_OK && S_ISDIR(status.st_mode))
-		write_execve_error(126, cmd, is_dir);
-	else if (errno == 13)
-		write_execve_error(126, cmd, "Permission denied");
+	if (errno == ENOENT)
+		write_execve_error(NONEXISTANT_ERROR, cmd, no_file_or_dir);
+	else if (errno == EACCES && stat_ret == F_OK && S_ISDIR(status.st_mode))
+		write_execve_error(IS_DIR_ERROR, cmd, is_dir);
+	else if (errno == EACCES)
+		write_execve_error(PERMISSION_ERROR, cmd, no_permission);
 	else
 		handle_error(SYS_ERROR, NULL, cmd);
 	exit(*get_exit_code());
