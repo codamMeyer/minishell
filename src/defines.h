@@ -2,7 +2,7 @@
 # define DEFINES_H
 # define NEW_LINE "\n"
 # define DOUBLE_QUOTES '"'
-# define SINGLE_QUOTES 39
+# define SINGLE_QUOTES '\''
 # define MAX_CMDS_PER_LINE 4096
 # define BUFFER_SIZE 4096
 # define CMD_CODE 0

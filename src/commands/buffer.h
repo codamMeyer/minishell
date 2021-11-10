@@ -1,6 +1,5 @@
 #ifndef BUFFER_H
 # define BUFFER_H
-# define BUFFER_SIZE 4096
 # include <defines.h>
 
 typedef struct s_buffer

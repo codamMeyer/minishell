@@ -28,8 +28,7 @@ t_command	populate_command(const char **input_ptr)
 	arg.start = *input_ptr;
 	arg.len = get_set_index(arg.start, "|");
 	arg.end = *input_ptr + arg.len;
-	command.files = get_redirection((char **)input_ptr, \
-		get_set_index(*input_ptr, "|") - 1);
+	command.files = get_redirection((char **)input_ptr, arg.len - 1);
 	command.arguments = split_command_args(arg);
 	if (!command.arguments)
 		handle_error(MALLOC_ERROR, "malloc()", NULL);
@@ -40,16 +39,15 @@ t_command	populate_command(const char **input_ptr)
 
 int	populate_commands_table(const char *input, t_command commands_table[])
 {
-	const char	*input_line = input;
 	int			i;
 
 	if (!input)
 		return (0);
 	i = 0;
-	while (*input_line)
+	while (*input)
 	{
-		consume_pipe(&input_line, i);
-		commands_table[i] = populate_command(&input_line);
+		consume_pipe(&input, i);
+		commands_table[i] = populate_command(&input);
 		++i;
 	}
 	return (i);
