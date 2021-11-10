@@ -1,7 +1,7 @@
 #include "ctest.h"
 #include <string.h>
 #include "env/environment.h"
-#include "arguments.h"
+#include "parser/arguments.h"
 
 CTEST_DATA(split_command_arg)
 {

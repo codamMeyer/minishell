@@ -5,6 +5,7 @@
 # define SINGLE_QUOTES 39
 # define MAX_CMDS_PER_LINE 4096
 # define BUFFER_SIZE 4096
+# define CMD_CODE 0
 
 typedef enum e_bool
 {
