@@ -45,12 +45,10 @@ char	*get_executable_path(const char *command)
 	char		buffer[BUFFER_SIZE];
 	int			single_path_len;
 
-	if (!command || (!env_paths && !ft_strchr(command, FORWARD_SLASH)))
+	if (!command || (!env_paths && !has_forward_slash))
 		return (NULL);
-	else if (has_forward_slash && is_executable((char *) command) == F_OK)
-		return (ft_strdup(command));
 	else if (has_forward_slash)
-		return (NULL);
+		return (ft_strdup(command));
 	all_paths = env_paths->value;
 	while (all_paths && *all_paths)
 	{
