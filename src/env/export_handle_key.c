@@ -9,15 +9,15 @@
 t_bool	copy_key_to_buffer(char *key_value_str, t_buffer *buffer)
 {
 	const char	*delimiter_position = get_equal_sign_position(key_value_str);
+	int			key_len;
 
 	if (!delimiter_position)
 		return (FALSE);
 	if (delimiter_position == key_value_str)
 		return (TRUE);
-	if (key_value_str < delimiter_position)
-		ft_strlcpy(&buffer->buf[0], key_value_str,
-			(delimiter_position - key_value_str) + 1);
-	buffer->index = delimiter_position - key_value_str;
+	key_len = delimiter_position - key_value_str;
+	ft_strlcpy(&buffer->buf[0], key_value_str, key_len + 1);
+	buffer->index = key_len;
 	return (TRUE);
 }
 
