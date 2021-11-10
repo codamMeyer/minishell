@@ -60,7 +60,8 @@ t_exit_code	cd_command(t_command command, t_output_stdout output)
 	if (!command.arguments[1] || !ft_strcmp(command.arguments[1], "~"))
 		ret = copy_home_var_to_buffer(buffer.buf);
 	else
-		ft_strlcpy(buffer.buf, command.arguments[1], ft_strlen(command.arguments[1]) + 1);
+		ft_strlcpy(buffer.buf, command.arguments[1],
+			ft_strlen(command.arguments[1]) + 1);
 	if (chdir(buffer.buf) == SYS_ERROR && ret == SUCCESS)
 	{
 		handle_error(SYS_ERROR, "cd", buffer.buf);

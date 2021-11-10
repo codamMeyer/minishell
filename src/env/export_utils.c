@@ -47,7 +47,7 @@ t_bool	add_variable_to_tmp_env(t_env *tmp_env, char **key_value_str)
 int	add_variables_to_tmp_env(t_env *tmp_env, char **arguments)
 {
 	int	variables_count;
-	int i;
+	int	i;
 
 	i = 1;
 	variables_count = 0;

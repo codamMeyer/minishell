@@ -15,7 +15,8 @@ t_bool	copy_key_to_buffer(char *key_value_str, t_buffer *buffer)
 	if (delimiter_position == key_value_str)
 		return (TRUE);
 	if (key_value_str < delimiter_position)
-		ft_strlcpy(&buffer->buf[0], key_value_str, (delimiter_position - key_value_str) + 1);
+		ft_strlcpy(&buffer->buf[0], key_value_str,
+			(delimiter_position - key_value_str) + 1);
 	buffer->index = delimiter_position - key_value_str;
 	return (TRUE);
 }

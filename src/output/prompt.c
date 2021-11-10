@@ -8,7 +8,6 @@
 #define BLUE "\e[0;36m"
 #define RED "\e[1;31m"
 #define GREEN "\e[1;32m"
-
 #define RED_ARROW "\e[1;31m -► "
 #define GREEN_ARROW "\e[1;32m -► "
 #define RESET "\e[0m "

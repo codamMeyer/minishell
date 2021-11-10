@@ -51,7 +51,8 @@ t_exit_code	echo_command(t_command command, t_output_stdout output)
 		return (MALLOC_ERROR);
 	}
 	has_n_flag = parse_n_flag(command.arguments[i]);
-	while (has_n_flag && command.arguments[i] && parse_n_flag(command.arguments[i]))
+	while (has_n_flag && command.arguments[i] && \
+		parse_n_flag(command.arguments[i]))
 		++i;
 	while (command.arguments[i])
 	{

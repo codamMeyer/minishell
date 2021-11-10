@@ -11,7 +11,8 @@ static t_bool	is_built_in_command(const char *input, const char *command)
 	const int	command_len = ft_strlen(command);
 	const int	inp_len = ft_strlen(input);
 
-	return (command_len == inp_len && ft_strncmp(input, command, command_len + 1) == 0);
+	return (command_len == inp_len && \
+		ft_strncmp(input, command, command_len + 1) == 0);
 }
 
 /*
