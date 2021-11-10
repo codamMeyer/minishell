@@ -46,12 +46,10 @@ EXPECTED=$(export | grep NONEXISTANT_VAR ; echo $?)
 assertEqual "Grep non existant var with return code"
 cleanUp
 
-# export PATH="/usr/bin/oi" ; wc 
-
 STD=$(echo -e "export PATH="/usr/bin/baguette"\n ls\n echo \$?\nexit"| ./minishell >> $MINISHELL_OUTPUT 2>&1)
 removePrompt $MINISHELL_OUTPUT
 ACTUAL=$(cat $MINISHELL_OUTPUT)
 EXPECTED="BestShellEver: ls: command not found
 127"
-assertEqual "Grep non existant var with return code"
+assertEqual "Removed path execution of system command"
 cleanUp
