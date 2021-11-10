@@ -151,7 +151,7 @@ char            **split_args_on_spaces(char const *str)
 	n_of_splits = count_num_of_splits(str);
 	split_strs = (char**)malloc((n_of_splits + 1) * sizeof(char*));
 	if (split_strs == NULL)
-			return (NULL);
+		return (NULL);
 	return (split(split_strs, str, n_of_splits));
 }
 
