@@ -1,6 +1,4 @@
 #include <libft.h>
-#include <unistd.h>
-#include <stdio.h>
 #include <commands/pwd_command_utils.h>
 #include <env/environment.h>
 #include <output/prompt.h>

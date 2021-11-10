@@ -1,12 +1,9 @@
-#include <stdio.h>
+// #include <stdio.h>
 #include <libft.h>
 #include <errno.h>
 #include <sys/stat.h>
 #include <sys/wait.h>
-#include <string.h>
-#include <commands/buffer.h>
 #include <executor/executor_utils.h>
-#include <executor/run_commands.h>
 #include <env/env_for_exec.h>
 
 /* exit_codes caused by signals are incremented with 128 */

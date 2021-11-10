@@ -1,15 +1,8 @@
-#include <ctype.h>
 #include <libft.h>
-#include <string.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <commands/quotes.h>
 #include <executor/run_commands.h>
 #include <parser/command_table.h>
-#include <parser/dispatcher.h>
 #include <parser/parser.h>
 #include <parser/parse_redirection.h>
-#include <errors/errors.h>
 #include <signals/signals.h>
 #include <parser/arguments.h>
 
@@ -18,6 +11,12 @@ static void	consume_pipe(const char **input, int index)
 	if (index < 1)
 		return ;
 	if (**input == PIPE)
+		++(*input);
+}
+
+void	skip_spaces(const char **input)
+{
+	while (*input && ft_isspace(*(*input)))
 		++(*input);
 }
 
@@ -51,7 +50,6 @@ int	populate_commands_table(const char *input, t_command commands_table[])
 	{
 		consume_pipe(&input_line, i);
 		commands_table[i] = populate_command(&input_line);
-		skip_spaces(&input_line);
 		++i;
 	}
 	return (i);

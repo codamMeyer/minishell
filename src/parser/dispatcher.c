@@ -1,15 +1,7 @@
-#include <ctype.h>
-#include <libft.h>
-#include <stdio.h>
 #include <parser/dispatcher.h>
-#include <commands/buffer.h>
 #include <commands/commands.h>
 #include <output/write_to_std.h>
-#include <parser/command_table.h>
-#include <parser/parser.h>
-#include <parser/parse_redirection.h>
 #include <executor/executor_utils.h>
-#include <env/env_utils.h>
 
 t_exit_code	unknown_command(t_command command, t_output_stdout output)
 {
@@ -49,7 +41,7 @@ t_exit_code	dispatch_command(t_command *command)
 
 	init_buffer(&buffer);
 	if (command->files.in == FILE_ERROR || command->files.out == FILE_ERROR)
-		return (1);
+		return (ERROR);
 	if (command->code == SYSTEM)
 		execute_system_command(command);
 	else if (command->code == INVALID)

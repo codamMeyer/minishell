@@ -1,6 +1,4 @@
-#include <ctype.h>
 #include <libft.h>
-#include <stdio.h>
 #include <commands/quotes.h>
 #include <parser/command_table.h>
 #include <parser/get_executable_path.h>

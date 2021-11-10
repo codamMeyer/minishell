@@ -1,21 +1,16 @@
-#include <ctype.h>
-#include <stdio.h>
 #include <libft.h>
-#include <commands/quotes.h>
 #include <env/environment.h>
-#include <env/env_utils.h>
-#include <parser/command_table.h>
 
 t_bool	copy_value_to_buffer(const char *key_value_str, t_buffer *buffer)
 {
 	const char	*delimiter_position = \
 		get_equal_sign_position(key_value_str) + 1;
+	const int	value_len = ft_strlen(delimiter_position);
 
 	if (!delimiter_position)
 		return (FALSE);
-	ft_strlcpy(&buffer->buf[0], delimiter_position,
-		ft_strlen(delimiter_position) + 1);
-	buffer->index = ft_strlen(delimiter_position);
+	ft_strlcpy(&buffer->buf[0], delimiter_position, value_len + 1);
+	buffer->index = value_len;
 	return (TRUE);
 }
 

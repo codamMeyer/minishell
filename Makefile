@@ -36,6 +36,7 @@ MINISHELL_INCS= 						\
 	src/env/env_for_exec.h				\
 	src/errors/errors.h					\
 	src/errors/exit_code.h				\
+	src/parser/arguments_utils.h		\
 	src/parser/arguments.h				\
 
 MINISHELL_SRC= 							\
@@ -51,7 +52,6 @@ MINISHELL_SRC= 							\
 	src/executor/executor_utils.c		\
 	src/executor/redirection.c			\
 	src/executor/redirection_utils.c	\
-	src/parser/parser_utils.c			\
 	src/parser/command_table.c			\
 	src/parser/command_table_utils.c	\
 	src/parser/dispatcher.c				\
@@ -80,6 +80,7 @@ MINISHELL_SRC= 							\
 	src/errors/errors.c					\
 	src/errors/exit_code.c				\
 	src/parser/arguments.c				\
+	src/parser/arguments_utils.c		\
 
 TEST_FILES=								\
 	tests/main.c 						\

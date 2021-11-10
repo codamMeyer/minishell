@@ -1,8 +1,5 @@
 #include <libft.h>
-#include <stdlib.h>
-#include <stdio.h>
 #include <commands/commands.h>
-#include <parser/parser.h>
 
 static	t_bool	has_only_nums(const char *str)
 {

@@ -1,12 +1,6 @@
-#include <fcntl.h>
 #include <libft.h>
-#include <unistd.h> 
-#include <executor/redirection.h>
 #include <executor/run_commands.h>
-#include <parser/command_table.h>
-#include <parser/parser.h>
 #include <parser/parse_redirection.h>
-#include <stdio.h>
 #include <errno.h>
 
 void	restore_std_fds(t_std_fd fds)

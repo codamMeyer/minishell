@@ -5,7 +5,6 @@
 # define N_FLAG "-n"
 # define REDIRECTION_CHARS "<>|" 
 # define ALL_TERMINATORS "<>| \0" 
-
 # include <defines.h>
 # include <errors/errors.h>
 

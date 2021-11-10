@@ -1,11 +1,8 @@
-#include <ctype.h>
 #include <libft.h>
 #include <commands/buffer.h>
 #include <commands/quotes.h>
 #include <env/environment.h>
 #include <env/env_utils.h>
-#include <parser/parser.h>
-#include <errors/exit_code.h>
 
 void	append_env_value_to_buffer(const char **start, t_buffer *buffer)
 {
