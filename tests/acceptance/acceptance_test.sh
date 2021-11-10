@@ -60,6 +60,9 @@ updateResult $?
 ./tests/acceptance/exit_code_feature.sh
 updateResult $?
 
+./tests/acceptance/out_of_names_test.sh
+updateResult $?
+
 if [[ "$OSTYPE" == "linux-gnu"* ]]; then
     printTestName "Prompt_Display"
     echo -e "\necho hello\npwd\nexport TEST=test\nunset TEST\nenv\ncd falseDir\nls\nexit\n" | ./minishell > $MINISHELL_OUTPUT
