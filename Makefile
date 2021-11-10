@@ -36,7 +36,7 @@ MINISHELL_INCS= 						\
 	src/env/env_for_exec.h				\
 	src/errors/errors.h					\
 	src/errors/exit_code.h				\
-	src/arguments.h						\
+	src/parser/arguments.h				\
 
 MINISHELL_SRC= 							\
 	src/syntax/check_syntax.c			\
@@ -79,7 +79,7 @@ MINISHELL_SRC= 							\
 	src/env/env_for_exec.c				\
 	src/errors/errors.c					\
 	src/errors/exit_code.c				\
-	src/arguments.c						\
+	src/parser/arguments.c				\
 
 TEST_FILES=								\
 	tests/main.c 						\
