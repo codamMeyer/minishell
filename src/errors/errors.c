@@ -19,6 +19,20 @@ static t_bool	should_exit(t_exit_code code)
 	return (FALSE);
 }
 
+void	write_execve_error(t_exit_code code, \
+								const char *cmd, \
+								const char *error_msg)
+{
+	write_to_stderr("BestShellEver: ");
+	if (cmd)
+		write_to_stderr(cmd);
+	write_to_stderr(": ");
+	if (error_msg)
+		write_to_stderr(error_msg);
+	write_to_stderr(NEW_LINE);
+	set_exit_code(code);
+}
+
 static void	write_system_error(t_exit_code code, \
 								const char *location, \
 								const char *filename)

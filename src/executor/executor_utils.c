@@ -1,6 +1,9 @@
 #include <stdio.h>
 #include <libft.h>
+#include <errno.h>
+#include <sys/stat.h>
 #include <sys/wait.h>
+#include <string.h>
 #include <commands/buffer.h>
 #include <executor/executor_utils.h>
 #include <executor/run_commands.h>
@@ -36,6 +39,25 @@ static int	execute_command(const char *path, char *argv[])
 	return (execve(path, (char *const *)argv, (char *const *)updated_env));
 }
 
+static	void	handle_execve_error(const char *cmd)
+{
+	const char	*no_file_or_dir = "No such file or directory";
+	const char	*is_dir = "is a directory";
+	const char	*no_permission = "Permission denied";
+	struct stat	status;
+	const int	stat_ret = stat(cmd, &status);
+
+	if (errno == ENOENT)
+		write_execve_error(NONEXISTANT_ERROR, cmd, no_file_or_dir);
+	else if (errno == EACCES && stat_ret == F_OK && S_ISDIR(status.st_mode))
+		write_execve_error(IS_DIR_ERROR, cmd, is_dir);
+	else if (errno == EACCES)
+		write_execve_error(PERMISSION_ERROR, cmd, no_permission);
+	else
+		handle_error(SYS_ERROR, NULL, cmd);
+	exit(*get_exit_code());
+}
+
 void	execute_system_command(const t_command *command)
 {
 	char		**cmd;
@@ -50,7 +72,7 @@ void	execute_system_command(const t_command *command)
 	if (execute_command(command->exe_path, cmd) == SYS_ERROR)
 	{
 		free((char *)command->exe_path);
-		handle_error(SYS_ERROR, NULL, NULL);
+		handle_execve_error(*cmd);
 	}
 }
 
