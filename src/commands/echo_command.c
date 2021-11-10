@@ -40,11 +40,6 @@ t_exit_code	echo_command(t_command command, t_output_stdout output)
 	int		i;
 
 	i = 1;
-	if (!command.arguments)
-	{
-		handle_error(MALLOC_ERROR, NULL, "malloc()");
-		return (MALLOC_ERROR);
-	}
 	has_n_flag = parse_n_flag(command.arguments[i]);
 	while (has_n_flag && command.arguments[i] && \
 		parse_n_flag(command.arguments[i]))
