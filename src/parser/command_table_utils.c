@@ -11,13 +11,9 @@
 */
 t_bool	is_system_command(const char *input, t_command *command)
 {
-	const int	len = get_set_index(input, " |");
-	char		cmd_buffer[4098];
-
 	if (!input || !command || *input == PIPE)
 		return (FALSE);
-	ft_strlcpy(&cmd_buffer[0], input, len + 1);
-	command->exe_path = get_executable_path(&cmd_buffer[0]);
+	command->exe_path = get_executable_path(input);
 	if (command->exe_path)
 		return (TRUE);
 	return (FALSE);

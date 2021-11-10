@@ -40,7 +40,7 @@ t_command_code	get_command_code(char *input, t_command *command)
 	return (INVALID);
 }
 
-t_bool	is_between_quotes(const char *input, int reserved_char_index)
+static t_bool	is_between_quotes(const char *input, int reserved_char_index)
 {
 	t_quotes_index	quotes;
 	char			*new_pos;
