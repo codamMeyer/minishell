@@ -1,10 +1,5 @@
-#include <ctype.h>
-#include <stdio.h>
 #include <libft.h>
-#include <commands/quotes.h>
 #include <env/environment.h>
-#include <env/env_utils.h>
-#include <parser/command_table.h>
 
 t_bool	copy_value_to_buffer(const char *key_value_str, t_buffer *buffer)
 {

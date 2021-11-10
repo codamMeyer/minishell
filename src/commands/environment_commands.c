@@ -1,8 +1,6 @@
 #include <commands/commands.h>
 #include <env/environment.h>
 #include <env/sort_env.h>
-#include <parser/parser.h>
-#include <stdio.h>
 
 t_exit_code	export_command(t_command command, t_output_stdout output)
 {

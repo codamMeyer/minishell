@@ -1,10 +1,6 @@
-#include <ctype.h>
 #include <libft.h>
-#include <stdio.h>
-#include <commands/quotes.h>
 #include <env/environment.h>
 #include <env/env_utils.h>
-#include <executor/run_commands.h>
 
 t_bool	copy_key_to_buffer(char *key_value_str, t_buffer *buffer)
 {

@@ -1,11 +1,6 @@
 #include <libft.h>
-#include <commands/buffer.h>
 #include <commands/commands.h>
-#include <commands/quotes.h>
-#include <env/env_utils.h>
-#include <parser/parser.h>
 #include <errors/errors.h>
-#include <parser/arguments.h>
 
 static t_bool	is_valid_n_flag_extras(const char **input)
 {

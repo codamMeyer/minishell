@@ -1,7 +1,5 @@
 #include <libft.h>
 #include <executor/run_commands.h>
-#include <executor/executor_utils.h>
-#include <parser/command_table.h>
 #include <parser/parse_redirection.h>
 #include <errno.h>
 

@@ -1,13 +1,6 @@
-#include <ctype.h>
 #include <libft.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <commands/buffer.h>
-#include <commands/quotes.h>
 #include <env/environment.h>
 #include <env/env_utils.h>
-#include <env/sort_env.h>
-#include <parser/parser.h>
 #include <env/export_utils.h>
 
 t_exit_code	export(t_env *env, char **arguments)

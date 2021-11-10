@@ -1,9 +1,6 @@
-#include <ctype.h>
 #include <libft.h>
-#include <commands/quotes.h>
 #include <commands/commands.h>
 #include <env/env_utils.h>
-#include <stdio.h>
 
 t_bool	is_valid_key_char(char c)
 {

@@ -1,12 +1,5 @@
-#include <defines.h>
 #include <libft.h>
-#include <errno.h>
-#include <string.h>
-#include <unistd.h>
-#include <stdio.h>
-#include <commands/commands.h>
 #include <env/environment.h>
-#include <executor/run_commands.h>
 
 static void	update_env_value(const char *key, const char *new_value)
 {

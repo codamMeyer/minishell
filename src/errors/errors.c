@@ -1,11 +1,8 @@
 #include <errors/errors.h>
-#include <stdio.h>
-#include <defines.h>
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
 #include <output/write_to_std.h>
-#include <executor/run_commands.h>
 
 static t_bool	should_exit(t_exit_code code)
 {

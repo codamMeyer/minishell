@@ -1,13 +1,7 @@
 #include <libft.h>
-#include <string.h>
-#include <stdio.h>
-#include <unistd.h>
 #include <executor/run_commands.h>
 #include <executor/executor_utils.h>
 #include <parser/dispatcher.h>
-#include <parser/command_table.h>
-#include <ctype.h>
-#include <parser/parse_redirection.h>
 #include <signals/signals.h>
 
 static void	close_pipes(int *pipes_to_close)

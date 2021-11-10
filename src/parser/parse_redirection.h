@@ -24,6 +24,5 @@ t_exit_code	open_outfile(const char *file, int *out_file, int out_mode);
 void		replace_redirection_w_space(char **input, int len, int start);
 int			get_redirect_id(const char *cursor);
 t_bool		is_multi_angled_bracket(const int redirection_id);
-t_bool		is_valid_filename_char(char c, int redirect_id);
 
 #endif

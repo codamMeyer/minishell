@@ -25,7 +25,8 @@ void	append_exit_code_to_buffer(const char **start, t_buffer *buffer)
 	const int	exit_code_len = ft_strlen(exit_code_string);
 	const char	*ptr = exit_code_string;
 
-	ft_strlcpy(&buffer->buf[buffer->index], exit_code_string, exit_code_len + 1);
+	ft_strlcpy(&buffer->buf[buffer->index],
+		exit_code_string, exit_code_len + 1);
 	buffer->index += exit_code_len;
 	*start += 2;
 	free((void *)ptr);
