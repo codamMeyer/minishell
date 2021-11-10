@@ -1,5 +1,7 @@
 source ./tests/acceptance/common.sh
 
+printTestName "STRESSTEST!!!"
+
 STD=$(echo -e "echo halla | cat -e\n echo \$?\nexit"|  ./minishell >> $MINISHELL_OUTPUT 2>&1)
 removePrompt $MINISHELL_OUTPUT
 ACTUAL=$(cat $MINISHELL_OUTPUT)
@@ -52,4 +54,11 @@ ACTUAL=$(cat $MINISHELL_OUTPUT)
 EXPECTED="BestShellEver: ls: command not found
 127"
 assertEqual "Removed path execution of system command"
+cleanUp
+
+INPUT="echo halla \">\" out"
+runMinishell "$INPUT"
+readMinishellOutput
+EXPECTED=$(echo halla ">" out)
+assertEqual "$INPUT"
 cleanUp
