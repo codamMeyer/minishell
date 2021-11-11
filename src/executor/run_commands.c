@@ -10,12 +10,6 @@ static void	close_pipes(int *pipes_to_close)
 	handle_error(close(pipes_to_close[WRITE_FD]), CLOSE_STR, NULL);
 }
 
-/*
-	Creates a process for each command 
-	Important check that all fd's are closed at the end
-	Important!!! Check that there are more than one 
-	processes when creating pipes
-*/
 int	run_multi_processes(t_command commands[],
 		int num_of_processes, int *pids)
 {
@@ -51,11 +45,6 @@ t_bool	is_single_command(int num_of_cmds, t_command *command)
 	return (num_of_cmds == 1 && is_builtin_command(command->code));
 }
 
-/*
-	add redirection for single command
-	if file doesn't exist, exit command immediately
-	IMPORTANT! check when dispatching only one command
-*/
 int	run_commands(t_command commands[],
 				int num_of_commands)
 {
