@@ -20,7 +20,7 @@ void	write_execve_error(t_exit_code code, \
 								const char *cmd, \
 								const char *error_msg)
 {
-	write_to_stderr("BestShellEver: ");
+	write_to_stderr(SHELL_NAME);
 	if (cmd)
 		write_to_stderr(cmd);
 	write_to_stderr(": ");
@@ -59,7 +59,7 @@ void	handle_error(t_exit_code code, \
 {
 	if (code == SUCCESS)
 		return ;
-	write_to_stderr("BestShellEver: ");
+	write_to_stderr(SHELL_NAME);
 	if (code == HOME_NOT_SET_ERROR)
 	{
 		write_to_stderr(location);
