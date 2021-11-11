@@ -42,20 +42,23 @@ static void	setup_env(char *envp[])
 	}
 }
 
-static char	*get_line(void)
+static char	*get_trimmed_line(void)
 {
 	char	*line;
+	char	*trimmed_line;
 	char	buffer[BUFFER_SIZE];
 
 	line = readline(display_prompt(&buffer[0]));
 	if (!line)
 	{
 		ft_putstr_fd("exit", STDERR_FILENO);
-		exit(SUCCESS);
+		exit(0);
 	}
 	if (*line)
 		add_history(line);
-	return (line);
+	trimmed_line = ft_strtrim(line, WHITESSPACE);
+	free(line);
+	return (trimmed_line);
 }
 
 static void	run(void)
@@ -65,7 +68,9 @@ static void	run(void)
 	while (TRUE)
 	{
 		set_program_signals();
-		line = get_line();
+		line = get_trimmed_line();
+		if (!line)
+			handle_error(MALLOC_ERROR, NULL, "malloc()");
 		if (is_valid_syntax(line))
 			parse_input(line);
 		free(line);
