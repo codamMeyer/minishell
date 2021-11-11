@@ -52,7 +52,7 @@ static char	*get_trimmed_line(void)
 	if (!line)
 	{
 		ft_putstr_fd("exit", STDERR_FILENO);
-		exit(0);
+		exit(SUCCESS);
 	}
 	if (*line)
 		add_history(line);
