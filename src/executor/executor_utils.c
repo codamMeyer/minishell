@@ -1,4 +1,3 @@
-// #include <stdio.h>
 #include <libft.h>
 #include <errno.h>
 #include <sys/stat.h>
