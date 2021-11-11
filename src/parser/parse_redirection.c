@@ -32,7 +32,7 @@ int	get_file_name_and_length(t_buffer *buffer, char *input, int redirect_id)
 	split = split_command_args(arg);
 	if (!split)
 	{
-		handle_error(MALLOC_ERROR, "malloc()", NULL);
+		handle_error(MALLOC_ERROR, MALLOC_STR, NULL);
 		return (len_to_replace);
 	}
 	ft_strlcpy(&buffer->buf[0], split[0], ft_strlen(split[0]) + 1);

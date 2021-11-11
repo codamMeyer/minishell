@@ -6,8 +6,8 @@
 
 static void	close_pipes(int *pipes_to_close)
 {
-	handle_error(close(pipes_to_close[READ_FD]), "close()", NULL);
-	handle_error(close(pipes_to_close[WRITE_FD]), "close()", NULL);
+	handle_error(close(pipes_to_close[READ_FD]), CLOSE_STR, NULL);
+	handle_error(close(pipes_to_close[WRITE_FD]), CLOSE_STR, NULL);
 }
 
 /*

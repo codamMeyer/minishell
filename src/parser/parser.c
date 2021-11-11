@@ -31,7 +31,7 @@ t_command	populate_command(const char **input_ptr)
 	command.files = get_redirection((char **)input_ptr, arg.len - 1);
 	command.arguments = split_command_args(arg);
 	if (!command.arguments)
-		handle_error(MALLOC_ERROR, "malloc()", NULL);
+		handle_error(MALLOC_ERROR, MALLOC_STR, NULL);
 	command.code = get_command_code(command.arguments[0], &command);
 	(*input_ptr) += arg.len;
 	return (command);

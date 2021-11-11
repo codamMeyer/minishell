@@ -13,7 +13,7 @@ static void	update_env_value(const char *key, const char *new_value)
 	free(var->value);
 	var->value = ft_strdup(new_value);
 	if (!var->value)
-		handle_error(MALLOC_ERROR, NULL, "malloc()");
+		handle_error(MALLOC_ERROR, NULL, MALLOC_STR);
 }
 
 static void	update_env(char *cwd_bef_cd)

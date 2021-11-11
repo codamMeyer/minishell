@@ -40,7 +40,7 @@ void	set_value(t_env *env, char *key, char *value)
 	if (!key_pair->value)
 	{
 		free(key_pair->key);
-		handle_error(MALLOC_ERROR, NULL, "malloc()");
+		handle_error(MALLOC_ERROR, NULL, MALLOC_STR);
 	}
 	set_kv_string(key_pair, key_pair->key, key_pair->value);
 }

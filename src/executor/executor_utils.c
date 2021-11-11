@@ -75,9 +75,9 @@ int	create_new_process(t_multi_pipes *pipes,
 	int			process_id;
 
 	if (current_process != process_limit && pipe(pipes->current) == SYS_ERROR)
-		handle_error(PIPE_ERROR, NULL, "pipe()");
+		handle_error(PIPE_ERROR, NULL, PIPE_STR);
 	process_id = fork();
 	if (process_id == SYS_ERROR)
-		handle_error(FORK_ERROR, NULL, "fork()");
+		handle_error(FORK_ERROR, NULL, FORK_STR);
 	return (process_id);
 }
