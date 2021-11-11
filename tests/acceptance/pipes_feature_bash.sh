@@ -67,4 +67,6 @@ assertEqual "Execute on absolute path with PATH unset"
 
 cleanUp
 
+
+
 exit $EXIT_CODE
