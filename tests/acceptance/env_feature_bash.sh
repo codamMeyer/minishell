@@ -160,6 +160,14 @@ EXPECTED="BestShellEver: export: \`=test': not a valid identifier"
 assertEqual "EXPORT missing key"
 cleanUp
 
+export TEST="ls       -la"
+echo -e "echo \$TEST\nexit" | ./$MINISHELL_PROGRAM > $MINISHELL_OUTPUT
+removePrompt $MINISHELL_OUTPUT
+ACTUAL=$(cat $MINISHELL_OUTPUT)
+EXPECTED=$(echo $TEST)
+assertEqual "EXPORT with variable outside quotes"
+cleanUp
+
 # TODO handle these cases 
 # echo -e "export test\"=\"hello\necho \$test\nexit" | ./$MINISHELL_PROGRAM >> $MINISHELL_OUTPUT 2>&1
 # removePrompt $MINISHELL_OUTPUT
@@ -230,15 +238,22 @@ EXPECTED=$(echo "$a $b $c" | cat -e)
 assertEqual "UNSET more than one variable"
 cleanUp
 
-export a=" TEST "
-INPUT="echo \$a \"\$a\""
+export a=" TEST       test     "
+INPUT="echo \$a \"\$a\" \$a"
 runMinishell "$INPUT | cat -e"
 removePrompt $MINISHELL_OUTPUT
 ACTUAL=$(cat $MINISHELL_OUTPUT)
-EXPECTED=$(echo $a "$a" | cat -e)
+EXPECTED=$(echo $a "$a" $a | cat -e)
 assertEqual "Variable expansion trimmed"
 cleanUp
 unset a
+
+INPUT="echo \$\"USER\""
+runMinishell "$INPUT | cat -e"
+removePrompt $MINISHELL_OUTPUT
+ACTUAL=$(cat $MINISHELL_OUTPUT)
+EXPECTED=$(echo $"USER" | cat -e)
+assertEqual "echo $\"USER\""
 cleanUp
 
 exit $EXIT_CODE

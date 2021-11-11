@@ -1,11 +1,8 @@
 #include <errors/errors.h>
-#include <stdio.h>
-#include <defines.h>
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
 #include <output/write_to_std.h>
-#include <executor/run_commands.h>
 
 static t_bool	should_exit(t_exit_code code)
 {
@@ -23,7 +20,7 @@ void	write_execve_error(t_exit_code code, \
 								const char *cmd, \
 								const char *error_msg)
 {
-	write_to_stderr("BestShellEver: ");
+	write_to_stderr(SHELL_NAME);
 	if (cmd)
 		write_to_stderr(cmd);
 	write_to_stderr(": ");
@@ -62,7 +59,7 @@ void	handle_error(t_exit_code code, \
 {
 	if (code == SUCCESS)
 		return ;
-	write_to_stderr("BestShellEver: ");
+	write_to_stderr(SHELL_NAME);
 	if (code == HOME_NOT_SET_ERROR)
 	{
 		write_to_stderr(location);

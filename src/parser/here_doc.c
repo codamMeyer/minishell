@@ -33,7 +33,7 @@ static t_exit_code	append_line_to_heredoc(char *line,
 		const char *delimeter, int fd)
 {
 	if (!line)
-		handle_error(MALLOC_ERROR, NULL, "malloc()");
+		handle_error(MALLOC_ERROR, NULL, MALLOC_STR);
 	if (is_valid_delimeter(delimeter, line))
 		return (ERROR);
 	ft_putendl_fd(line, fd);
@@ -46,7 +46,7 @@ static int	cleanup_here_doc(char *line, int fd, char *file_name)
 	int	reopen_fd;
 
 	signal = heredoc_sigint();
-	handle_error(close(fd), "close()", NULL);
+	handle_error(close(fd), CLOSE_STR, NULL);
 	free(line);
 	if (*signal)
 		reopen_fd = FILE_ERROR;

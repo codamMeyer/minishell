@@ -1,36 +1,22 @@
-#include <ctype.h>
 #include <libft.h>
-#include <stdio.h>
 #include <commands/quotes.h>
 #include <parser/command_table.h>
 #include <parser/get_executable_path.h>
 #include <parser/parser.h>
 
-static t_bool	is_valid_last_char(const char *input, int command_len)
-{
-	const int	input_len = ft_strlen(input);
-	char		last_char;
-
-	if (input_len >= command_len)
-	{
-		last_char = input[command_len];
-		return (ft_isspace(last_char) || last_char == NULL_TERMINATOR);
-	}
-	return (FALSE);
-}
-
 static t_bool	is_built_in_command(const char *input, const char *command)
 {
 	const int	command_len = ft_strlen(command);
+	const int	inp_len = ft_strlen(input);
 
-	return (ft_strncmp(input, command, command_len) == 0
-		&& is_valid_last_char(input, command_len));
+	return (command_len == inp_len && \
+		ft_strncmp(input, command, command_len + 1) == 0);
 }
 
 /*
 	Added checks to see if it's a system of built-in command
 */
-t_command_code	get_command_code(const char **input, t_command *command)
+t_command_code	get_command_code(char *input, t_command *command)
 {
 	static const char	*commands[LAST] = {"", "echo", "exit", "pwd",
 											"export", "unset", "env",
@@ -38,23 +24,21 @@ t_command_code	get_command_code(const char **input, t_command *command)
 										};
 	t_command_code		command_code;
 
-	skip_spaces(input);
 	command_code = EMPTY_LINE;
+	if (!input)
+		return (EMPTY_LINE);
 	while (command_code < INVALID)
 	{
-		if (is_built_in_command(*input, commands[command_code]))
-		{
-			advance_pointer(input, commands[command_code]);
+		if (is_built_in_command(input, commands[command_code]))
 			return (command_code);
-		}
 		++command_code;
 	}
-	if (is_system_command(*input, command))
+	if (is_system_command(input, command))
 		return (SYSTEM);
 	return (INVALID);
 }
 
-t_bool	is_between_quotes(const char *input, int reserved_char_index)
+static t_bool	is_between_quotes(const char *input, int reserved_char_index)
 {
 	t_quotes_index	quotes;
 	char			*new_pos;

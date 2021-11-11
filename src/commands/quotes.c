@@ -1,6 +1,21 @@
 #include <libft.h>
 #include <commands/quotes.h>
 
+static t_bool	is_double_quote(char c)
+{
+	return (c == DOUBLE_QUOTES);
+}
+
+static t_bool	is_single_quote(char c)
+{
+	return (c == SINGLE_QUOTES);
+}
+
+t_bool	is_quote(char c)
+{
+	return (is_single_quote(c) || is_double_quote(c));
+}
+
 t_quotes_position	get_quotes_positions(const char *input)
 {
 	t_quotes_position	quotes_position;
@@ -38,19 +53,4 @@ t_quotes_index	get_quotes_indexes(const char *input)
 	quotes.start = pos_quotes.start - &input[0] - 1;
 	quotes.end = pos_quotes.end - &input[0];
 	return (quotes);
-}
-
-t_bool	is_double_quote(char c)
-{
-	return (c == DOUBLE_QUOTES);
-}
-
-t_bool	is_single_quote(char c)
-{
-	return (c == SINGLE_QUOTES);
-}
-
-t_bool	is_quote(char c)
-{
-	return (is_single_quote(c) || is_double_quote(c));
 }

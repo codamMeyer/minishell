@@ -1,39 +1,16 @@
-#include <ctype.h>
-#include <stdio.h>
 #include <libft.h>
-#include <commands/echo_utils.h>
-#include <commands/quotes.h>
 #include <env/environment.h>
-#include <env/env_utils.h>
-#include <parser/command_table.h>
-
-static int	get_value_len(const char *value_string)
-{
-	int	i;
-
-	i = 0;
-	while (value_string[i])
-	{
-		if (ft_isspace(value_string[i]) \
-		&& !is_between_quotes(value_string, i))
-			return (i);
-		++i;
-	}
-	return (i);
-}
 
 t_bool	copy_value_to_buffer(const char *key_value_str, t_buffer *buffer)
 {
 	const char	*delimiter_position = \
 		get_equal_sign_position(key_value_str) + 1;
-	t_arg		arg;
+	const int	value_len = ft_strlen(delimiter_position);
 
 	if (!delimiter_position)
 		return (FALSE);
-	arg.start = &delimiter_position[0];
-	while (*arg.start && !ft_isspace(*arg.start))
-		append_expanded_input_to_buffer(&arg, buffer);
-	buffer->index = get_value_len(delimiter_position);
+	ft_strlcpy(&buffer->buf[0], delimiter_position, value_len + 1);
+	buffer->index = value_len;
 	return (TRUE);
 }
 
@@ -63,7 +40,7 @@ void	set_value(t_env *env, char *key, char *value)
 	if (!key_pair->value)
 	{
 		free(key_pair->key);
-		handle_error(MALLOC_ERROR, NULL, "malloc()");
+		handle_error(MALLOC_ERROR, NULL, MALLOC_STR);
 	}
 	set_kv_string(key_pair, key_pair->key, key_pair->value);
 }

@@ -1,6 +1,4 @@
 #include <libft.h>
-#include <unistd.h>
-#include <stdio.h>
 #include <commands/pwd_command_utils.h>
 #include <env/environment.h>
 #include <output/prompt.h>
@@ -8,7 +6,6 @@
 #define BLUE "\e[0;36m"
 #define RED "\e[1;31m"
 #define GREEN "\e[1;32m"
-
 #define RED_ARROW "\e[1;31m -► "
 #define GREEN_ARROW "\e[1;32m -► "
 #define RESET "\e[0m "

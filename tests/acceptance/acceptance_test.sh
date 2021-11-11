@@ -8,6 +8,13 @@ function compileMinishell ()
     make minishell_asan
 }
 
+function updateResult ()
+{
+    if [ $1 -ne 0 ]; then
+        RESULT=1
+    fi
+}
+
 if [ $# -ne 1 ]; then
     MINISHELL_PROGRAM=minishell_asan
 fi
@@ -15,43 +22,46 @@ fi
 compileMinishell
 
 ./tests/acceptance/echo_feature_bash.sh
-RESULT+=$?
+updateResult $?
 
 ./tests/acceptance/exit_feature_bash.sh
-RESULT+=$?
+updateResult $?
 
 ./tests/acceptance/pwd_feature_bash.sh
-RESULT+=$?
+updateResult $?
 
 ./tests/acceptance/pipes_feature_bash.sh
-RESULT+=$?
+updateResult $?
 
 ./tests/acceptance/env_feature_bash.sh
-RESULT+=$?
+updateResult $?
 
 ./tests/acceptance/redirection_feature_bash.sh
-RESULT+=$?
+updateResult $?
 
 ./tests/acceptance/variable_feature_bash.sh
-RESULT+=$?
+updateResult $?
 
 ./tests/acceptance/syntax_checker_test.sh
-RESULT+=$?
+updateResult $?
 
 ./tests/acceptance/heredoc_feature_bash.sh
-RESULT+=$?
+updateResult $?
 
 ./tests/acceptance/cd_feature_test.sh
-RESULT+=$?
+updateResult $?
 
 ./tests/acceptance/edge_cases_feature.sh
-RESULT+=$?
+updateResult $?
 
 ./tests/acceptance/error_handling.sh
-RESULT+=$?
+updateResult $?
 
 ./tests/acceptance/exit_code_feature.sh
-RESULT+=$?
+updateResult $?
+
+./tests/acceptance/out_of_names_test.sh
+updateResult $?
 
 if [[ "$OSTYPE" == "linux-gnu"* ]]; then
     printTestName "Prompt_Display"

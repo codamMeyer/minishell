@@ -1,17 +1,10 @@
-#include <ctype.h>
 #include <libft.h>
-#include <string.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <commands/quotes.h>
-#include <commands/echo_utils.h>
 #include <executor/run_commands.h>
 #include <parser/command_table.h>
-#include <parser/dispatcher.h>
 #include <parser/parser.h>
 #include <parser/parse_redirection.h>
-#include <errors/errors.h>
 #include <signals/signals.h>
+#include <parser/arguments.h>
 
 static void	consume_pipe(const char **input, int index)
 {
@@ -21,34 +14,40 @@ static void	consume_pipe(const char **input, int index)
 		++(*input);
 }
 
+void	skip_spaces(const char **input)
+{
+	while (*input && ft_isspace(*(*input)))
+		++(*input);
+}
+
 t_command	populate_command(const char **input_ptr)
 {
 	t_command	command;
+	t_arg		arg;
 
-	command.files = get_redirection((char **)input_ptr,
-			get_set_index(*input_ptr, "|") - 1);
-	command.code = get_command_code(input_ptr, &command);
-	skip_spaces(input_ptr);
-	command.arg.start = *input_ptr;
-	command.arg.len = get_set_index(command.arg.start, "|");
-	command.arg.end = *input_ptr + command.arg.len;
+	arg.start = *input_ptr;
+	arg.len = get_set_index(arg.start, "|");
+	arg.end = *input_ptr + arg.len;
+	command.files = get_redirection((char **)input_ptr, arg.len - 1);
+	command.arguments = split_command_args(arg);
+	if (!command.arguments)
+		handle_error(MALLOC_ERROR, MALLOC_STR, NULL);
+	command.code = get_command_code(command.arguments[0], &command);
+	(*input_ptr) += arg.len;
 	return (command);
 }
 
 int	populate_commands_table(const char *input, t_command commands_table[])
 {
-	const char	*input_line = input;
 	int			i;
 
 	if (!input)
 		return (0);
 	i = 0;
-	while (*input_line)
+	while (*input)
 	{
-		consume_pipe(&input_line, i);
-		commands_table[i] = populate_command(&input_line);
-		input_line += commands_table[i].arg.len;
-		skip_spaces(&input_line);
+		consume_pipe(&input, i);
+		commands_table[i] = populate_command(&input);
 		++i;
 	}
 	return (i);

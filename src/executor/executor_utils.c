@@ -1,12 +1,8 @@
-#include <stdio.h>
 #include <libft.h>
 #include <errno.h>
 #include <sys/stat.h>
 #include <sys/wait.h>
-#include <string.h>
-#include <commands/buffer.h>
 #include <executor/executor_utils.h>
-#include <executor/run_commands.h>
 #include <env/env_for_exec.h>
 
 /* exit_codes caused by signals are incremented with 128 */
@@ -60,19 +56,10 @@ static	void	handle_execve_error(const char *cmd)
 
 void	execute_system_command(const t_command *command)
 {
-	char		**cmd;
-	t_buffer	buffer;
-
-	init_buffer(&buffer);
-	while (command->arg.start < command->arg.end)
-		append_expanded_input_to_buffer((t_arg *)&command->arg, &buffer);
-	cmd = ft_split(&buffer.buf[0], SPACE_CHAR);
-	if (!cmd)
-		handle_error(MALLOC_ERROR, NULL, "malloc()");
-	if (execute_command(command->exe_path, cmd) == SYS_ERROR)
+	if (execute_command(command->exe_path, command->arguments) == SYS_ERROR)
 	{
 		free((char *)command->exe_path);
-		handle_execve_error(*cmd);
+		handle_execve_error(command->arguments[0]);
 	}
 }
 
@@ -87,9 +74,9 @@ int	create_new_process(t_multi_pipes *pipes,
 	int			process_id;
 
 	if (current_process != process_limit && pipe(pipes->current) == SYS_ERROR)
-		handle_error(PIPE_ERROR, NULL, "pipe()");
+		handle_error(PIPE_ERROR, NULL, PIPE_STR);
 	process_id = fork();
 	if (process_id == SYS_ERROR)
-		handle_error(FORK_ERROR, NULL, "fork()");
+		handle_error(FORK_ERROR, NULL, FORK_STR);
 	return (process_id);
 }

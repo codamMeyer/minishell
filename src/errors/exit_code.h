@@ -1,6 +1,12 @@
 #ifndef EXIT_CODE_H
 # define EXIT_CODE_H
 # include <commands/buffer.h>
+# define MALLOC_STR "malloc()"
+# define DUP_STR "dup()"
+# define DUP2_STR "dup2()"
+# define PIPE_STR "pipe()"
+# define FORK_STR "fork()"
+# define CLOSE_STR "close()"
 
 typedef enum e_exit_code
 {

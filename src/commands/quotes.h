@@ -19,8 +19,6 @@ typedef struct s_quotes_index
 
 t_quotes_index		get_quotes_indexes(const char *input);
 t_quotes_position	get_quotes_positions(const char *input);
-t_bool				is_double_quote(char c);
-t_bool				is_single_quote(char c);
 t_bool				is_quote(char c);
 
 #endif

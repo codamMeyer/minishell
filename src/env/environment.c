@@ -1,46 +1,28 @@
-#include <ctype.h>
 #include <libft.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <commands/buffer.h>
-#include <commands/quotes.h>
 #include <env/environment.h>
 #include <env/env_utils.h>
-#include <env/sort_env.h>
-#include <parser/parser.h>
 #include <env/export_utils.h>
 
-t_exit_code	export(t_env *env, const char *key_value_str)
+t_exit_code	export(t_env *env, char **arguments)
 {
 	t_env	tmp_env[BUFFER_SIZE];
 	int		variables_count;
 
-	if (!(*key_value_str))
-	{
-		display_sorted_env();
-		return (SUCCESS);
-	}
-	if (!get_equal_sign_position(key_value_str))
-		return (SUCCESS);
-	variables_count = add_variables_to_tmp_env(&tmp_env[0], key_value_str);
+	variables_count = add_variables_to_tmp_env(tmp_env, arguments);
 	return (add_variables_to_env(env, tmp_env, variables_count));
 }
 
-void	unset(t_env *env, const char *key)
+void	unset(t_env *env, char **arguments)
 {
-	t_arg		arg;
-	t_buffer	key_buffer;
-	t_env		*variable;
+	t_env	*variable;
+	int		i;
 
-	arg.start = (char *)key;
-	while (*arg.start)
+	i = 1;
+	while (arguments[i])
 	{
-		init_buffer(&key_buffer);
-		while (*arg.start && !ft_isspace(*arg.start))
-			append_expanded_input_to_buffer(&arg, &key_buffer);
-		variable = find_variable(env, key_buffer.buf);
+		variable = find_variable(env, arguments[i]);
 		free_key_value_pair(variable);
-		skip_spaces(&arg.start);
+		++i;
 	}
 }
 

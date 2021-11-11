@@ -1,25 +1,19 @@
-#include <ctype.h>
 #include <libft.h>
-#include <stdio.h>
-#include <commands/echo_utils.h>
-#include <commands/quotes.h>
 #include <env/environment.h>
 #include <env/env_utils.h>
-#include <executor/run_commands.h>
 
-t_bool	copy_key_to_buffer(const char *key_value_str, t_buffer *buffer)
+t_bool	copy_key_to_buffer(char *key_value_str, t_buffer *buffer)
 {
 	const char	*delimiter_position = get_equal_sign_position(key_value_str);
-	t_arg		arg;
+	int			key_len;
 
 	if (!delimiter_position)
 		return (FALSE);
-	arg.start = key_value_str;
 	if (delimiter_position == key_value_str)
 		return (TRUE);
-	while (arg.start < delimiter_position)
-		append_expanded_input_to_buffer(&arg, buffer);
-	buffer->index = delimiter_position - key_value_str;
+	key_len = delimiter_position - key_value_str;
+	ft_strlcpy(&buffer->buf[0], key_value_str, key_len + 1);
+	buffer->index = key_len;
 	return (TRUE);
 }
 
@@ -35,6 +29,6 @@ void	set_key(t_env *env, char *key)
 	{
 		env[i].key = ft_strdup(key);
 		if (!env[i].key)
-			handle_error(MALLOC_ERROR, NULL, "malloc()");
+			handle_error(MALLOC_ERROR, NULL, MALLOC_STR);
 	}
 }

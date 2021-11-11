@@ -1,6 +1,5 @@
 #include <env/sort_env.h>
 #include <env/environment.h>
-#include <string.h>
 #include <libft.h>
 #include <stdio.h>
 

@@ -26,7 +26,6 @@ MINISHELL_INCS= 						\
 	src/parser/dispatcher.h				\
 	src/parser/get_executable_path.h	\
 	src/commands/commands.h				\
-	src/commands/echo_utils.h			\
 	src/commands/quotes.h				\
 	src/commands/buffer.h				\
 	src/env/environment.h				\
@@ -37,6 +36,8 @@ MINISHELL_INCS= 						\
 	src/env/env_for_exec.h				\
 	src/errors/errors.h					\
 	src/errors/exit_code.h				\
+	src/parser/arguments_utils.h		\
+	src/parser/arguments.h				\
 
 MINISHELL_SRC= 							\
 	src/syntax/check_syntax.c			\
@@ -51,7 +52,6 @@ MINISHELL_SRC= 							\
 	src/executor/executor_utils.c		\
 	src/executor/redirection.c			\
 	src/executor/redirection_utils.c	\
-	src/parser/parser_utils.c			\
 	src/parser/command_table.c			\
 	src/parser/command_table_utils.c	\
 	src/parser/dispatcher.c				\
@@ -62,7 +62,6 @@ MINISHELL_SRC= 							\
 	src/parser/file_utils.c				\
 	src/commands/exit_command.c			\
 	src/commands/echo_command.c			\
-	src/commands/echo_utils.c			\
 	src/commands/quotes.c				\
 	src/commands/buffer.c				\
 	src/commands/pwd_command.c			\
@@ -80,6 +79,8 @@ MINISHELL_SRC= 							\
 	src/env/env_for_exec.c				\
 	src/errors/errors.c					\
 	src/errors/exit_code.c				\
+	src/parser/arguments.c				\
+	src/parser/arguments_utils.c		\
 
 TEST_FILES=								\
 	tests/main.c 						\
@@ -97,6 +98,7 @@ TEST_FILES=								\
 	tests/redirection_tests.c			\
 	tests/syntax_redirection_tests.c	\
 	tests/syntax_checker_test.c			\
+	tests/split_arg_test.c				\
 
 MINISHELL_OBJS=$(MINISHELL_SRC:.c=.o)
 

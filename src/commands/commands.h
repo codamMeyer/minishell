@@ -1,13 +1,12 @@
 #ifndef COMMANDS_H
 # define COMMANDS_H
+# include <defines.h>
+# include <errors/errors.h>
 # define WHITESSPACE_AND_QUOTES " 	\""
-# define WHITESSPACE " \t"
+# define WHITESSPACE " \t\v"
 # define N_FLAG "-n"
 # define REDIRECTION_CHARS "<>|" 
 # define ALL_TERMINATORS "<>| \0" 
-
-# include <defines.h>
-# include <errors/errors.h>
 
 typedef enum e_special_chars
 {
@@ -29,8 +28,8 @@ typedef struct s_files
 typedef struct s_command
 {
 	t_command_code	code;
-	t_arg			arg;
 	t_files			files;
+	char			**arguments;
 	const char		*exe_path;
 }	t_command;
 

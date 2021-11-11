@@ -12,12 +12,12 @@ typedef struct s_env
 	char	*set;
 }	t_env;
 
-t_exit_code	export(t_env *env, const char *key_value_str);
-void		unset(t_env *env, const char *key);
+t_exit_code	export(t_env *env, char **arguments);
+void		unset(t_env *env, char **arguments);
 void		display_env(t_env *env, t_output_stdout output);
 t_env		*find_variable(t_env *env, const char *key);
 void		destroy_env(t_env *env, int size);
-t_bool		copy_key_to_buffer(const char *key_value_str, t_buffer *buffer);
+t_bool		copy_key_to_buffer(char *key_value_str, t_buffer *buffer);
 t_bool		copy_value_to_buffer(const char *key_value_str, t_buffer *buffer);
 void		set_key(t_env *env, char *key);
 void		set_value(t_env *env, char *key, char *value);

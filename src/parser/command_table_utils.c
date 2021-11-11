@@ -2,20 +2,7 @@
 #include <stdlib.h>
 #include <parser/command_table.h>
 #include <parser/get_executable_path.h>
-
-t_command	*expand_arg_content(t_command *command, t_buffer *buffer)
-{
-	while (command->arg.start < command->arg.end)
-		append_expanded_input_to_buffer((t_arg *)&command->arg, buffer);
-	command->arg.start = (char *)buffer->buf;
-	command->code = get_command_code(&command->arg.start, command);
-	command->arg.len = ft_strlen(command->arg.start);
-	command->arg.end = command->arg.start + command->arg.len;
-	if (command->code == SYSTEM && \
-		!is_system_command(command->arg.start, command))
-		command->code = INVALID;
-	return (command);
-}
+#include <parser/arguments.h>
 
 /*
 	get_executable_path only returns a string if passed command or path,
@@ -24,13 +11,9 @@ t_command	*expand_arg_content(t_command *command, t_buffer *buffer)
 */
 t_bool	is_system_command(const char *input, t_command *command)
 {
-	const int	len = get_set_index(input, " |");
-	char		cmd_buffer[4098];
-
 	if (!input || !command || *input == PIPE)
 		return (FALSE);
-	ft_strlcpy(&cmd_buffer[0], input, len + 1);
-	command->exe_path = get_executable_path(&cmd_buffer[0]);
+	command->exe_path = get_executable_path(input);
 	if (command->exe_path)
 		return (TRUE);
 	return (FALSE);
@@ -59,6 +42,11 @@ void	cleanup_command_table(t_command *command_table, int num_commands)
 	{
 		if (command_table[i].code == SYSTEM)
 			free((char *)command_table[i].exe_path);
+		if (command_table->files.in > 0)
+			close(command_table->files.in);
+		if (command_table->files.out > 0)
+			close(command_table->files.out);
+		destroy_split_arg(command_table[i].arguments);
 		++i;
 	}
 }

@@ -1,6 +1,4 @@
-#include <ctype.h>
 #include <libft.h>
-#include <commands/quotes.h>
 #include <commands/commands.h>
 #include <env/env_utils.h>
 
