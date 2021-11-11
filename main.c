@@ -70,7 +70,7 @@ static void	run(void)
 		set_program_signals();
 		line = get_trimmed_line();
 		if (!line)
-			handle_error(MALLOC_ERROR, NULL, "malloc()");
+			handle_error(MALLOC_ERROR, NULL, MALLOC_STR);
 		if (is_valid_syntax(line))
 			parse_input(line);
 		free(line);
