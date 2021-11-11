@@ -42,11 +42,11 @@ void	cleanup_command_table(t_command *command_table, int num_commands)
 	{
 		if (command_table[i].code == SYSTEM)
 			free((char *)command_table[i].exe_path);
-		destroy_split_arg(command_table[i].arguments);
 		if (command_table->files.in > 0)
 			close(command_table->files.in);
 		if (command_table->files.out > 0)
 			close(command_table->files.out);
+		destroy_split_arg(command_table[i].arguments);
 		++i;
 	}
 }
