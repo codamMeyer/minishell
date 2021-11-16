@@ -12,9 +12,7 @@
 #include <parser/parse_redirection.h>
 #include <parser/arguments.h>
 
-/*
-	Assumes that string has been checked for quotes
-*/
+/* Assumes that string has been checked for quotes */
 int	get_file_name_and_length(t_buffer *buffer, char *input, int redirect_id)
 {
 	const int	len_to_replace = get_set_index(input, ALL_TERMINATORS) + 1;
@@ -66,10 +64,7 @@ t_exit_code	open_in_mode(const char *file, t_files *files, int mode_id)
 	return (SUCCESS);
 }
 
-/*
-	i keeps trtack of how many chars need to be
-	replaced by spaces
-*/
+/* Returns num of chars to replace with spaces */
 int	open_file(char *file_name_ptr, t_files *files, int redirection_id)
 {
 	t_buffer	buffer;
@@ -86,10 +81,6 @@ int	open_file(char *file_name_ptr, t_files *files, int redirection_id)
 	return (i);
 }
 
-/*
-	return t_files which have an int for the in and out fd's respectively
-	SAFTEYCHECK for redirect ID?
-*/
 t_files	get_redirection(char **input, const int string_to_parse_len)
 {
 	int		index;
