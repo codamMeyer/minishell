@@ -12,6 +12,14 @@ EXPECTED="should display 258"
 assertEqual "return value for syntax error"
 cleanUp
 
+INPUT="echo Hello\necho \"should display \$?\"\nexit"
+echo -e "$INPUT" | ./$MINISHELL_PROGRAM >> $MINISHELL_OUTPUT 2>&1
+removePrompt $MINISHELL_OUTPUT
+ACTUAL=$(cat $MINISHELL_OUTPUT | grep 0)
+EXPECTED="should display 0"
+assertEqual "\$? inside quotes"
+cleanUp
+
 INPUT="<abcdef\necho should display \$?\nexit"
 echo -e "$INPUT" | ./$MINISHELL_PROGRAM >> $MINISHELL_OUTPUT 2>&1
 removePrompt $MINISHELL_OUTPUT
