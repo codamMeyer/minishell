@@ -43,5 +43,5 @@ unset LS
 rm 1
 cleanUp
 
-
+writeReport
 exit $EXIT_CODE

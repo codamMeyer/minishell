@@ -4,15 +4,6 @@ source ./tests/acceptance/common.sh
 
 printTestName "ENV"
 
-# runMinishell "export"
-# removePrompt $MINISHELL_OUTPUT
-# ACTUAL=$(cat $MINISHELL_OUTPUT)
-# EXPECTED=$(export)
-# assertEqual "ENV empty"
-cleanUp
-# cleanUp
-# OLDPWD is always printed on export, but not on env
-
 INPUT="export SECOND_VAR=Testing"
 runMinishell "$INPUT\nenv | grep SECOND_VAR"
 removePrompt $MINISHELL_OUTPUT
@@ -168,27 +159,26 @@ EXPECTED=$(echo $TEST)
 assertEqual "EXPORT with variable outside quotes"
 cleanUp
 
-# TODO handle these cases 
-# echo -e "export test\"=\"hello\necho \$test\nexit" | ./$MINISHELL_PROGRAM >> $MINISHELL_OUTPUT 2>&1
-# removePrompt $MINISHELL_OUTPUT
-# ACTUAL=$(cat $MINISHELL_OUTPUT)
-# EXPECTED="hello"
-# assertEqual "EXPORT missing key"
-# cleanUp
+echo -e "export test\"=\"hello\necho \$test\nexit" | ./$MINISHELL_PROGRAM >> $MINISHELL_OUTPUT 2>&1
+removePrompt $MINISHELL_OUTPUT
+ACTUAL=$(cat $MINISHELL_OUTPUT)
+EXPECTED="hello"
+assertEqual "EXPORT missing key"
+cleanUp
 
-# echo -e "export \"test=hello\"\necho \$test\nexit" | ./$MINISHELL_PROGRAM >> $MINISHELL_OUTPUT 2>&1
-# removePrompt $MINISHELL_OUTPUT
-# ACTUAL=$(cat $MINISHELL_OUTPUT)
-# EXPECTED="hello"
-# assertEqual "EXPORT missing key"
-# cleanUp
+echo -e "export \"test=hello\"\necho \$test\nexit" | ./$MINISHELL_PROGRAM >> $MINISHELL_OUTPUT 2>&1
+removePrompt $MINISHELL_OUTPUT
+ACTUAL=$(cat $MINISHELL_OUTPUT)
+EXPECTED="hello"
+assertEqual "EXPORT missing key"
+cleanUp
 
-# echo -e "export EQUAL=\"=\"\n export this_should_work"$EQUAL"hehe\necho $this_should_work\nexit" | ./$MINISHELL_PROGRAM >> $MINISHELL_OUTPUT 2>&1
-# removePrompt $MINISHELL_OUTPUT
-# ACTUAL=$(cat $MINISHELL_OUTPUT)
-# EXPECTED="hehe"
-# assertEqual "EXPORT missing key"
-# cleanUp
+echo -e "export EQUAL=\"=\"\nexport this_should_work\"\$EQUAL\"hehe\necho \$this_should_work\nexit" | ./$MINISHELL_PROGRAM >> $MINISHELL_OUTPUT 2>&1
+removePrompt $MINISHELL_OUTPUT
+ACTUAL=$(cat $MINISHELL_OUTPUT)
+EXPECTED="hehe"
+assertEqual "EXPORT missing key"
+cleanUp
 
 
 INPUT="unset SECOND_VAR"
@@ -256,4 +246,5 @@ EXPECTED=$(echo $"USER" | cat -e)
 assertEqual "echo $\"USER\""
 cleanUp
 
+writeReport
 exit $EXIT_CODE

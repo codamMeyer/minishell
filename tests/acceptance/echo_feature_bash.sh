@@ -60,5 +60,6 @@ runWithQuotes "                Hello      Hello" "echo \"                Hello  
 runNFlagTest "echo -n Hello" "echo -n Hello" "With valid -n flag"
 
 cleanUp
+writeReport
 
 exit $EXIT_CODE

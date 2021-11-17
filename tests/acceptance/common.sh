@@ -11,6 +11,7 @@ MINI_OUT="mini_"
 BASH_OUT="bash_"
 prompt="-►"
 MINISHELL_PROGRAM=minishell
+export PASSED=0 FAILED=0
 function printTestName ()
 {
     printf "$YELLOW=========================================================\n"
@@ -63,11 +64,18 @@ function assertEqual ()
     displayTitle "$1 "
     if [[ "$EXPECTED" == "$ACTUAL" ]]; then
         displaySuccessMessage
+        PASSED=$(expr $PASSED + 1)
     else
-       displayFailureMessage
-       EXIT_CODE=1
+        displayFailureMessage
+        EXIT_CODE=1
+        FAILED=$(expr $FAILED + 1)
     fi
     echo ""
+}
+
+function writeReport ()
+{
+    echo "$PASSED,$FAILED" >> report.txt
 }
 
 function cleanUp ()

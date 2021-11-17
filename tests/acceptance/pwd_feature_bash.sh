@@ -24,5 +24,5 @@ EXPECTED=$(mkdir test && cd test && rm -r ../test && pwd)
 assertEqual "pwd within a removed file"
 cleanUp
 
-
+writeReport
 exit $EXIT_CODE
