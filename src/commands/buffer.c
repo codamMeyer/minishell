@@ -30,6 +30,8 @@ void	append_quoted_string_to_buffer(const char **start, t_buffer *buffer)
 			++(*start);
 			append_env_value_to_buffer(start, buffer);
 		}
+		else if (ft_strncmp(*start, "$?", 2) == 0)
+			append_exit_code_to_buffer(start, buffer);
 		else
 			append_char_to_buffer(start, buffer);
 	}

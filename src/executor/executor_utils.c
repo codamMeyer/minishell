@@ -63,10 +63,7 @@ void	execute_system_command(const t_command *command)
 	}
 }
 
-/*
-	Calls pipe() first so that the pipe fds are accesible in
-	the main as well as in the child process
-*/
+/* Pipes first and then forks */
 int	create_new_process(t_multi_pipes *pipes,
 		int current_process, int num_of_process)
 {

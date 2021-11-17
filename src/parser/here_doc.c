@@ -26,9 +26,6 @@ static t_bool	is_valid_delimeter(const char *delimeter, const char *line)
 		&& ft_strncmp(line, delimeter, delimeter_len) == 0);
 }
 
-/*
-	returns an int to indicate if loop shoud stop
-*/
 static t_exit_code	append_line_to_heredoc(char *line,
 		const char *delimeter, int fd)
 {

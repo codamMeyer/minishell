@@ -4,11 +4,7 @@
 #include <parser/get_executable_path.h>
 #include <parser/arguments.h>
 
-/*
-	get_executable_path only returns a string if passed command or path,
-	is executable.
-	Thus if command->exe_path exists it's a valid system command
-*/
+/* If command->exe_path exists it's a valid system command */
 t_bool	is_system_command(const char *input, t_command *command)
 {
 	if (!input || !command || *input == PIPE)
