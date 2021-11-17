@@ -32,4 +32,5 @@ EOF
 assertEqual "HEREDOC"
 cleanUp
 
+writeReport
 exit $EXIT_CODE

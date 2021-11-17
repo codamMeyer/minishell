@@ -56,4 +56,6 @@ assertEqual "HOME UNSET"
 cleanUp
 export HOME=$TMP_HOME
 
+writeReport
+
 exit $EXIT_CODE

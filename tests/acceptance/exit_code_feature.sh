@@ -167,4 +167,5 @@ EXPECTED="255"
 assertEqual "Non alphanum arg"
 cleanUp
 
+writeReport
 exit $EXIT_CODE

@@ -31,14 +31,6 @@ function remove_multiple_files
 
 printTestName "Redirection"
 
-# INPUT="cat -e >"$MINI_OUT"1 < main.c | <"$MINI_OUT"1 grep int > "$MINI_OUT"2"
-# cat -e > "$BASH_OUT"1 < main.c | < "$BASH_OUT"1 grep int > "$BASH_OUT"2
-# runMinishell "$INPUT"
-# check_multiple_files 2
-# assertEqual "Reading and outputting to multiple outfiles"
-# remove_multiple_files 2
-# cleanUp
-
 INPUT="echo first test > $MINI_OUT"
 echo first test > "$BASH_OUT"
 runMinishell "$INPUT"
@@ -150,4 +142,5 @@ check_file_content 'mini_$A' 'bash_$A'
 assertEqual "Test with variable in filename, but inside single quotes"
 rm 'mini_$A' 'bash_$A'
 
+writeReport
 exit $EXIT_CODE

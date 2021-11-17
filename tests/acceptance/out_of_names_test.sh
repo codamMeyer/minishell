@@ -62,3 +62,6 @@ readMinishellOutput
 EXPECTED=$(echo halla ">" out)
 assertEqual "$INPUT"
 cleanUp
+
+writeReport
+exit $EXIT_CODE

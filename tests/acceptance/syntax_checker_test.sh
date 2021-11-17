@@ -133,5 +133,5 @@ EXPECTED="BestShellEver: Filename: No such file or directory"
 assertEqual "Invalid in file and cat command after pipe"
 cleanUp
 
-
+writeReport
 exit $EXIT_CODE

@@ -1,6 +1,5 @@
 #!/bin/bash
 source ./tests/acceptance/common.sh
-RESULT=0
 
 function compileMinishell ()
 {
@@ -11,7 +10,7 @@ function compileMinishell ()
 function updateResult ()
 {
     if [ $1 -ne 0 ]; then
-        RESULT=1
+        RESULT=$(expr $RESULT + $1)
     fi
 }
 
@@ -70,6 +69,10 @@ if [[ "$OSTYPE" == "linux-gnu"* ]]; then
     EXPECTED=9
     assertEqual "Checking if prompt is being displayed"
     cleanUp
+    writeReport
 fi
 
+python tests/acceptance/generate_report.py
+
+rm report.txt
 exit $RESULT

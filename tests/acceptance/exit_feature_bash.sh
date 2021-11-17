@@ -19,5 +19,5 @@ ACTUAL=$?
 assertEqual "Exit with 123 as argument"
 
 cleanUp
-
+writeReport
 exit $EXIT_CODE

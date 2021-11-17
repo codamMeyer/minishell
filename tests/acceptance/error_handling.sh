@@ -58,4 +58,5 @@ EXPECTED="BestShellEver: /////////: is a directory
 assertEqual "multi forward slashes with return"
 cleanUp
 
+writeReport
 exit $EXIT_CODE
