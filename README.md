@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 [![codamMeyer](https://circleci.com/gh/codamMeyer/minishell.svg?style=shield)](https://app.circleci.com/pipelines/github/codamMeyer/minishell?branch=main)
 
 - [Minishell Project - Tutorial](#minishell-project---tutorial)
@@ -63,3 +64,7 @@ It is the practice of integrating changes from different developers in the team 
 6. We already have a config file, so click on **skip this step**
 7. Click on **Use Existing Config**
 8. Click on **Start building**
+=======
+
+
+>>>>>>> 49ffcbb3ed19e9062fe4249db53e523afd33eced

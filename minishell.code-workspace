@@ -1,0 +1,19 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"files.associations": {
+			"chrono": "cpp",
+			"numeric": "cpp",
+			"ratio": "cpp",
+			"*.tcc": "cpp",
+			"valarray": "cpp",
+			"commands.h": "c",
+			"libft.h": "c",
+			"check_quotes_syntax.h": "c"
+		}
+	}
+}

@@ -7,20 +7,30 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Install dependencies GCC
-          command: 'apt-get update && apt-get install -y gcc make python3 python3-pip'
+          name: Install dependencies CLANG and Norminette
+          command: 'apt-get update && apt-get -y install wget && apt-get install -y clang make python3 python3-pip && pip3 install colorama && apt-get install -y libreadline-dev && pip3 install norminette==3.3.2'
       - run:
-          name: Install dependencies Python
-          command: 'pip3 install -U pip && pip3 install -U setuptools && pip3 install -U norminette'
+          name: Install Bash 3.2
+          command: 'cp bash_dir/bash3.2 /bin/bash && bash --version | grep 3.2'
       - run:
           name: Build
           command: 'echo Building'
       - run:
-          name: Unit-Test
-          command: "echo Unit-Test"
+          name: Unit-Test ASAN
+          command: "make test_asan"
       - run:
-          name: Integration-Test
-          command: "echo Integration-Test"
+          name: Unit-Test
+          command: "make test_run"
+      - run:
+          name: Acceptance-Test ASAN
+          command: make acceptance_test_asan
+      - run:
+          name: Acceptance-Test
+          command: make acceptance_test
       - run:
           name: Norminette
+<<<<<<< HEAD
           command: norminette srcs
+=======
+          command: norminette libft src main.c
+>>>>>>> 49ffcbb3ed19e9062fe4249db53e523afd33eced
