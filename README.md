@@ -1,14 +1,22 @@
-<<<<<<< HEAD
 [![codamMeyer](https://circleci.com/gh/codamMeyer/minishell.svg?style=shield)](https://app.circleci.com/pipelines/github/codamMeyer/minishell?branch=main)
 
 - [Minishell Project - Tutorial](#minishell-project---tutorial)
-		- [How to work as a team](#how-to-work-as-a-team)
-		- [What's Continuous Integration (CI) ?](#whats-continuous-integration-ci-)
-		- [How to setup CircleCI Tool ?](#how-to-setup-circleci-tool-)
+    - [How to work as a team](#how-to-work-as-a-team)
+    - [What is Trello?](#what-is-trello)
+    - [What's Continuous Integration (CI) ?](#whats-continuous-integration-ci-)
+    - [How to setup CircleCI Tool ?](#how-to-setup-circleci-tool-)
+    - [How to organize your Project?](#how-to-organize-your-project)
 
 # Minishell Project - Tutorial
 ### How to work as a team
 
+- Discuss about the project, organize the tasks, break the project into small pieces (We used Trello)
+- Set up your repo, require Review to merge branch
+- Choose a CI tool (we chose CircleCI)
+- Start by pair programming a simple task
+
+### What is Trello?
+- Trello is a collaboration tool that organizes your projects into boards. In one glance, Trello tells you what's being worked on, who's working on what, and where something is in a process. Imagine a white board, filled with lists of sticky notes, with each note as a task for you and your team.
 
 ### What's Continuous Integration (CI) ?
 
@@ -64,7 +72,14 @@ It is the practice of integrating changes from different developers in the team 
 6. We already have a config file, so click on **skip this step**
 7. Click on **Use Existing Config**
 8. Click on **Start building**
-=======
 
+### How to organize your Project?
+- Name the features you will implement, break into small pieces.
+- Always work in vertical slices, so you always have a working program.
+  - Let's say EXIT without any argument is your first feature
+  - Do the parser only to handle an input line "exit"
+  - Write the dispatcher that only dispatchs "exit"
+  - Inplement a simple command exit
+  Now you're able to run your program and exit it.
 
->>>>>>> 49ffcbb3ed19e9062fe4249db53e523afd33eced
+![ci_flow](/images/vertical_slice.png)
