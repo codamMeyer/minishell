@@ -29,8 +29,4 @@ jobs:
           command: make acceptance_test
       - run:
           name: Norminette
-<<<<<<< HEAD
-          command: norminette srcs
-=======
           command: norminette libft src main.c
->>>>>>> 49ffcbb3ed19e9062fe4249db53e523afd33eced
