@@ -112,62 +112,26 @@ CTEST2(command_table, one_command_pwd)
     ASSERT_EQUAL(PWD, data->command_table[0].code);
 }
 
-// CTEST2(command_table, command_separated_by_pipe)
-// {
-//     char *input = "echo this is the end | echo test";
-//     ASSERT_EQUAL(2, populate_commands_table(input, data->command_table));
-//     ASSERT_EQUAL(ECHO, data->command_table[0].code);
-//     ASSERT_STR("this is the end | echo test", data->command_table[0].arg.start);
-//     ASSERT_STR("| echo test", data->command_table[0].arg.end);
-//     ASSERT_EQUAL(ECHO, data->command_table[1].code);
-//     ASSERT_STR("test", data->command_table[1].arg.start);
-//     ASSERT_STR("", data->command_table[1].arg.end);
-// }
+CTEST2(command_table, command_separated_by_pipe)
+{
+    char *input = "echo this is the end | echo test";
+    ASSERT_EQUAL(2, populate_commands_table(input, data->command_table));
+    ASSERT_EQUAL(ECHO, data->command_table[0].code);
+    ASSERT_EQUAL(ECHO, data->command_table[1].code);
+}
 
-// CTEST2(command_table, separate_by_pipe_and_followed_by_command_containing_quotes)
-// {
-//     char *input = "echo this is the end | pwd with arg";
-//     ASSERT_EQUAL(2, populate_commands_table(input, data->command_table));
-//     ASSERT_EQUAL(ECHO, data->command_table[0].code);
-//     ASSERT_STR("this is the end | pwd with arg", data->command_table[0].arg.start);
-//     ASSERT_STR("| pwd with arg", data->command_table[0].arg.end);
-//     ASSERT_EQUAL(PWD, data->command_table[1].code);
-//     ASSERT_STR("with arg", data->command_table[1].arg.start);
-//     ASSERT_STR("", data->command_table[1].arg.end);
-// }
+CTEST2(command_table, separate_by_pipe_and_followed_by_command_containing_quotes)
+{
+    char *input = "echo this is the end | pwd with arg";
+    ASSERT_EQUAL(2, populate_commands_table(input, data->command_table));
+    ASSERT_EQUAL(ECHO, data->command_table[0].code);
+    ASSERT_EQUAL(PWD, data->command_table[1].code);
+}
 
-// CTEST2(command_table, separate_by_pipe_without_quotes)
-// {
-//     char *input = "echo this is the end|pwd with arg";
-//     ASSERT_EQUAL(2, populate_commands_table(input, data->command_table));
-//     ASSERT_EQUAL(ECHO, data->command_table[0].code);
-//     ASSERT_STR("this is the end|pwd with arg", data->command_table[0].arg.start);
-//     ASSERT_STR("|pwd with arg", data->command_table[0].arg.end);
-//     ASSERT_EQUAL(PWD, data->command_table[1].code);
-//     ASSERT_STR("with arg", data->command_table[1].arg.start);
-//     ASSERT_STR("", data->command_table[1].arg.end);
-// }
-
-// CTEST(quotes_test, is_between_quotes_without_quotes)
-// {
-//     char *input = "this test should return false |    right?";
-//     ASSERT_FALSE(is_between_quotes(input, 30));
-// }
-
-// CTEST(quotes_test, is_between_quotes_with_quotes)
-// {
-//     char *input = "this test should \"return\" false |    right?";
-//     ASSERT_FALSE(is_between_quotes(input, 32));
-// }
-
-// CTEST(quotes_test, is_between_quotes_with_more_than_one_pair_of_quotes)
-// {
-//     char *input = "this test should \"return\" false | \"   right \"?";
-//     ASSERT_FALSE(is_between_quotes(input, 32));
-// }
-
-// CTEST(quotes_test, is_between_quotes)
-// {
-//     char *input = "this test should \"return true | \"   right?";
-//     ASSERT_TRUE(is_between_quotes(input, 30));
-// }
+CTEST2(command_table, separate_by_pipe_without_quotes)
+{
+    char *input = "echo this is the end|pwd with arg";
+    ASSERT_EQUAL(2, populate_commands_table(input, data->command_table));
+    ASSERT_EQUAL(ECHO, data->command_table[0].code);
+    ASSERT_EQUAL(PWD, data->command_table[1].code);
+}
