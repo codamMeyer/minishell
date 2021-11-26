@@ -6,6 +6,7 @@
     - [What's Continuous Integration (CI) ?](#whats-continuous-integration-ci-)
     - [How to setup CircleCI Tool ?](#how-to-setup-circleci-tool-)
     - [How to organize your Project?](#how-to-organize-your-project)
+    - [Draw!](#draw)
 
 # Minishell Project - Tutorial
 ### How to work as a team
@@ -83,3 +84,11 @@ It is the practice of integrating changes from different developers in the team 
   Now you're able to run your program and exit it.
 
 ![ci_flow](/images/vertical_slice.png)
+
+### Draw!
+
+![ci_flow](/diagrams_and_screenshots/general_functionality.png)
+![ci_flow](/diagrams_and_screenshots/Multiple_processes_diagram.png)
+![ci_flow](/diagrams_and_screenshots/redirection_diagram.png)
+
+

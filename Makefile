@@ -88,7 +88,6 @@ TEST_FILES=								\
 	tests/parser_test.c					\
 	tests/echo_test.c					\
 	tests/pwd_test.c					\
-	tests/unknown_test.c				\
 	tests/get_executable_path_test.c	\
 	tests/redirection_tests.c			\
 	tests/pipe_test.c					\
