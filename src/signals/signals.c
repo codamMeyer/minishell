@@ -27,7 +27,6 @@ void	set_program_signals(void)
 {
 	signal(SIGINT, reprompt);
 	signal(SIGQUIT, SIG_IGN);
-	rl_event_hook = reset_rl_event;
 }
 
 void	handle_quit(int signal_code)
