@@ -21,7 +21,6 @@ static void	reprompt(int signal_code)
 static void	prep_repromt(int signal_code)
 {
 	(void)signal_code;
-	ft_putstr_fd("\n", STDOUT_FILENO);
 }
 
 void	set_program_signals(void)
